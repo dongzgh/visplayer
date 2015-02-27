@@ -1,0 +1,50 @@
+[
+  {
+    "icon": "glyphicon-file",
+    "description": "File",
+    "visible": true,
+    "disabled": false,
+    "action": "openFilePallet",
+    "permission": "user"
+  },
+  {
+    "icon": "glyphicon-edit",
+    "description": "Edit",
+    "visible": true,
+    "disabled": false,
+    "action": "openEditPallet",
+    "permission": "user"
+  },
+  {
+    "icon": "glyphicon-tint",
+    "description": "Material",
+    "visible": true,
+    "disabled": false,
+    "action": "openMaterialPallet",
+    "permission": "user"
+  },
+  {
+    "icon": "glyphicon-camera",
+    "description": "View",
+    "visible": true,
+    "disabled": false,
+    "action": "openViewPallet",
+    "permission": "user"
+  },
+  {
+    "icon": "glyphicon-tags",
+    "description": "Markup",
+    "visible": true,
+    "disabled": false,
+    "action": "openMarkupPallet",
+    "permission": "user"
+  },
+  {
+    "icon": "glyphicon-list-alt",
+    "description": "Script",
+    "visible": true,
+    "disabled": false,
+    "action": "openScriptPanel",
+    "permission": "admin"
+  }
+]

@@ -1,0 +1,335 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 512.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/data/mongo.txt",
+		"/G/Dong/My Documents/Private/Project/Technology/visFuture/public/modules/core/views/home.client.view.html",
+		"/G/Dong/My Documents/Private/Project/Technology/visFuture/public/modules/core/css/core.css",
+		"/G/Dong/My Documents/Private/Project/Technology/visFuture/app/controllers/core.server.controller.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visFuture/app/routes/core.server.routes.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visFuture/data/mongo.txt",
+		"/C/Users/dzhao/My Projects/General/mean/app/views/index.server.view.html",
+		"/C/Users/dzhao/My Projects/General/mean/app/views/layout.server.view.html",
+		"/C/Users/dzhao/My Projects/General/mean/public/modules/core/views/header.client.view.html",
+		"/C/Users/dzhao/My Projects/General/mean/public/modules/core/views/home.client.view.html",
+		"/C/Users/dzhao/My Projects/General/mean/public/modules/core/config/core.client.routes.js",
+		"/C/Users/dzhao/My Projects/General/visFuture/data/mongo.txt",
+		"/C/Users/dzhao/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/dzhao/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/C/Users/dzhao/My Projects/General/mean/public/modules/core/controllers/home.client.controller.js",
+		"/C/Users/dzhao/My Projects/General/mean/public/modules/core/controllers/header.client.controller.js",
+		"/C/Users/dzhao/My Projects/General/mean/public/modules/articles/articles.client.module.js",
+		"/C/Users/dzhao/My Projects/General/mean/app/controllers/articles.server.controller.js",
+		"/C/Users/dzhao/My Projects/General/mean/app/models/article.server.model.js",
+		"/C/Users/dzhao/My Projects/General/mean/app/routes/articles.server.routes.js",
+		"/C/Users/dzhao/My Projects/General/mean/server.js",
+		"/C/Users/dzhao/My Projects/General/mean/config/init.js",
+		"/C/Users/dzhao/My Projects/General/mean/config/express.js",
+		"/C/Users/dzhao/My Projects/General/mean/config/config.js",
+		"/C/Users/dzhao/My Projects/General/mean/data/mongo.txt",
+		"/C/Users/dzhao/My Projects/General/visFuture/public/modules/core/core.client.module.js",
+		"/C/Users/dzhao/My Projects/General/visFuture/.gitignore",
+		"/C/Users/dzhao/My Projects/General/visFuture/package.json",
+		"/C/Users/dzhao/My Projects/General/visFuture/.editorconfig",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/articles/config/articles.client.routes.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/articles/articles.client.module.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/application.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/config.js",
+		"/C/Users/dzhao/My Projects/General/visPresenter/app/data/mongo.txt",
+		"/C/Users/dzhao/My Projects/General/visPlayer/data/mongo.txt",
+		"/C/Users/dzhao/My Projects/General/visPresenter/app/scripts/controllers/canvas.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/vis-presenter/vis-presenter.client.module.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/core/css/core.css",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/core/services/menus.client.service.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/server.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/config/express.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/fig.yml",
+		"/C/Users/dzhao/My Projects/General/visPlayer/Procfile",
+		"/C/Users/dzhao/My Projects/General/visPlayer/app/views/index.server.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/app/views/layout.server.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/app/controllers/core.server.controller.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/app/controllers/users.server.controller.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/app/controllers/users/users.profile.server.controller.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/app/views/templates/reset-password-confirm-email.server.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/app/views/templates/reset-password-email.server.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/app/views/500.server.view.html",
+		"/C/Program Files/nodejs/config.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/config/config.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/karma.conf.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/gruntfile.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/generate-ssl-certs.sh",
+		"/C/Users/dzhao/My Projects/General/visPlayer/node_modules/issues.txt",
+		"/C/Users/dzhao/My Projects/General/visPlayer/node_modules/mongoose/node_modules/mongodb/node_modules/kerberos/lib/kerberos.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/node_modules/mongoose/node_modules/mongodb/node_modules/kerberos/lib/win32/fix.h",
+		"/C/Users/dzhao/My Projects/General/visPlayer/node_modules/mongoose/node_modules/mongodb/node_modules/kerberos/node_modules/nan/nan.h",
+		"/C/Users/dzhao/.node-gyp/0.12.0/deps/v8/build/android.gypi",
+		"/C/Users/dzhao/My Projects/General/visPlayer/node_modules/mongoose/node_modules/mongodb/node_modules/kerberos/binding.gyp",
+		"/C/Users/dzhao/My Projects/General/visPlayer/node_modules/mongoose/node_modules/mongodb/node_modules/kerberos/README.md",
+		"/C/Users/dzhao/My Projects/General/visPlayer/node_modules/mongoose/node_modules/mongodb/node_modules/bson/browser_build/bson.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/node_modules/mongoose/node_modules/mongodb/node_modules/bson/README.md",
+		"/C/Users/dzhao/My Projects/General/visPlayer/node_modules/mongoose/node_modules/mongodb/node_modules/bson/ext/bson.cc",
+		"/C/Users/dzhao/Downloads/mongoose-3.8.19/mongoose-3.8.19/package.json",
+		"/C/Users/dzhao/Downloads/mongoose-3.8.19/mongoose-3.8.19/README.md",
+		"/C/Users/dzhao/Downloads/mongoose-3.8.19/mongoose-3.8.19/Makefile",
+		"/C/Users/dzhao/My Projects/General/visPresenter/app/index.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/package.json",
+		"/C/Users/dzhao/My Projects/General/visPresenter/app/scripts/app.js",
+		"/C/Users/dzhao/My Projects/General/visPresenter/app/scripts/controllers/base.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/node_modules/mongoose/build/config.gypi",
+		"/C/Users/dzhao/My Projects/General/visPlayer/node_modules/connect-mongo/node_modules/mongodb/node_modules/bson/binding.gyp",
+		"/C/Users/dzhao/My Projects/General/visPresenter/.gitignore",
+		"/C/Users/dzhao/My Projects/General/visPresenter/users/anonymous/uploads/test.vis",
+		"/C/Users/dzhao/My Projects/FTI/Die Face/Temp/3.0/hood/Hood-Part.igs",
+		"/C/Users/dzhao/My Projects/General/visPresenter/bower.json",
+		"/C/Users/dzhao/My Projects/General/visPresenter/package.json",
+		"/C/Users/dzhao/My Projects/General/visPresenter/app/data/commands.json",
+		"/C/Users/dzhao/My Projects/General/visPresenter/node_modules/express/Readme.md",
+		"/C/Users/dzhao/My Projects/General/visPresenter/.bowerrc",
+		"/C/Users/dzhao/My Projects/General/visPresenter/Gruntfile.js",
+		"/C/Users/dzhao/My Projects/FTI/Die Face/Snippets.cpp",
+		"/C/Temp/Geometry.json",
+		"/C/dev/jsoncpp/dist/jsoncpp.cpp",
+		"/C/Program Files/doxygen/VERSION",
+		"/C/dev/jsoncpp/doc/doxyfile",
+		"/C/dev/jsoncpp/doxybuild.py",
+		"/C/FTI/geo/Reinforcement Bracket.IGS",
+		"/C/Temp/EvalSelIDsInMergedManifolds.dat",
+		"/C/Temp/CreateWireframe - Copy.lin",
+		"/C/Temp/CreateWireframe.lin",
+		"/C/Temp/SmoothPolyline3DByGaussian.lin",
+		"/C/Temp/SmoothPolyline3DByGaussian - Copy.lin",
+		"/C/Temp/SmoothProfile.lin",
+		"/C/Temp/DynamicRollPixels.lin",
+		"/C/Temp/EvalLocalBox.lin",
+		"/C/Temp/EvalMatrix.lin",
+		"/C/Temp/UpdateViewData.dat",
+		"/C/Temp/FTICreateBinderFlatPage_OnHScroll.log",
+		"/C/DFCODE/FTIDIEFACEDLL/WORKAREA/SRC/FTIDieFaceControl.cpp",
+		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/dlgprop.cpp",
+		"/C/dev/libQGLViewer/2.6.0/examples/simpleViewer/simpleViewer.pro",
+		"/C/Qt/qt-5.3.2-x64-msvc2012-opengl/mkspecs/winrt-x64-msvc2012/qplatformdefs.h",
+		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/ctlprop.cpp",
+		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/afxpropertysheet.cpp",
+		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/ctlppg.cpp",
+		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/ctlpset.cpp",
+		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/afxtoolbarslistcheckbox.cpp",
+		"/C/Temp/CreateFaceUnitMesh.lin",
+		"/C/Temp/CreateFaceByUV.lin",
+		"/C/Temp/CreateArcExtension.lin",
+		"/C/dev/jsoncpp/src/test_lib_json/jsontest.cpp",
+		"/C/dev/jsoncpp/include/json/writer.h",
+		"/C/dev/jsoncpp/README.md",
+		"/C/dev/jsoncpp/include/json/json.h",
+		"/C/dev/libQGLViewer/2.6.0/install.txt",
+		"/C/dev/simpleViewer/simpleViewer.pro",
+		"/C/dev/libQGLViewer/2.6.0/readMe.txt",
+		"/C/dev/libQGLViewer/2.6.0/examples/examples.pro",
+		"/C/dev/libQGLViewer/2.6.0/libQGLViewer-2.6.0.pro",
+		"/C/UACUserConfig.ini",
+		"/C/dev/libQGLViewer/2.6.0/QGLViewer/QGLViewer.pro",
+		"/C/dev/libQGLViewer/2.6.0/examples/simpleViewer/simpleViewer.pro.user",
+		"/C/dev/simpleViewer/simpleViewer.pro.user",
+		"/C/dev/simpleViewer/Makefile.Debug"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"G:\\Dong\\My Documents\\Private\\Project\\Technology\\visFuture -*.lock",
+			"C:\\Users\\dzhao\\My Projects\\General\\mean,-*.lock",
+			"C:\\Users\\dzhao\\My Projects\\General\\mean",
+			"C:\\Users\\dzhao\\My Projects\\General\\visFuture",
+			"C:\\Users\\dzhao\\My Projects\\General\\visPlayer",
+			"C:\\Program Files\\CGAL\\4.5\\build"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"visFuture",
+			"VisFuture",
+			"tab",
+			"uiView",
+			"data-ui-view",
+			"require('swig')",
+			"jsFiles",
+			"VisFuture",
+			"require('app-config')",
+			"Release\\kerberos",
+			"Release\\bson",
+			"bson",
+			"build",
+			"error",
+			"ws2def.h",
+			"17",
+			"bIsMirrored",
+			"CreateBinderFaces",
+			"CreateBinder",
+			"CreatePropertySheetPage",
+			"INCLUDE_DIR",
+			"main.cpp",
+			"QT",
+			"QT3",
+			"FTITPtrList",
+			"FTIPtrList",
+			"o_padPointsXYZ",
+			"o_nNumPoints",
+			"i_padPointsXYZ",
+			"i_nNumPoints",
+			"i_bConvex",
+			"padPointsXYZ",
+			"i_dSmoothness",
+			"i_nNumPoints",
+			"io_padPointsXYZ",
+			"64",
+			"32",
+			"boost_thread-vc110-mt-gd-1_57.lib",
+			"BOOST",
+			"STATIC",
+			"LINE",
+			"nMainLineIdx",
+			"!",
+			"#",
+			"GenerateSplitPartByBinder",
+			"CreateBinderInterface@@YAHPEAVFTIObject",
+			"GenerateSplitPartByBinder@@YAHAEAUFTIFSManifold_s@@0PEANPEB_WAEAPEAU1@@Z",
+			"GenerateSplitPartByBinder",
+			"#",
+			"FEMB",
+			"0.842706 0.713611 1.547373",
+			"0.8427",
+			"0.84270636671279964",
+			"double"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"visPlayer",
+			"PtrList",
+			"o_padPs",
+			"o_nN",
+			"i_padPs",
+			"i_nN",
+			"i_bC",
+			"padP",
+			"i_dS",
+			"i_nN",
+			"io_padPs"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 258.0,
+	"status_bar_visible": false
+}

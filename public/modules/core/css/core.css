@@ -1,0 +1,133 @@
+html {
+  height: 100%;
+}
+
+body {
+  font-family: 'Ubuntu Condensed', sans-serif;
+  background-image: url('../img/background.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+.btn {
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border: none;
+  padding: 5.5px 11px;
+}
+
+.glyphicon {
+  font-size: 16px;
+  text-shadow: none;
+}
+
+.navbar {
+  min-height: 32px !important;
+  margin-bottom: 0;
+  background-color: #000000;
+  background-image: none;
+}
+
+.navbar-inverse {
+  border: none;
+}
+
+.navbar > .container {
+  width: 100%;
+  padding-right: 25px;
+  padding-left: 0;
+}
+
+.navbar-inverse .navbar-toggle {
+  display: initial;
+  float: left;
+  padding: 10px 11px;
+  margin-top: 0;
+  margin-bottom: 0;
+  border: none;
+  border-radius: 0;
+  background-color: #F58723;
+  color: #ffffff;
+}
+
+.navbar-inverse .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:active,
+.navbar-inverse .navbar-toggle:focus {
+  background-color: #F58723;
+}
+
+.navbar-inverse .navbar-brand {
+  font-family: 'Bevan', cursive;
+  background-color: #E8373E;
+  color: #ffffff;
+  text-shadow: -1px -1px #000000 !important;
+  padding: 8px 8px;
+  height: 40px;
+  line-height: 1.5em;
+}
+
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-brand:active,
+.navbar-inverse .navbar-brand:focus {
+  color: #E8373E;
+  background-color: #ffffff;
+}
+
+.navbar .navbar-nav {
+  font-size: 16px;
+}
+
+.navbar-inverse .navbar-nav > li:first-child {
+  background-color: #94BA65;
+}
+
+.navbar-inverse .navbar-nav > li:last-child {
+  background-color: #2790B0;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: #ffffff;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.navbar-inverse .navbar-nav > li:hover,
+.navbar-inverse .navbar-nav > li:active,
+.navbar-inverse .navbar-nav > li:focus {
+  background-color: #F58723;
+}
+
+.content {
+  margin-top: 0;
+  height: 100%;
+}
+
+.content .container {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.content .container > section {
+  height: 100%;
+}
+
+.undecorated-link:hover {
+	text-decoration: none;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
+}
+
+.ng-invalid.ng-dirty {
+	border-color: #FA787E;
+}
+
+.ng-valid.ng-dirty {
+	border-color: #78FA89;
+}
