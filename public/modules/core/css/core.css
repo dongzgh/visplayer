@@ -29,9 +29,6 @@ body {
   margin-bottom: 0;
   background-color: #000000;
   background-image: none;
-}
-
-.navbar-inverse {
   border: none;
 }
 
@@ -40,26 +37,32 @@ body {
   padding-left: 0;
 }
 
-.navbar-inverse .navbar-toggle {
+.navbar-toggle {
   display: initial;
   float: left;
   padding: 10px 11px;
   margin-top: 0;
   margin-bottom: 0;
   border: none;
-  border-radius: 0;
+  border-radius: 0;  
+}
+
+.navbar-inverse .navbar-toggle {
   background-color: #000000;
   color: #ffffff;
 }
 
-.navbar-inverse .navbar-brand {
-  font-family: 'Bevan', cursive;
-  background-color: #E8373E;
-  color: #ffffff;
-  text-shadow: -1px -1px #000000 !important;
+.navbar-brand {
+  font-family: 'Bevan', cursive;  
   padding: 8px 8px;
   height: 40px;
   line-height: 1.5em;
+}
+
+.navbar-inverse .navbar-brand {  
+  color: #ffffff;
+  background-color: #E8373E;
+  text-shadow: 2px 2px 5px #000000 !important;
 }
 
 .navbar-inverse .navbar-brand:hover,
@@ -69,27 +72,60 @@ body {
   background-color: #ffffff;
 }
 
-.navbar .navbar-nav {
-  font-size: 16px;
+.navbar-nav a {
+  font-family: 'Six Caps', sans-serif;
+  font-size: 25px;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
 }
 
-.navbar-inverse .navbar-nav > li:first-child {
-  background-color: #94BA65;
+.navbar-inverse .navbar-nav a {
+  color: #ffffff !important;
 }
 
-.navbar-inverse .navbar-nav > li:last-child {
-  background-color: #2790B0;
-}
-
-.navbar-inverse .navbar-nav > li > a {
-  color: #ffffff;
+.navbar-nav .dropdown-toggle span {
+  font-family: 'Six Caps', sans-serif;
+  font-size: 25px;
+  text-transform: uppercase;
   padding-top: 10px;
   padding-bottom: 10px;
 }
 
-.navbar-inverse .navbar-nav > li:hover,
-.navbar-inverse .navbar-nav > li:active,
-.navbar-inverse .navbar-nav > li:focus {
+.navbar-inverse .navbar-nav .dropdown-toggle span {  
+  color: #ffffff !important;
+  text-shadow: 2px 2px 5px #000000 !important;  
+}
+
+.dropdown-menu {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.navbar-nav .dropdown-menu a {
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-size: 14px;  
+  text-shadow: none !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+.navbar-inverse .navbar-nav .dropdown-menu a {
+  color: #000000 !important;
+}
+
+.navbar-inverse .navbar-right > li:first-child {
+  background-color: #75CFB6;
+}
+
+.navbar-inverse .navbar-right > li:last-child {
+  background-color: #327CCB;
+}
+
+.navbar-inverse .navbar-right > li:hover,
+.navbar-inverse .navbar-right > li:active,
+.navbar-inverse .navbar-right > li:focus {
   background-color: #F58723;
 }
 
