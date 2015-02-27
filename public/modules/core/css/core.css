@@ -37,7 +37,6 @@ body {
 
 .navbar > .container {
   width: 100%;
-  padding-right: 25px;
   padding-left: 0;
 }
 
@@ -49,14 +48,8 @@ body {
   margin-bottom: 0;
   border: none;
   border-radius: 0;
-  background-color: #F58723;
+  background-color: #000000;
   color: #ffffff;
-}
-
-.navbar-inverse .navbar-toggle:hover,
-.navbar-inverse .navbar-toggle:active,
-.navbar-inverse .navbar-toggle:focus {
-  background-color: #F58723;
 }
 
 .navbar-inverse .navbar-brand {
