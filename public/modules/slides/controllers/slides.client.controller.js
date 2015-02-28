@@ -1,9 +1,12 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Slides',
-	function($scope, $stateParams, $location, Authentication, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Slides', 'Tools',
+	function($scope, $stateParams, $location, Authentication, Slides, Tools) {
 		$scope.authentication = Authentication;
+
+		// Find a list of Tools
+		$scope.tool = Tools.getTool('sidebar');
 
 		// Create new Slide
 		$scope.create = function() {

@@ -1,22 +1,7 @@
 <section data-ng-controller="SlidesController">
     <div class="btn-group-vertical" role="group" aria-label="toolbar">
-        <button type="button" class="btn btn-default">
-            <i class="glyphicon glyphicon-user"></i>
-        </button>
-        <button type="button" class="btn btn-default">
-            <i class="glyphicon glyphicon-user"></i>
-        </button>
-        <button type="button" class="btn btn-default">
-            <i class="glyphicon glyphicon-user"></i>
-        </button>
-        <button type="button" class="btn btn-default">
-            <i class="glyphicon glyphicon-user"></i>
-        </button>
-        <button type="button" class="btn btn-default">
-            <i class="glyphicon glyphicon-user"></i>
-        </button>
-        <button type="button" class="btn btn-default">
-            <i class="glyphicon glyphicon-user"></i>
+        <button data-ng-repeat="item in tool.items" type="button" class="btn btn-default">
+            <i class="glyphicon {{item.icon}}"></i>
         </button>
     </div>
 </section>

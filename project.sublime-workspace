@@ -3,6 +3,10 @@
 	{
 		"selected_items":
 		[
+			[
+				"dropd",
+				"dropdown-menu"
+			]
 		]
 	},
 	"buffers":
@@ -11,16 +15,16 @@
 			"file": "public/modules/core/views/header.client.view.html",
 			"settings":
 			{
-				"buffer_size": 2327,
-				"line_ending": "Unix"
+				"buffer_size": 2337,
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "public/modules/core/css/core.css",
 			"settings":
 			{
-				"buffer_size": 2192,
-				"line_ending": "Unix"
+				"buffer_size": 4364,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -52,6 +56,7 @@
 	},
 	"file_history":
 	[
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/lib/angular-bootstrap/ui-bootstrap-tpls.js",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/README.md",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/data/mongo.txt",
 		"/G/Dong/My Documents/Private/Project/Technology/visFuture/public/modules/core/views/home.client.view.html",
@@ -178,8 +183,7 @@
 		"/C/dev/libQGLViewer/2.6.0/libQGLViewer-2.6.0.pro",
 		"/C/UACUserConfig.ini",
 		"/C/dev/libQGLViewer/2.6.0/QGLViewer/QGLViewer.pro",
-		"/C/dev/libQGLViewer/2.6.0/examples/simpleViewer/simpleViewer.pro.user",
-		"/C/dev/simpleViewer/simpleViewer.pro.user"
+		"/C/dev/libQGLViewer/2.6.0/examples/simpleViewer/simpleViewer.pro.user"
 	],
 	"find":
 	{
@@ -203,6 +207,9 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			".navbar-inverse .navbar-nav li",
+			"text-shadow",
+			"333333",
 			".navbar > .container",
 			"visFuture",
 			"VisFuture",
@@ -265,6 +272,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"000000",
 			"visPlayer",
 			"PtrList",
 			"o_padPs",
@@ -294,15 +302,15 @@
 					"file": "public/modules/core/views/header.client.view.html",
 					"settings":
 					{
-						"buffer_size": 2327,
+						"buffer_size": 2337,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1172,
-								1172
+								1536,
+								1536
 							]
 						],
 						"settings":
@@ -311,7 +319,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 45.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -321,15 +329,28 @@
 					"file": "public/modules/core/css/core.css",
 					"settings":
 					{
-						"buffer_size": 2192,
+						"buffer_size": 4364,
 						"regions":
 						{
+							"bookmarks":
+							{
+								"flags": 144,
+								"icon": "bookmark",
+								"regions":
+								[
+									[
+										4033,
+										4033
+									]
+								],
+								"scope": "bookmarks"
+							}
 						},
 						"selection":
 						[
 							[
-								674,
-								674
+								2623,
+								2623
 							]
 						],
 						"settings":
@@ -339,7 +360,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 405.0,
+						"translation.y": 1844.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -22,7 +22,7 @@ body {
 .btn:hover,
 .btn:active,
 .btn:focus {
-  outline: none;
+  outline-style: none;
 }
 
 .glyphicon {
@@ -89,7 +89,6 @@ body {
 }
 
 .navbar-nav li {
-  margin-left: 1px !important;
   background-color: #000000;
 }
 
@@ -105,6 +104,12 @@ body {
 .navbar-nav a:active,
 .navbar-nav a:focus {
   color: #F58723 !important;
+}
+
+.divider-vertical {
+  height: 40px;
+  width: 2px;
+  background-color: transparent !important;
 }
 
 .navbar-nav .dropdown-toggle span {
@@ -138,8 +143,8 @@ body {
 
 .dropdown-menu .divider {
   height: 1.1px;
-  margin-top: 2px;
-  margin-bottom: 2px;
+  margin-top: 0;
+  margin-bottom: 0;
   background-color: #000000 !important;
 }
 
@@ -149,7 +154,6 @@ body {
   padding-top: 2px !important;
   padding-bottom: 2px !important;
   color: #000000 !important;
-  background-image: ;
 }
 
 .dropdown-menu a:hover,
@@ -201,6 +205,7 @@ section {
   border: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
+  box-shadow: none;
 }
 
 .btn-group-vertical .btn:hover,
@@ -209,7 +214,7 @@ section {
 .btn-group-vertical .btn:active:focus {
   color: #000000;
   background-color: #F58723;
-  outline: none;
+  outline-style: none;
 }
 
 .btn-group-vertical i {
