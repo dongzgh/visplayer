@@ -133,6 +133,7 @@ body {
 
 .dropdown-menu li {
   background-color: transparent;
+  margin-left: 0 !important;
 }
 
 .dropdown-menu .divider {
@@ -190,7 +191,7 @@ section {
 }
 
 .btn-group-vertical > .btn {
-  margin-top: 45px;
+  margin-top: 42px;
 }
 
 .btn-group-vertical .btn {
@@ -206,7 +207,8 @@ section {
 .btn-group-vertical .btn:active,
 .btn-group-vertical .btn:focus,
 .btn-group-vertical .btn:active:focus {
-  color: #F58723;
+  color: #000000;
+  background-color: #F58723;
   outline: none;
 }
 
