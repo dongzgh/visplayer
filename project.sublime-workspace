@@ -8,10 +8,18 @@
 	"buffers":
 	[
 		{
-			"file": "README.md",
+			"file": "public/modules/core/views/header.client.view.html",
 			"settings":
 			{
-				"buffer_size": 8904,
+				"buffer_size": 2327,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/modules/core/css/core.css",
+			"settings":
+			{
+				"buffer_size": 2192,
 				"line_ending": "Unix"
 			}
 		}
@@ -44,6 +52,7 @@
 	},
 	"file_history":
 	[
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/README.md",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/data/mongo.txt",
 		"/G/Dong/My Documents/Private/Project/Technology/visFuture/public/modules/core/views/home.client.view.html",
 		"/G/Dong/My Documents/Private/Project/Technology/visFuture/public/modules/core/css/core.css",
@@ -170,8 +179,7 @@
 		"/C/UACUserConfig.ini",
 		"/C/dev/libQGLViewer/2.6.0/QGLViewer/QGLViewer.pro",
 		"/C/dev/libQGLViewer/2.6.0/examples/simpleViewer/simpleViewer.pro.user",
-		"/C/dev/simpleViewer/simpleViewer.pro.user",
-		"/C/dev/simpleViewer/Makefile.Debug"
+		"/C/dev/simpleViewer/simpleViewer.pro.user"
 	],
 	"find":
 	{
@@ -195,6 +203,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			".navbar > .container",
 			"visFuture",
 			"VisFuture",
 			"tab",
@@ -277,31 +286,60 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "README.md",
+					"file": "public/modules/core/views/header.client.view.html",
 					"settings":
 					{
-						"buffer_size": 8904,
+						"buffer_size": 2327,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3827,
-								3827
+								1172,
+								1172
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 601.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "public/modules/core/css/core.css",
+					"settings":
+					{
+						"buffer_size": 2192,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								674,
+								674
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 405.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

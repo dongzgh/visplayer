@@ -19,6 +19,12 @@ body {
   padding: 5.5px 11px;
 }
 
+.btn:hover,
+.btn:active,
+.btn:focus {
+  outline: none;
+}
+
 .glyphicon {
   font-size: 16px;
 }
@@ -29,6 +35,7 @@ body {
   background-color: #F58723;
   background-image: none;
   border: none;
+  box-shadow: 2px 2px 5px #000000;
 }
 
 .navbar > .container {
@@ -39,7 +46,7 @@ body {
 .navbar-toggle {
   display: initial;
   float: left;
-  padding: 10px 11px 10px 9px;
+  padding: 10px 11px;
   margin-top: 0;
   margin-bottom: 0;
   border: none;
@@ -48,7 +55,7 @@ body {
 
 .navbar-inverse .navbar-toggle {
   color: #ffffff;
-  background-color: transparent;
+  background-color: #E8373E;
   text-shadow: 2px 2px 5px #000000;
 }
 
@@ -56,7 +63,8 @@ body {
 .navbar-inverse .navbar-toggle:active,
 .navbar-inverse .navbar-toggle:focus {
   color: #ffffff;
-  background-color: transparent;
+  background-color: #E8373E;
+  text-shadow: 2px 2px 5px #000000;
 }
 
 .navbar-brand {
@@ -66,25 +74,23 @@ body {
   line-height: 1.5em;
 }
 
-.navbar-inverse .navbar-brand { 
+.navbar-inverse .navbar-brand {
   color: #ffffff;
-  background-color: #333333;
-  text-shadow: 2px 2px 5px #000000 !important;
+  background-color: #E8373E;
+  text-shadow: 2px 2px 5px #000000;
 }
 
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:active,
 .navbar-inverse .navbar-brand:focus {
-  color: #F58723;
-  background-color: #333333;
+  color: #ffffff;
+  background-color: #E8373E;
+  text-shadow: 2px 2px 5px #000000;
 }
 
 .navbar-nav li {
   margin-left: 1px !important;
-}
-
-.navbar-inverse .navbar-nav li {
-  background-color: #333333;
+  background-color: #000000;
 }
 
 .navbar-nav a {
@@ -92,26 +98,13 @@ body {
   font-size: 22.5px;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
-}
-
-.navbar-inverse .navbar-nav a {
   color: #ffffff !important;
 }
 
-.navbar-inverse .navbar-nav a:hover,
-.navbar-inverse .navbar-nav a:active,
-.navbar-inverse .navbar-nav a:focus {
+.navbar-nav a:hover,
+.navbar-nav a:active,
+.navbar-nav a:focus {
   color: #F58723 !important;
-}
-
-.navbar-inverse .navbar-nav .dropdown-toggle {
-  background-color: #333333;
-}
-
-.navbar-inverse .navbar-nav .dropdown-toggle:hover,
-.navbar-inverse .navbar-nav .dropdown-toggle:active,
-.navbar-inverse .navbar-nav .dropdown-toggle:focus {
-  background-color: #327CCB;
 }
 
 .navbar-nav .dropdown-toggle span {
@@ -120,11 +113,13 @@ body {
   text-transform: uppercase;
   padding-top: 10px;
   padding-bottom: 10px;
+  color: #ffffff !important;
 }
 
-.navbar-inverse .navbar-nav .dropdown-toggle span {  
-  color: #ffffff !important;
-  text-shadow: 2px 2px 5px #000000 !important;  
+.navbar-nav .dropdown-toggle span:hover,
+.navbar-nav .dropdown-toggle span:active,
+.navbar-nav .dropdown-toggle span:focus {
+  color: #F58723 !important;
 }
 
 .dropdown-menu {
@@ -136,26 +131,41 @@ body {
   padding-bottom: 0;
 }
 
-.navbar-inverse .navbar-nav .dropdown-menu li {
+.dropdown-menu li {
   background-color: transparent;
 }
 
-.navbar-inverse .navbar-nav .dropdown-menu .divider {
+.dropdown-menu .divider {
+  height: 1.1px;
   margin-top: 2px;
   margin-bottom: 2px;
   background-color: #000000 !important;
 }
 
-.navbar-nav .dropdown-menu a {
+.dropdown-menu a {
   font-family: 'Ubuntu Condensed', sans-serif;
   font-size: 14px;  
-  text-shadow: none !important;
   padding-top: 2px !important;
   padding-bottom: 2px !important;
+  color: #000000 !important;
+  background-image: ;
 }
 
-.navbar-inverse .navbar-nav .dropdown-menu a {
-  color: #000000 !important;
+.dropdown-menu a:hover,
+.dropdown-menu a:active,
+.dropdown-menu a:focus {
+  color: #ffffff !important;
+  background-color: #333333 !important;
+  background-image: none !important;
+}
+
+.dropdown-menu > .active > a, 
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:active,
+.dropdown-menu > .active > a:focus {
+  color: #ffffff !important;
+  background-color: #333333 !important;
+  background-image: none !important;
 }
 
 .content {
@@ -179,16 +189,29 @@ section {
   background-color: #000000;
 }
 
-.btn-group-vertical > button {
-  margin-top: 40px;
+.btn-group-vertical > .btn {
+  margin-top: 45px;
 }
 
-.btn-group-vertical button {
+.btn-group-vertical .btn {
   color: #4E4D4A;
   background-color: transparent;
   background-image: none;
   border: none;
   -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+}
+
+.btn-group-vertical .btn:hover,
+.btn-group-vertical .btn:active,
+.btn-group-vertical .btn:focus,
+.btn-group-vertical .btn:active:focus {
+  color: #F58723;
+  outline: none;
+}
+
+.btn-group-vertical i {
+  text-shadow: none;
 }
 
 .undecorated-link:hover {
