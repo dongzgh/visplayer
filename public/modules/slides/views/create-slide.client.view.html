@@ -1,7 +1,14 @@
 <section data-ng-controller="SlidesController">
     <div class="btn-group-vertical" role="group" aria-label="toolbar">
-        <button data-ng-repeat="item in tool.items" type="button" class="btn btn-default">
-            <i class="glyphicon {{item.icon}}"></i>
-        </button>
+        <button data-ng-repeat="tool in tools" type="button" class="btn btn-default" data-ng-click="activeTool($index)">
+            <i class="glyphicon {{tool.icon}}"></i>
+        </button>        
+    </div>
+    <div data-ng-show="isVisible" class="panel panel-default">
+        <div class="panel-body">
+            <button data-ng-repeat="subTool in subTools" type="button" class="btn btn-default">
+                <i class="glyphicon {{subTool.icon}}"></i>
+            </button>
+        </div>      
     </div>
 </section>

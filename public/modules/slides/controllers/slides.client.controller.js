@@ -6,7 +6,27 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 		$scope.authentication = Authentication;
 
 		// Find a list of Tools
-		$scope.tool = Tools.getTool('sidebar');
+		$scope.tools = Tools.getTool('sidebar').items;
+
+		// Active a Tool set
+		$scope.isVisible = false;
+		$scope.subTools = [];
+		$scope.activeIndex = -1;
+		$scope.activeTool = function (index) {
+			if($scope.activeIndex === -1) {
+				$scope.activeIndex = index;
+				$scope.isVisible = true;
+				$scope.subTools = $scope.tools[index].items;
+			} else if($scope.activeIndex === index) {
+				$scope.activeIndex = -1;
+				$scope.isVisible = false;
+				$scope.subTools = [];
+			} else if($scope.activeIndex !== index) {
+				$scope.activeIndex = index;
+				$scope.isVisible = true;
+				$scope.subTools = $scope.tools[index].items;
+			}
+		};
 
 		// Create new Slide
 		$scope.create = function() {

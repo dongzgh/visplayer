@@ -20,10 +20,29 @@
 			}
 		},
 		{
-			"file": "public/modules/core/css/core.css",
+			"contents": "<section data-ng-controller=\"SlidesController\">\n    <div class=\"btn-group-vertical\" role=\"group\" aria-label=\"toolbar\">\n        <button data-ng-repeat=\"tool in tools.items\" type=\"button\" class=\"btn btn-default\" data-ng-click=\"isCollapsed = !isCollapsed\">\n            <i class=\"glyphicon {{tool.icon}}\"></i>\n        </button>\n        <div data-ng-collapse=\"isCollapsed\" class=\"panel panel-default\">\n            \n        </div>\n    </div>\n</section>\n",
+			"file": "public/modules/slides/views/create-slide.client.view.html",
+			"file_size": 443,
+			"file_write_time": 130696186715788662,
 			"settings":
 			{
-				"buffer_size": 4364,
+				"buffer_size": 447,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/modules/slides/config/slides.client.config.js",
+			"settings":
+			{
+				"buffer_size": 1024,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/modules/slides/controllers/slides.client.controller.js",
+			"settings":
+			{
+				"buffer_size": 1563,
 				"line_ending": "Windows"
 			}
 		}
@@ -56,9 +75,23 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Dong/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Dong/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/css/core.css",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/services/tools.client.service.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/services/menus.client.service.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/controllers/header.client.controller.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/data/tools.json",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/config/slides.client.routes.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/config/core.client.routes.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/controllers/slides.client.controller.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/app/controllers/slides.server.controller.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/services/slides.client.service.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/services/tools.client.service.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/views/list-slides.client.view.html",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/data/mongo.txt",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/lib/angular-bootstrap/ui-bootstrap-tpls.js",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/README.md",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/data/mongo.txt",
 		"/G/Dong/My Documents/Private/Project/Technology/visFuture/public/modules/core/views/home.client.view.html",
 		"/G/Dong/My Documents/Private/Project/Technology/visFuture/public/modules/core/css/core.css",
 		"/G/Dong/My Documents/Private/Project/Technology/visFuture/app/controllers/core.server.controller.js",
@@ -169,21 +202,7 @@
 		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/ctlppg.cpp",
 		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/ctlpset.cpp",
 		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/afxtoolbarslistcheckbox.cpp",
-		"/C/Temp/CreateFaceUnitMesh.lin",
-		"/C/Temp/CreateFaceByUV.lin",
-		"/C/Temp/CreateArcExtension.lin",
-		"/C/dev/jsoncpp/src/test_lib_json/jsontest.cpp",
-		"/C/dev/jsoncpp/include/json/writer.h",
-		"/C/dev/jsoncpp/README.md",
-		"/C/dev/jsoncpp/include/json/json.h",
-		"/C/dev/libQGLViewer/2.6.0/install.txt",
-		"/C/dev/simpleViewer/simpleViewer.pro",
-		"/C/dev/libQGLViewer/2.6.0/readMe.txt",
-		"/C/dev/libQGLViewer/2.6.0/examples/examples.pro",
-		"/C/dev/libQGLViewer/2.6.0/libQGLViewer-2.6.0.pro",
-		"/C/UACUserConfig.ini",
-		"/C/dev/libQGLViewer/2.6.0/QGLViewer/QGLViewer.pro",
-		"/C/dev/libQGLViewer/2.6.0/examples/simpleViewer/simpleViewer.pro.user"
+		"/C/Temp/CreateFaceUnitMesh.lin"
 	],
 	"find":
 	{
@@ -204,9 +223,19 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"tab",
+			"addToolItem",
+			"sidebar",
+			"menu",
+			"Menu",
+			"menus",
+			"shouldRender",
+			"menus",
+			"divider",
+			"outline",
 			".navbar-inverse .navbar-nav li",
 			"text-shadow",
 			"333333",
@@ -272,6 +301,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"tool",
+			"Tool",
+			"tools",
 			"000000",
 			"visPlayer",
 			"PtrList",
@@ -288,7 +320,7 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": true,
+		"whole_word": false,
 		"wrap": true
 	},
 	"groups":
@@ -309,8 +341,8 @@
 						"selection":
 						[
 							[
-								1536,
-								1536
+								1357,
+								1357
 							]
 						],
 						"settings":
@@ -319,48 +351,88 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 45.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "public/modules/core/css/core.css",
+					"file": "public/modules/slides/views/create-slide.client.view.html",
 					"settings":
 					{
-						"buffer_size": 4364,
+						"buffer_size": 447,
 						"regions":
 						{
-							"bookmarks":
-							{
-								"flags": 144,
-								"icon": "bookmark",
-								"regions":
-								[
-									[
-										4033,
-										4033
-									]
-								],
-								"scope": "bookmarks"
-							}
 						},
 						"selection":
 						[
 							[
-								2623,
-								2623
+								446,
+								446
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/CSS/CSS.tmLanguage",
-							"tab_size": 2,
+							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1844.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "public/modules/slides/config/slides.client.config.js",
+					"settings":
+					{
+						"buffer_size": 1024,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1024,
+								1024
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "public/modules/slides/controllers/slides.client.controller.js",
+					"settings":
+					{
+						"buffer_size": 1563,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								357,
+								357
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -420,7 +492,7 @@
 		],
 		"width": 380.0
 	},
-	"show_minimap": true,
+	"show_minimap": false,
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,

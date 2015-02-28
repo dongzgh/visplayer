@@ -190,16 +190,17 @@ section {
 }
 
 .btn-group-vertical {
+  position: absolute;
   height: 100%;
   background-color: #000000;
 }
 
-.btn-group-vertical > .btn {
+.btn-group-vertical > .btn:first-child {
   margin-top: 42px;
 }
 
 .btn-group-vertical .btn {
-  color: #4E4D4A;
+  color: #9D9D9D;
   background-color: transparent;
   background-image: none;
   border: none;
@@ -219,6 +220,32 @@ section {
 
 .btn-group-vertical i {
   text-shadow: none;
+}
+
+.panel { 
+  position: absolute;
+  margin-top: 0;
+  margin-left: 37px;
+  margin-bottom: 0;
+  padding-top: 42px;  
+  width: 200px;
+  height: 100% !important;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+}
+
+.panel-body .btn {
+  color: #9D9D9D;
+  background-color: transparent;
+  background-image:none;
+  text-shadow: none;
+}
+
+.panel-body .btn:hover,
+.panel-body .btn:active,
+.panel-body .btn:focus {
+  color: #ffffff;
+  background-color: #327CCB;
 }
 
 .undecorated-link:hover {
