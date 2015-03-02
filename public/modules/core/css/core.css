@@ -2,6 +2,15 @@ html {
   height: 100%;
 }
 
+h3 {
+  font-size: 18px;
+  font-weight: normal;
+}
+
+label {
+  font-weight: normal;
+}
+
 body {
   font-family: 'Ubuntu Condensed', sans-serif;
   background-image: url('../img/background.jpg');
