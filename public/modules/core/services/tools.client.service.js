@@ -103,7 +103,7 @@ angular.module('core').service('Tools', [
 		};
 
 		// Add subtool item object
-		this.addSubToolItem = function(toolId, rootToolItemURL, toolItemTitle, toolItemIcon, toolItemURL, toolItemUIRoute, isPublic, roles, position) {
+		this.addSubToolItem = function(toolId, rootToolItemURL, toolItemTitle, toolItemIcon, toolItemAction, toolItemURL, toolItemUIRoute, isPublic, roles, position) {
 			// Validate that the tool exists
 			this.validateToolExistance(toolId);
 
@@ -114,6 +114,7 @@ angular.module('core').service('Tools', [
 					this.tools[toolId].items[itemIndex].items.push({
 						title: toolItemTitle,
 						icon: toolItemIcon,
+						action: toolItemAction,
 						link: toolItemURL,
 						uiRoute: toolItemUIRoute || ('/' + toolItemURL),
 						isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.tools[toolId].items[itemIndex].isPublic : isPublic),

@@ -9,7 +9,7 @@ angular.module('slides').run(['Menus', 'Tools',
 
 		// Set side bar tool items
 		Tools.addToolItem('sidebar', 'Files', 'files', 'glyphicon-file', 'dropdown', '/files');
-		Tools.addSubToolItem('sidebar', 'files', 'Import Model', 'glyphicon-cloud-upload', '/files/importModel');
+		Tools.addSubToolItem('sidebar', 'files', 'Import Model', 'glyphicon-cloud-upload', 'importModel', '/files/importModel');
 		Tools.addToolItem('sidebar', 'Edits', 'edit', 'glyphicon-edit', 'dropdown', '/edits');
 		Tools.addToolItem('sidebar', 'Materials', 'materials', 'glyphicon-tint', 'dropdown', '/materials');
 		Tools.addToolItem('sidebar', 'Views', 'views', 'glyphicon-camera', 'dropdown', '/views');

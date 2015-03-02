@@ -3,16 +3,17 @@
         <button data-ng-repeat="tool in tools" type="button" class="btn btn-default" data-ng-click="activeTool($index)">
             <i class="glyphicon {{tool.icon}}"></i>
         </button>        
-    </div>
+    </div>   
     <div data-ng-show="isVisible" class="panel panel-default">
         <tabset justified="true">
             <tab heading="Tools">
-                <button data-ng-repeat="subTool in subTools" type="button" class="btn btn-default">
+                <button data-ng-repeat="subTool in subTools" type="button" class="btn btn-default" data-ng-click="action($index)">
                     <i class="glyphicon {{subTool.icon}}"></i>
                 </button>
             </tab>
             <tab heading="Files">
             </tab>
         </tabset>             
-    </div>    
+    </div>
+    <div id='upload' ng-show="false" ng-file-select ng-model="files" ng-multiple="multiple"></div>    
 </section>

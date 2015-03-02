@@ -1,8 +1,8 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', 'Authentication', 'Slides', 'Tools',
-	function($scope, $stateParams, $location, Authentication, Slides, Tools) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', 'FileUploader', 'Authentication', 'Slides', 'Tools',
+	function($scope, $stateParams, $location, FileUploader, Authentication, Slides, Tools) {
 		$scope.authentication = Authentication;
 
 		// Find a list of Tools
@@ -26,6 +26,17 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 				$scope.activeIndex = index;
 				$scope.isVisible = $scope.subTools.length > 0 ? true : false;
 			}
+		};
+
+		// Dispatch actions
+		$scope.action = function (index) {
+			$scope[$scope.subTools[index].action]();
+		};
+
+		// Import model
+		$scope.importModel = function () {
+			angular.element(document.querySelector('#upload')).triggerHandler('click');
+			console.log('importModel is called!');
 		};
 
 		// Create new Slide
