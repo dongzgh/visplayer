@@ -3,10 +3,12 @@
 		position: fixed;
 	}
 }
+
 .remove-account-container {
 	display: inline-block;
 	position: relative;
 }
+
 .btn-remove-account {
 	top: 10px;
 	right: 10px;
