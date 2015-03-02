@@ -22,9 +22,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 				$scope.isVisible = false;
 				$scope.subTools = [];
 			} else if($scope.activeIndex !== index) {
-				$scope.activeIndex = index;
-				$scope.isVisible = true;
 				$scope.subTools = $scope.tools[index].items;
+				$scope.activeIndex = index;
+				$scope.isVisible = $scope.subTools.length > 0 ? true : false;
 			}
 		};
 

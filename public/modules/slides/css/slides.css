@@ -34,7 +34,7 @@
 .panel { 
   position: absolute;
   margin-top: 0;
-  margin-left: 37px;
+  margin-left: 38px;
   margin-bottom: 0;
   padding-top: 42px;  
   width: 200px;
@@ -44,7 +44,26 @@
   border: none;
 }
 
-.panel-body .btn {
+.nav-tabs li a {
+  padding-top: 4px;
+  padding-bottom: 5px;
+  border: none;
+  border-radius: 0 !important;
+  color: #ffffff;
+}
+
+.nav-tabs li a:hover,
+.nav-tabs li a:active,
+.nav-tabs li a:focus {
+  color: #ffffff;
+  background-color: #327CCB;
+}
+
+.tab-content {
+  padding-top: 10px;
+}
+
+.tab-pane .btn {
   color: #9D9D9D;
   background-color: transparent;
   background-image:none;
@@ -52,9 +71,9 @@
   box-shadow: none;
 }
 
-.panel-body .btn:hover,
-.panel-body .btn:active,
-.panel-body .btn:focus {
+.tab-pane .btn:hover,
+.tab-pane .btn:active,
+.tab-pane .btn:focus {
   color: #ffffff;
   background-color: #327CCB;
 }

@@ -5,10 +5,14 @@
         </button>        
     </div>
     <div data-ng-show="isVisible" class="panel panel-default">
-        <div class="panel-body">
-            <button data-ng-repeat="subTool in subTools" type="button" class="btn btn-default">
-                <i class="glyphicon {{subTool.icon}}"></i>
-            </button>
-        </div>      
-    </div>
+        <tabset justified="true">
+            <tab heading="Tools">
+                <button data-ng-repeat="subTool in subTools" type="button" class="btn btn-default">
+                    <i class="glyphicon {{subTool.icon}}"></i>
+                </button>
+            </tab>
+            <tab heading="Files">
+            </tab>
+        </tabset>             
+    </div>    
 </section>
