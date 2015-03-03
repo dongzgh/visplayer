@@ -9,3 +9,7 @@ exports.index = function(req, res) {
 		request: req
 	});
 };
+
+exports.upload = function(req, res) {
+  console.log('request accepted.');
+};

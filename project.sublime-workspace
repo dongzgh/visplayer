@@ -12,38 +12,27 @@
 	"buffers":
 	[
 		{
-			"file": "public/modules/core/views/header.client.view.html",
-			"settings":
-			{
-				"buffer_size": 2337,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "<section data-ng-controller=\"SlidesController\">\n    <div class=\"btn-group-vertical\" role=\"group\" aria-label=\"toolbar\">\n        <button data-ng-repeat=\"tool in tools.items\" type=\"button\" class=\"btn btn-default\" data-ng-click=\"isCollapsed = !isCollapsed\">\n            <i class=\"glyphicon {{tool.icon}}\"></i>\n        </button>\n        <div data-ng-collapse=\"isCollapsed\" class=\"panel panel-default\">\n            \n        </div>\n    </div>\n</section>\n",
-			"file": "public/modules/slides/views/create-slide.client.view.html",
-			"file_size": 443,
-			"file_write_time": 130696186715788662,
-			"settings":
-			{
-				"buffer_size": 447,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "public/modules/slides/config/slides.client.config.js",
-			"settings":
-			{
-				"buffer_size": 1024,
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "public/modules/slides/controllers/slides.client.controller.js",
 			"settings":
 			{
-				"buffer_size": 1563,
+				"buffer_size": 3542,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/modules/slides/views/create-slide.client.view.html",
+			"settings":
+			{
+				"buffer_size": 911,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/lib/angular-cookies/angular-cookies.js",
+			"settings":
+			{
+				"buffer_size": 5824,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -58,7 +47,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 512.0
+		"width": 472.0
 	},
 	"console":
 	{
@@ -75,21 +64,34 @@
 	},
 	"file_history":
 	[
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/lib/angular-bootstrap/ui-bootstrap.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/controllers/slides.client.controller.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/views/create-slide.client.view.html",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/config/env/all.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/config/env/production.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/config.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/lib/ng-file-upload/angular-file-upload.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/lib/ng-file-upload/README.md",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/data/mongo.txt",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/views/header.client.view.html",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/config/slides.client.config.js",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/css/core.css",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/css/slides.css",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/users/views/authentication/signup.client.view.html",
+		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/users/css/users.css",
+		"/G/Dong/My Documents/Private/Project/Technology/visPresenter/app/styles/main.css",
 		"/C/Users/Dong/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/C/Users/Dong/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/css/core.css",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/services/tools.client.service.js",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/services/menus.client.service.js",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/controllers/header.client.controller.js",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/data/tools.json",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/config/slides.client.routes.js",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/config/core.client.routes.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/controllers/slides.client.controller.js",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/app/controllers/slides.server.controller.js",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/services/slides.client.service.js",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/services/tools.client.service.js",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/views/list-slides.client.view.html",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/data/mongo.txt",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/lib/angular-bootstrap/ui-bootstrap-tpls.js",
 		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/README.md",
 		"/G/Dong/My Documents/Private/Project/Technology/visFuture/public/modules/core/views/home.client.view.html",
@@ -189,20 +191,7 @@
 		"/C/Temp/SmoothPolyline3DByGaussian - Copy.lin",
 		"/C/Temp/SmoothProfile.lin",
 		"/C/Temp/DynamicRollPixels.lin",
-		"/C/Temp/EvalLocalBox.lin",
-		"/C/Temp/EvalMatrix.lin",
-		"/C/Temp/UpdateViewData.dat",
-		"/C/Temp/FTICreateBinderFlatPage_OnHScroll.log",
-		"/C/DFCODE/FTIDIEFACEDLL/WORKAREA/SRC/FTIDieFaceControl.cpp",
-		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/dlgprop.cpp",
-		"/C/dev/libQGLViewer/2.6.0/examples/simpleViewer/simpleViewer.pro",
-		"/C/Qt/qt-5.3.2-x64-msvc2012-opengl/mkspecs/winrt-x64-msvc2012/qplatformdefs.h",
-		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/ctlprop.cpp",
-		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/afxpropertysheet.cpp",
-		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/ctlppg.cpp",
-		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/ctlpset.cpp",
-		"/C/Program Files (x86)/Microsoft Visual Studio 11.0/VC/atlmfc/src/mfc/afxtoolbarslistcheckbox.cpp",
-		"/C/Temp/CreateFaceUnitMesh.lin"
+		"/C/Temp/EvalLocalBox.lin"
 	],
 	"find":
 	{
@@ -226,6 +215,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"shadow",
+			"first",
 			"tab",
 			"addToolItem",
 			"sidebar",
@@ -326,32 +317,32 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "public/modules/core/views/header.client.view.html",
+					"file": "public/modules/slides/controllers/slides.client.controller.js",
 					"settings":
 					{
-						"buffer_size": 2337,
+						"buffer_size": 3542,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1357,
-								1357
+								1842,
+								1842
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 604.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -361,15 +352,15 @@
 					"file": "public/modules/slides/views/create-slide.client.view.html",
 					"settings":
 					{
-						"buffer_size": 447,
+						"buffer_size": 911,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								446,
-								446
+								911,
+								911
 							]
 						],
 						"settings":
@@ -386,50 +377,25 @@
 				},
 				{
 					"buffer": 2,
-					"file": "public/modules/slides/config/slides.client.config.js",
+					"file": "public/lib/angular-cookies/angular-cookies.js",
 					"settings":
 					{
-						"buffer_size": 1024,
+						"buffer_size": 5824,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1024,
-								1024
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "public/modules/slides/controllers/slides.client.controller.js",
-					"settings":
-					{
-						"buffer_size": 1563,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								357,
-								357
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -446,7 +412,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 31.0
 	},
 	"layout":
 	{
@@ -496,6 +462,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 258.0,
+	"side_bar_width": 257.0,
 	"status_bar_visible": false
 }

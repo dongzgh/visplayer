@@ -5,9 +5,15 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 	function($scope, $stateParams, $location, $upload, Authentication, Slides, Tools) {
 		$scope.authentication = Authentication;
 
+		//---------------------------------------------------
+		//  Initialization
+		//---------------------------------------------------
 		// Find a list of Tools
 		$scope.tools = Tools.getTool('sidebar').items;
 
+		//---------------------------------------------------
+		//  Callbacks
+		//---------------------------------------------------
 		// Active a Tool set
 		$scope.isVisible = false;
 		$scope.subTools = [];
@@ -36,7 +42,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 		// Import model
 		$scope.importModel = function () {
 			angular.element(document.querySelector('#upload')).triggerHandler('click');
-			console.log('importModel is called!');
 		};
 
 		// Create new Slide
@@ -96,5 +101,30 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 				slideId: $stateParams.slideId
 			});
 		};
+
+		//---------------------------------------------------
+		//  Utilities
+		//---------------------------------------------------
+		$scope.upload = function (files) {
+      if (files && files.length) {
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          $upload.upload({
+              url: '/upload',
+              fields: {'user': Authentication.user},
+              file: file
+          }).progress($scope.uploadProgress).success($scope.uploadScucess);
+        }
+      }
+    };
+
+    $scope.uploadProgress = function(evt) {
+    	 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+       console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+    };
+
+    $scope.uploadSuccess = function (data, status, headers, config) {
+    	console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+    };
 	}
 ]);
