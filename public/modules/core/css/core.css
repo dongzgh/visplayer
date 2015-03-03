@@ -53,7 +53,7 @@ body {
 }
 
 .navbar-toggle {
-  display: inline;
+  display: flex;
   float: left;
   height: 40px;
   padding: 6px 7px 6px 6px;
