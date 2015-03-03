@@ -105,6 +105,11 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 		//---------------------------------------------------
 		//  Utilities
 		//---------------------------------------------------
+		$scope.$watch('files', function () {
+        $scope.upload($scope.files);
+    });
+
+
 		$scope.upload = function (files) {
       if (files && files.length) {
         for (var i = 0; i < files.length; i++) {
@@ -113,7 +118,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
               url: '/upload',
               fields: {'user': Authentication.user},
               file: file
-          }).progress($scope.uploadProgress).success($scope.uploadScucess);
+          }).progress($scope.uploadProgress).success($scope.uploadSuccess);
         }
       }
     };

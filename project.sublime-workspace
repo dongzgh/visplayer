@@ -4,34 +4,38 @@
 		"selected_items":
 		[
 			[
-				"dropd",
-				"dropdown-menu"
+				"text",
+				"text-align"
+			],
+			[
+				"border-left",
+				"border-left-width"
+			],
+			[
+				"navbar",
+				"navbar-inverse"
+			],
+			[
+				"border-ra",
+				"border-top-left-radius"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
+			"file": "app/controllers/core.server.controller.js",
+			"settings":
+			{
+				"buffer_size": 1214,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "public/modules/slides/controllers/slides.client.controller.js",
 			"settings":
 			{
-				"buffer_size": 3542,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "public/modules/slides/views/create-slide.client.view.html",
-			"settings":
-			{
-				"buffer_size": 911,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "public/lib/angular-cookies/angular-cookies.js",
-			"settings":
-			{
-				"buffer_size": 5824,
+				"buffer_size": 3690,
 				"line_ending": "Unix"
 			}
 		}
@@ -64,48 +68,63 @@
 	},
 	"file_history":
 	[
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/lib/angular-bootstrap/ui-bootstrap.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/controllers/slides.client.controller.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/views/create-slide.client.view.html",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/config/env/all.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/config/env/production.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/config.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/lib/ng-file-upload/angular-file-upload.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/lib/ng-file-upload/README.md",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/data/mongo.txt",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/views/header.client.view.html",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/config/slides.client.config.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/css/core.css",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/css/slides.css",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/users/views/authentication/signup.client.view.html",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/users/css/users.css",
-		"/G/Dong/My Documents/Private/Project/Technology/visPresenter/app/styles/main.css",
-		"/C/Users/Dong/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
-		"/C/Users/Dong/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/services/tools.client.service.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/services/menus.client.service.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/controllers/header.client.controller.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/data/tools.json",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/config/slides.client.routes.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/core/config/core.client.routes.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/app/controllers/slides.server.controller.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/services/slides.client.service.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/services/tools.client.service.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/modules/slides/views/list-slides.client.view.html",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/public/lib/angular-bootstrap/ui-bootstrap-tpls.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visPlayer/README.md",
-		"/G/Dong/My Documents/Private/Project/Technology/visFuture/public/modules/core/views/home.client.view.html",
-		"/G/Dong/My Documents/Private/Project/Technology/visFuture/public/modules/core/css/core.css",
-		"/G/Dong/My Documents/Private/Project/Technology/visFuture/app/controllers/core.server.controller.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visFuture/app/routes/core.server.routes.js",
-		"/G/Dong/My Documents/Private/Project/Technology/visFuture/data/mongo.txt",
+		"/C/Users/dzhao/My Projects/General/visPlayer/app/controllers/slides.server.controller.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/slides/controllers/slides.client.controller.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/app/routes/core.server.routes.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/app/controllers/errors.server.controller.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/data/mongo.txt",
+		"/C/Users/dzhao/My Projects/General/visPlayer/config/env/all.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/config/env/production.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/bower.json",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/core/services/tools.client.service.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/slides/config/slides.client.config.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/slides/views/create-slide.client.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/.bowerrc",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/lib/jquery/dist/jquery.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/config.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/lib/angular-file-upload/angular-file-upload.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/config/env/development.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/config/config.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/application.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/lib/angular-ui-utils/ui-utils.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/lib/angular-resource/angular-resource.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/lib/angular-file-upload/src/outro.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/lib/angular-file-upload/src/module.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/lib/angular-file-upload/src/intro.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/core/core.client.module.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/core/config/core.client.routes.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/slides/css/slides.css",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/core/css/core.css",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/lib/angular-file-upload/README.md",
+		"/C/Users/dzhao/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/users/css/users.css",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/slides/views/edit-slide.client.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/users/views/authentication/signup.client.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/users/views/authentication/signin.client.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/users/views/settings/edit-profile.client.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/users/views/settings/social-accounts.client.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/users/views/settings/change-password.client.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/lib/angular-bootstrap/ui-bootstrap-tpls.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/lib/angular-bootstrap/ui-bootstrap.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/slides/slides.client.module.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/core/views/header.client.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/core/services/menus.client.service.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/slides/config/slides.client.routes.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/app/views/layout.server.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/slides/views/list-slides.client.view.html",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/slides/services/slides.client.service.js",
+		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/core/img/background.jpg",
+		"/C/Temp/MorphPointButterfly.lin",
+		"/C/FTI/Temp/NodesNorms.lin",
+		"/C/FTI/Temp/FillHole.lin",
+		"/C/Temp/MarkedEdges.lin",
+		"/C/UACUserConfig.ini",
 		"/C/Users/dzhao/My Projects/General/mean/app/views/index.server.view.html",
 		"/C/Users/dzhao/My Projects/General/mean/app/views/layout.server.view.html",
 		"/C/Users/dzhao/My Projects/General/mean/public/modules/core/views/header.client.view.html",
 		"/C/Users/dzhao/My Projects/General/mean/public/modules/core/views/home.client.view.html",
 		"/C/Users/dzhao/My Projects/General/mean/public/modules/core/config/core.client.routes.js",
 		"/C/Users/dzhao/My Projects/General/visFuture/data/mongo.txt",
-		"/C/Users/dzhao/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
 		"/C/Users/dzhao/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/C/Users/dzhao/My Projects/General/mean/public/modules/core/controllers/home.client.controller.js",
 		"/C/Users/dzhao/My Projects/General/mean/public/modules/core/controllers/header.client.controller.js",
@@ -124,20 +143,14 @@
 		"/C/Users/dzhao/My Projects/General/visFuture/.editorconfig",
 		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/articles/config/articles.client.routes.js",
 		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/articles/articles.client.module.js",
-		"/C/Users/dzhao/My Projects/General/visPlayer/public/application.js",
-		"/C/Users/dzhao/My Projects/General/visPlayer/public/config.js",
 		"/C/Users/dzhao/My Projects/General/visPresenter/app/data/mongo.txt",
-		"/C/Users/dzhao/My Projects/General/visPlayer/data/mongo.txt",
 		"/C/Users/dzhao/My Projects/General/visPresenter/app/scripts/controllers/canvas.js",
 		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/vis-presenter/vis-presenter.client.module.js",
-		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/core/css/core.css",
-		"/C/Users/dzhao/My Projects/General/visPlayer/public/modules/core/services/menus.client.service.js",
 		"/C/Users/dzhao/My Projects/General/visPlayer/server.js",
 		"/C/Users/dzhao/My Projects/General/visPlayer/config/express.js",
 		"/C/Users/dzhao/My Projects/General/visPlayer/fig.yml",
 		"/C/Users/dzhao/My Projects/General/visPlayer/Procfile",
 		"/C/Users/dzhao/My Projects/General/visPlayer/app/views/index.server.view.html",
-		"/C/Users/dzhao/My Projects/General/visPlayer/app/views/layout.server.view.html",
 		"/C/Users/dzhao/My Projects/General/visPlayer/app/controllers/core.server.controller.js",
 		"/C/Users/dzhao/My Projects/General/visPlayer/app/controllers/users.server.controller.js",
 		"/C/Users/dzhao/My Projects/General/visPlayer/app/controllers/users/users.profile.server.controller.js",
@@ -145,7 +158,6 @@
 		"/C/Users/dzhao/My Projects/General/visPlayer/app/views/templates/reset-password-email.server.view.html",
 		"/C/Users/dzhao/My Projects/General/visPlayer/app/views/500.server.view.html",
 		"/C/Program Files/nodejs/config.js",
-		"/C/Users/dzhao/My Projects/General/visPlayer/config/config.js",
 		"/C/Users/dzhao/My Projects/General/visPlayer/karma.conf.js",
 		"/C/Users/dzhao/My Projects/General/visPlayer/gruntfile.js",
 		"/C/Users/dzhao/My Projects/General/visPlayer/generate-ssl-certs.sh",
@@ -183,15 +195,7 @@
 		"/C/Program Files/doxygen/VERSION",
 		"/C/dev/jsoncpp/doc/doxyfile",
 		"/C/dev/jsoncpp/doxybuild.py",
-		"/C/FTI/geo/Reinforcement Bracket.IGS",
-		"/C/Temp/EvalSelIDsInMergedManifolds.dat",
-		"/C/Temp/CreateWireframe - Copy.lin",
-		"/C/Temp/CreateWireframe.lin",
-		"/C/Temp/SmoothPolyline3DByGaussian.lin",
-		"/C/Temp/SmoothPolyline3DByGaussian - Copy.lin",
-		"/C/Temp/SmoothProfile.lin",
-		"/C/Temp/DynamicRollPixels.lin",
-		"/C/Temp/EvalLocalBox.lin"
+		"/C/FTI/geo/Reinforcement Bracket.IGS"
 	],
 	"find":
 	{
@@ -202,7 +206,7 @@
 		"height": 0.0,
 		"where_history":
 		[
-			"G:\\Dong\\My Documents\\Private\\Project\\Technology\\visFuture -*.lock",
+			"C:\\Users\\dzhao\\My Projects\\General\\visPlayer,-*.lock",
 			"C:\\Users\\dzhao\\My Projects\\General\\mean,-*.lock",
 			"C:\\Users\\dzhao\\My Projects\\General\\mean",
 			"C:\\Users\\dzhao\\My Projects\\General\\visFuture",
@@ -215,24 +219,21 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"click",
+			"upload",
+			"FileDirective",
+			"word",
+			"close",
+			"closeDrop",
+			"closeDropDown",
+			"ffffff",
+			"E8373E",
+			"25",
+			"F58723",
+			"border",
+			"aria-label",
 			"shadow",
-			"first",
-			"tab",
-			"addToolItem",
-			"sidebar",
-			"menu",
-			"Menu",
-			"menus",
-			"shouldRender",
-			"menus",
-			"divider",
-			"outline",
-			".navbar-inverse .navbar-nav li",
-			"text-shadow",
-			"333333",
-			".navbar > .container",
-			"visFuture",
-			"VisFuture",
+			"family",
 			"tab",
 			"uiView",
 			"data-ui-view",
@@ -292,11 +293,6 @@
 		"regex": false,
 		"replace_history":
 		[
-			"tool",
-			"Tool",
-			"tools",
-			"000000",
-			"visPlayer",
 			"PtrList",
 			"o_padPs",
 			"o_nN",
@@ -311,7 +307,7 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": true
 	},
 	"groups":
@@ -322,83 +318,58 @@
 			[
 				{
 					"buffer": 0,
-					"file": "public/modules/slides/controllers/slides.client.controller.js",
+					"file": "app/controllers/core.server.controller.js",
 					"settings":
 					{
-						"buffer_size": 3542,
+						"buffer_size": 1214,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1842,
-								1842
+								577,
+								577
 							]
 						],
 						"settings":
 						{
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"word_wrap": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 604.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "public/modules/slides/views/create-slide.client.view.html",
+					"file": "public/modules/slides/controllers/slides.client.controller.js",
 					"settings":
 					{
-						"buffer_size": 911,
+						"buffer_size": 3690,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								911,
-								911
+								3689,
+								3689
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/AngularJS/AngularJS.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "public/lib/angular-cookies/angular-cookies.js",
-					"settings":
-					{
-						"buffer_size": 5824,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
+							"editorconfig": true,
+							"ensure_newline_at_eof_on_save": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1440.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -412,7 +383,7 @@
 	},
 	"input":
 	{
-		"height": 31.0
+		"height": 0.0
 	},
 	"layout":
 	{
@@ -452,16 +423,16 @@
 	},
 	"select_project":
 	{
-		"height": 500.0,
+		"height": 0.0,
 		"selected_items":
 		[
 		],
-		"width": 380.0
+		"width": 0.0
 	},
-	"show_minimap": false,
+	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 257.0,
+	"side_bar_width": 266.0,
 	"status_bar_visible": false
 }

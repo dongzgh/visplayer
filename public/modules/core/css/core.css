@@ -53,10 +53,10 @@ body {
 }
 
 .navbar-toggle {
-  display: initial;
+  display: inline;
   float: left;
   height: 40px;
-  padding: 10px 11px;
+  padding: 7px 7px;
   margin-top: 0;
   margin-bottom: 0;
   margin-right: 0;
@@ -65,16 +65,16 @@ body {
 }
 
 .navbar-inverse .navbar-toggle {
-  color: #ffffff;
-  background-color: #E8373E;
+  color: #E8373E;
+  background-color: #ffffff;
   text-shadow: 2px 2px 5px #000000;
 }
 
 .navbar-inverse .navbar-toggle:hover,
 .navbar-inverse .navbar-toggle:active,
 .navbar-inverse .navbar-toggle:focus {
-  color: #ffffff;
-  background-color: #E8373E;
+  color: #E8373E;
+  background-color: #ffffff;
   text-shadow: 2px 2px 5px #000000;
 }
 
