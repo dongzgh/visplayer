@@ -1,8 +1,8 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', 'FileUploader', 'Authentication', 'Slides', 'Tools',
-	function($scope, $stateParams, $location, FileUploader, Authentication, Slides, Tools) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Slides', 'Tools',
+	function($scope, $stateParams, $location, $upload, Authentication, Slides, Tools) {
 		$scope.authentication = Authentication;
 
 		// Find a list of Tools
