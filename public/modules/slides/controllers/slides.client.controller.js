@@ -51,7 +51,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 			}
 		};
 
-		// Dispatch actions
+		// Activate a tool
 		$scope.activateTool = function (index) {
 			$scope[$scope.subTools[index].action]();
 		};
@@ -78,6 +78,11 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 				$scope.error = errorResponse.data.message;
 			});
 		};
+
+    // Activate a widget
+    $scope.activateWidget = function (action) {
+      $scope[action]();
+    };
 
 		// Remove existing Slide
 		$scope.remove = function(slide) {
@@ -122,11 +127,12 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 		//---------------------------------------------------
 		//  Utilities
 		//---------------------------------------------------
+    // Watch on files
 		$scope.$watch('files', function () {
         $scope.upload($scope.files);
     });
 
-
+    // Upload files
 		$scope.upload = function (files) {
       if (files && files.length) {
         for (var i = 0; i < files.length; i++) {
@@ -140,11 +146,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       }
     };
 
+    // Upload progress
     $scope.uploadProgress = function(evt) {
     	 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
        console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
     };
 
+    // Get file icon
     $scope.getFileIcon = function (ext) {
       if(fileTypes.models.indexOf(ext) !== -1) {
         return 'glyphicon-king';
@@ -157,6 +165,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       }
     };
 
+    // Get widgets associated with file
     $scope.getFileWidgets = function (ext) {
       // Default widgets
       var widget1 = {name: 'Delete', action: 'deleteFile', icon: 'glyphicon-remove'};
@@ -180,6 +189,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       return widgets;
     };
 
+    // Upload success
     $scope.uploadSuccess = function (data, status, headers, config) {
     	// Prepare icon and widgets
       var ext = config.file.name.split('.').reverse()[0];
