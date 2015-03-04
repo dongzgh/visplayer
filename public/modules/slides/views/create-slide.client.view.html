@@ -21,7 +21,7 @@
                     <div>
                       <span class="glyphicon {{subNode.icon}}"></span>
                       <span data-ng-bind="subNode.title"></span>
-                      <a href="#" data-ng-repeat="widget in subNode.widgets" data-ng-click="activateWidget(widget.action)">
+                      <a href="#" data-ng-repeat="widget in subNode.widgets" data-ng-click="activateWidget(widget.action)" class="text-center">
                         <i class="glyphicon {{widget.icon}}"></i>
                       </a>
                     </div>

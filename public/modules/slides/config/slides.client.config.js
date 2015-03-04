@@ -1,6 +1,6 @@
 'use strict';
 
-// Configuring the Articles module
+// Configuring the Slides module
 angular.module('slides').run(['Menus', 'Tools', 'Nodes',
 	function(Menus, Tools, Nodes) {
 		// Set topbar menu items

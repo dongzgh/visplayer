@@ -104,7 +104,7 @@
 }
 
 .list-group-item > div {
-  padding: 5px 5px 5px 20px;
+  padding: 5px 10px 5px 20px;
   color: #ffffff;
   background-color: #333333;
 }
@@ -115,6 +115,12 @@
 
 .list-group-item > div a {
   float: right;
-  padding-left: 5px;
+  margin-left: 5px;
+  color: #9D9D9D;
+}
+
+.list-group-item > div a:hover,
+.list-group-item > div a:active,
+.list-group-item > div a:focus {
   color: #ffffff;
 }

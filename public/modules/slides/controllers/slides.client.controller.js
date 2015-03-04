@@ -1,7 +1,7 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Files', 'Tools', 'Nodes', 'fileTypes', 'Slides', function($scope, $stateParams, $location, $upload, Authentication, Files, Tools, Nodes, fileTypes, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Files', 'Tools', 'Nodes', 'FileTypes', 'Widgets', 'Slides', function($scope, $stateParams, $location, $upload, Authentication, Files, Tools, Nodes, FileTypes, Widgets, Slides) {
     $scope.authentication = Authentication;
 
 		//---------------------------------------------------
@@ -31,6 +31,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 		//---------------------------------------------------
 		//  Callbacks
 		//---------------------------------------------------
+    /**
+     * Tools callbacks
+     */
 		// Active a Tool set
 		$scope.isVisible = false;
 		$scope.subTools = [];
@@ -61,6 +64,23 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 			angular.element(document.querySelector('#upload')).triggerHandler('click');
 		};
 
+    /**
+     * Widget callbacks
+     */
+    // Activate a widget
+    $scope.activateWidget = function (action) {
+      $scope[action]();
+    };
+
+    // Delete a file
+    $scope.deleteFile = function () {
+      console.log('Delete the current file!');
+    };
+
+
+    /**
+     * DB callbacks
+     */
 		// Create new Slide
 		$scope.create = function() {
 			// Create new Slide object
@@ -78,12 +98,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 				$scope.error = errorResponse.data.message;
 			});
 		};
-
-    // Activate a widget
-    $scope.activateWidget = function (action) {
-      $scope[action]();
-    };
-
+    
 		// Remove existing Slide
 		$scope.remove = function(slide) {
 			if ( slide ) {
@@ -127,6 +142,39 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 		//---------------------------------------------------
 		//  Utilities
 		//---------------------------------------------------
+    /**
+     * File related
+     */
+    // Get file icon
+    $scope.getFileIcon = function (ext) {
+      if(FileTypes.models.indexOf(ext) !== -1) {
+        return 'glyphicon-king';
+      } else if (FileTypes.images.indexOf(ext) !== -1) {
+        return 'glyphicon-picture';
+      } else if (FileTypes.texts.indexOf(ext) !== -1) {
+        return 'glyphicon-list-alt';
+      } else {
+        return 'glyphicon-file';
+      }
+    };
+
+    // Get widgets associated with file
+    $scope.getFileWidgets = function (ext) {
+      var widgets = [];
+      if(FileTypes.models.indexOf(ext) !== -1) {
+        widgets.push(Widgets[0]);
+        widgets.push(Widgets[1]);
+      } else if (FileTypes.images.indexOf(ext) !== -1) {
+        widgets.push(Widgets[0]);
+      } else if (FileTypes.texts.indexOf(ext) !== -1) {
+        widgets.push(Widgets[0]);
+        widgets.push(Widgets[2]);
+      } else {
+        widgets.push(Widgets[0]);
+      }
+      return widgets;
+    };
+
     // Watch on files
 		$scope.$watch('files', function () {
         $scope.upload($scope.files);
@@ -151,43 +199,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     	 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
        console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
     };
-
-    // Get file icon
-    $scope.getFileIcon = function (ext) {
-      if(fileTypes.models.indexOf(ext) !== -1) {
-        return 'glyphicon-king';
-      } else if (fileTypes.images.indexOf(ext) !== -1) {
-        return 'glyphicon-picture';
-      } else if (fileTypes.texts.indexOf(ext) !== -1) {
-        return 'glyphicon-list-alt';
-      } else {
-        return 'glyphicon-file';
-      }
-    };
-
-    // Get widgets associated with file
-    $scope.getFileWidgets = function (ext) {
-      // Default widgets
-      var widget1 = {name: 'Delete', action: 'deleteFile', icon: 'glyphicon-remove'};
-      var widget2 = {name: 'Load', action: 'loadModel', icon: 'glyphicon-download'};
-      var widget3 = {name: 'Edit', action: 'editFile', icon: 'glyphicon-edit'};
-
-      // Populate widgets
-      var widgets = [];
-      if(fileTypes.models.indexOf(ext) !== -1) {
-        widgets.push(widget1);
-        widgets.push(widget2);
-      } else if (fileTypes.images.indexOf(ext) !== -1) {
-        widgets.push(widget1);
-      } else if (fileTypes.texts.indexOf(ext) !== -1) {
-        widgets.push(widget1);
-        widgets.push(widget3);
-      } else {
-        widgets.push(widget1);
-      }
-
-      return widgets;
-    };
+    
 
     // Upload success
     $scope.uploadSuccess = function (data, status, headers, config) {

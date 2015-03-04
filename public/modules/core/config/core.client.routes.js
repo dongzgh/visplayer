@@ -14,10 +14,3 @@ angular.module('core').config(['$stateProvider', '$urlRouterProvider',
 		});
 	}
 ]);
-
-// Configuring module constants
-angular.module('core').constant('fileTypes', {
-	'models': ['vis', 'json'],
-	'images': ['bmp', 'png', 'jpg', 'gif', 'tif', 'tiff', 'tga', 'eps', 'svg'],
-	'texts':  ['txt', 'dat', 'json', 'js', 'sh', 'md', 'cpp', 'h']
-});
