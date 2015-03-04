@@ -20,10 +20,3 @@ angular.module('slides').run(['Menus', 'Tools', 'Nodes',
 		Nodes.addNodeItem('tree', 'Resources', 'glyphicon-briefcase', 'resources', 'dropdown');
 	}
 ]);
-
-// Configuring module constants
-angular.module('slides').constant('fileTypes', {
-	'models': ['vis', 'json', 'js'],
-	'images': ['png', 'jpg', 'gif', 'tiff','svg'],
-	'texts':  ['txt', 'dat']
-});

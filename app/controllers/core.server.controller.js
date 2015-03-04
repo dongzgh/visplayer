@@ -43,3 +43,21 @@ exports.upload = function(req, res) {
   });
   return req.pipe(busboy);
 };
+
+/**
+ * Query files
+ */
+exports.list = function (req, res) {
+  console.log('start populate parameters:');
+  var username = req.params.username;
+  if(typeof username === 'undefined')
+    return;
+  var dir = 'users/' + username;
+  fs.readdir(dir, function(err, files) {
+    if(err) {
+      console.log(err);
+    } else {
+      res.send(files);
+    }
+  });
+};

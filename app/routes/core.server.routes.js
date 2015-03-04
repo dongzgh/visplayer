@@ -5,6 +5,10 @@ module.exports = function(app) {
 	var core = require('../../app/controllers/core.server.controller');
 	app.route('/').get(core.index);
 
-  // Upload routing
-  app.route('/upload').post(core.upload);
+  // Files routes
+  // Setting the upload route
+  app.route('/files/upload').post(core.upload);
+  
+  // Setting the list user files route
+  app.route('/files/:username').get(core.list);
 };
