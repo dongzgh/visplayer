@@ -1,19 +1,29 @@
 'use strict';
 
 // Configuring the Articles module
-angular.module('slides').run(['Menus', 'Tools',
-	function(Menus, Tools) {
-		// Set top bar menu items
+angular.module('slides').run(['Menus', 'Tools', 'Nodes',
+	function(Menus, Tools, Nodes) {
+		// Set topbar menu items
 		Menus.addMenuItem('topbar', 'Slides', 'slides', 'dropdown', '/slides(/create)?');
 		Menus.addSubMenuItem('topbar', 'slides', 'New Slide', 'slides/create');
 
-		// Set side bar tool items
-		Tools.addToolItem('sidebar', 'Files', 'files', 'glyphicon-file', 'dropdown', '/files');
-		Tools.addSubToolItem('sidebar', 'files', 'Import Model', 'glyphicon-cloud-upload', 'importModel', '/files/importModel');
-		Tools.addToolItem('sidebar', 'Edits', 'edit', 'glyphicon-edit', 'dropdown', '/edits');
-		Tools.addToolItem('sidebar', 'Materials', 'materials', 'glyphicon-tint', 'dropdown', '/materials');
-		Tools.addToolItem('sidebar', 'Views', 'views', 'glyphicon-camera', 'dropdown', '/views');
-		Tools.addToolItem('sidebar', 'Markups', 'markups', 'glyphicon-tags', 'dropdown', '/markups');
-		Tools.addToolItem('sidebar', 'Scripts', 'scripts', 'glyphicon-list-alt', 'dropdown', '/scripts');
+		// Set sidebar tool items
+		Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'files', 'dropdown');
+		Tools.addSubToolItem('sidebar', 'files', 'Import Model', 'glyphicon-cloud-upload', 'importModel', 'import/model');
+		Tools.addToolItem('sidebar', 'Edits', 'glyphicon-edit', 'edits', 'dropdown');
+		Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'materials', 'dropdown');
+		Tools.addToolItem('sidebar', 'Views', 'glyphicon-camera', 'views', 'dropdown');
+		Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'markups', 'dropdown');
+		Tools.addToolItem('sidebar', 'Scripts', 'glyphicon-list-alt', 'scripts', 'dropdown');
+
+		// Set tree node items
+		Nodes.addNodeItem('tree', 'Resources', 'glyphicon-briefcase', 'resources', 'dropdown');
 	}
 ]);
+
+// Configuring module constants
+angular.module('slides').constant('fileTypes', {
+	'models': ['vis', 'json', 'js'],
+	'images': ['png', 'jpg', 'gif', 'tiff','svg'],
+	'texts':  ['txt', 'dat']
+});

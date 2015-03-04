@@ -79,7 +79,7 @@ angular.module('core').service('Tools', [
 		};
 
 		// Add tool item object
-		this.addToolItem = function(toolId, toolItemTitle, toolItemURL, toolItemIcon, toolItemType, toolItemUIRoute, isPublic, roles, position) {
+		this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemType, isPublic, roles) {
 			// Validate that the tool exists
 			this.validateToolExistance(toolId);
 
@@ -89,11 +89,8 @@ angular.module('core').service('Tools', [
 				icon: toolItemIcon,
 				link: toolItemURL,
 				toolItemType: toolItemType || 'item',
-				toolItemClass: toolItemType,
-				uiRoute: toolItemUIRoute || ('/' + toolItemURL),
 				isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.tools[toolId].isPublic : isPublic),
 				roles: ((roles === null || typeof roles === 'undefined') ? this.tools[toolId].roles : roles),
-				position: position || 0,
 				items: [],
 				shouldRender: shouldRender
 			});
@@ -103,7 +100,7 @@ angular.module('core').service('Tools', [
 		};
 
 		// Add subtool item object
-		this.addSubToolItem = function(toolId, rootToolItemURL, toolItemTitle, toolItemIcon, toolItemAction, toolItemURL, toolItemUIRoute, isPublic, roles, position) {
+		this.addSubToolItem = function(toolId, rootToolItemURL, toolItemTitle, toolItemIcon, toolItemAction, toolItemURL, isPublic, roles) {
 			// Validate that the tool exists
 			this.validateToolExistance(toolId);
 
@@ -116,10 +113,8 @@ angular.module('core').service('Tools', [
 						icon: toolItemIcon,
 						action: toolItemAction,
 						link: toolItemURL,
-						uiRoute: toolItemUIRoute || ('/' + toolItemURL),
 						isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.tools[toolId].items[itemIndex].isPublic : isPublic),
 						roles: ((roles === null || typeof roles === 'undefined') ? this.tools[toolId].items[itemIndex].roles : roles),
-						position: position || 0,
 						shouldRender: shouldRender
 					});
 				}
@@ -163,7 +158,7 @@ angular.module('core').service('Tools', [
 			return this.tools[toolId];
 		};
 
-		//Adding the topbar tool
+		//Adding the sidebar tool
 		this.addTool('sidebar');
 	}
 ]);

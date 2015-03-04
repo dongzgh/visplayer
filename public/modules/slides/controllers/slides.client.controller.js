@@ -1,8 +1,7 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Slides', 'Tools',
-	function($scope, $stateParams, $location, $upload, Authentication, Slides, Tools) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Slides', 'Tools', 'Nodes', 'fileTypes', function($scope, $stateParams, $location, $upload, Authentication, Slides, Tools, Nodes, fileTypes) {
 		$scope.authentication = Authentication;
 
 		//---------------------------------------------------
@@ -10,6 +9,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 		//---------------------------------------------------
 		// Find a list of Tools
 		$scope.tools = Tools.getTool('sidebar').items;
+
+		// Find a list of Nodes
+		$scope.tree  = Nodes.getNode('tree').items;
 
 		//---------------------------------------------------
 		//  Callbacks
@@ -129,6 +131,19 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     };
 
     $scope.uploadSuccess = function (data, status, headers, config) {
+    	var widgets = [];
+    	var ext = config.file.name.split('.').reverse()[0];
+    	var icon = '';
+    	if(fileTypes.models.indexOf(ext) !== -1) {
+    		icon = 'glyphicon-king';
+    	} else if (fileTypes.images.indexOf(ext) !== -1) {
+    		icon = 'glyphicon-picture';
+    	} else if (fileTypes.texts.indexOf(ext) !== -1) {
+    		icon = 'glyphicon-list-alt';
+    	} else {
+    		icon = 'glyphicon-file';
+    	}
+    	Nodes.addSubNodeItem('tree', 'resources', config.file.name, icon, [], config.file.name);
     	console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
     };
 	}
