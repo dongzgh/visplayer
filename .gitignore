@@ -10,3 +10,5 @@ app/tests/coverage/
 data/db
 data/log
 /*.bak
+/*.sublime-project
+/*.sublime-workspace
