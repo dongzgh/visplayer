@@ -56,7 +56,7 @@ body {
   display: flex;
   float: left;
   height: 40px;
-  padding: 6px 7px 6px 6px;
+  padding: 6px 0 6px 6px;
   margin-top: 0;
   margin-bottom: 0;
   margin-right: 0;
@@ -68,7 +68,7 @@ body {
 .navbar-inverse .navbar-toggle:hover,
 .navbar-inverse .navbar-toggle:active,
 .navbar-inverse .navbar-toggle:focus {
-  background-color: #333333;
+  background-color: #E8373E;
 }
 
 .navbar-brand {
