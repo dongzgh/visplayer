@@ -28,6 +28,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       }
     });
 
+    // Initialize canvas
+
 		//---------------------------------------------------
 		//  Callbacks
 		//---------------------------------------------------
