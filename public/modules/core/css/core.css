@@ -1,16 +1,13 @@
 html {
   height: 100%;
 }
-
 h3 {
   font-size: 18px;
   font-weight: normal;
 }
-
 label {
   font-weight: normal;
 }
-
 body {
   font-family: 'Ubuntu Condensed', sans-serif;
   background-image: url('../img/background.jpg');
@@ -18,7 +15,6 @@ body {
   background-size: cover;
   height: 100%;
 }
-
 .btn {
   border-top-right-radius: 0 !important;
   border-top-left-radius: 0 !important;
@@ -27,17 +23,14 @@ body {
   border: none;
   padding: 5.5px 11px;
 }
-
 .btn:hover,
 .btn:active,
 .btn:focus {
   outline-style: none;
 }
-
 .glyphicon {
   font-size: 16px;
 }
-
 .navbar {
   min-height: 32px !important;
   margin-bottom: 0;
@@ -46,12 +39,10 @@ body {
   border: none;
   box-shadow: 2px 2px 5px #000000;
 }
-
 .navbar > .container {
   width: 100%;
   padding-left: 0;
 }
-
 .navbar-toggle {
   display: flex;
   float: left;
@@ -61,30 +52,26 @@ body {
   margin-bottom: 0;
   margin-right: 0;
   border: none;
-  border-radius: 0;  
+  border-radius: 0;
 }
-
 .navbar-inverse .navbar-toggle,
 .navbar-inverse .navbar-toggle:hover,
 .navbar-inverse .navbar-toggle:active,
 .navbar-inverse .navbar-toggle:focus {
   background-color: #E8373E;
 }
-
 .navbar-brand {
-  font-family: 'Bevan', cursive; 
+  font-family: 'Bevan', cursive;
   margin-left: 0 !important;
   padding: 8px 8px;
   height: 40px;
   line-height: 1.5em;
 }
-
 .navbar-inverse .navbar-brand {
   color: #ffffff;
   background-color: #E8373E;
   text-shadow: 2px 2px 5px #000000;
 }
-
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:active,
 .navbar-inverse .navbar-brand:focus {
@@ -92,12 +79,10 @@ body {
   background-color: #E8373E;
   text-shadow: 2px 2px 5px #000000;
 }
-
 .navbar-nav li {
   background-color: #000000;
   display: inline;
 }
-
 .navbar-nav a {
   font-family: 'Ubuntu Condensed', sans-serif;
   font-size: 14px;
@@ -105,23 +90,19 @@ body {
   padding-bottom: 10px !important;
   color: #ffffff !important;
 }
-
 .navbar-nav a:hover,
 .navbar-nav a:active,
 .navbar-nav a:focus {
   color: #F58723 !important;
 }
-
 .navbar-right {
-  text-align:  right;
+  text-align: right;
 }
-
 .divider-vertical {
   height: 40px;
   width: 2px;
   background-color: transparent !important;
 }
-
 .navbar-nav .dropdown-toggle span {
   font-family: 'Ubuntu Condensed', sans-serif;
   font-size: 14px;
@@ -130,13 +111,11 @@ body {
   padding-bottom: 10px;
   color: #ffffff !important;
 }
-
 .navbar-nav .dropdown-toggle span:hover,
 .navbar-nav .dropdown-toggle span:active,
 .navbar-nav .dropdown-toggle span:focus {
   color: #F58723 !important;
 }
-
 .dropdown-menu {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -145,27 +124,23 @@ body {
   padding-top: 0;
   padding-bottom: 0;
 }
-
 .dropdown-menu li {
   background-color: transparent;
   margin-left: 0 !important;
 }
-
 .dropdown-menu .divider {
   height: 1.1px;
   margin-top: 0;
   margin-bottom: 0;
   background-color: #000000 !important;
 }
-
 .dropdown-menu a {
   font-family: 'Ubuntu Condensed', sans-serif;
-  font-size: 14px;  
+  font-size: 14px;
   padding-top: 2px !important;
   padding-bottom: 2px !important;
   color: #000000 !important;
 }
-
 .dropdown-menu a:hover,
 .dropdown-menu a:active,
 .dropdown-menu a:focus {
@@ -173,8 +148,7 @@ body {
   background-color: #333333 !important;
   background-image: none !important;
 }
-
-.dropdown-menu > .active > a, 
+.dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
 .dropdown-menu > .active > a:active,
 .dropdown-menu > .active > a:focus {
@@ -182,35 +156,33 @@ body {
   background-color: #333333 !important;
   background-image: none !important;
 }
-
 .content {
   margin-top: 0;
   height: 100%;
 }
-
 .content .container {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
 }
-
 section {
   height: 100%;
 }
-
 .undecorated-link:hover {
-	text-decoration: none;
+  text-decoration: none;
 }
-
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-	display: none !important;
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+  display: none !important;
 }
-
 .ng-invalid.ng-dirty {
-	border-color: #FA787E;
+  border-color: #FA787E;
 }
-
 .ng-valid.ng-dirty {
-	border-color: #78FA89;
+  border-color: #78FA89;
 }

@@ -2,12 +2,11 @@
   position: absolute;
   height: 100%;
   background-color: #000000;
+  z-index: 1;
 }
-
 .btn-group-vertical > .btn:first-child {
-  margin-top: 42px;
+  margin-top: 42px
 }
-
 .btn-group-vertical .btn {
   color: #9D9D9D;
   background-color: transparent;
@@ -15,35 +14,32 @@
   border: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  box-shadow: none;
+  box-shadow: none
 }
-
 .btn-group-vertical .btn:hover,
 .btn-group-vertical .btn:active,
 .btn-group-vertical .btn:focus,
 .btn-group-vertical .btn:active:focus {
   color: #000000;
   background-color: #F58723;
-  outline-style: none;
+  outline-style: none
 }
-
 .btn-group-vertical span {
-  text-shadow: none;
+  text-shadow: none
 }
-
-.panel { 
+.panel {
   position: absolute;
   margin-top: 0;
   margin-left: 38px;
   margin-bottom: 0;
-  padding-top: 42px;  
+  padding-top: 42px;
   width: 300px;
   height: 100% !important;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.5);
   border: none;
+  z-index: 1;
 }
-
 .nav-tabs li a {
   padding-top: 4px;
   padding-bottom: 5px;
@@ -51,94 +47,78 @@
   border-radius: 0 !important;
   color: #ffffff;
   background-color: #333333;
-  cursor: pointer;
+  cursor: pointer
 }
-
 .nav-tabs li a:hover,
 .nav-tabs li a:active,
 .nav-tabs li a:focus {
   color: #ffffff;
   background-color: #327CCB;
-  cursor: pointer;
+  cursor: pointer
 }
-
 .nav-tabs.nav-justified > li > a {
-  border-bottom-color: transparent;
+  border-bottom-color: transparent
 }
-
 .tab-content {
-  padding-top: 10px;
+  padding-top: 10px
 }
-
 .tab-pane .btn {
   color: #9D9D9D;
   background-color: transparent;
-  background-image:none;
+  background-image: none;
   text-shadow: none;
-  box-shadow: none;
+  box-shadow: none
 }
-
 .tab-pane .btn:hover,
 .tab-pane .btn:active,
 .tab-pane .btn:focus {
   color: #ffffff;
-  background-color: #327CCB;
+  background-color: #327CCB
 }
-
 .list-group {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  box-shadow: none;
+  box-shadow: none
 }
-
 .list-group > div {
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 10px;
   color: #ffffff;
-  background-color: #75CFB6;
+  background-color: #75CFB6
 }
-
 .list-group > div span:last-child {
-  padding-left: 5px;
+  padding-left: 5px
 }
-
 .list-group-item {
   border: none;
   border-radius: 0 !important;
   padding: 0;
-  background-color: transparent;
+  background-color: transparent
 }
-
 .list-group-item > div {
-  padding: 5px 10px 5px 20px;  
+  padding: 5px 10px 5px 20px;
   border: none;
   border-radius: 0;
-  color: #ffffff;
+  color: #ffffff
 }
-
 .list-group-item > div:hover {
-  background-color: #327CCB;
+  background-color: #327CCB
 }
-
 .list-group-item > div span:last-child {
-  padding-left: 5px;
+  padding-left: 5px
 }
-
 .list-group-item > div a {
   float: right;
   margin-left: 5px;
   color: #9D9D9D;
-  cursor: pointer;
+  cursor: pointer
 }
-
 .list-group-item > div a:hover,
 .list-group-item > div a:active,
 .list-group-item > div a:focus {
-  color: #ffffff;
+  color: #ffffff
 }
-
-canvas { 
+canvas {
   position: absolute;
-  z-index: -1;
 }

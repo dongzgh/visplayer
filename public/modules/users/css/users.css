@@ -1,37 +1,33 @@
-@media (min-width: 992px) {
-	.nav-users {
-		position: fixed;
-	}
+@media (min-width:992px) {
+  .nav-users {
+    position: fixed;
+  }
 }
-
 .remove-account-container {
-	display: inline-block;
-	position: relative;
+  display: inline-block;
+  position: relative;
 }
-
 .btn-remove-account {
-	top: 10px;
-	right: 10px;
-	position: absolute;
+  top: 10px;
+  right: 10px;
+  position: absolute;
 }
-
 .well {
-	margin-left: 25%;
-	width: 50%;
-	margin-top: 5%;
-	height: 70%;
-	margin-bottom: 0;
-	color: #ffffff;	
-	background-color: rgb(0, 0, 0);
-	background-color: rgba(0, 0, 0, 0.5);	
-	background-image: none;
-	border: none;
-	font-size: 16px !important;
-	font-weight: normal;
+  margin-left: 25%;
+  width: 50%;
+  margin-top: 5%;
+  height: 70%;
+  margin-bottom: 0;
+  color: #ffffff;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+  background-image: none;
+  border: none;
+  font-size: 16px !important;
+  font-weight: normal;
 }
-
 .well img {
-	width: 40px;
-	height: 40px;
-	background-color: #ffffff;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
 }

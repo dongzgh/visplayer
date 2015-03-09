@@ -4,14 +4,15 @@
 angular.module('core').service('Scene', ['$window', '$document',
 	
 	function($window, $document) {
-		this.container = undefined;
-		this.renderer = undefined;
-		this.scene = undefined;		
-		this.cameras = [];
-		this.activeCamera = undefined;
-		this.gridSize = 1000;
-		this.gridStep = 100;
-		this.axisSize = 1500;
+		var container;
+		var renderer;
+		var scene;		
+		var cameras = [];
+		var activeCamera;
+		var gridSize = 1000;
+		var gridStep = 100;
+		var axisSize = 1500;
+    var orbitor;
 
 		// Initialize scene
 		this.initialize = function () {
@@ -21,66 +22,69 @@ angular.module('core').service('Scene', ['$window', '$document',
       }
 
       // Create render
-      this.container = $document[0].getElementById('canvas');
-      this.renderer = $window.WebGLRenderingContext ?
+      container = $document[0].getElementById('canvas');
+      renderer = $window.WebGLRenderingContext ?
         new $window.THREE.WebGLRenderer({
           alpha: true, 
           antialias: true 
         }) :
         new $window.THREE.CanvasRenderer();
-      this.renderer.setSize($window.innerWidth, $window.innerHeight);
-      this.renderer.autoClear = true;
-      this.container.appendChild(this.renderer.domElement);
+      renderer.setSize($window.innerWidth, $window.innerHeight);
+      renderer.autoClear = true;
+      container.appendChild(renderer.domElement);
       
       // Create default camera
       var camera = new $window.THREE.PerspectiveCamera(45, $window.innerWidth / $window.innerHeight, 1, 15000);
-      camera.name = 'VIEW #' + this.cameras.length;
+      camera.name = 'VIEW #' + cameras.length;
       camera.position.set(984.393167476599, 605.121508138134, 1123.7196015705397);
       camera.rotation.set(-0.5318628888897693, 0.673350831292923, 0.3516904119463236);
       camera.target = new $window.THREE.Vector3();
-      this.cameras.push(camera);
-      this.activeCamera = camera;
+      cameras.push(camera);
+      activeCamera = camera;
 
       // Create default scene
-      this.scene = new $window.THREE.Scene();
+      scene = new $window.THREE.Scene();
 
       // Create helpers
-      this.createHelpers();
+      createHelpers();
 
       // Create orbit control
-      this.orbitor = new $window.THREE.OrbitControls(this.activeCamera, this.renderer.domElement); 
+      orbitor = new $window.THREE.OrbitControls(activeCamera, renderer.domElement); 
+
+      // Animate
+      animate();
 		};
 
     // Render
-    this.render = function () {
-      this.renderer.render(this.scene, this.activeCamera);
+    var render = function () {
+      renderer.render(scene, activeCamera);
     };
 
     // Update
-    this.update = function () {
+    var update = function () {
       // Save camera target
-      this.activeCamera.target.copy(this.orbitor.target);
+      activeCamera.target.copy(orbitor.target);
     };
 
 		 // Animate
-    this.animate = function () { 
-      $window.requestAnimationFrame(this.animate);
-      this.render();
-      this.update();
+    var animate = function () { 
+      $window.requestAnimationFrame(animate);
+      update();
+      render();      
     };   
 
 		// Create helpers
-    this.createHelpers = function () {
+    var createHelpers = function () {
       // Grid
-      var grid = new $window.THREE.GridHelper(this.gridSize, this.gridStep);
+      var grid = new $window.THREE.GridHelper(gridSize, gridStep);
       grid.name = 'GRID';
-      this.scene.add(grid);
+      scene.add(grid);
 
       // Axis
-      var axis = new $window.THREE.AxisHelper(this.axisSize);
+      var axis = new $window.THREE.AxisHelper(axisSize);
       axis.name = 'AXIS';
       axis.visible = false;
-      this.scene.add(axis);
+      scene.add(axis);
     };
 	}
 ]);

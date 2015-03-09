@@ -30,7 +30,7 @@ module.exports = {
 				'public/lib/ng-file-upload/angular-file-upload.js',
 				'public/lib/threejs/build/three.js',
 				'public/lib/threejs/build/detector.js',
-				'public/lib/threejs/build/orbit-controls.js'
+				'public/lib/threejs/build/controls/orbit-controls.js'
 			]
 		},
 		css: [

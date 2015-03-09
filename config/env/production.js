@@ -22,7 +22,7 @@ module.exports = {
 				'public/lib/ng-file-upload/angular-file-upload.min.js',
 				'public/lib/threejs/build/three.min.js',
 				'public/lib/threejs/build/detector.min.js',
-				'public/lib/threejs/build/orbit-controls.min.js'
+				'public/lib/threejs/build/controls/orbit-controls.min.js'
 			]
 		},
 		css: 'public/dist/application.min.css',
