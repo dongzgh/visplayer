@@ -20,7 +20,9 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
 				'public/lib/ng-file-upload/angular-file-upload-shim.min.js',
 				'public/lib/ng-file-upload/angular-file-upload.min.js',
-				'public/lib/threejs/build/three.min.js'
+				'public/lib/threejs/build/three.min.js',
+				'public/lib/threejs/build/detector.min.js',
+				'public/lib/threejs/build/orbit-controls.min.js'
 			]
 		},
 		css: 'public/dist/application.min.css',

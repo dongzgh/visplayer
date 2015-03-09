@@ -99,8 +99,8 @@ body {
 }
 
 .navbar-nav a {
-  font-family: 'Six Caps', sans-serif;
-  font-size: 22.5px;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-size: 14px;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
   color: #ffffff !important;
@@ -123,8 +123,8 @@ body {
 }
 
 .navbar-nav .dropdown-toggle span {
-  font-family: 'Six Caps', sans-serif;
-  font-size: 22.5px;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-size: 14px;
   text-transform: uppercase;
   padding-top: 10px;
   padding-bottom: 10px;

@@ -1,7 +1,7 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Files', 'Tools', 'Nodes', 'FileTypes', 'Widgets', 'Slides', function($scope, $stateParams, $location, $upload, Authentication, Files, Tools, Nodes, FileTypes, Widgets, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'Widgets', 'Slides', function($scope, $stateParams, $location, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, Widgets, Slides) {
     $scope.authentication = Authentication;
 
 		//---------------------------------------------------
@@ -29,6 +29,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     });
 
     // Initialize canvas
+    Scene.initialize();
+    Scene.animate();
 
 		//---------------------------------------------------
 		//  Callbacks
