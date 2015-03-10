@@ -20,3 +20,10 @@ angular.module('slides').run(['Menus', 'Tools', 'Nodes',
     Nodes.addNodeItem('tree', 'Resources', 'glyphicon-briefcase', 'resources', 'dropdown');
   }
 ]);
+
+// Configuring file widgets
+angular.module('slides').constant('Widgets', [
+  {'name': 'Delete', 'action': 'deleteFile', 'icon': 'glyphicon-remove'},
+  {'name': 'Load', 'action': 'loadFile', 'icon': 'glyphicon-download'},
+  {'name': 'Edit', 'action': 'editFile', 'icon': 'glyphicon-edit'}
+]);

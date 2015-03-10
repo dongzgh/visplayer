@@ -77,6 +77,11 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     $scope[action]();
   };
 
+  // Load a file
+  $scope.loadFile = function () {
+    console.log('Load the current file!');
+  };
+
   // Delete a file
   $scope.deleteFile = function() {
     console.log('Delete the current file!');

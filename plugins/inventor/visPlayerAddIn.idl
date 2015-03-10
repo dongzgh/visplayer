@@ -1,0 +1,39 @@
+// visPlayerAddIn.idl : IDL source for visPlayerAddIn
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (visPlayerAddIn.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(44AEB2E5-3077-4560-B202-234A4DCE9EB5),
+	dual,
+	helpstring("IvisPlayerAddInServer Interface"),
+	pointer_default(unique)
+]
+interface IvisPlayerAddInServer : IDispatch{
+	[id(1), helpstring("method Activate")] HRESULT Activate([in] IDispatch* pDisp, [in] VARIANT_BOOL FirstTime);
+	[id(2), helpstring("method Deactivate")] HRESULT Deactivate(void);
+	[id(3), helpstring("method ExecuteCommand")] HRESULT ExecuteCommand([in] long CommandId);
+	[propget, id(4), helpstring("property Automation")] HRESULT Automation([out, retval] IDispatch** ppResult);
+};
+[
+	uuid(A21AA430-1D88-43BD-A68F-4892582F95C0),
+	version(1.0),
+	helpstring("visPlayerAddIn 1.0 Type Library")
+]
+library visPlayerAddInLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(4C9D1FBB-6E63-4437-9643-15C94A5DB053),
+		helpstring("visPlayerAddInServer Class")
+	]
+	coclass visPlayerAddInServer
+	{
+		[default] interface IvisPlayerAddInServer;
+	};
+};
