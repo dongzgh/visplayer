@@ -158,7 +158,10 @@ angular.module('core').service('Nodes', [
       return this.nodes[nodeId];
     };
 
-    //Adding the tree node
-    this.addNode('tree');
+    // Adding the file tree node
+    this.addNode('fileTree');
+
+    // Adding the scene tree node
+    this.addNode('sceneTree');
   }
 ]);

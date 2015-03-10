@@ -16,8 +16,8 @@ angular.module('slides').run(['Menus', 'Tools', 'Nodes',
     Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'markups', 'dropdown');
     Tools.addToolItem('sidebar', 'Scripts', 'glyphicon-list-alt', 'scripts', 'dropdown');
 
-    // Set tree node items
-    Nodes.addNodeItem('tree', 'Resources', 'glyphicon-briefcase', 'resources', 'dropdown');
+    // Set file tree node items
+    Nodes.addNodeItem('fileTree', 'Resources', 'glyphicon-briefcase', 'resources', 'dropdown');
   }
 ]);
 

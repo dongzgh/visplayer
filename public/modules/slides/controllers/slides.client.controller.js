@@ -11,7 +11,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.tools = Tools.getTool('sidebar').items;
 
   // Find a list of Nodes
-  $scope.tree = Nodes.getNode('tree').items;
+  $scope.fileTree = Nodes.getNode('fileTree').items;
   $scope.filenames = Files.query({
     username: $scope.authentication.user.username
   }, function(filenames) {
@@ -25,7 +25,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
         var widgets = $scope.getFileWidgets(ext);
 
         // Insert nodes
-        Nodes.addSubNodeItem('tree', 'resources', filename, icon, widgets, filename);
+        Nodes.addSubNodeItem('fileTree', 'resources', filename, icon, widgets, filename);
       }
     }
   });
@@ -73,17 +73,20 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    * Widget callbacks
    */
   // Activate a widget
-  $scope.activateWidget = function(action) {
-    $scope[action]();
+  $scope.activateWidget = function(action, node) {
+    $scope[action](node);
   };
 
   // Load a file
-  $scope.loadFile = function () {
-    console.log('Load the current file!');
+  $scope.loadFile = function(node) {
+    var filename = Files.query({
+      username: $scope.authentication.user.username,
+      filename: node.title
+    });
   };
 
   // Delete a file
-  $scope.deleteFile = function() {
+  $scope.deleteFile = function(node) {
     console.log('Delete the current file!');
   };
 
@@ -221,7 +224,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     var widgets = $scope.getFileWidgets(ext);
 
     // Insert nodes
-    Nodes.addSubNodeItem('tree', 'resources', config.file.name, icon, widgets, config.file.name);
+    Nodes.addSubNodeItem('fileTree', 'resources', config.file.name, icon, widgets, config.file.name);
 
     // Log response
     console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
