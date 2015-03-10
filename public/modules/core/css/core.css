@@ -34,7 +34,7 @@ body {
 .navbar {
   min-height: 32px !important;
   margin-bottom: 0;
-  background-color: #F58723;
+  background-color: #333333;
   background-image: none;
   border: none;
   box-shadow: 2px 2px 5px #000000;
@@ -103,18 +103,19 @@ body {
   width: 2px;
   background-color: transparent !important;
 }
+.navbar-nav .dropdown-toggle:hover,
+.navbar-nav .dropdown-toggle:active,
+.navbar-nav .dropdown-toggle:focus {
+  background-image: none !important;
+  background-color: #F58723 !important;
+  color: #ffffff !important;
+}
 .navbar-nav .dropdown-toggle span {
   font-family: 'Ubuntu Condensed', sans-serif;
   font-size: 14px;
   text-transform: uppercase;
   padding-top: 10px;
   padding-bottom: 10px;
-  color: #ffffff !important;
-}
-.navbar-nav .dropdown-toggle span:hover,
-.navbar-nav .dropdown-toggle span:active,
-.navbar-nav .dropdown-toggle span:focus {
-  color: #F58723 !important;
 }
 .dropdown-menu {
   border-top-left-radius: 0;
