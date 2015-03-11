@@ -1,0 +1,32 @@
+'use strict';
+
+/**
+ * Module dependencies.
+ */
+var os = require('os');
+var path = require('path');
+var fs = require('fs');
+var unzip = require('unzip');
+
+/**
+ * Load a model file
+ */
+var loadModel = function (filepath) {
+  var filename = path.basename(filepath);
+  var folder = filename.split('.')[0];
+  var tmppath = os.tmpdir() + '/' + folder;
+  fs.open(filepath, 'r', function(err, fd) {
+    if (err) {
+      console.log(err);
+    } else {
+      var readStream = fs.createReadStream(filepath);
+      var writeStream = unzip.Extract({
+          path: tmppath
+        })
+        .on('close', function() {
+          console.log('Unzip completed successfully!');
+        });
+      readStream.pipe(writeStream);
+    }
+  });
+};

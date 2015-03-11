@@ -3,10 +3,7 @@
 //Files service used to communicate Files REST endpoints
 angular.module('core').factory('Files', ['$resource',
   function($resource) {
-    return $resource('files/:username/:filename', {
-      username: '@username',
-      filename: '@filename'
-    }, {
+    return $resource('files', {}, {
       update: {
         method: 'PUT'
       }

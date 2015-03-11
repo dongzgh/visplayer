@@ -6,10 +6,12 @@ module.exports = function(app) {
   app.route('/').get(core.index);
 
   // Files routes
-  // Setting the upload route
+  // Setting up the upload route
   app.route('/files/upload').post(core.upload);
 
-  // Setting the list user files route
-  app.route('/files/:username').get(core.list);
-  app.route('/files/:username/:filename').get(core.findOne);
+  // Setting up the load route
+  app.route('/files/load').get(core.load);
+
+  // Setting up the query routes
+  app.route('/files').get(core.list);
 };

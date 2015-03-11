@@ -1,7 +1,7 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'Widgets', 'Slides', function($scope, $stateParams, $location, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, Widgets, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$http', '$location', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'Widgets', 'Slides', function($scope, $stateParams, $http, $location, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, Widgets, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
@@ -12,9 +12,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Find a list of Nodes
   $scope.fileTree = Nodes.getNode('fileTree').items;
-  $scope.filenames = Files.query({
-    username: $scope.authentication.user.username
-  }, function(filenames) {
+  $scope.filenames = Files.query(function(filenames) {
     if (filenames && filenames.length) {
       for (var i = 0; i < filenames.length; i++) {
         var filename = filenames[i];
@@ -79,9 +77,14 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Load a file
   $scope.loadFile = function(node) {
-    var filename = Files.query({
-      username: $scope.authentication.user.username,
-      filename: node.title
+    $http.get('/files/load', {
+      params: {
+        filename: node.title
+      }
+    }).success(function(response) {
+      console.log('success!');
+    }).error(function(response) {
+      console.log('failed!');
     });
   };
 

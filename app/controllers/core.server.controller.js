@@ -3,14 +3,13 @@
 /**
  * Module dependencies.
  */
-var http = require('http');
+var _ = require('lodash');
 var inspect = require('util').inspect;
-var Busboy = require('busboy');
+var os = require('os');
 var path = require('path');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
-var unzip = require('unzip');
-var os = require('os');
+var Busboy = require('busboy');
 
 /**
  * Entry point
@@ -50,10 +49,29 @@ exports.upload = function(req, res) {
 };
 
 /**
+ * Load file
+ */
+exports.load = function(req, res) {
+  var username = req.user.username;
+  var filename = req.query.filename;
+  if (typeof username === 'undefined' ||
+    typeof filename === 'undefined')
+    return;
+  var filepath = 'users/' + username + '/' + filename;
+  var ext = path.extname(filename);
+  if(ext === '.vis') {
+    //.loadModel(filepath);
+    console.log('Load this model file!');
+  } else {
+    console.log('Loader unknown!');
+  }
+};
+
+/**
  * Query files
  */
 exports.list = function(req, res) {
-  var username = req.params.username;
+  var username = req.user.username;
   if (typeof username === 'undefined')
     return;
   var dir = 'users/' + username;
@@ -62,32 +80,6 @@ exports.list = function(req, res) {
       console.log(err);
     } else {
       res.send(files);
-    }
-  });
-};
-
-exports.findOne = function(req, res) {
-  var username = req.params.username;
-  var filename = req.params.filename;
-  if (typeof username === 'undefined' ||
-    typeof filename === 'undefined')
-    return;
-  var dir = 'users/' + username + '/';
-  var filepath = dir + filename;
-  var folder = filename.split('.')[0];
-  var tempath = os.tmpdir() + '/' + folder;
-  fs.open(filepath, 'r', function(err, fd) {
-    if (err) {
-      console.log(err);
-    } else {
-      var readStream = fs.createReadStream(filepath);
-      var writeStream = unzip.Extract({
-          path: tempath
-        })
-        .on('close', function() {
-          console.log('Unzip completed successfully!');
-        });
-      readStream.pipe(writeStream);
     }
   });
 };
