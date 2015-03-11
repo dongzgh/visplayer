@@ -11,7 +11,7 @@ var unzip = require('unzip');
 /**
  * Load a model file
  */
-var loadModel = function (filepath) {
+exports.loadModel = function (filepath) {
   var filename = path.basename(filepath);
   var folder = filename.split('.')[0];
   var tmppath = os.tmpdir() + '/' + folder;

@@ -4,82 +4,11 @@
  * Module dependencies.
  */
 var _ = require('lodash');
-var inspect = require('util').inspect;
-var os = require('os');
-var path = require('path');
-var fs = require('fs');
-var mkdirp = require('mkdirp');
-var Busboy = require('busboy');
 
 /**
- * Entry point
+ * Extend core's controller
  */
-exports.index = function(req, res) {
-  res.render('index', {
-    user: req.user || null,
-    request: req
-  });
-};
-
-/**
- * Upload files
- */
-exports.upload = function(req, res) {
-  var busboy = new Busboy({
-    headers: req.headers
-  });
-  var username = '';
-  var dir = '';
-  var stream = '';
-  busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
-    username = JSON.parse(val).username;
-  });
-  busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-    dir = 'users/' + username;
-    mkdirp(dir, function(err) {
-      if (err) console.log(err);
-    });
-    stream = path.join(dir, path.basename(filename));
-    file.pipe(fs.createWriteStream(stream));
-  });
-  busboy.on('finish', function() {
-    res.end();
-  });
-  return req.pipe(busboy);
-};
-
-/**
- * Load file
- */
-exports.load = function(req, res) {
-  var username = req.user.username;
-  var filename = req.query.filename;
-  if (typeof username === 'undefined' ||
-    typeof filename === 'undefined')
-    return;
-  var filepath = 'users/' + username + '/' + filename;
-  var ext = path.extname(filename);
-  if(ext === '.vis') {
-    //.loadModel(filepath);
-    console.log('Load this model file!');
-  } else {
-    console.log('Loader unknown!');
-  }
-};
-
-/**
- * Query files
- */
-exports.list = function(req, res) {
-  var username = req.user.username;
-  if (typeof username === 'undefined')
-    return;
-  var dir = 'users/' + username;
-  fs.readdir(dir, function(err, files) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(files);
-    }
-  });
-};
+module.exports = _.extend(
+  require('./core/core.file.server.controller'),
+  require('./core/core.load.server.controller')
+);
