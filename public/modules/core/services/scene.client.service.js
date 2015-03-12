@@ -21,9 +21,26 @@ angular.module('core').service('Scene', ['$window', '$document',
     var orbitor;
     var reflectionCube;
     var skyBox;
+    var faceNormalMaterial = new $window.THREE.MeshNormalMaterial({
+      side: $window.THREE.DoubleSide
+    });
+    var faceBasicMaterial = new $window.THREE.MeshBasicMaterial({
+      transparent: true,
+      opacity: 0.85,
+      ambient: 0x000000,
+      reflectivity: 0.3,
+      envMap: reflectionCube,
+      combine: $window.THREE.MixOperation,
+      side: $window.THREE.DoubleSide
+    });
+    var edgeBasicMaterial = new $window.THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      wireframe: true,
+    });
 
     // Transient variables
     var i, j, k;
+    var geometry, mesh;
 
     // Initialize scene
     this.initialize = function() {
@@ -62,7 +79,7 @@ angular.module('core').service('Scene', ['$window', '$document',
       // Create faces
       for (i = 0; i < faces.length; i++) {
         // Create geometry
-        var geometry = new $window.THREE.Geometry();
+        geometry = new $window.THREE.Geometry();
         var facet = faces[i].tessellation.facets[0];
         for (j = 0; j < facet.vertexCount; j++) {
           geometry.vertices.push(
@@ -75,17 +92,21 @@ angular.module('core').service('Scene', ['$window', '$document',
         for (j = 0; j < facet.facetCount; j++) {
           geometry.faces.push(
             new $window.THREE.Face3(
-              facet.vertexIndices[j * 3],
-              facet.vertexIndices[j * 3 + 1],
-              facet.vertexIndices[j * 3 + 2]
+              facet.vertexIndices[j * 3] - 1,
+              facet.vertexIndices[j * 3 + 1] - 1,
+              facet.vertexIndices[j * 3 + 2] - 1
             ));
         }
 
-        // Create material
-        var material = new $window.THREE.MeshNormalMaterial();
+        // Compute addtional properties
+        geometry.key = faces[i].id;
+        geometry.computeFaceNormals();
+        geometry.computeVertexNormals();
+        geometry.computeBoundingBox();
+        geometry.computeBoundingSphere();
 
         // Create mesh
-        var mesh = new $window.THREE.Mesh(geometry, material);
+        mesh = new $window.THREE.Mesh(geometry, faceNormalMaterial);
 
         // Add to scene
         activeScene.add(mesh);
