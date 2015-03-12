@@ -81,10 +81,10 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       params: {
         filename: node.title
       }
-    }).success(function(response) {
-      console.log('success!');
+    }).success(function(data) {
+      Scene.loadModel(data);
     }).error(function(response) {
-      console.log('failed!');
+      console.log(response.message);
     });
   };
 

@@ -40,7 +40,7 @@ exports.upload = function(req, res) {
     file.pipe(fs.createWriteStream(stream));
   });
   busboy.on('finish', function() {
-    res.end();
+    res.status(200).end();
   });
   return req.pipe(busboy);
 };
@@ -57,10 +57,9 @@ exports.load = function(req, res) {
   var filepath = 'users/' + username + '/' + filename;
   var ext = path.extname(filename);
   if(ext === '.vis') {
-    exports.loadModel(filepath);
-    console.log('Load this model file!');
+    exports.loadVis(res, filepath);
   } else {
-    console.log('Loader unknown!');
+    res.status(404).end();
   }
 };
 

@@ -22,6 +22,9 @@ angular.module('core').service('Scene', ['$window', '$document',
     var reflectionCube;
     var skyBox;
 
+    // Transient variables
+    var i, j, k;
+
     // Initialize scene
     this.initialize = function() {
       // Check webgl
@@ -39,7 +42,7 @@ angular.module('core').service('Scene', ['$window', '$document',
       createCamera();
 
       // Create scene
-      createScene();      
+      createScene();
 
       // Create helpers
       createHelpers();
@@ -49,6 +52,44 @@ angular.module('core').service('Scene', ['$window', '$document',
 
       // Animate
       animate();
+    };
+
+    // Load model
+    this.loadModel = function(data) {
+      var faces = data.faces;
+      var edges = data.edges;
+
+      // Create faces
+      for (i = 0; i < faces.length; i++) {
+        // Create geometry
+        var geometry = new $window.THREE.Geometry();
+        var facet = faces[i].tessellation.facets[0];
+        for (j = 0; j < facet.vertexCount; j++) {
+          geometry.vertices.push(
+            new $window.THREE.Vector3(
+              facet.vertexCoordinates[j * 3],
+              facet.vertexCoordinates[j * 3 + 1],
+              facet.vertexCoordinates[j * 3 + 2]
+            ));
+        }
+        for (j = 0; j < facet.facetCount; j++) {
+          geometry.faces.push(
+            new $window.THREE.Face3(
+              facet.vertexIndices[j * 3],
+              facet.vertexIndices[j * 3 + 1],
+              facet.vertexIndices[j * 3 + 2]
+            ));
+        }
+
+        // Create material
+        var material = new $window.THREE.MeshNormalMaterial();
+
+        // Create mesh
+        var mesh = new $window.THREE.Mesh(geometry, material);
+
+        // Add to scene
+        activeScene.add(mesh);
+      }
     };
 
     // Create renderer
@@ -77,7 +118,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     };
 
     // Create scene
-    var createScene = function () {
+    var createScene = function() {
       var scene = new $window.THREE.Scene();
       scenes.push(scene);
       activeScene = scene;
@@ -109,25 +150,25 @@ angular.module('core').service('Scene', ['$window', '$document',
       axis.visible = false;
       activeScene.add(axis);
 
-      // Box
-      var geometry = new $window.THREE.BoxGeometry(100, 100, 100);
-      //var solidMaterial = new $window.THREE.MeshNormalMaterial();
-      var solidMaterial = new $window.THREE.MeshBasicMaterial({
-        transparent: true,
-        opacity: 0.85,
-        ambient: 0x000000,
-        reflectivity: 0.3,
-        envMap: reflectionCube,
-        combine: $window.THREE.MixOperation      
-      });
-      var wireframeMaterial = new $window.THREE.MeshBasicMaterial({
-        color: 0xffffff,
-        wireframe: true,
-      });
-      var materials = [solidMaterial, wireframeMaterial];
-      var object = $window.THREE.SceneUtils.createMultiMaterialObject(
-        geometry, materials);
-      activeScene.add(object);
+      // // Box
+      // var geometry = new $window.THREE.BoxGeometry(100, 100, 100);
+      // //var solidMaterial = new $window.THREE.MeshNormalMaterial();
+      // var solidMaterial = new $window.THREE.MeshBasicMaterial({
+      //   transparent: true,
+      //   opacity: 0.85,
+      //   ambient: 0x000000,
+      //   reflectivity: 0.3,
+      //   envMap: reflectionCube,
+      //   combine: $window.THREE.MixOperation
+      // });
+      // var wireframeMaterial = new $window.THREE.MeshBasicMaterial({
+      //   color: 0xffffff,
+      //   wireframe: true,
+      // });
+      // var materials = [solidMaterial, wireframeMaterial];
+      // var object = $window.THREE.SceneUtils.createMultiMaterialObject(
+      //   geometry, materials);
+      // activeScene.add(object);
     };
 
     // Animate

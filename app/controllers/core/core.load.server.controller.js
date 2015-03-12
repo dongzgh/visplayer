@@ -11,22 +11,29 @@ var unzip = require('unzip');
 /**
  * Load a model file
  */
-exports.loadModel = function (filepath) {
+exports.loadVis = function(res, filepath) {
   var filename = path.basename(filepath);
-  var folder = filename.split('.')[0];
-  var tmppath = os.tmpdir() + '/' + folder;
+  var tmppath = os.tmpdir() + '/' + filename.split('.')[0];
   fs.open(filepath, 'r', function(err, fd) {
     if (err) {
       console.log(err);
     } else {
-      var readStream = fs.createReadStream(filepath);
-      var writeStream = unzip.Extract({
-          path: tmppath
-        })
-        .on('close', function() {
-          console.log('Unzip completed successfully!');
-        });
-      readStream.pipe(writeStream);
+      // Unzip model file
+      var inp = fs.createReadStream(filepath);
+      var out = unzip.Extract({
+        path: tmppath
+      }).on('close', function() {
+        var fpath = tmppath + '/f';
+        var epath = tmppath + '/e';
+        var fdata = JSON.parse(fs.readFileSync(fpath));
+        var edata = JSON.parse(fs.readFileSync(epath));
+        var gd = {
+          faces: fdata,
+          edges: edata
+        };
+        res.send(gd).status(200).end();
+      });
+      inp.pipe(out);
     }
   });
 };
