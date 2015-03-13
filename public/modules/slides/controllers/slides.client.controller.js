@@ -82,6 +82,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
         filename: node.title
       }
     }).success(function(data) {
+      console.log('Received vis data ...');
       Scene.loadModel(data);
     }).error(function(response) {
       console.log(response.message);

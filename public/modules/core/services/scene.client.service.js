@@ -29,18 +29,16 @@ angular.module('core').service('Scene', ['$window', '$document',
       opacity: 0.85,
       ambient: 0x000000,
       reflectivity: 0.3,
-      envMap: reflectionCube,
       combine: $window.THREE.MixOperation,
       side: $window.THREE.DoubleSide
     });
-    var edgeBasicMaterial = new $window.THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      wireframe: true,
+    var lineBasicMaterial = new $window.THREE.LineBasicMaterial({
+      color: 0x333333
     });
 
     // Transient variables
     var i, j, k;
-    var geometry, mesh;
+    var object, geometry, mesh, line;
 
     // Initialize scene
     this.initialize = function() {
@@ -54,6 +52,7 @@ angular.module('core').service('Scene', ['$window', '$document',
 
       // Create sky box
       createRelectionCube();
+      faceBasicMaterial.envMap = reflectionCube;
 
       // Create camera
       createCamera();
@@ -73,44 +72,114 @@ angular.module('core').service('Scene', ['$window', '$document',
 
     // Load model
     this.loadModel = function(data) {
-      var faces = data.faces;
-      var edges = data.edges;
+      // Create scene object
+      object = new $window.THREE.Object3D();
+      object.name = data.name;
+      var faces = new $window.THREE.Object3D();
+      object.add(faces);
+      var edges = new $window.THREE.Object3D();
+      object.add(edges);
+
+      // Initialize position and scale params
+      var box;
+      var radius = 0.0;
+      var scale = 1.0;
+      var origin = new $window.THREE.Vector3(0, 0, 0);
+
+      // Get faces and edges data
+      var facesData = data.faces;
+      var edgesData = data.edges;
 
       // Create faces
-      for (i = 0; i < faces.length; i++) {
+      for (i = 0; i < facesData.length; i++) {
         // Create geometry
         geometry = new $window.THREE.Geometry();
-        var facet = faces[i].tessellation.facets[0];
-        for (j = 0; j < facet.vertexCount; j++) {
+        var face = facesData[i].tessellation.facets[0];
+        for (j = 0; j < face.vertexCount; j++) {
           geometry.vertices.push(
             new $window.THREE.Vector3(
-              facet.vertexCoordinates[j * 3],
-              facet.vertexCoordinates[j * 3 + 1],
-              facet.vertexCoordinates[j * 3 + 2]
+              face.vertexCoordinates[j * 3],
+              face.vertexCoordinates[j * 3 + 1],
+              face.vertexCoordinates[j * 3 + 2]
             ));
         }
-        for (j = 0; j < facet.facetCount; j++) {
+        for (j = 0; j < face.facetCount; j++) {
           geometry.faces.push(
             new $window.THREE.Face3(
-              facet.vertexIndices[j * 3] - 1,
-              facet.vertexIndices[j * 3 + 1] - 1,
-              facet.vertexIndices[j * 3 + 2] - 1
+              face.vertexIndices[j * 3] - 1,
+              face.vertexIndices[j * 3 + 1] - 1,
+              face.vertexIndices[j * 3 + 2] - 1
             ));
         }
 
-        // Compute addtional properties
-        geometry.key = faces[i].id;
+        // Evaluate geometry addtional data
+        geometry.key = facesData[i].id;
         geometry.computeFaceNormals();
         geometry.computeVertexNormals();
         geometry.computeBoundingBox();
+        if (i === 0) {
+          box = geometry.boundingBox;
+        } else {
+          box.union(geometry.boundingBox);
+        }
+        geometry.computeBoundingSphere();
+        radius = geometry.boundingSphere.radius > radius ? geometry.boundingSphere.radius : radius;
+
+        // Create mesh        
+        mesh = new $window.THREE.Mesh(geometry, faceBasicMaterial);
+
+        // Add to parent
+        faces.add(mesh);
+      }
+
+      // Create edgesData
+      for (i = 0; i < edgesData.length; i++) {
+        // Create geometry
+        geometry = new $window.THREE.Geometry();
+        var edge = edgesData[i].tessellation;
+        for (j = 0; j < edge.vertexCount; j++) {
+          geometry.vertices.push(
+            new $window.THREE.Vector3(
+              edge.points[j * 3],
+              edge.points[j * 3 + 1],
+              edge.points[j * 3 + 2]
+            ));
+        }
+
+        // Compute geometry addtional data
+        geometry.key = edge.id;
+        geometry.computeBoundingBox();
         geometry.computeBoundingSphere();
 
-        // Create mesh
-        mesh = new $window.THREE.Mesh(geometry, faceNormalMaterial);
+        // Create line
+        line = new $window.THREE.Line(geometry, lineBasicMaterial);
 
-        // Add to scene
-        activeScene.add(mesh);
+        // Add to parent
+        edges.add(line);
       }
+
+      // Set object position and scale
+      scale = BOX_SIZE / radius / 2.0;
+      var origin = new $window.THREE.Vector3();
+      origin.copy(box.min).add(box.max).multiplyScalar(0.5 * scale);
+      var halfy = (box.max.y - box.min.y) * scale / 2.0;
+      faces.children.forEach(function(mesh) {
+        mesh.scale.set(scale, scale, scale);
+        mesh.updateMatrix();
+        mesh.translateX(-origin.x);
+        mesh.translateY(-origin.y + halfy);
+        mesh.translateZ(-origin.z);
+      });
+      edges.children.forEach(function(line) {
+        line.scale.set(scale, scale, scale);
+        line.updateMatrix();
+        line.translateX(-origin.x);
+        line.translateY(-origin.y + halfy);
+        line.translateZ(-origin.z);
+      });
+
+      // Add to scene
+      activeScene.add(object);
     };
 
     // Create renderer

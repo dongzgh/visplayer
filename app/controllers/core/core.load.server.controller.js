@@ -13,7 +13,8 @@ var unzip = require('unzip');
  */
 exports.loadVis = function(res, filepath) {
   var filename = path.basename(filepath);
-  var tmppath = os.tmpdir() + '/' + filename.split('.')[0];
+  var objname = filename.split('.')[0];
+  var tmppath = os.tmpdir() + '/' + objname;
   fs.open(filepath, 'r', function(err, fd) {
     if (err) {
       console.log(err);
@@ -28,10 +29,12 @@ exports.loadVis = function(res, filepath) {
         var fdata = JSON.parse(fs.readFileSync(fpath));
         var edata = JSON.parse(fs.readFileSync(epath));
         var gd = {
+          name: objname,
           faces: fdata,
           edges: edata
         };
-        res.send(gd).status(200).end();
+        console.log('Downloading vis data ...');
+        res.send(gd).status(200);
       });
       inp.pipe(out);
     }
