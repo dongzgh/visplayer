@@ -40,6 +40,9 @@ angular.module('core').service('Scene', ['$window', '$document',
     var i, j, k;
     var object, geometry, mesh, line;
 
+    //---------------------------------------------------
+    //  Exports
+    //---------------------------------------------------
     // Initialize scene
     this.initialize = function() {
       // Check webgl
@@ -65,6 +68,9 @@ angular.module('core').service('Scene', ['$window', '$document',
 
       // Create orbit control
       orbitor = new $window.THREE.OrbitControls(activeCamera, renderer.domElement);
+
+      // Add listeners
+      $window.addEventListener('resize', onWindowResize, false);
 
       // Animate
       animate();
@@ -179,6 +185,12 @@ angular.module('core').service('Scene', ['$window', '$document',
       activeScene.add(object);
     };
 
+    //---------------------------------------------------
+    //  Internals
+    //---------------------------------------------------
+    /**
+     * Scene management
+     */
     // Create renderer
     var createRenderer = function() {
       container = $document[0].getElementById('canvas');
@@ -258,6 +270,19 @@ angular.module('core').service('Scene', ['$window', '$document',
       // activeScene.add(object);
     };
 
+    /**
+     * Event callbacks
+     */
+    // Resize
+    var onWindowResize = function () {
+      activeCamera.aspect = $window.innerWidth / $window.innerHeight;
+      activeCamera.updateProjectionMatrix();
+      renderer.setSize($window.innerWidth, $window.innerHeight);
+    };
+
+    /**
+     * Rendering utilities
+     */
     // Animate
     var animate = function() {
       $window.requestAnimationFrame(animate);
