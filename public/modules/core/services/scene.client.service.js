@@ -82,9 +82,8 @@ angular.module('core').service('Scene', ['$window', '$document',
 
       // Initialize position and scale params
       var box;
-      var radius = 0.0;
       var scale = 1.0;
-      var origin = new $window.THREE.Vector3(0, 0, 0);
+      var origin = new $window.THREE.Vector3();
 
       // Get faces and edges data
       var facesData = data.faces;
@@ -122,8 +121,6 @@ angular.module('core').service('Scene', ['$window', '$document',
         } else {
           box.union(geometry.boundingBox);
         }
-        geometry.computeBoundingSphere();
-        radius = geometry.boundingSphere.radius > radius ? geometry.boundingSphere.radius : radius;
 
         // Create mesh        
         mesh = new $window.THREE.Mesh(geometry, faceBasicMaterial);
@@ -149,7 +146,6 @@ angular.module('core').service('Scene', ['$window', '$document',
         // Compute geometry addtional data
         geometry.key = edge.id;
         geometry.computeBoundingBox();
-        geometry.computeBoundingSphere();
 
         // Create line
         line = new $window.THREE.Line(geometry, lineBasicMaterial);
@@ -159,8 +155,9 @@ angular.module('core').service('Scene', ['$window', '$document',
       }
 
       // Set object position and scale
-      scale = BOX_SIZE / radius / 2.0;
-      var origin = new $window.THREE.Vector3();
+      var v = new $window.THREE.Vector3();
+      var radius = v.copy(box.max).sub(box.min).length() / 2.0;
+      scale = BOX_SIZE / radius / 2.0;      
       origin.copy(box.min).add(box.max).multiplyScalar(0.5 * scale);
       var halfy = (box.max.y - box.min.y) * scale / 2.0;
       faces.children.forEach(function(mesh) {
