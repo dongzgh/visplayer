@@ -170,6 +170,10 @@ body {
 section {
   height: 100%;
 }
+section .row {
+  margin-left: 0;
+  margin-right: 0;
+}
 .undecorated-link:hover {
   text-decoration: none;
 }
