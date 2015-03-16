@@ -11,30 +11,23 @@ angular.module('core').service('Scene', ['$window', '$document',
     var BOX_SIZE = 1500;
     var GAP_SIZE = 100;
     var CAMERA_ANGLE = 45;
-    var CAMERA_POSITION = new $window.THREE.Vector3(1122.6119550523206, 832.1930544185049, 2077.2549403849953);           
-
-    // Light definitions
-    var directionalLight = new $window.THREE.DirectionalLight(0xffffff, 0.5);
+    var CAMERA_POSITION = new $window.THREE.Vector3(1122.6119550523206, 832.1930544185049, 2077.2549403849953);
 
     // Material definitions
     var faceAnalysisMaterial = new $window.THREE.MeshNormalMaterial({
-      name: 'faceAnalysisMaterial',
       side: $window.THREE.DoubleSide
     });
     var faceDefaultMaterial = new $window.THREE.MeshPhongMaterial({
-      name: 'faceDefaultMaterial',
       color: 0xcecece,
       specular: 0xffffff,
       metal: true,
-      shininess: 30,
+      shininess: 25,
       side: $window.THREE.DoubleSide
     });
     var faceShinyGlassMaterial = new $window.THREE.MeshBasicMaterial({
-      name: 'faceShinyGlassMaterial',
       transparent: true,
-      opacity: 0.85,
-      ambient: 0x000000,
-      reflectivity: 0.3,
+      opacity: 0.5,
+      reflectivity: 0.5,
       envMap: (function() {
         var path = 'modules/core/img/cube/';
         var format = '.jpg';
@@ -51,7 +44,6 @@ angular.module('core').service('Scene', ['$window', '$document',
       side: $window.THREE.DoubleSide
     });
     var edgeDefaultMaterial = new $window.THREE.LineBasicMaterial({
-      name: 'edgeDefaultMaterial',
       color: 0x333333
     });
 
@@ -62,6 +54,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     var activeCamera;
     var scenes = [];
     var activeScene;
+    var eyeLight;
     var orbitor;
 
     // Transient variables
@@ -90,7 +83,7 @@ angular.module('core').service('Scene', ['$window', '$document',
       createHelpers();
 
       // Create lights.
-      createLights();      
+      createLights();
 
       // Create orbit control
       orbitor = new $window.THREE.OrbitControls(activeCamera, renderer.domElement);
@@ -256,9 +249,10 @@ angular.module('core').service('Scene', ['$window', '$document',
     };
 
     // Create lights
-    var createLights = function() {      
-      directionalLight.position.set(BOX_SIZE, BOX_SIZE, BOX_SIZE);
-      activeScene.add(directionalLight);
+    var createLights = function() {
+      eyeLight = new $window.THREE.DirectionalLight(0xffffff, 0.5);
+      eyeLight.position.set(BOX_SIZE, BOX_SIZE, BOX_SIZE);
+      activeScene.add(eyeLight);
     };
 
     /**
@@ -289,7 +283,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     // Update
     var update = function() {
       activeCamera.target.copy(orbitor.target);
-      directionalLight.position.set(activeCamera.position.x, activeCamera.position.y, activeCamera.position.z);
+      eyeLight.position.set(activeCamera.position.x, activeCamera.position.y, activeCamera.position.z);
     };
   }
 ]);
