@@ -4,41 +4,68 @@
 angular.module('core').service('Scene', ['$window', '$document',
 
   function($window, $document) {
+    //---------------------------------------------------
+    //  Variables
+    //---------------------------------------------------
     // Static variables
     var BOX_SIZE = 1500;
     var GAP_SIZE = 100;
-    var CAMERA_POSITION = new $window.THREE.Vector3(984.393167476599, 605.121508138134, 1123.7196015705397);
-    var CAMERA_ROTATION = new $window.THREE.Vector3(-0.5318628888897693, 0.673350831292923, 0.3516904119463236);
     var CAMERA_ANGLE = 45;
+    var CAMERA_POSITION = new $window.THREE.Vector3(1122.6119550523206, 832.1930544185049, 2077.2549403849953);         
 
-    // Local variables
-    var container;
-    var renderer;
-    var scenes = [];
-    var activeScene;
-    var cameras = [];
-    var activeCamera;
-    var orbitor;
-    var reflectionCube;
-    var skyBox;
-    var faceNormalMaterial = new $window.THREE.MeshNormalMaterial({
+    // Light definitions
+    var directionalLight = new $window.THREE.DirectionalLight(0xffffff, 0.5);
+
+    // Material definitions
+    var faceAnalysisMaterial = new $window.THREE.MeshNormalMaterial({
+      name: 'faceAnalysisMaterial',
       side: $window.THREE.DoubleSide
     });
-    var faceBasicMaterial = new $window.THREE.MeshBasicMaterial({
+    var faceDefaultMaterial = new $window.THREE.MeshPhongMaterial({
+      name: 'faceDefaultMaterial',
+      color: 0xcecece,
+      specular: 0xffffff,
+      metal: true,
+      shininess: 30,
+      side: $window.THREE.DoubleSide
+    });
+    var faceShinyGlassMaterial = new $window.THREE.MeshBasicMaterial({
+      name: 'faceShinyGlassMaterial',
       transparent: true,
       opacity: 0.85,
       ambient: 0x000000,
       reflectivity: 0.3,
+      envMap: (function() {
+        var path = 'modules/core/img/cube/';
+        var format = '.jpg';
+        var urls = [
+          path + 'posx' + format, path + 'negx' + format,
+          path + 'posy' + format, path + 'negy' + format,
+          path + 'posz' + format, path + 'negz' + format
+        ];
+        var reflectionCube = $window.THREE.ImageUtils.loadTextureCube(urls);
+        reflectionCube.format = $window.THREE.RGBFormat;
+        return reflectionCube;
+      })(),
       combine: $window.THREE.MixOperation,
       side: $window.THREE.DoubleSide
     });
-    var lineBasicMaterial = new $window.THREE.LineBasicMaterial({
+    var edgeDefaultMaterial = new $window.THREE.LineBasicMaterial({
+      name: 'edgeDefaultMaterial',
       color: 0x333333
     });
 
+    // Scene definitions
+    var container;
+    var renderer;
+    var cameras = [];
+    var activeCamera;
+    var scenes = [];
+    var activeScene;
+    var orbitor;
+
     // Transient variables
     var i, j, k;
-    var object, geometry, mesh, line;
 
     //---------------------------------------------------
     //  Exports
@@ -50,21 +77,20 @@ angular.module('core').service('Scene', ['$window', '$document',
         $window.Detector.addGetWebGLMessage();
       }
 
-      // Create render
-      createRenderer();
-
-      // Create sky box
-      createRelectionCube();
-      faceBasicMaterial.envMap = reflectionCube;
-
       // Create camera
       createCamera();
+
+      // Create render
+      createRenderer();
 
       // Create scene
       createScene();
 
       // Create helpers
       createHelpers();
+
+      // Create lights.
+      createLights();      
 
       // Create orbit control
       orbitor = new $window.THREE.OrbitControls(activeCamera, renderer.domElement);
@@ -77,108 +103,101 @@ angular.module('core').service('Scene', ['$window', '$document',
     };
 
     // Load model
-    this.loadModel = function(data) {
+    this.loadModel = function(gd) {
       // Create scene object
-      object = new $window.THREE.Object3D();
-      object.name = data.name;
+      var object = new $window.THREE.Object3D();
+      object.name = gd.name;
+      object.type = 'model';
       var faces = new $window.THREE.Object3D();
       object.add(faces);
       var edges = new $window.THREE.Object3D();
       object.add(edges);
 
-      // Initialize position and scale params
-      var box;
-      var scale = 1.0;
-      var origin = new $window.THREE.Vector3();
-
-      // Get faces and edges data
-      var facesData = data.faces;
-      var edgesData = data.edges;
-
       // Create faces
-      for (i = 0; i < facesData.length; i++) {
+      for (i = 0; i < gd.faces.length; i++) {
         // Create geometry
-        geometry = new $window.THREE.Geometry();
-        var face = facesData[i].tessellation.facets[0];
-        for (j = 0; j < face.vertexCount; j++) {
-          geometry.vertices.push(
+        var faceGeometry = new $window.THREE.Geometry();
+        var fd = gd.faces[i].tessellation.facets[0];
+        for (j = 0; j < fd.vertexCount; j++) {
+          faceGeometry.vertices.push(
             new $window.THREE.Vector3(
-              face.vertexCoordinates[j * 3],
-              face.vertexCoordinates[j * 3 + 1],
-              face.vertexCoordinates[j * 3 + 2]
+              fd.vertexCoordinates[j * 3],
+              fd.vertexCoordinates[j * 3 + 1],
+              fd.vertexCoordinates[j * 3 + 2]
             ));
         }
-        for (j = 0; j < face.facetCount; j++) {
-          geometry.faces.push(
+        for (j = 0; j < fd.facetCount; j++) {
+          faceGeometry.faces.push(
             new $window.THREE.Face3(
-              face.vertexIndices[j * 3] - 1,
-              face.vertexIndices[j * 3 + 1] - 1,
-              face.vertexIndices[j * 3 + 2] - 1
+              fd.vertexIndices[j * 3] - 1,
+              fd.vertexIndices[j * 3 + 1] - 1,
+              fd.vertexIndices[j * 3 + 2] - 1
             ));
         }
 
-        // Evaluate geometry addtional data
-        geometry.key = facesData[i].id;
-        geometry.computeFaceNormals();
-        geometry.computeVertexNormals();
-        geometry.computeBoundingBox();
+        // Evaluate faceGeometry addtional gd
+        faceGeometry.key = gd.faces[i].id;
+        faceGeometry.computeFaceNormals();
+        faceGeometry.computeVertexNormals();
+        faceGeometry.computeBoundingBox();
         if (i === 0) {
-          box = geometry.boundingBox;
+          object.box = faceGeometry.boundingBox;
         } else {
-          box.union(geometry.boundingBox);
+          object.box.union(faceGeometry.boundingBox);
         }
 
         // Create mesh        
-        mesh = new $window.THREE.Mesh(geometry, faceBasicMaterial);
+        var faceMesh = new $window.THREE.Mesh(faceGeometry, faceDefaultMaterial);
 
         // Add to parent
-        faces.add(mesh);
+        faces.add(faceMesh);
       }
 
-      // Create edgesData
-      for (i = 0; i < edgesData.length; i++) {
+      // Create gd.edges
+      for (i = 0; i < gd.edges.length; i++) {
         // Create geometry
-        geometry = new $window.THREE.Geometry();
-        var edge = edgesData[i].tessellation;
-        for (j = 0; j < edge.vertexCount; j++) {
-          geometry.vertices.push(
+        var edgeGeometry = new $window.THREE.Geometry();
+        var ed = gd.edges[i].tessellation;
+        for (j = 0; j < ed.vertexCount; j++) {
+          edgeGeometry.vertices.push(
             new $window.THREE.Vector3(
-              edge.points[j * 3],
-              edge.points[j * 3 + 1],
-              edge.points[j * 3 + 2]
+              ed.points[j * 3],
+              ed.points[j * 3 + 1],
+              ed.points[j * 3 + 2]
             ));
         }
 
-        // Compute geometry addtional data
-        geometry.key = edge.id;
-        geometry.computeBoundingBox();
+        // Compute geometry addtional gd
+        edgeGeometry.key = ed.id;
+        edgeGeometry.computeBoundingBox();
 
         // Create line
-        line = new $window.THREE.Line(geometry, lineBasicMaterial);
+        var edgeMesh = new $window.THREE.Line(edgeGeometry, edgeDefaultMaterial);
 
         // Add to parent
-        edges.add(line);
+        edges.add(edgeMesh);
       }
 
       // Set object position and scale
       var v = new $window.THREE.Vector3();
-      var radius = v.copy(box.max).sub(box.min).length() / 2.0;
-      scale = BOX_SIZE / radius / 2.0;      
-      origin.copy(box.min).add(box.max).multiplyScalar(0.5 * scale);
-      var halfy = (box.max.y - box.min.y) * scale / 2.0;
-      faces.children.forEach(function(mesh) {
-        mesh.scale.set(scale, scale, scale);
-        mesh.updateMatrix();
-        mesh.translateX(-origin.x);
-        mesh.translateY(-origin.y + halfy);
-        mesh.translateZ(-origin.z);
+      var radius = v.copy(object.box.max).sub(object.box.min).length() / 2.0;
+      var scale = BOX_SIZE / radius / 2.0;
+      var origin = new $window.THREE.Vector3();
+      origin.copy(object.box.min).add(object.box.max).multiplyScalar(0.5 * scale);
+      var halfy = (object.box.max.y - object.box.min.y) * scale / 2.0;
+      faces.children.forEach(function(face) {
+        face.scale.set(scale, scale, scale);
+        face.updateMatrix();
+        face.translateX(-origin.x);
+        face.translateY(-origin.y + halfy);
+        face.translateZ(-origin.z);
       });
-      edges.children.forEach(function(line) {
-        line.scale.set(scale, scale, scale);
-        line.updateMatrix();
-        line.translateX(-origin.x);
-        line.translateY(-origin.y + halfy);
-        line.translateZ(-origin.z);
+      edges.children.forEach(function(edge) {
+        edge.scale.set(scale, scale, scale);
+        edge.updateMatrix();
+        edge.translateX(-origin.x);
+        edge.translateY(-origin.y + halfy);
+        edge.translateZ(-origin.z);
       });
 
       // Add to scene
@@ -209,8 +228,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     var createCamera = function() {
       var camera = new $window.THREE.PerspectiveCamera(CAMERA_ANGLE, $window.innerWidth / $window.innerHeight, 1, BOX_SIZE * 10);
       camera.name = 'VIEW #' + cameras.length;
-      camera.position.set(CAMERA_POSITION.x, CAMERA_POSITION.y, CAMERA_POSITION.z);
-      camera.rotation.set(CAMERA_ROTATION.x, CAMERA_ROTATION.y, CAMERA_ROTATION.z);
+      camera.position.set(BOX_SIZE * 2, BOX_SIZE, BOX_SIZE * 2);
       camera.target = new $window.THREE.Vector3();
       cameras.push(camera);
       activeCamera = camera;
@@ -221,19 +239,6 @@ angular.module('core').service('Scene', ['$window', '$document',
       var scene = new $window.THREE.Scene();
       scenes.push(scene);
       activeScene = scene;
-    };
-
-    // Create environment map
-    var createRelectionCube = function() {
-      var path = 'modules/core/img/cube/';
-      var format = '.jpg';
-      var urls = [
-        path + 'posx' + format, path + 'negx' + format,
-        path + 'posy' + format, path + 'negy' + format,
-        path + 'posz' + format, path + 'negz' + format
-      ];
-      reflectionCube = $window.THREE.ImageUtils.loadTextureCube(urls);
-      reflectionCube.format = $window.THREE.RGBFormat;
     };
 
     // Create helpers
@@ -248,33 +253,19 @@ angular.module('core').service('Scene', ['$window', '$document',
       axis.name = 'AXIS';
       axis.visible = false;
       activeScene.add(axis);
+    };
 
-      // // Box
-      // var geometry = new $window.THREE.BoxGeometry(100, 100, 100);
-      // //var solidMaterial = new $window.THREE.MeshNormalMaterial();
-      // var solidMaterial = new $window.THREE.MeshBasicMaterial({
-      //   transparent: true,
-      //   opacity: 0.85,
-      //   ambient: 0x000000,
-      //   reflectivity: 0.3,
-      //   envMap: reflectionCube,
-      //   combine: $window.THREE.MixOperation
-      // });
-      // var wireframeMaterial = new $window.THREE.MeshBasicMaterial({
-      //   color: 0xffffff,
-      //   wireframe: true,
-      // });
-      // var materials = [solidMaterial, wireframeMaterial];
-      // var object = $window.THREE.SceneUtils.createMultiMaterialObject(
-      //   geometry, materials);
-      // activeScene.add(object);
+    var createLights = function() {
+      // Directional light
+      directionalLight.position.set(BOX_SIZE, BOX_SIZE, BOX_SIZE);
+      activeScene.add(directionalLight);
     };
 
     /**
      * Event callbacks
      */
     // Resize
-    var onWindowResize = function () {
+    var onWindowResize = function() {
       activeCamera.aspect = $window.innerWidth / $window.innerHeight;
       activeCamera.updateProjectionMatrix();
       renderer.setSize($window.innerWidth, $window.innerHeight);
