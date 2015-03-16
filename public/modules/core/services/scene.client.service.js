@@ -95,6 +95,21 @@ angular.module('core').service('Scene', ['$window', '$document',
       animate();
     };
 
+    // Query models
+    this.queryModels = function(cb) {
+      var modelnames = [];
+      activeScene.children.forEach(function(object) {
+        if (object instanceof $window.THREE.Mesh ||
+          object instanceof $window.THREE.Line) {
+          if (!(object instanceof $window.THREE.AxisHelper) &&
+            !(object instanceof $window.THREE.GridHelper)) {
+            modelnames.push(object.name);
+          }
+        }
+      });
+      cb(modelnames);
+    };
+
     // Load model
     this.loadModel = function(gd) {
       // Create scene object
@@ -220,7 +235,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     // Create camera
     var createCamera = function() {
       var camera = new $window.THREE.PerspectiveCamera(CAMERA_ANGLE, $window.innerWidth / $window.innerHeight, 1, BOX_SIZE * 10);
-      camera.name = 'VIEW #' + cameras.length;
+      camera.name = 'VIEW #' + cameras.length + 1;
       camera.position.set(BOX_SIZE * 2, BOX_SIZE, BOX_SIZE * 2);
       camera.target = new $window.THREE.Vector3();
       cameras.push(camera);
@@ -251,6 +266,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     // Create lights
     var createLights = function() {
       eyeLight = new $window.THREE.DirectionalLight(0xffffff, 0.5);
+      eyeLight.name = 'EYE LIGHT';
       eyeLight.position.set(BOX_SIZE, BOX_SIZE, BOX_SIZE);
       activeScene.add(eyeLight);
     };

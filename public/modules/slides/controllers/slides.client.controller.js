@@ -10,26 +10,26 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Find a list of Tools
   $scope.tools = Tools.getTool('sidebar').items;
 
-  // Find a list of Nodes
+  // Find a list of file Nodes  
   $scope.fileTree = Nodes.getNode('fileTree').items;
-  $scope.filenames = Files.query(function(filenames) {
-    if (filenames && filenames.length) {
-      for (var i = 0; i < filenames.length; i++) {
-        var filename = filenames[i];
-
-        // Prepare icon and widgets
-        var ext = filename.split('.').reverse()[0];
-        var icon = $scope.getFileIcon(ext);
-        var widgets = $scope.getFileWidgets(ext);
-
-        // Insert nodes
-        Nodes.addSubNodeItem('fileTree', 'resources', filename, icon, widgets, filename);
-      }
+  Files.query(function(filenames) {
+    if (filenames && filenames.length > 0) {
+      filenames.forEach(function(filename) {
+        addFileNode(filename.toLowerCase());
+      });
     }
   });
 
-  // Initialize canvas
+  // Initialize scene
   Scene.initialize();
+
+  // Find a list of scene model Nodes
+  $scope.sceneTree = Nodes.getNode('sceneTree').items;
+  Scene.queryModels(function(modelnames) {
+    modelnames.forEach(function(modelname) {
+      addSceneNode(modelname);
+    });
+  });
 
   //---------------------------------------------------
   //  Callbacks
@@ -37,11 +37,11 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   /**
    * Tools callbacks
    */
-  // Active a Tool set
+  // Active a tool set
   $scope.isVisible = false;
   $scope.subTools = [];
   $scope.activeIndex = -1;
-  $scope.activeTool = function(index) {
+  $scope.activateToolset = function(index) {
     if ($scope.activeIndex === -1) {
       $scope.activeIndex = index;
       $scope.isVisible = true;
@@ -57,6 +57,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     }
   };
 
+  // Tool callbacks
   // Activate a tool
   $scope.activateTool = function(index) {
     $scope[$scope.subTools[index].action]();
@@ -67,9 +68,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     angular.element(document.querySelector('#upload')).triggerHandler('click');
   };
 
-  /**
-   * Widget callbacks
-   */
+  // Widget callbacks
   // Activate a widget
   $scope.activateWidget = function(action, node) {
     $scope[action](node);
@@ -84,6 +83,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     }).success(function(data) {
       console.log('Received vis data ...');
       Scene.loadModel(data);
+      var modelname = node.title.split('.')[0];
+      addSceneNode(modelname.toLowerCase());
     }).error(function(response) {
       console.log(response.message);
     });
@@ -91,9 +92,52 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Delete a file
   $scope.deleteFile = function(node) {
-    console.log('Delete the current file!');
   };
 
+  /**
+   * Hidden callbacks
+   */
+  // Watch on files
+  $scope.$watch('files', function() {
+    $scope.upload($scope.files);
+  });
+
+  // Upload files
+  $scope.upload = function(files) {
+    if (files && files.length) {
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        $upload.upload({
+          url: '/files/upload',
+          fields: {
+            'user': $scope.authentication.user
+          },
+          file: file
+        }).progress($scope.uploadProgress).success($scope.uploadSuccess);
+      }
+    }
+  };
+
+  // Upload progress
+  $scope.uploadProgress = function(evt) {
+    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+  };
+
+
+  // Upload success
+  $scope.uploadSuccess = function(data, status, headers, config) {
+    // Prepare icon and widgets
+    var ext = config.file.name.split('.').reverse()[0];
+    var icon = getFileIcon(ext);
+    var widgets = getFileWidgets(ext);
+
+    // Insert nodes
+    Nodes.addSubNodeItem('fileTree', 'resources', config.file.name, icon, widgets, config.file.name);
+
+    // Log response
+    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+  };
 
   /**
    * DB callbacks
@@ -163,9 +207,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    * File related
    */
   // Get file icon
-  $scope.getFileIcon = function(ext) {
+  function getFileIcon(ext) {
     if (FileTypes.models.indexOf(ext) !== -1) {
-      return 'glyphicon-king';
+      return 'glyphicon-knight';
     } else if (FileTypes.images.indexOf(ext) !== -1) {
       return 'glyphicon-picture';
     } else if (FileTypes.texts.indexOf(ext) !== -1) {
@@ -173,10 +217,10 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     } else {
       return 'glyphicon-file';
     }
-  };
+  }
 
   // Get widgets associated with file
-  $scope.getFileWidgets = function(ext) {
+  function getFileWidgets(ext) {
     var widgets = [];
     if (FileTypes.models.indexOf(ext) !== -1) {
       widgets.push(Widgets[0]);
@@ -190,47 +234,21 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       widgets.push(Widgets[0]);
     }
     return widgets;
-  };
+  }
 
-  // Watch on files
-  $scope.$watch('files', function() {
-    $scope.upload($scope.files);
-  });
+  // Add file node
+  function addFileNode(filename) {
+    var ext = filename.split('.').reverse()[0];
+    var icon = getFileIcon(ext);
+    var widgets = getFileWidgets(ext);
+    Nodes.addSubNodeItem('fileTree', 'resources', filename, icon, widgets, filename);
+  }
 
-  // Upload files
-  $scope.upload = function(files) {
-    if (files && files.length) {
-      for (var i = 0; i < files.length; i++) {
-        var file = files[i];
-        $upload.upload({
-          url: '/files/upload',
-          fields: {
-            'user': $scope.authentication.user
-          },
-          file: file
-        }).progress($scope.uploadProgress).success($scope.uploadSuccess);
-      }
-    }
-  };
-
-  // Upload progress
-  $scope.uploadProgress = function(evt) {
-    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-  };
-
-
-  // Upload success
-  $scope.uploadSuccess = function(data, status, headers, config) {
-    // Prepare icon and widgets
-    var ext = config.file.name.split('.').reverse()[0];
-    var icon = $scope.getFileIcon(ext);
-    var widgets = $scope.getFileWidgets(ext);
-
-    // Insert nodes
-    Nodes.addSubNodeItem('fileTree', 'resources', config.file.name, icon, widgets, config.file.name);
-
-    // Log response
-    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-  };
+  /**
+   * Scene related
+   */
+  function addSceneNode(modelname) {
+    var widgets = [];
+    Nodes.addSubNodeItem('sceneTree', 'models', modelname, 'glyphicon-knight', widgets, modelname);
+  }
 }]);

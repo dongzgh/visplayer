@@ -1,6 +1,6 @@
 <section data-ng-controller="SlidesController">
   <div class="btn-group-vertical" role="group" aria-label="toolbar">
-    <button data-ng-repeat="tool in tools" type="button" class="btn btn-default" data-ng-click="activeTool($index)">
+    <button data-ng-repeat="tool in tools" type="button" class="btn btn-default" data-ng-click="activateToolset($index)">
       <span class="glyphicon {{tool.icon}}" aria-hidden="true"></span>
     </button>
   </div>
@@ -13,6 +13,23 @@
       </tab>
       <tab heading="Files">
         <ul data-ng-repeat="node in fileTree" class="list-group">
+          <div>
+            <span class="glyphicon {{node.icon}}"></span>
+            <span data-ng-bind="node.title"></span>
+          </div>
+          <li data-ng-repeat="subNode in node.items" class="list-group-item">
+            <div>
+              <span class="glyphicon {{subNode.icon}}"></span>
+              <span data-ng-bind="subNode.title"></span>
+              <a data-ng-repeat="widget in subNode.widgets" data-ng-click="activateWidget(widget.action, subNode)">
+                <i class="glyphicon {{widget.icon}}"></i>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </tab>
+      <tab heading="Scene">
+        <ul data-ng-repeat="node in sceneTree" class="list-group">
           <div>
             <span class="glyphicon {{node.icon}}"></span>
             <span data-ng-bind="node.title"></span>

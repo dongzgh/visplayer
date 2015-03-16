@@ -18,6 +18,9 @@ angular.module('slides').run(['Menus', 'Tools', 'Nodes',
 
     // Set file tree node items
     Nodes.addNodeItem('fileTree', 'Resources', 'glyphicon-briefcase', 'resources', 'dropdown');
+
+    // Set scene tree node items 
+    Nodes.addNodeItem('sceneTree', 'Models', 'glyphicon-briefcase', 'models', 'dropdown');
   }
 ]);
 
