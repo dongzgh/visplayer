@@ -11,7 +11,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     var BOX_SIZE = 1500;
     var GAP_SIZE = 100;
     var CAMERA_ANGLE = 45;
-    var CAMERA_POSITION = new $window.THREE.Vector3(1122.6119550523206, 832.1930544185049, 2077.2549403849953);         
+    var CAMERA_POSITION = new $window.THREE.Vector3(1122.6119550523206, 832.1930544185049, 2077.2549403849953);           
 
     // Light definitions
     var directionalLight = new $window.THREE.DirectionalLight(0xffffff, 0.5);
@@ -255,8 +255,8 @@ angular.module('core').service('Scene', ['$window', '$document',
       activeScene.add(axis);
     };
 
-    var createLights = function() {
-      // Directional light
+    // Create lights
+    var createLights = function() {      
       directionalLight.position.set(BOX_SIZE, BOX_SIZE, BOX_SIZE);
       activeScene.add(directionalLight);
     };
@@ -289,6 +289,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     // Update
     var update = function() {
       activeCamera.target.copy(orbitor.target);
+      directionalLight.position.set(activeCamera.position.x, activeCamera.position.y, activeCamera.position.z);
     };
   }
 ]);
