@@ -1,7 +1,7 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$http', '$location', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'Widgets', 'Slides', function($scope, $stateParams, $http, $location, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, Widgets, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'Widgets', 'Slides', function($scope, $stateParams, $location, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, Widgets, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
@@ -75,18 +75,16 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Load a file
-  $scope.loadFile = function(node) {
-    $http.get('/files/load', {
-      params: {
-        filename: node.title
-      }
-    }).success(function(data) {
+  $scope.loadFile = function(node) {  
+    Files.get({
+      filename: node.title
+    }, function(data) {
       console.log('Received vis data ...');
       Scene.loadModel(data);
       var modelname = node.title.split('.')[0];
       addSceneNode(modelname.toLowerCase());
-    }).error(function(response) {
-      console.log(response.message);
+    }, function(response){
+      console.log('Failed!');
     });
   };
 

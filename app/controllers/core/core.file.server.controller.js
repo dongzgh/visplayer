@@ -50,7 +50,7 @@ exports.upload = function(req, res) {
  */
 exports.load = function(req, res) {
   var username = req.user.username;
-  var filename = req.query.filename;
+  var filename = req.params.filename;
   if (typeof username === 'undefined' ||
     typeof filename === 'undefined')
     return;
