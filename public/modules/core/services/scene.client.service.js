@@ -212,6 +212,17 @@ angular.module('core').service('Scene', ['$window', '$document',
       activeScene.add(object);
     };
 
+    // Remove model
+    this.removeModel = function(modelname) {
+      var index = 0;
+      activeScene.children.forEach(function(object) {
+        if (object.name === modelname) {
+          activeScene.children.splice(index, 1);
+        }
+        index++;
+      });
+    };
+
     //---------------------------------------------------
     //  Internals
     //---------------------------------------------------

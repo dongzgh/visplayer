@@ -50,6 +50,7 @@
   border-radius: 0 !important;
   color: #ffffff;
   background-color: #333333;
+  box-shadow:  1px 1px 2px #ffffff;
   cursor: pointer
 }
 .nav-tabs li a:hover,

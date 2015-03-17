@@ -1,7 +1,7 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'Widgets', 'Slides', function($scope, $stateParams, $location, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, Widgets, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, fileWidgets, sceneWidgets, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
@@ -98,6 +98,12 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     }, function(response){
       console.log('Failed to delete %s!', node.title);
     });
+  };
+
+  // Remove a model
+  $scope.removeModel = function(node) {
+    Scene.removeModel(node.title);
+    removeSceneNode(node.title);
   };
 
   /**
@@ -229,15 +235,15 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   function getFileWidgets(ext) {
     var widgets = [];
     if (FileTypes.models.indexOf(ext) !== -1) {
-      widgets.push(Widgets[0]);
-      widgets.push(Widgets[1]);
+      widgets.push(fileWidgets[0]);
+      widgets.push(fileWidgets[1]);
     } else if (FileTypes.images.indexOf(ext) !== -1) {
-      widgets.push(Widgets[0]);
+      widgets.push(fileWidgets[0]);
     } else if (FileTypes.texts.indexOf(ext) !== -1) {
-      widgets.push(Widgets[0]);
-      widgets.push(Widgets[2]);
+      widgets.push(fileWidgets[0]);
+      widgets.push(fileWidgets[2]);
     } else {
-      widgets.push(Widgets[0]);
+      widgets.push(fileWidgets[0]);
     }
     return widgets;
   }
@@ -258,8 +264,15 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   /**
    * Scene related
    */
+  // Add scene node
   function addSceneNode(modelname) {
     var widgets = [];
+    widgets.push(sceneWidgets[0]);
     Nodes.addSubNodeItem('sceneTree', 'models', modelname, 'glyphicon-knight', widgets, modelname);
+  }
+
+  // Remove scene node
+  function removeSceneNode(modelname) {
+    Nodes.removeSubNodeItem('sceneTree', modelname);
   }
 }]);

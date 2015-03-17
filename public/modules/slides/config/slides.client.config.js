@@ -25,7 +25,7 @@ angular.module('slides').run(['Menus', 'Tools', 'Nodes',
 ]);
 
 // Configuring file widgets
-angular.module('slides').constant('Widgets', [{
+angular.module('slides').constant('fileWidgets', [{
   'name': 'Delete',
   'action': 'deleteFile',
   'icon': 'glyphicon-trash'
@@ -37,4 +37,11 @@ angular.module('slides').constant('Widgets', [{
   'name': 'Edit',
   'action': 'editFile',
   'icon': 'glyphicon-edit'
+}]);
+
+// Configuring scene widgets
+angular.module('slides').constant('sceneWidgets', [{
+  'name': 'Remove',
+  'action': 'removeModel',
+  'icon': 'glyphicon-remove'
 }]);
