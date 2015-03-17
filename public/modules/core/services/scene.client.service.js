@@ -99,22 +99,22 @@ angular.module('core').service('Scene', ['$window', '$document',
     this.queryModels = function(cb) {
       var modelnames = [];
       activeScene.children.forEach(function(object) {
-        if (object instanceof $window.THREE.Mesh ||
-          object instanceof $window.THREE.Line) {
-          if (!(object instanceof $window.THREE.AxisHelper) &&
-            !(object instanceof $window.THREE.GridHelper)) {
-            modelnames.push(object.name);
-          }
+        if(object.type === 'model') {
+          modelnames.push(object.name);
         }
       });
       cb(modelnames);
     };
 
     // Load model
-    this.loadModel = function(gd) {
+    this.loadModel = function(gd, cb) {
+      // Count instances
+      var count = countModelInstances(gd.name) + 1;
+
       // Create scene object
       var object = new $window.THREE.Object3D();
       object.name = gd.name;
+      object.displayName = object.name + ' #' + count;
       object.type = 'model';
       var faces = new $window.THREE.Object3D();
       object.add(faces);
@@ -210,13 +210,16 @@ angular.module('core').service('Scene', ['$window', '$document',
 
       // Add to scene
       activeScene.add(object);
+
+      // Post-processing
+      cb(object);
     };
 
     // Remove model
     this.removeModel = function(modelname) {
       var index = 0;
       activeScene.children.forEach(function(object) {
-        if (object.name === modelname) {
+        if (object.displayName === modelname) {
           activeScene.children.splice(index, 1);
         }
         index++;
@@ -280,6 +283,19 @@ angular.module('core').service('Scene', ['$window', '$document',
       eyeLight.name = 'EYE LIGHT';
       eyeLight.position.set(BOX_SIZE, BOX_SIZE, BOX_SIZE);
       activeScene.add(eyeLight);
+    };
+
+    // Count object instances
+    var countModelInstances = function (name) {
+      var count = 0;
+      activeScene.children.forEach(function(object) {
+        if(object.type === 'model') {
+          if(object.name === name) {
+            count++;
+          }
+        }
+      });
+      return count;
     };
 
     /**

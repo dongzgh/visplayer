@@ -80,9 +80,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       filename: node.title
     }, function(data) {
       console.log('Received vis data ...');
-      Scene.loadModel(data);
-      var modelname = node.title.split('.')[0];
-      addSceneNode(modelname.toLowerCase());
+      Scene.loadModel(data, function(object){
+        addSceneNode(object.displayName.toLowerCase());
+      });      
     }, function(response) {
       console.log('Failed!');
     });
