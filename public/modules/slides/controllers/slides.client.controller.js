@@ -1,7 +1,7 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, fileWidgets, sceneWidgets, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $window, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, fileWidgets, sceneWidgets, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
@@ -75,7 +75,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Load a file
-  $scope.loadFile = function(node) {  
+  $scope.loadFile = function(node) {
     Files.get({
       filename: node.title
     }, function(data) {
@@ -83,21 +83,25 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       Scene.loadModel(data);
       var modelname = node.title.split('.')[0];
       addSceneNode(modelname.toLowerCase());
-    }, function(response){
+    }, function(response) {
       console.log('Failed!');
     });
   };
 
   // Delete a file
   $scope.deleteFile = function(node) {
-    Files.delete({
-      filename: node.title
-    }, function(response){
-      console.log('%s is deleted.', node.title);
-      removeFileNode(node.title);
-    }, function(response){
-      console.log('Failed to delete %s!', node.title);
-    });
+    var message = 'Delete ' + node.title + ' from server?';
+    var response = $window.confirm(message);
+    if (response === true) {
+      Files.delete({
+        filename: node.title
+      }, function(response) {
+        console.log('%s is deleted.', node.title);
+        removeFileNode(node.title);
+      }, function(response) {
+        console.log('Failed to delete %s!', node.title);
+      });
+    }
   };
 
   // Remove a model
