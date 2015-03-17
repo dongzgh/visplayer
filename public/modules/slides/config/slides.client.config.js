@@ -25,8 +25,16 @@ angular.module('slides').run(['Menus', 'Tools', 'Nodes',
 ]);
 
 // Configuring file widgets
-angular.module('slides').constant('Widgets', [
-  {'name': 'Delete', 'action': 'deleteFile', 'icon': 'glyphicon-trash'},
-  {'name': 'Load', 'action': 'loadFile', 'icon': 'glyphicon-download'},
-  {'name': 'Edit', 'action': 'editFile', 'icon': 'glyphicon-edit'}
-]);
+angular.module('slides').constant('Widgets', [{
+  'name': 'Delete',
+  'action': 'deleteFile',
+  'icon': 'glyphicon-trash'
+}, {
+  'name': 'Load',
+  'action': 'loadFile',
+  'icon': 'glyphicon-download'
+}, {
+  'name': 'Edit',
+  'action': 'editFile',
+  'icon': 'glyphicon-edit'
+}]);

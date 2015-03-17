@@ -46,6 +46,23 @@ exports.upload = function(req, res) {
 };
 
 /**
+ * Query files
+ */
+exports.list = function(req, res) {
+  var username = req.user.username;
+  if (typeof username === 'undefined')
+    return;
+  var dir = 'users/' + username;
+  fs.readdir(dir, function(err, files) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(files);
+    }
+  });
+};
+
+/**
  * Load file
  */
 exports.load = function(req, res) {
@@ -64,18 +81,20 @@ exports.load = function(req, res) {
 };
 
 /**
- * Query files
+ * Delete file
  */
-exports.list = function(req, res) {
+exports.delete = function(req, res) {
   var username = req.user.username;
-  if (typeof username === 'undefined')
+  var filename = req.params.filename;
+  if (typeof username === 'undefined' ||
+    typeof filename === 'undefined')
     return;
-  var dir = 'users/' + username;
-  fs.readdir(dir, function(err, files) {
-    if (err) {
+  var filepath = 'users/' + username + '/' + filename;
+  fs.unlink(filepath, function(err){
+    if(err){
       console.log(err);
     } else {
-      res.send(files);
+      res.status(200).end();
     }
   });
 };

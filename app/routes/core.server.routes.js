@@ -13,5 +13,7 @@ module.exports = function(app) {
   app.route('/files').get(core.list);
 
   // Setting up the load route
-  app.route('/files/:filename').get(core.load);
+  app.route('/files/:filename')
+    .get(core.load)
+    .delete(core.delete);
 };

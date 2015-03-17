@@ -90,6 +90,14 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Delete a file
   $scope.deleteFile = function(node) {
+    Files.delete({
+      filename: node.title
+    }, function(response){
+      console.log('%s is deleted.', node.title);
+      removeFileNode(node.title);
+    }, function(response){
+      console.log('Failed to delete %s!', node.title);
+    });
   };
 
   /**
@@ -240,6 +248,11 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     var icon = getFileIcon(ext);
     var widgets = getFileWidgets(ext);
     Nodes.addSubNodeItem('fileTree', 'resources', filename, icon, widgets, filename);
+  }
+
+  // Remove file node
+  function removeFileNode(filename) {
+    Nodes.removeSubNodeItem('fileTree', filename);
   }
 
   /**

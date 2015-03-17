@@ -28,13 +28,14 @@ exports.loadVis = function(res, filepath) {
         var epath = tmppath + '/e';
         var fdata = JSON.parse(fs.readFileSync(fpath));
         var edata = JSON.parse(fs.readFileSync(epath));
+        fs.close(fd);
         var gd = {
           name: objname,
           faces: fdata,
           edges: edata
         };
         console.log('Downloading vis data ...');
-        res.send(gd).status(200);
+        res.send(gd).status(200).end();
       });
       inp.pipe(out);
     }
