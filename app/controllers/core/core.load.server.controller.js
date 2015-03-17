@@ -34,8 +34,10 @@ exports.loadVis = function(res, filepath) {
           faces: fdata,
           edges: edata
         };
+        var blob = JSON.stringify(gd);
+        res.set('ContentLength', blob.length);
         console.log('Downloading vis data ...');
-        res.send(gd).status(200).end();
+        res.send(blob).status(200).end();
       });
       inp.pipe(out);
     }

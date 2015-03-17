@@ -45,3 +45,15 @@ angular.module('slides').constant('sceneWidgets', [{
   'action': 'removeModel',
   'icon': 'glyphicon-remove'
 }]);
+
+// Configure http interseptor
+angular.module('slides').factory('httpResponseInterceptor', ['$q', function($q) {
+  return {
+    response: function(res) {
+      return res || $q.when(res);
+    }
+  };  
+}])
+.config(['$httpProvider',function($httpProvider) {
+    $httpProvider.interceptors.push('httpResponseInterceptor');
+}]);

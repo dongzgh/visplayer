@@ -221,6 +221,7 @@ angular.module('core').service('Scene', ['$window', '$document',
       activeScene.children.forEach(function(object) {
         if (object.displayName === modelname) {
           activeScene.children.splice(index, 1);
+          return;
         }
         index++;
       });

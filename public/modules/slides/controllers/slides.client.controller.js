@@ -76,29 +76,34 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Load a file
   $scope.loadFile = function(node) {
-    Files.get({
-      filename: node.title
-    }, function(data) {
+    var req = new $window.XMLHttpRequest();
+    req.addEventListener('progress', function(evt){
+      var total = req.getResponseHeader('ContentLength');
+      var perc = (evt.loaded / total).toPrecision(2) * 100;
+      console.log('Completed ' + perc + '% ...');
+    }, false);
+    req.addEventListener('load', function(evt){
       console.log('Received vis data ...');
+      var data = JSON.parse(req.response);
       Scene.loadModel(data, function(object){
         addSceneNode(object.displayName.toLowerCase());
       });      
-    }, function(response) {
-      console.log('Failed!');
-    });
+    }, false);
+    req.open('get', 'files/' + node.title, true);
+    req.send();
   };
 
   // Delete a file
   $scope.deleteFile = function(node) {
     var message = 'Delete ' + node.title + ' from server?';
-    var response = $window.confirm(message);
-    if (response === true) {
+    var res = $window.confirm(message);
+    if (res === true) {
       Files.delete({
         filename: node.title
-      }, function(response) {
+      }, function(res) {
         console.log('%s is deleted.', node.title);
         removeFileNode(node.title);
-      }, function(response) {
+      }, function(res) {
         console.log('Failed to delete %s!', node.title);
       });
     }
@@ -151,8 +156,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     // Insert nodes
     Nodes.addSubNodeItem('fileTree', 'resources', config.file.name, icon, widgets, config.file.name);
 
-    // Log response
-    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+    // Log res
+    console.log('file ' + config.file.name + 'uploaded. res: ' + data);
   };
 
   /**
@@ -166,13 +171,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     });
 
     // Redirect after save
-    slide.$save(function(response) {
-      $location.path('slides/' + response._id);
+    slide.$save(function(res) {
+      $location.path('slides/' + res._id);
 
       // Clear form fields
       $scope.name = '';
-    }, function(errorResponse) {
-      $scope.error = errorResponse.data.message;
+    }, function(errorres) {
+      $scope.error = errorres.data.message;
     });
   };
 
@@ -199,8 +204,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
     slide.$update(function() {
       $location.path('slides/' + slide._id);
-    }, function(errorResponse) {
-      $scope.error = errorResponse.data.message;
+    }, function(errorres) {
+      $scope.error = errorres.data.message;
     });
   };
 
