@@ -76,36 +76,45 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Load a file
   $scope.loadFile = function(node) {
-    var req = new $window.XMLHttpRequest();
-    req.addEventListener('progress', function(evt){
-      var total = req.getResponseHeader('ContentLength');
+    var filename = node.title;
+
+    // Define progress callback
+    function onprogress (evt, total) {      
       var perc = (evt.loaded / total).toPrecision(2) * 100;
-      console.log('Completed ' + perc + '% ...');
-    }, false);
-    req.addEventListener('load', function(evt){
+      console.log('progress: ' + perc + '% ' + filename);
+    }
+
+    // Define loaded callback
+    function onsuccess (evt, res) {
       console.log('Received vis data ...');
-      var data = JSON.parse(req.response);
+      var data = JSON.parse(res);
       Scene.loadModel(data, function(object){
         addSceneNode(object.displayName.toLowerCase());
-      });      
-    }, false);
-    req.open('get', 'files/' + node.title, true);
-    req.send();
+      });
+    }
+
+    // Define error callback
+    function onerror (evt) {
+      console.log('Failed to load %s', filename);
+    }
+
+    Files.load(filename, onprogress, onsuccess, onerror);
   };
 
   // Delete a file
   $scope.deleteFile = function(node) {
-    var message = 'Delete ' + node.title + ' from server?';
+    var filename = node.title;
+    var message = 'Delete ' + filename + ' from server?';
     var res = $window.confirm(message);
+
+    // Define delete callback
+    function ondelete (filename) {
+      removeFileNode(filename);
+    } 
+
+    // Delete file
     if (res === true) {
-      Files.delete({
-        filename: node.title
-      }, function(res) {
-        console.log('%s is deleted.', node.title);
-        removeFileNode(node.title);
-      }, function(res) {
-        console.log('Failed to delete %s!', node.title);
-      });
+      Files.delete(filename, ondelete);
     }
   };
 
