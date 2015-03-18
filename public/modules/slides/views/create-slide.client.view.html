@@ -4,7 +4,7 @@
       <span class="glyphicon {{tool.icon}}" aria-hidden="true"></span>
     </button>
   </div>
-  <div class="panel panel-default" data-ng-show="isVisible">
+  <div class="panel panel-default" data-ng-show="showPanel">
     <tabset justified="true">
       <tab heading="Tools">
         <button data-ng-repeat="subTool in subTools" type="button" class="btn btn-default" data-ng-click="activateTool($index)">
@@ -47,6 +47,7 @@
       </tab>
     </tabset>
   </div>
+  <progressbar class="progress-striped active" value="ticker" type="success" data-ng-show="showTicker"><b>{{ticker}}%</b></progressbar>
   <div id="canvas"></div>
   <div id='upload' ng-show="false" ng-file-select ng-model="files" ng-multiple="true"></div>
 </section>

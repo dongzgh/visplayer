@@ -36,7 +36,6 @@ exports.loadVis = function(res, filepath) {
         };
         var blob = JSON.stringify(gd);
         res.set('ContentLength', blob.length);
-        console.log('Downloading vis data ...');
         res.send(blob).status(200).end();
       });
       inp.pipe(out);

@@ -2,7 +2,7 @@
   position: absolute;
   height: 100%;
   background-color: #000000;
-  z-index: 1;
+  z-index: 2;
 }
 .btn-group-vertical > .btn:first-child {
   margin-top: 42px
@@ -38,7 +38,7 @@
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.5);
   border: none;
-  z-index: 1;
+  z-index: 2;
 }
 .nav-tabs li.active {
   border: none !important;
@@ -122,6 +122,15 @@
 .list-group-item > div a:active,
 .list-group-item > div a:focus {
   color: #ffffff
+}
+.progress-striped {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 0;
+  width: 100%;
+  background-color: transparent;
+  background-image: none;
+  z-index: 1;
 }
 canvas {
   position: absolute;

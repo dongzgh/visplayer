@@ -1,12 +1,16 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $window, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, fileWidgets, sceneWidgets, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$timeout', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $window, $timeout, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, fileWidgets, sceneWidgets, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
   //  Initialization
   //---------------------------------------------------
+  // Initialize ticker
+  $scope.ticker = 0.0;
+  $scope.showTicker = false;
+
   // Find a list of Tools
   $scope.tools = Tools.getTool('sidebar').items;
 
@@ -38,22 +42,22 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    * Tools callbacks
    */
   // Active a tool set
-  $scope.isVisible = false;
+  $scope.showPanel = false;
   $scope.subTools = [];
   $scope.activeIndex = -1;
   $scope.activateToolset = function(index) {
     if ($scope.activeIndex === -1) {
       $scope.activeIndex = index;
-      $scope.isVisible = true;
+      $scope.showPanel = true;
       $scope.subTools = $scope.tools[index].items;
     } else if ($scope.activeIndex === index) {
       $scope.activeIndex = -1;
-      $scope.isVisible = false;
+      $scope.showPanel = false;
       $scope.subTools = [];
     } else if ($scope.activeIndex !== index) {
       $scope.subTools = $scope.tools[index].items;
       $scope.activeIndex = index;
-      $scope.isVisible = $scope.subTools.length > 0 ? true : false;
+      $scope.showPanel = $scope.subTools.length > 0 ? true : false;
     }
   };
 
@@ -79,25 +83,33 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     var filename = node.title;
 
     // Define progress callback
-    function onprogress (evt, total) {      
-      var perc = (evt.loaded / total).toPrecision(2) * 100;
-      console.log('progress: ' + perc + '% ' + filename);
+    function onprogress(evt, total) {
+      $scope.ticker = (evt.loaded / total * 100).toFixed();
+      $scope.$apply();
+      console.log('progress: ' + $scope.ticker + '% ' + filename);
     }
 
     // Define loaded callback
-    function onsuccess (evt, res) {
-      console.log('Received vis data ...');
+    function onsuccess(evt, res) {
+      console.log('Model is loaded successfully.');
       var data = JSON.parse(res);
-      Scene.loadModel(data, function(object){
+      Scene.loadModel(data, function(object) {
         addSceneNode(object.displayName.toLowerCase());
+        $timeout(function(){
+          $scope.showTicker = false;
+          $scope.ticker = 0.0;
+          $scope.$apply();
+        }, 1000);
       });
     }
 
     // Define error callback
-    function onerror (evt) {
-      console.log('Failed to load %s', filename);
+    function onerror(evt) {
+      console.log('Failed to load model %s!', filename);
     }
 
+    // Load file
+    $scope.showTicker = true;
     Files.load(filename, onprogress, onsuccess, onerror);
   };
 
@@ -108,9 +120,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     var res = $window.confirm(message);
 
     // Define delete callback
-    function ondelete (filename) {
+    function ondelete(filename) {
       removeFileNode(filename);
-    } 
+    }
 
     // Delete file
     if (res === true) {
@@ -157,6 +169,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Upload success
   $scope.uploadSuccess = function(data, status, headers, config) {
+    console.log('%s is uploaded successfully.', config.file.name);
+
     // Prepare icon and widgets
     var ext = config.file.name.split('.').reverse()[0];
     var icon = getFileIcon(ext);
@@ -164,9 +178,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
     // Insert nodes
     Nodes.addSubNodeItem('fileTree', 'resources', config.file.name, icon, widgets, config.file.name);
-
-    // Log res
-    console.log('file ' + config.file.name + 'uploaded. res: ' + data);
   };
 
   /**

@@ -55,7 +55,7 @@ angular.module('core').service('Files', ['$resource', '$window',
           filename: filename
         },
         function(res) {
-          console.log('%s is deleted.', filename);
+          console.log('%s is deleted successfully.', filename);
           cb(filename);
         },
         function(err) {
