@@ -26,3 +26,9 @@ npm-debug.log
 /*.sublime-project
 /*.sublime-workspace
 
+/plugins/forming/automation/uia_capscr/uia_capscr/x64/Debug
+/plugins/forming/automation/uia_capscr/x64/Debug/*.pdb
+/plugins/forming/automation/uia_capscr/x64/Debug/*.ilk
+/plugins/forming/automation/uia_capscr/x64/Debug/*.exe
+/plugins/forming/automation/uia_capscr/*.suo
+/plugins/forming/automation/uia_capscr/*.sdf
