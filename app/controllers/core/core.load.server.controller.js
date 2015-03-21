@@ -7,6 +7,7 @@ var os = require('os');
 var path = require('path');
 var fs = require('fs');
 var unzip = require('unzip');
+var crypto = require('crypto');
 
 /**
  * Load a model file
@@ -34,9 +35,9 @@ exports.loadVis = function(res, filepath) {
           faces: fdata,
           edges: edata
         };
-        var blob = JSON.stringify(gd);
-        res.set('ContentLength', blob.length);
-        res.send(blob).status(200).end();
+        var buf = new Buffer(JSON.stringify(gd)).toString('base64');
+        res.set('ContentLength', buf.length);
+        res.send(buf).status(200).end();
       });
       inp.pipe(out);
     }

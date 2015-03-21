@@ -95,7 +95,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       var data = JSON.parse(res);
       Scene.loadModel(data, function(object) {
         addSceneNode(object.displayName.toLowerCase());
-        $timeout(function(){
+        $timeout(function() {
           $scope.showTicker = false;
           $scope.ticker = 0.0;
           $scope.$apply();
