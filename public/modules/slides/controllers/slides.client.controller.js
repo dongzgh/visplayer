@@ -68,7 +68,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Import model
-  $scope.importModel = function() {
+  $scope.uploadFiles = function() {
     angular.element(document.querySelector('#upload')).triggerHandler('click');
   };
 
@@ -84,28 +84,36 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
     // Define progress callback
     function onprogress(evt, total) {
-      $scope.ticker = (evt.loaded / total * 100).toFixed();
-      $scope.$apply();
+      // Set ticker
+      $scope.ticker= (evt.loaded / total * 100).toFixed();
+
+      // Log
       console.log('progress: ' + $scope.ticker + '% ' + filename);
     }
 
-    // Define loaded callback
+    // Define success callback
     function onsuccess(evt, res) {
+      // Log
       console.log('Model is loaded successfully.');
+
+      // Load data to scene
       var data = JSON.parse(res);
       Scene.loadModel(data, function(object) {
+        // Add scene node
         addSceneNode(object.displayName.toLowerCase());
-        $timeout(function() {
-          $scope.showTicker = false;
-          $scope.ticker = 0.0;
-          $scope.$apply();
-        }, 1000);
+
+        // Reset ticker
+        resetTicker();
       });
     }
 
     // Define error callback
     function onerror(evt) {
+      // Log
       console.log('Failed to load model %s!', filename);
+
+      // Reset ticker
+      resetTicker();
     }
 
     // Load file
@@ -146,38 +154,52 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Upload files
   $scope.upload = function(files) {
+    // Define progress callback
+    function onprogress(evt) {
+      // Set ticker
+      $scope.ticker = (evt.loaded / evt.total * 100).toFixed();
+
+      // Log
+      console.log('progress: ' + $scope.ticker + '% ' + evt.config.file.name);
+    }
+
+    // Define success callback
+    function onsuccess(data, status, headers, config) {
+      // Log
+      console.log('%s is uploaded successfully.', config.file.name);
+
+      // Prepare icon and widgets
+      var ext = config.file.name.split('.').reverse()[0];
+      var icon = getFileIcon(ext);
+      var widgets = getFileWidgets(ext);
+
+      // Add file node
+      Nodes.addSubNodeItem('fileTree', 'resources', config.file.name, icon, widgets, config.file.name);
+
+      // Reset ticker
+      resetTicker();
+    }
+
+    // Define error callback
+    function onerror(evt) {
+      // Log
+      console.log(evt.message);
+
+      // Reset ticker
+      resetTicker();
+    }
+
+    // Upload
+    $scope.showTicker = true;
     if (files && files.length) {
       for (var i = 0; i < files.length; i++) {
         var file = files[i];
         $upload.upload({
-          url: '/files/upload',
-          fields: {
-            'user': $scope.authentication.user
-          },
+          url: '/upload',
           file: file
-        }).progress($scope.uploadProgress).success($scope.uploadSuccess);
+        }).progress(onprogress).success(onsuccess).error(onerror);
       }
     }
-  };
-
-  // Upload progress
-  $scope.uploadProgress = function(evt) {
-    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-  };
-
-
-  // Upload success
-  $scope.uploadSuccess = function(data, status, headers, config) {
-    console.log('%s is uploaded successfully.', config.file.name);
-
-    // Prepare icon and widgets
-    var ext = config.file.name.split('.').reverse()[0];
-    var icon = getFileIcon(ext);
-    var widgets = getFileWidgets(ext);
-
-    // Insert nodes
-    Nodes.addSubNodeItem('fileTree', 'resources', config.file.name, icon, widgets, config.file.name);
   };
 
   /**
@@ -244,6 +266,17 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //---------------------------------------------------
   //  Utilities
   //---------------------------------------------------
+  /**
+   * GUI related
+   */
+  function resetTicker() {
+    $timeout(function() {
+      $scope.showTicker = false;
+      $scope.ticker = 0.0;
+      $scope.$apply();
+    }, 1000);
+  }  
+
   /**
    * File related
    */

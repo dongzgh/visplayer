@@ -34,8 +34,8 @@ exports.loadVis = function(res, filepath) {
           name: objname,
           faces: fdata,
           edges: edata
-        };
-        var buf = new Buffer(JSON.stringify(gd)).toString('base64');
+        };       
+        var buf = new Buffer(JSON.stringify(gd));
         res.set('ContentLength', buf.length);
         res.send(buf).status(200).end();
       });

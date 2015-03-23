@@ -7,7 +7,7 @@ module.exports = function(app) {
 
   // Files routes
   // Setting up the upload route
-  app.route('/files/upload').post(core.upload);
+  app.route('/upload').post(core.upload);
 
   // Setting up the query routes
   app.route('/files').get(core.list);

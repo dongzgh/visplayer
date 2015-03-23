@@ -30,7 +30,7 @@ angular.module('core').service('Files', ['$resource', '$window',
 
       // Define success callback
       function cbsuccess(evt) {
-        var res = $window.atob(req.responseText);
+        var res = req.responseText;
         onsuccess(evt, res);
       }
 

@@ -7,6 +7,7 @@ var path = require('path');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var Busboy = require('busboy');
+var crypto = require('crypto');
 
 /**
  * Entry point
@@ -25,19 +26,23 @@ exports.upload = function(req, res) {
   var busboy = new Busboy({
     headers: req.headers
   });
-  var username = '';
-  var dir = '';
-  var stream = '';
-  busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated) {
-    username = JSON.parse(val).username;
-  });
   busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-    dir = 'users/' + username;
+    var dir = 'users/' + req.user.username;
     mkdirp(dir, function(err) {
-      if (err) console.log(err);
+      if (err) {
+        console.log(err);
+      } else {
+        var cipher = crypto.createCipher('aes-256-cbc', 'VisPL15');
+        file.on('data', function(data) {
+          cipher.update(data, 'binary', 'hex');
+        });
+        file.on('end', function() {
+          cipher.final('hex');
+          var outname = path.join(dir, path.basename(filename));
+          cipher.pipe(fs.createWriteStream(outname));
+        });
+      }
     });
-    stream = path.join(dir, path.basename(filename));
-    file.pipe(fs.createWriteStream(stream));
   });
   busboy.on('finish', function() {
     res.status(200).end();
@@ -73,7 +78,7 @@ exports.load = function(req, res) {
     return;
   var filepath = 'users/' + username + '/' + filename;
   var ext = path.extname(filename);
-  if(ext === '.vis') {
+  if (ext === '.vis') {
     exports.loadVis(res, filepath);
   } else {
     res.status(404).end();
@@ -86,12 +91,10 @@ exports.load = function(req, res) {
 exports.delete = function(req, res) {
   var username = req.user.username;
   var filename = req.params.filename;
-  if (typeof username === 'undefined' ||
-    typeof filename === 'undefined')
-    return;
+  if (typeof username === 'undefined' || typeof filename === 'undefined') return;
   var filepath = 'users/' + username + '/' + filename;
-  fs.unlink(filepath, function(err){
-    if(err){
+  fs.unlink(filepath, function(err) {
+    if (err) {
       console.log(err);
     } else {
       res.status(200).end();
