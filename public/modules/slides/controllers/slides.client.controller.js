@@ -86,6 +86,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     function onprogress(evt, total) {
       // Set ticker
       $scope.ticker= (evt.loaded / total * 100).toFixed();
+      $scope.$apply();
 
       // Log
       console.log('progress: ' + $scope.ticker + '% ' + filename);
@@ -181,9 +182,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     }
 
     // Define error callback
-    function onerror(evt) {
+    function onerror(err) {
       // Log
-      console.log(evt.message);
+      console.log(err);
 
       // Reset ticker
       resetTicker();
@@ -191,15 +192,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
     // Upload
     $scope.showTicker = true;
-    if (files && files.length) {
-      for (var i = 0; i < files.length; i++) {
-        var file = files[i];
-        $upload.upload({
-          url: '/upload',
-          file: file
-        }).progress(onprogress).success(onsuccess).error(onerror);
-      }
-    }
+    Files.upload(files, onprogress, onsuccess, onerror);    
   };
 
   /**

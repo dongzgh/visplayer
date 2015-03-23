@@ -1,8 +1,10 @@
 'use strict';
 
 //Files service used to communicate Files REST endpoints
-angular.module('core').service('Files', ['$resource', '$window',
-  function($resource, $window) {
+angular.module('core').service('Files', ['$resource', '$window', '$upload', 'Authentication',
+  function($resource, $window, $upload, Authentication) {
+    var authentication = Authentication;
+
     // Define file resouce binding
     var rsc = $resource('files/:filename', {
       filename: '@filename'
@@ -11,6 +13,19 @@ angular.module('core').service('Files', ['$resource', '$window',
         method: 'PUT'
       }
     });
+
+    // Define upload method
+    this.upload = function(files, onprogress, onsuccess, onerror) {
+      if (files && files.length) {
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          $upload.upload({
+            url: '/upload',
+            file: file
+          }).progress(onprogress).success(onsuccess).error(onerror);
+        }
+      }
+    };
 
     // Define query method
     this.query = function(cb) {
@@ -30,8 +45,11 @@ angular.module('core').service('Files', ['$resource', '$window',
 
       // Define success callback
       function cbsuccess(evt) {
-        var res = req.responseText;
-        onsuccess(evt, res);
+        var res = req.response;
+        var enc = JSON.parse(res);
+        var dec = $window.CryptoJS.AES.decrypt(enc, authentication.user._id);
+        var msg = dec.toString($window.CryptoJS.enc.Utf8);
+        console.log(msg);
       }
 
       // Define error callback

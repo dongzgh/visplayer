@@ -7,7 +7,8 @@ var os = require('os');
 var path = require('path');
 var fs = require('fs');
 var unzip = require('unzip');
-var crypto = require('crypto');
+var CryptoJS = require('crypto-js');
+var AES = require('crypto-js/aes');
 
 /**
  * Load a model file
@@ -34,10 +35,10 @@ exports.loadVis = function(res, filepath) {
           name: objname,
           faces: fdata,
           edges: edata
-        };       
-        var buf = new Buffer(JSON.stringify(gd));
-        res.set('ContentLength', buf.length);
-        res.send(buf).status(200).end();
+        };
+        var enc = AES.encrypt(JSON.stringify(gd), res.req.user.id);
+        res.set('ContentLength', enc.length);
+        res.send(enc).status(200).end();
       });
       inp.pipe(out);
     }
