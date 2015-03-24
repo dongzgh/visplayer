@@ -45,11 +45,18 @@ angular.module('core').service('Files', ['$resource', '$window', '$upload', 'Aut
 
       // Define success callback
       function cbsuccess(evt) {
-        var res = req.response;
-        var enc = JSON.parse(res);
-        var dec = $window.CryptoJS.AES.decrypt(enc, authentication.user._id);
-        var msg = dec.toString($window.CryptoJS.enc.Utf8);
-        console.log(msg);
+        // Decrypt raw data
+        var raw = JSON.parse(req.responseText);
+        var params = $window.CryptoJS.lib.CipherParams.create({
+          ciphertext: $window.CryptoJS.enc.Hex.parse(raw.ciphertext)
+        });
+        var key = $window.CryptoJS.enc.Hex.parse(raw.key);
+        var iv = $window.CryptoJS.enc.Hex.parse(raw.iv);
+        var dec = $window.CryptoJS.AES.decrypt(params, key, {iv: iv, mode: $window.CryptoJS.mode.CBC});
+        var res = dec.toString($window.CryptoJS.enc.Utf8);
+
+        // Post-processing
+        onsuccess(evt, res);
       }
 
       // Define error callback
