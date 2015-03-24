@@ -38,11 +38,18 @@ exports.loadVis = function(res, filepath) {
         };
 
         // Encrypt gd
-        var enc = CryptoJS.AES.encrypt(JSON.stringify(gd), res.req.user.id);
+        var salt = CryptoJS.lib.WordArray.random(128 / 8);
+        var key = CryptoJS.EvpKDF(res.req.user.id, salt, {
+          keySize: 128 / 32
+        });
+        var iv = CryptoJS.enc.Hex.parse('101112131415161718191a1b1c1d1e1f');
+        var enc = CryptoJS.AES.encrypt(JSON.stringify(gd), key, {
+          iv: iv,
+          mode: CryptoJS.mode.CBC
+        });
         var raw = {
-          key: CryptoJS.enc.Hex.stringify(enc.key),
-          iv: CryptoJS.enc.Hex.stringify(enc.iv),
-          salt: CryptoJS.enc.Hex.stringify(enc.salt),
+          iv: CryptoJS.enc.Hex.stringify(iv),
+          salt: CryptoJS.enc.Hex.stringify(salt),
           ciphertext: CryptoJS.enc.Hex.stringify(enc.ciphertext)
         };
 

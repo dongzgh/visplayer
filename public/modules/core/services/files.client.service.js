@@ -50,7 +50,10 @@ angular.module('core').service('Files', ['$resource', '$window', '$upload', 'Aut
         var params = $window.CryptoJS.lib.CipherParams.create({
           ciphertext: $window.CryptoJS.enc.Hex.parse(raw.ciphertext)
         });
-        var key = $window.CryptoJS.enc.Hex.parse(raw.key);
+        var salt = $window.CryptoJS.enc.Hex.parse(raw.salt);
+        var key = $window.CryptoJS.EvpKDF(authentication.user._id, salt, {
+          keySize: 128 / 32
+        });
         var iv = $window.CryptoJS.enc.Hex.parse(raw.iv);
         var dec = $window.CryptoJS.AES.decrypt(params, key, {iv: iv, mode: $window.CryptoJS.mode.CBC});
         var res = dec.toString($window.CryptoJS.enc.Utf8);
