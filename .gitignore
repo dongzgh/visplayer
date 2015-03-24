@@ -32,3 +32,5 @@ npm-debug.log
 /plugins/forming/automation/uia_capscr/x64/Debug/*.exe
 /plugins/forming/automation/uia_capscr/*.suo
 /plugins/forming/automation/uia_capscr/*.sdf
+/plugins/forming/automation/uia_capscr/*.opensdf
+/plugins/forming/automation/uia_capscr/uia_capscr/*.user

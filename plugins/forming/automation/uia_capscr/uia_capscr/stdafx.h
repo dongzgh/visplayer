@@ -9,7 +9,8 @@
 
 #include <stdio.h>
 #include <tchar.h>
-
-
+#include <afx.h>
+#include <atlstr.h>
+#include <uiautomation.h>
 
 // TODO: reference additional headers your program requires here
