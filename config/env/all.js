@@ -25,13 +25,13 @@ module.exports = {
 				'public/lib/angular-sanitize/angular-sanitize.js', 
 				'public/lib/angular-ui-router/release/angular-ui-router.js',
 				'public/lib/angular-ui-utils/ui-utils.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
+				'public/libr/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/ng-file-upload/angular-file-upload-shim.js',
 				'public/lib/ng-file-upload/angular-file-upload.js',
         'public/lib/cryptojslib/rollups/aes.js',
 				'public/lib/threejs/build/three.js',
-				'public/lib/threejs/build/detector.js',
-				'public/lib/threejs/build/controls/orbit-controls.js'
+				'public/libr/threejs/build/detector.js',
+				'public/libr/threejs/build/controls/orbit-controls.js'
 			]
 		},
 		css: [

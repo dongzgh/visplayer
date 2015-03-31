@@ -10,20 +10,20 @@ module.exports = {
 			],
 			js: [
 				'public/lib/angular/angular.min.js',
-				'public/lib/angular-resource/angular-resource.js', 
-				'public/lib/angular-cookies/angular-cookies.js', 
-				'public/lib/angular-animate/angular-animate.js', 
-				'public/lib/angular-touch/angular-touch.js', 
-				'public/lib/angular-sanitize/angular-sanitize.js', 
+				'public/lib/angular-resource/angular-resource.min.js', 
+				'public/lib/angular-cookies/angular-cookies.min.js', 
+				'public/lib/angular-animate/angular-animate.min.js', 
+				'public/lib/angular-touch/angular-touch.min.js', 
+				'public/lib/angular-sanitize/angular-sanitize.min.js', 
 				'public/lib/angular-ui-router/release/angular-ui-router.min.js',
 				'public/lib/angular-ui-utils/ui-utils.min.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
+				'public/libr/angular-bootstrap/ui-bootstrap-tpls.min.js',
 				'public/lib/ng-file-upload/angular-file-upload-shim.min.js',
 				'public/lib/ng-file-upload/angular-file-upload.min.js',
         'public/lib/cryptojslib/rollups/aes.js',
 				'public/lib/threejs/build/three.min.js',
-				'public/lib/threejs/build/detector.min.js',
-				'public/lib/threejs/build/controls/orbit-controls.min.js'
+				'public/libr/threejs/build/detector.min.js',
+				'public/libr/threejs/build/controls/orbit-controls.min.js'
 			]
 		},
 		css: 'public/dist/application.min.css',
