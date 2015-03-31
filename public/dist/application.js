@@ -154,18 +154,21 @@ angular.module('core').service('Files', ['$resource', '$window', '$upload', 'Aut
 
       // Define success callback
       function cbsuccess(evt) {
-        // Decrypt raw data
-        var raw = JSON.parse(req.responseText);
-        var params = $window.CryptoJS.lib.CipherParams.create({
-          ciphertext: $window.CryptoJS.enc.Hex.parse(raw.ciphertext)
-        });
-        var salt = $window.CryptoJS.enc.Hex.parse(raw.salt);
-        var key = $window.CryptoJS.EvpKDF(authentication.user._id, salt, {
-          keySize: 128 / 32
-        });
-        var iv = $window.CryptoJS.enc.Hex.parse(raw.iv);
-        var dec = $window.CryptoJS.AES.decrypt(params, key, {iv: iv, mode: $window.CryptoJS.mode.CBC});
-        var res = dec.toString($window.CryptoJS.enc.Utf8);
+        // // Decrypt encrypted data
+        // var raw = JSON.parse(req.responseText);
+        // var params = $window.CryptoJS.lib.CipherParams.create({
+        //   ciphertext: $window.CryptoJS.enc.Hex.parse(raw.ciphertext)
+        // });
+        // var salt = $window.CryptoJS.enc.Hex.parse(raw.salt);
+        // var key = $window.CryptoJS.EvpKDF(authentication.user._id, salt, {
+        //   keySize: 128 / 32
+        // });
+        // var iv = $window.CryptoJS.enc.Hex.parse(raw.iv);
+        // var dec = $window.CryptoJS.AES.decrypt(params, key, {iv: iv, mode: $window.CryptoJS.mode.CBC});
+        // var res = dec.toString($window.CryptoJS.enc.Utf8);
+        
+        // Set raw data
+        var res = req.response;
 
         // Post-processing
         onsuccess(evt, res);
