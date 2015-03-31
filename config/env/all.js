@@ -3,7 +3,7 @@
 module.exports = {
 	app: {
 		title: 'visPlayer',
-		description: '3d online conent playground',
+		description: '3d online content playground',
 		keywords: '3d, geometry, statistics, design, analysis, simulation, visualization'
 	},
 	port: process.env.PORT || 3000,
