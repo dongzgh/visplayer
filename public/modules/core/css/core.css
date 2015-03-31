@@ -9,8 +9,7 @@ label {
   font-weight: normal;
 }
 body {
-  font-family: 'Ubuntu Condensed', sans-serif;
-  background-image: url('../img/background.jpg');
+  font-family: 'Ubuntu Condensed', sans-serif;  
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
