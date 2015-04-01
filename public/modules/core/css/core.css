@@ -9,10 +9,12 @@ label {
   font-weight: normal;
 }
 body {
-  font-family: 'Ubuntu Condensed', sans-serif;  
+  font-family: 'Ubuntu Condensed', sans-serif;   
+  height: 100%;
+}
+section {
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100%;
 }
 .btn {
   border-top-right-radius: 0 !important;
