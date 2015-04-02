@@ -58,7 +58,7 @@ label {
   border-color: #78FA89;
 }
 nav[role=navigation] {
-  float: right;
+  float: left;
 }
 .navbar {
   min-height: 32px !important;
@@ -93,26 +93,22 @@ nav[role=navigation] {
   font-family: 'Bevan', cursive;
   position: absolute;
   top: 0;
-  left: 37px;
+  left: 36px;
   height: 40px;
   margin-left: 0 !important;
   padding: 6px;
   line-height: 1.5em;
 }
-.navbar-inverse .navbar-brand {
-  color: #ffffff;
-  background-color: #E8373E;
-  text-shadow: 2px 2px 5px #000000;
-}
+.navbar-inverse .navbar-brand,
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:active,
 .navbar-inverse .navbar-brand:focus {
-  color: #ffffff;
-  background-color: #E8373E;
+  color: #E8373E;
+  background-color: #ffffff;
   text-shadow: 2px 2px 5px #000000;
 }
 .navbar-nav {
-  margin: 0;
+  margin: 0 0 0 168px;
 }
 @media (min-width:400px) {
   .navbar-nav li {
@@ -120,7 +116,7 @@ nav[role=navigation] {
   }
 }
 .navbar-nav li {
-  background-color: #000000;
+  background-color: transparent;
   display: inline;
 }
 .navbar-nav a {
@@ -138,12 +134,18 @@ nav[role=navigation] {
   color: #F58723 !important;
 }
 .navbar-right {
+  position: absolute;
+  top: 0;
+  right: 0;
   text-align: right;
 }
 .divider-vertical {
   height: 40px;
   width: 2px;
   background-color: transparent !important;
+}
+.dropdown-toggle {
+  float: left;
 }
 .navbar-nav .dropdown-toggle:hover,
 .navbar-nav .dropdown-toggle:active,
@@ -159,6 +161,9 @@ nav[role=navigation] {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+.navbar-right .dropdown-toggle {
+  float: right;
+}
 .dropdown-menu {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -168,8 +173,10 @@ nav[role=navigation] {
   padding-bottom: 0;
 }
 .dropdown-menu li {
-  background-color: transparent;
+  background-color: #ffffff;
   margin-left: 0 !important;
+  width: 100%;
+  float: none;
 }
 .dropdown-menu .divider {
   height: 1.1px;
@@ -182,7 +189,9 @@ nav[role=navigation] {
   font-size: 14px;
   padding-top: 2px !important;
   padding-bottom: 2px !important;
-  color: #000000 !important;
+  background: #ffffff !important;
+  color: #333333 !important;
+  text-transform: capitalize;
 }
 .dropdown-menu a:hover,
 .dropdown-menu a:active,
