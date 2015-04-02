@@ -48,10 +48,11 @@
   padding-bottom: 6px;
   border: none !important;
   border-radius: 0 !important;
+  text-transform: uppercase;
   color: #ffffff;
   background-color: #333333;
-  box-shadow:  1px 1px 2px #ffffff;
-  cursor: pointer
+  box-shadow: 1px 1px 2px #ffffff;
+  cursor: pointer;
 }
 .nav-tabs li a:hover,
 .nav-tabs li a:active,

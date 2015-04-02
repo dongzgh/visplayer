@@ -1,20 +1,28 @@
 html {
   height: 100%;
 }
+header {
+  height: 40px;
+}
+body {
+  font-family: 'Ubuntu Condensed', sans-serif;
+  height: 100%;
+}
+section {
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+section .row {
+  margin-left: 0;
+  margin-right: 0;
+}
 h3 {
   font-size: 18px;
   font-weight: normal;
 }
 label {
   font-weight: normal;
-}
-body {
-  font-family: 'Ubuntu Condensed', sans-serif;   
-  height: 100%;
-}
-section {
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 .btn {
   border-top-right-radius: 0 !important;
@@ -32,6 +40,26 @@ section {
 .glyphicon {
   font-size: 16px;
 }
+.undecorated-link:hover {
+  text-decoration: none;
+}
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+  display: none !important;
+}
+.ng-invalid.ng-dirty {
+  border-color: #FA787E;
+}
+.ng-valid.ng-dirty {
+  border-color: #78FA89;
+}
+nav[role=navigation] {
+  float: right;
+}
 .navbar {
   min-height: 32px !important;
   margin-bottom: 0;
@@ -42,18 +70,18 @@ section {
 }
 .navbar > .container {
   width: 100%;
-  padding-left: 0;
+  padding: 0;
 }
 .navbar-toggle {
-  display: flex;
-  float: left;
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 40px;
-  padding: 6px 0 6px 6px;
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-right: 0;
+  margin: 0;
+  padding: 6px;
   border: none;
   border-radius: 0;
+  display: inline-block;
 }
 .navbar-inverse .navbar-toggle,
 .navbar-inverse .navbar-toggle:hover,
@@ -63,9 +91,12 @@ section {
 }
 .navbar-brand {
   font-family: 'Bevan', cursive;
-  margin-left: 0 !important;
-  padding: 8px 8px;
+  position: absolute;
+  top: 0;
+  left: 37px;
   height: 40px;
+  margin-left: 0 !important;
+  padding: 6px;
   line-height: 1.5em;
 }
 .navbar-inverse .navbar-brand {
@@ -80,6 +111,14 @@ section {
   background-color: #E8373E;
   text-shadow: 2px 2px 5px #000000;
 }
+.navbar-nav {
+  margin: 0;
+}
+@media (min-width:400px) {
+  .navbar-nav li {
+    float: left;
+  }
+}
 .navbar-nav li {
   background-color: #000000;
   display: inline;
@@ -87,9 +126,11 @@ section {
 .navbar-nav a {
   font-family: 'Ubuntu Condensed', sans-serif;
   font-size: 14px;
+  text-transform: uppercase;
   padding-top: 10px !important;
   padding-bottom: 10px !important;
   color: #ffffff !important;
+  background-color: #000000 !important;
 }
 .navbar-nav a:hover,
 .navbar-nav a:active,
@@ -167,28 +208,4 @@ section {
   padding: 0;
   width: 100%;
   height: 100%;
-}
-section {
-  height: 100%;
-}
-section .row {
-  margin-left: 0;
-  margin-right: 0;
-}
-.undecorated-link:hover {
-  text-decoration: none;
-}
-[ng\:cloak],
-[ng-cloak],
-[data-ng-cloak],
-[x-ng-cloak],
-.ng-cloak,
-.x-ng-cloak {
-  display: none !important;
-}
-.ng-invalid.ng-dirty {
-  border-color: #FA787E;
-}
-.ng-valid.ng-dirty {
-  border-color: #78FA89;
 }

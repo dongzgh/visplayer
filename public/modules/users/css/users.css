@@ -12,12 +12,14 @@
   right: 10px;
   position: absolute;
 }
+@media (min-width:768px) {
+  .well {
+    padding: 80px 35% !important;
+  }
+}
 .well {
-  margin-left: 35%;
-  width: 30%;
   height: 100%;
-  padding-top: 80px;
-  padding-bottom: 80px;
+  padding: 80px 0;
   margin-bottom: 0;
   color: #ffffff;
   background-color: rgb(0, 0, 0);
