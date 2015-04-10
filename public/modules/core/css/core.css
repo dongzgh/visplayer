@@ -78,7 +78,7 @@ nav[role=navigation] {
   left: 0;
   height: 40px;
   margin: 0;
-  padding: 6px;
+  padding: 6px 8px;
   border: none;
   border-radius: 0;
   display: inline-block;
@@ -93,7 +93,7 @@ nav[role=navigation] {
   font-family: 'Bevan', cursive;
   position: absolute;
   top: 0;
-  left: 36px;
+  left: 38px;
   height: 40px;
   margin-left: 0 !important;
   padding: 6px;

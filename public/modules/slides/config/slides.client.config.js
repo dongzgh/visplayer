@@ -8,11 +8,11 @@ angular.module('slides').run(['Menus', 'Tools', 'Nodes',
     Menus.addSubMenuItem('topbar', 'slides', 'New Slide', 'slides/create');
 
     // Set sidebar tool items
+    Tools.addToolItem('sidebar', 'Tools', 'glyphicon-wrench', 'tools', 'dropdown');
+    Tools.addSubToolItem('sidebar', 'tools', 'Upload Files', 'glyphicon-cloud-upload', 'uploadFiles', 'upload/files');
     Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'files', 'dropdown');
-    Tools.addSubToolItem('sidebar', 'files', 'Upload Files', 'glyphicon-cloud-upload', 'uploadFiles', 'upload/files');
-    Tools.addToolItem('sidebar', 'Edits', 'glyphicon-edit', 'edits', 'dropdown');
-    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'materials', 'dropdown');
     Tools.addToolItem('sidebar', 'Views', 'glyphicon-camera', 'views', 'dropdown');
+    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'materials', 'dropdown');    
     Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'markups', 'dropdown');
     Tools.addToolItem('sidebar', 'Scripts', 'glyphicon-list-alt', 'scripts', 'dropdown');
 
