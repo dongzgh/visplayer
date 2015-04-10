@@ -12,7 +12,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.showTicker = false;
 
   // Find a list of Tools
-  $scope.tools = Tools.getTool('sidebar').items;
+  $scope.tool = Tools.getTool('sidebar');
 
   // Find a list of file Nodes  
   $scope.fileTree = Nodes.getNode('fileTree').items;
@@ -49,13 +49,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     if ($scope.activeIndex === -1) {
       $scope.activeIndex = index;
       $scope.showPanel = true;
-      $scope.subTools = $scope.tools[index].items;
+      $scope.subTools = $scope.tool.items[index].items;
     } else if ($scope.activeIndex === index) {
       $scope.activeIndex = -1;
       $scope.showPanel = false;
       $scope.subTools = [];
     } else if ($scope.activeIndex !== index) {
-      $scope.subTools = $scope.tools[index].items;
+      $scope.subTools = $scope.tool.items[index].items;
       $scope.activeIndex = index;
       $scope.showPanel = $scope.subTools.length > 0 ? true : false;
     }

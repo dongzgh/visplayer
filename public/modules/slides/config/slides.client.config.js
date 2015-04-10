@@ -4,17 +4,16 @@
 angular.module('slides').run(['Menus', 'Tools', 'Nodes',
   function(Menus, Tools, Nodes) {
     // Set topbar menu items
-    Menus.addMenuItem('topbar', 'Slides', 'slides', 'dropdown', '/slides(/create)?');
+    Menus.addMenuItem('topbar', 'Slides', 'slides', 'dropdown');
     Menus.addSubMenuItem('topbar', 'slides', 'New Slide', 'slides/create');
 
     // Set sidebar tool items
-    Tools.addToolItem('sidebar', 'Tools', 'glyphicon-wrench', 'tools', 'dropdown');
-    Tools.addSubToolItem('sidebar', 'tools', 'Upload Files', 'glyphicon-cloud-upload', 'uploadFiles', 'upload/files');
-    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'files', 'dropdown');
-    Tools.addToolItem('sidebar', 'Views', 'glyphicon-camera', 'views', 'dropdown');
-    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'materials', 'dropdown');    
-    Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'markups', 'dropdown');
-    Tools.addToolItem('sidebar', 'Scripts', 'glyphicon-list-alt', 'scripts', 'dropdown');
+    Tools.addToolItem('sidebar', 'Views', 'glyphicon-camera', 'slides/create/views', 'dropdown');
+    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/create/files', 'dropdown');
+    Tools.addToolItem('sidebar', 'Tools', 'glyphicon-wrench', 'slides/create/tools', 'dropdown');
+    Tools.addSubToolItem('sidebar', 'tools', 'Upload Files', 'glyphicon-cloud-upload', 'slides/create/tools/uploadFiles', 'uploadFiles');        
+    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'slides/create/materials', 'dropdown');    
+    Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'slides/create/markups', 'dropdown');
 
     // Set file tree node items
     Nodes.addNodeItem('fileTree', 'Resources', 'glyphicon-briefcase', 'resources', 'dropdown');

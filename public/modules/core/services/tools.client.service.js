@@ -79,7 +79,7 @@ angular.module('core').service('Tools', [
     };
 
     // Add tool item object
-    this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemType, isPublic, roles) {
+    this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemType, toolItemUIRoute, isPublic, roles, position) {
       // Validate that the tool exists
       this.validateToolExistance(toolId);
 
@@ -89,8 +89,11 @@ angular.module('core').service('Tools', [
         icon: toolItemIcon,
         link: toolItemURL,
         toolItemType: toolItemType || 'item',
+        toolItemClass: toolItemType,
+        uiRoute: toolItemUIRoute || ('/' + toolItemURL),
         isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.tools[toolId].isPublic : isPublic),
         roles: ((roles === null || typeof roles === 'undefined') ? this.tools[toolId].roles : roles),
+        position: position || 0,
         items: [],
         shouldRender: shouldRender
       });
@@ -100,7 +103,7 @@ angular.module('core').service('Tools', [
     };
 
     // Add subtool item object
-    this.addSubToolItem = function(toolId, rootToolItemURL, toolItemTitle, toolItemIcon, toolItemAction, toolItemURL, isPublic, roles) {
+    this.addSubToolItem = function(toolId, rootToolItemURL, toolItemTitle, toolItemIcon, toolItemURL, toolItemAction, isPublic, roles, position) {
       // Validate that the tool exists
       this.validateToolExistance(toolId);
 
@@ -111,8 +114,8 @@ angular.module('core').service('Tools', [
           this.tools[toolId].items[itemIndex].items.push({
             title: toolItemTitle,
             icon: toolItemIcon,
-            action: toolItemAction,
             link: toolItemURL,
+            action: toolItemAction,            
             isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.tools[toolId].items[itemIndex].isPublic : isPublic),
             roles: ((roles === null || typeof roles === 'undefined') ? this.tools[toolId].items[itemIndex].roles : roles),
             shouldRender: shouldRender

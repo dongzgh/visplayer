@@ -1,0 +1,43 @@
+<div class="panel panel-default" data-ng-show="showPanel">
+    <tabset justified="true">
+      <tab>
+        <button data-ng-repeat="subTool in subTools" type="button" class="btn btn-default" data-ng-click="activateTool($index)">
+          <i class="glyphicon {{subTool.icon}}"></i>
+        </button>
+      </tab>
+      <tab>
+        <ul data-ng-repeat="node in fileTree" class="list-group">
+          <div>
+            <span class="glyphicon {{node.icon}}"></span>
+            <span data-ng-bind="node.title"></span>
+          </div>
+          <li data-ng-repeat="subNode in node.items" class="list-group-item">
+            <div>
+              <span class="glyphicon {{subNode.icon}}"></span>
+              <span data-ng-bind="subNode.title"></span>
+              <a data-ng-repeat="widget in subNode.widgets" data-ng-click="activateWidget(widget.action, subNode)">
+                <i class="glyphicon {{widget.icon}}"></i>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </tab>
+      <tab>
+        <ul data-ng-repeat="node in sceneTree" class="list-group">
+          <div>
+            <span class="glyphicon {{node.icon}}"></span>
+            <span data-ng-bind="node.title"></span>
+          </div>
+          <li data-ng-repeat="subNode in node.items" class="list-group-item">
+            <div>
+              <span class="glyphicon {{subNode.icon}}"></span>
+              <span data-ng-bind="subNode.title"></span>
+              <a data-ng-repeat="widget in subNode.widgets" data-ng-click="activateWidget(widget.action, subNode)">
+                <i class="glyphicon {{widget.icon}}"></i>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </tab>
+    </tabset>
+  </div>
