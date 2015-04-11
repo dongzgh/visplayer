@@ -374,174 +374,6 @@ angular.module('core').service('Menus', [
 
 'use strict';
 
-//Node service used for managing  nodes
-angular.module('core').service('Nodes', [
-
-  function() {
-    // Define a set of default roles
-    this.defaultRoles = ['*'];
-
-    // Define the nodes object
-    this.nodes = {};
-
-    // A private function for rendering decision 
-    var shouldRender = function(user) {
-      if (user) {
-        if (!!~this.roles.indexOf('*')) {
-          return true;
-        } else {
-          for (var userRoleIndex in user.roles) {
-            for (var roleIndex in this.roles) {
-              if (this.roles[roleIndex] === user.roles[userRoleIndex]) {
-                return true;
-              }
-            }
-          }
-        }
-      } else {
-        return this.isPublic;
-      }
-
-      return false;
-    };
-
-    // Validate node existance
-    this.validateNodeExistance = function(nodeId) {
-      if (nodeId && nodeId.length) {
-        if (this.nodes[nodeId]) {
-          return true;
-        } else {
-          throw new Error('Node does not exists');
-        }
-      } else {
-        throw new Error('NodeId was not provided');
-      }
-
-      return false;
-    };
-
-    // Get the node object by node id
-    this.getNode = function(nodeId) {
-      // Validate that the node exists
-      this.validateNodeExistance(nodeId);
-
-      // Return the node object
-      return this.nodes[nodeId];
-    };
-
-    // Add new node object by node id
-    this.addNode = function(nodeId, isPublic, roles) {
-      // Create the new node
-      this.nodes[nodeId] = {
-        isPublic: isPublic || false,
-        roles: roles || this.defaultRoles,
-        items: [],
-        shouldRender: shouldRender
-      };
-
-      // Return the node object
-      return this.nodes[nodeId];
-    };
-
-    // Remove existing node object by node id
-    this.removeNode = function(nodeId) {
-      // Validate that the node exists
-      this.validateNodeExistance(nodeId);
-
-      // Return the node object
-      delete this.nodes[nodeId];
-    };
-
-    // Add node item object
-    this.addNodeItem = function(nodeId, nodeItemTitle, nodeItemIcon, nodeItemURL, nodeItemType, isPublic, roles) {
-      // Validate that the node exists
-      this.validateNodeExistance(nodeId);
-
-      // Push new node item
-      this.nodes[nodeId].items.push({
-        title: nodeItemTitle,
-        icon: nodeItemIcon,
-        link: nodeItemURL,
-        nodeItemType: nodeItemType || 'item',
-        isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.nodes[nodeId].isPublic : isPublic),
-        roles: ((roles === null || typeof roles === 'undefined') ? this.nodes[nodeId].roles : roles),
-        items: [],
-        shouldRender: shouldRender
-      });
-
-      // Return the node object
-      return this.nodes[nodeId];
-    };
-
-    // Add subnode item object
-    this.addSubNodeItem = function(nodeId, rootNodeItemURL, nodeItemTitle, nodeItemIcon, nodeItemWidgets, nodeItemURL, isPublic, roles) {
-      // Validate that the node exists
-      this.validateNodeExistance(nodeId);
-
-      // Search for node item
-      for (var itemIndex in this.nodes[nodeId].items) {
-        if (this.nodes[nodeId].items[itemIndex].link === rootNodeItemURL) {
-          // Push new subnode item
-          this.nodes[nodeId].items[itemIndex].items.push({
-            title: nodeItemTitle,
-            icon: nodeItemIcon,
-            widgets: nodeItemWidgets,
-            link: nodeItemURL,
-            isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.nodes[nodeId].items[itemIndex].isPublic : isPublic),
-            roles: ((roles === null || typeof roles === 'undefined') ? this.nodes[nodeId].items[itemIndex].roles : roles),
-            shouldRender: shouldRender
-          });
-        }
-      }
-
-      // Return the node object
-      return this.nodes[nodeId];
-    };
-
-    // Remove existing node object by node id
-    this.removeNodeItem = function(nodeId, nodeItemURL) {
-      // Validate that the node exists
-      this.validateNodeExistance(nodeId);
-
-      // Search for node item to remove
-      for (var itemIndex in this.nodes[nodeId].items) {
-        if (this.nodes[nodeId].items[itemIndex].link === nodeItemURL) {
-          this.nodes[nodeId].items.splice(itemIndex, 1);
-        }
-      }
-
-      // Return the node object
-      return this.nodes[nodeId];
-    };
-
-    // Remove existing node object by node id
-    this.removeSubNodeItem = function(nodeId, subnodeItemURL) {
-      // Validate that the node exists
-      this.validateNodeExistance(nodeId);
-
-      // Search for node item to remove
-      for (var itemIndex in this.nodes[nodeId].items) {
-        for (var subitemIndex in this.nodes[nodeId].items[itemIndex].items) {
-          if (this.nodes[nodeId].items[itemIndex].items[subitemIndex].link === subnodeItemURL) {
-            this.nodes[nodeId].items[itemIndex].items.splice(subitemIndex, 1);
-          }
-        }
-      }
-
-      // Return the node object
-      return this.nodes[nodeId];
-    };
-
-    // Adding the file tree node
-    this.addNode('fileTree');
-
-    // Adding the scene tree node
-    this.addNode('sceneTree');
-  }
-]);
-
-'use strict';
-
 //Scene service used for managing scene
 angular.module('core').service('Scene', ['$window', '$document',
 
@@ -955,7 +787,7 @@ angular.module('core').service('Tools', [
     };
 
     // Add tool item object
-    this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemType, isPublic, roles) {
+    this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemAction, isPublic, roles, position) {
       // Validate that the tool exists
       this.validateToolExistance(toolId);
 
@@ -963,38 +795,15 @@ angular.module('core').service('Tools', [
       this.tools[toolId].items.push({
         title: toolItemTitle,
         icon: toolItemIcon,
-        link: toolItemURL,
-        toolItemType: toolItemType || 'item',
+        link: toolItemURL || toolItemAction,
+        uiRoute: '/' + toolItemURL,
+        action: toolItemAction,
         isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.tools[toolId].isPublic : isPublic),
         roles: ((roles === null || typeof roles === 'undefined') ? this.tools[toolId].roles : roles),
+        position: position || 0,
         items: [],
         shouldRender: shouldRender
       });
-
-      // Return the tool object
-      return this.tools[toolId];
-    };
-
-    // Add subtool item object
-    this.addSubToolItem = function(toolId, rootToolItemURL, toolItemTitle, toolItemIcon, toolItemAction, toolItemURL, isPublic, roles) {
-      // Validate that the tool exists
-      this.validateToolExistance(toolId);
-
-      // Search for tool item
-      for (var itemIndex in this.tools[toolId].items) {
-        if (this.tools[toolId].items[itemIndex].link === rootToolItemURL) {
-          // Push new subtool item
-          this.tools[toolId].items[itemIndex].items.push({
-            title: toolItemTitle,
-            icon: toolItemIcon,
-            action: toolItemAction,
-            link: toolItemURL,
-            isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.tools[toolId].items[itemIndex].isPublic : isPublic),
-            roles: ((roles === null || typeof roles === 'undefined') ? this.tools[toolId].items[itemIndex].roles : roles),
-            shouldRender: shouldRender
-          });
-        }
-      }
 
       // Return the tool object
       return this.tools[toolId];
@@ -1016,52 +825,205 @@ angular.module('core').service('Tools', [
       return this.tools[toolId];
     };
 
-    // Remove existing tool object by tool id
-    this.removeSubToolItem = function(toolId, subtoolItemURL) {
-      // Validate that the tool exists
-      this.validateToolExistance(toolId);
+    //Adding the sidebar tool
+    this.addTool('sidebar');
+    this.addTool('panel');
+  }
+]);
 
-      // Search for tool item to remove
-      for (var itemIndex in this.tools[toolId].items) {
-        for (var subitemIndex in this.tools[toolId].items[itemIndex].items) {
-          if (this.tools[toolId].items[itemIndex].items[subitemIndex].link === subtoolItemURL) {
-            this.tools[toolId].items[itemIndex].items.splice(subitemIndex, 1);
+'use strict';
+
+//Tree service used for managing  trees
+angular.module('core').service('Trees', [
+
+  function() {
+    // Define a set of default roles
+    this.defaultRoles = ['*'];
+
+    // Define the trees object
+    this.trees = {};
+
+    // A private function for rendering decision 
+    var shouldRender = function(user) {
+      if (user) {
+        if (!!~this.roles.indexOf('*')) {
+          return true;
+        } else {
+          for (var userRoleIndex in user.roles) {
+            for (var roleIndex in this.roles) {
+              if (this.roles[roleIndex] === user.roles[userRoleIndex]) {
+                return true;
+              }
+            }
+          }
+        }
+      } else {
+        return this.isPublic;
+      }
+
+      return false;
+    };
+
+    // Validate tree existance
+    this.validateTreeExistance = function(treeId) {
+      if (treeId && treeId.length) {
+        if (this.trees[treeId]) {
+          return true;
+        } else {
+          throw new Error('Tree does not exists');
+        }
+      } else {
+        throw new Error('TreeId was not provided');
+      }
+
+      return false;
+    };
+
+    // Get the tree object by tree id
+    this.getTree = function(treeId) {
+      // Validate that the tree exists
+      this.validateTreeExistance(treeId);
+
+      // Return the tree object
+      return this.trees[treeId];
+    };
+
+    // Add new tree object by tree id
+    this.addTree = function(treeId, isPublic, roles) {
+      // Create the new tree
+      this.trees[treeId] = {
+        isPublic: isPublic || false,
+        roles: roles || this.defaultRoles,
+        items: [],
+        shouldRender: shouldRender
+      };
+
+      // Return the tree object
+      return this.trees[treeId];
+    };
+
+    // Remove existing tree object by tree id
+    this.removeTree = function(treeId) {
+      // Validate that the tree exists
+      this.validateTreeExistance(treeId);
+
+      // Return the tree object
+      delete this.trees[treeId];
+    };
+
+    // Add tree item object
+    this.addTreeItem = function(treeId, treeItemTitle, treeItemIcon, treeItemURL, isPublic, roles) {
+      // Validate that the tree exists
+      this.validateTreeExistance(treeId);
+
+      // Push new tree item
+      this.trees[treeId].items.push({
+        title: treeItemTitle,
+        icon: treeItemIcon,
+        link: treeItemURL,
+        isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.trees[treeId].isPublic : isPublic),
+        roles: ((roles === null || typeof roles === 'undefined') ? this.trees[treeId].roles : roles),
+        items: [],
+        shouldRender: shouldRender
+      });
+
+      // Return the tree object
+      return this.trees[treeId];
+    };
+
+    // Add subtree item object
+    this.addSubTreeItem = function(treeId, rootTreeItemURL, treeItemTitle, treeItemIcon, treeItemWidgets, treeItemURL, isPublic, roles) {
+      // Validate that the tree exists
+      this.validateTreeExistance(treeId);
+
+      // Search for tree item
+      for (var itemIndex in this.trees[treeId].items) {
+        if (this.trees[treeId].items[itemIndex].link === rootTreeItemURL) {
+          // Push new subtree item
+          this.trees[treeId].items[itemIndex].items.push({
+            title: treeItemTitle,
+            icon: treeItemIcon,
+            widgets: treeItemWidgets,
+            link: treeItemURL,
+            isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.trees[treeId].items[itemIndex].isPublic : isPublic),
+            roles: ((roles === null || typeof roles === 'undefined') ? this.trees[treeId].items[itemIndex].roles : roles),
+            shouldRender: shouldRender
+          });
+        }
+      }
+
+      // Return the tree object
+      return this.trees[treeId];
+    };
+
+    // Remove existing tree object by tree id
+    this.removeTreeItem = function(treeId, treeItemURL) {
+      // Validate that the tree exists
+      this.validateTreeExistance(treeId);
+
+      // Search for tree item to remove
+      for (var itemIndex in this.trees[treeId].items) {
+        if (this.trees[treeId].items[itemIndex].link === treeItemURL) {
+          this.trees[treeId].items.splice(itemIndex, 1);
+        }
+      }
+
+      // Return the tree object
+      return this.trees[treeId];
+    };
+
+    // Remove existing tree object by tree id
+    this.removeSubTreeItem = function(treeId, subtreeItemURL) {
+      // Validate that the tree exists
+      this.validateTreeExistance(treeId);
+
+      // Search for tree item to remove
+      for (var itemIndex in this.trees[treeId].items) {
+        for (var subitemIndex in this.trees[treeId].items[itemIndex].items) {
+          if (this.trees[treeId].items[itemIndex].items[subitemIndex].link === subtreeItemURL) {
+            this.trees[treeId].items[itemIndex].items.splice(subitemIndex, 1);
           }
         }
       }
 
-      // Return the tool object
-      return this.tools[toolId];
+      // Return the tree object
+      return this.trees[treeId];
     };
 
-    //Adding the sidebar tool
-    this.addTool('sidebar');
+    // Adding the file tree tree
+    this.addTree('fileTree');
+
+    // Adding the scene tree tree
+    this.addTree('sceneTree');
   }
 ]);
 
 'use strict';
 
 // Configuring the Slides module
-angular.module('slides').run(['Menus', 'Tools', 'Nodes',
-  function(Menus, Tools, Nodes) {
+angular.module('slides').run(['Menus', 'Tools', 'Trees',
+  function(Menus, Tools, Trees) {
     // Set topbar menu items
-    Menus.addMenuItem('topbar', 'Slides', 'slides', 'dropdown', '/slides(/create)?');
+    Menus.addMenuItem('topbar', 'Slides', 'slides', 'dropdown');
     Menus.addSubMenuItem('topbar', 'slides', 'New Slide', 'slides/create');
 
     // Set sidebar tool items
-    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'files', 'dropdown');
-    Tools.addSubToolItem('sidebar', 'files', 'Upload Files', 'glyphicon-cloud-upload', 'uploadFiles', 'upload/files');
-    Tools.addToolItem('sidebar', 'Edits', 'glyphicon-edit', 'edits', 'dropdown');
-    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'materials', 'dropdown');
-    Tools.addToolItem('sidebar', 'Views', 'glyphicon-camera', 'views', 'dropdown');
-    Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'markups', 'dropdown');
-    Tools.addToolItem('sidebar', 'Scripts', 'glyphicon-list-alt', 'scripts', 'dropdown');
+    Tools.addToolItem('sidebar', 'Views', 'glyphicon-camera', 'slides/create/views');
+    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/create/files');
+    Tools.addToolItem('sidebar', 'Tools', 'glyphicon-wrench', 'slides/create/tools');
+    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'slides/create/materials');
+    Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'slides/create/markups');
+
+    // Set panel tool items
+    Tools.addToolItem('panel', 'Upload File', 'glyphicon-upload', null, 'uploadFiles');
+    Tools.addToolItem('panel', 'Download File', 'glyphicon-download', null, 'downloadFile');
+    Tools.addToolItem('panel', 'Take Snapshot', 'glyphicon-picture', null, 'takeSnapshot');
 
     // Set file tree node items
-    Nodes.addNodeItem('fileTree', 'Resources', 'glyphicon-briefcase', 'resources', 'dropdown');
+    Trees.addTreeItem('fileTree', 'Resources', 'glyphicon-briefcase', 'resources');
 
     // Set scene tree node items 
-    Nodes.addNodeItem('sceneTree', 'Models', 'glyphicon-briefcase', 'models', 'dropdown');
+    Trees.addTreeItem('sceneTree', 'Models', 'glyphicon-briefcase', 'models');
   }
 ]);
 
@@ -1089,16 +1051,15 @@ angular.module('slides').constant('sceneWidgets', [{
 
 // Configure http interseptor
 angular.module('slides').factory('httpResponseInterceptor', ['$q', function($q) {
-  return {
-    response: function(res) {
-      return res || $q.when(res);
-    }
-  };  
-}])
-.config(['$httpProvider',function($httpProvider) {
+    return {
+      response: function(res) {
+        return res || $q.when(res);
+      }
+    };
+  }])
+  .config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('httpResponseInterceptor');
-}]);
-
+  }]);
 'use strict';
 
 //Setting up route
@@ -1114,6 +1075,26 @@ angular.module('slides').config(['$stateProvider',
       url: '/slides/create',
       templateUrl: 'modules/slides/views/create-slide.client.view.html'
     }).
+    state('createSlide.Views', {
+      url: '/views',
+      templateUrl: 'modules/slides/views/create-slide-views.client.view.html'
+    }).
+    state('createSlide.Files', {
+      url: '/files',
+      templateUrl: 'modules/slides/views/create-slide-files.client.view.html'
+    }).
+    state('createSlide.Tools', {
+      url: '/tools',
+      templateUrl: 'modules/slides/views/create-slide-tools.client.view.html'
+    }).
+    state('createSlide.Materials', {
+      url: '/materials',
+      templateUrl: 'modules/slides/views/create-slide-materials.client.view.html'
+    }).
+    state('createSlide.Markups', {
+      url: '/markups',
+      templateUrl: 'modules/slides/views/create-slide-markups.client.view.html'
+    }).
     state('viewSlide', {
       url: '/slides/:slideId',
       templateUrl: 'modules/slides/views/view-slide.client.view.html'
@@ -1128,25 +1109,33 @@ angular.module('slides').config(['$stateProvider',
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$timeout', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $window, $timeout, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, fileWidgets, sceneWidgets, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$timeout', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $window, $timeout, $upload, Authentication, Scene, Files, Tools, Trees, FileTypes, fileWidgets, sceneWidgets, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
   //  Initialization
   //---------------------------------------------------
+  // Initialize panel visibility toggle
+  $scope.link = null;
+  $scope.url = $location.url();
+  $scope.isVisible = false;
+
   // Initialize ticker
   $scope.ticker = 0.0;
   $scope.showTicker = false;
 
-  // Find a list of Tools
-  $scope.tools = Tools.getTool('sidebar').items;
+  // Find a list of sidebar Tools
+  $scope.sidebarTools = Tools.getTool('sidebar');
 
-  // Find a list of file Nodes  
-  $scope.fileTree = Nodes.getNode('fileTree').items;
+  // Find a list of panel Tools
+  $scope.panelTools = Tools.getTool('panel');
+
+  // Find a list of file Trees  
+  $scope.fileTree = Trees.getTree('fileTree');
   Files.query(function(filenames) {
     if (filenames && filenames.length > 0) {
       filenames.forEach(function(filename) {
-        addFileNode(filename.toLowerCase());
+        addFileTree(filename.toLowerCase());
       });
     }
   });
@@ -1154,44 +1143,25 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Initialize scene
   Scene.initialize();
 
-  // Find a list of scene model Nodes
-  $scope.sceneTree = Nodes.getNode('sceneTree').items;
+  // Find a list of scene model Trees
+  $scope.sceneTree = Trees.getTree('sceneTree');
   Scene.queryModels(function(modelnames) {
     modelnames.forEach(function(modelname) {
-      addSceneNode(modelname);
+      addSceneTree(modelname);
     });
   });
 
   //---------------------------------------------------
   //  Callbacks
   //---------------------------------------------------
-  /**
-   * Tools callbacks
-   */
-  // Active a tool set
-  $scope.showPanel = false;
-  $scope.subTools = [];
-  $scope.activeIndex = -1;
-  $scope.activateToolset = function(index) {
-    if ($scope.activeIndex === -1) {
-      $scope.activeIndex = index;
-      $scope.showPanel = true;
-      $scope.subTools = $scope.tools[index].items;
-    } else if ($scope.activeIndex === index) {
-      $scope.activeIndex = -1;
-      $scope.showPanel = false;
-      $scope.subTools = [];
-    } else if ($scope.activeIndex !== index) {
-      $scope.subTools = $scope.tools[index].items;
-      $scope.activeIndex = index;
-      $scope.showPanel = $scope.subTools.length > 0 ? true : false;
-    }
-  };
-
   // Tool callbacks
-  // Activate a tool
-  $scope.activateTool = function(index) {
-    $scope[$scope.subTools[index].action]();
+  $scope.toggleVisibility = function (link) {
+    if(link !== $scope.link) {
+      $scope.isVisible = true;
+      $scope.link = link;
+    } else {
+      $scope.isVisible = !$scope.isVisible;
+    }    
   };
 
   // Import model
@@ -1200,14 +1170,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Widget callbacks
-  // Activate a widget
-  $scope.activateWidget = function(action, node) {
-    $scope[action](node);
-  };
-
   // Load a file
-  $scope.loadFile = function(node) {
-    var filename = node.title;
+  $scope.loadFile = function(tree) {
+    var filename = tree.title;
 
     // Define progress callback
     function onprogress(evt, total) {
@@ -1227,8 +1192,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       // Load data to scene
       var data = JSON.parse(res);
       Scene.loadModel(data, function(object) {
-        // Add scene node
-        addSceneNode(object.displayName.toLowerCase());
+        // Add scene tree
+        addSceneTree(object.displayName.toLowerCase());
 
         // Reset ticker
         resetTicker();
@@ -1250,14 +1215,14 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Delete a file
-  $scope.deleteFile = function(node) {
-    var filename = node.title;
+  $scope.deleteFile = function(tree) {
+    var filename = tree.title;
     var message = 'Delete ' + filename + ' from server?';
     var res = $window.confirm(message);
 
     // Define delete callback
     function ondelete(filename) {
-      removeFileNode(filename);
+      removeFileTree(filename);
     }
 
     // Delete file
@@ -1267,9 +1232,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Remove a model
-  $scope.removeModel = function(node) {
-    Scene.removeModel(node.title);
-    removeSceneNode(node.title);
+  $scope.removeModel = function(tree) {
+    Scene.removeModel(tree.title);
+    removeSceneTree(tree.title);
   };
 
   /**
@@ -1301,8 +1266,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       var icon = getFileIcon(ext);
       var widgets = getFileWidgets(ext);
 
-      // Add file node
-      Nodes.addSubNodeItem('fileTree', 'resources', config.file.name, icon, widgets, config.file.name);
+      // Add file tree
+      Trees.addSubTreeItem('fileTree', 'resources', config.file.name, icon, widgets, config.file.name);
 
       // Reset ticker
       resetTicker();
@@ -1430,32 +1395,32 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     return widgets;
   }
 
-  // Add file node
-  function addFileNode(filename) {
+  // Add file tree
+  function addFileTree(filename) {
     var ext = filename.split('.').reverse()[0];
     var icon = getFileIcon(ext);
     var widgets = getFileWidgets(ext);
-    Nodes.addSubNodeItem('fileTree', 'resources', filename, icon, widgets, filename);
+    Trees.addSubTreeItem('fileTree', 'resources', filename, icon, widgets, filename);
   }
 
-  // Remove file node
-  function removeFileNode(filename) {
-    Nodes.removeSubNodeItem('fileTree', filename);
+  // Remove file tree
+  function removeFileTree(filename) {
+    Trees.removeSubTreeItem('fileTree', filename);
   }
 
   /**
    * Scene related
    */
-  // Add scene node
-  function addSceneNode(modelname) {
+  // Add scene tree
+  function addSceneTree(modelname) {
     var widgets = [];
     widgets.push(sceneWidgets[0]);
-    Nodes.addSubNodeItem('sceneTree', 'models', modelname, 'glyphicon-knight', widgets, modelname);
+    Trees.addSubTreeItem('sceneTree', 'models', modelname, 'glyphicon-knight', widgets, modelname);
   }
 
-  // Remove scene node
-  function removeSceneNode(modelname) {
-    Nodes.removeSubNodeItem('sceneTree', modelname);
+  // Remove scene tree
+  function removeSceneTree(modelname) {
+    Trees.removeSubTreeItem('sceneTree', modelname);
   }
 }]);
 
