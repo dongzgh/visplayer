@@ -1,0 +1,15 @@
+<ul data-ng-repeat="item in sceneTree.items" class="list-group">
+  <div>
+    <span class="glyphicon {{item.icon}}"></span>
+    <span data-ng-bind="item.title"></span>
+  </div>
+  <li data-ng-repeat="subItem in item.items" class="list-group-item">
+    <div>
+      <span class="glyphicon {{subItem.icon}}"></span>
+      <span data-ng-bind="subItem.title"></span>
+      <a data-ng-repeat="widget in subItem.widgets" data-ng-click="{{widget.action}}(subItem)">
+        <span class="glyphicon {{widget.icon}}"></span>
+      </a>
+    </div>
+  </li>
+</ul>

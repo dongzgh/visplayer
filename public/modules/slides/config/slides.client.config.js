@@ -8,7 +8,8 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees',
     Menus.addSubMenuItem('topbar', 'slides', 'New Slide', 'slides/create');
 
     // Set sidebar tool items
-    Tools.addToolItem('sidebar', 'Views', 'glyphicon-camera', 'slides/create/views');
+    Tools.addToolItem('sidebar', 'Views', 'glyphicon-blackboard', 'slides/create/views');
+    Tools.addToolItem('sidebar', 'Scene', 'glyphicon-camera', 'slides/create/scene');
     Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/create/files');
     Tools.addToolItem('sidebar', 'Tools', 'glyphicon-wrench', 'slides/create/tools');
     Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'slides/create/materials');
