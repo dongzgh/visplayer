@@ -1,15 +1,15 @@
 <section data-ng-controller="SlidesController">
   <div class="btn-group-vertical" role="group">
-    <button data-ng-repeat="item in tool.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.uiRoute}}" type="button" class="btn btn-default" dropdown="item.menuItemType === 'dropdown'">
+    <button data-ng-repeat="item in sidebarTools.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.uiRoute}}" type="button" class="btn btn-default" data-ng-click="toggleVisibility(item.link)">
       <a href="/#!/{{item.link}}">
         <span class="glyphicon {{item.icon}}"></span>
-      </a>      
+      </a>
     </button>
   </div>
-  <div class="panel panel-default">
+  <div class="panel panel-default" data-ng-show="isVisible">
     <div data-ui-view class="panel-body"></div>
   </div>
   <progressbar class="progress-striped active" value="ticker" type="success" data-ng-show="showTicker"><b>{{ticker}}%</b></progressbar>
   <div id="canvas"></div>
-  <div id='upload' ng-show="false" ng-file-select ng-model="files" ng-multiple="true"></div>
+  <div id='upload' data-ng-show="false" data-ng-file-select data-ng-model="files" data-ng-multiple="true"></div>
 </section>

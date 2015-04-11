@@ -79,7 +79,7 @@ angular.module('core').service('Tools', [
     };
 
     // Add tool item object
-    this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemType, toolItemUIRoute, isPublic, roles, position) {
+    this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemAction, isPublic, roles, position) {
       // Validate that the tool exists
       this.validateToolExistance(toolId);
 
@@ -87,41 +87,15 @@ angular.module('core').service('Tools', [
       this.tools[toolId].items.push({
         title: toolItemTitle,
         icon: toolItemIcon,
-        link: toolItemURL,
-        toolItemType: toolItemType || 'item',
-        toolItemClass: toolItemType,
-        uiRoute: toolItemUIRoute || ('/' + toolItemURL),
+        link: toolItemURL || toolItemAction,
+        uiRoute: '/' + toolItemURL,
+        action: toolItemAction,
         isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.tools[toolId].isPublic : isPublic),
         roles: ((roles === null || typeof roles === 'undefined') ? this.tools[toolId].roles : roles),
         position: position || 0,
         items: [],
         shouldRender: shouldRender
       });
-
-      // Return the tool object
-      return this.tools[toolId];
-    };
-
-    // Add subtool item object
-    this.addSubToolItem = function(toolId, rootToolItemURL, toolItemTitle, toolItemIcon, toolItemURL, toolItemAction, isPublic, roles, position) {
-      // Validate that the tool exists
-      this.validateToolExistance(toolId);
-
-      // Search for tool item
-      for (var itemIndex in this.tools[toolId].items) {
-        if (this.tools[toolId].items[itemIndex].link === rootToolItemURL) {
-          // Push new subtool item
-          this.tools[toolId].items[itemIndex].items.push({
-            title: toolItemTitle,
-            icon: toolItemIcon,
-            link: toolItemURL,
-            action: toolItemAction,            
-            isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.tools[toolId].items[itemIndex].isPublic : isPublic),
-            roles: ((roles === null || typeof roles === 'undefined') ? this.tools[toolId].items[itemIndex].roles : roles),
-            shouldRender: shouldRender
-          });
-        }
-      }
 
       // Return the tool object
       return this.tools[toolId];
@@ -143,25 +117,8 @@ angular.module('core').service('Tools', [
       return this.tools[toolId];
     };
 
-    // Remove existing tool object by tool id
-    this.removeSubToolItem = function(toolId, subtoolItemURL) {
-      // Validate that the tool exists
-      this.validateToolExistance(toolId);
-
-      // Search for tool item to remove
-      for (var itemIndex in this.tools[toolId].items) {
-        for (var subitemIndex in this.tools[toolId].items[itemIndex].items) {
-          if (this.tools[toolId].items[itemIndex].items[subitemIndex].link === subtoolItemURL) {
-            this.tools[toolId].items[itemIndex].items.splice(subitemIndex, 1);
-          }
-        }
-      }
-
-      // Return the tool object
-      return this.tools[toolId];
-    };
-
     //Adding the sidebar tool
     this.addTool('sidebar');
+    this.addTool('panel');
   }
 ]);

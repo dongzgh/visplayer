@@ -12,20 +12,26 @@
   background-color: transparent;
   background-image: none;
   border: none;
+  outline-style: none;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
-  box-shadow: none
+  box-shadow: none;
 }
 .btn-group-vertical .btn:hover,
 .btn-group-vertical .btn:active,
 .btn-group-vertical .btn:focus,
 .btn-group-vertical .btn:active:focus {
-  color: #000000;
   background-color: #F58723;
-  outline-style: none
 }
-.btn-group-vertical span {
-  text-shadow: none
+.btn-group-vertical .btn span {
+  color: #9D9D9D;
+  text-shadow: none;
+}
+.btn-group-vertical .btn:hover span,
+.btn-group-vertical .btn:active span,
+.btn-group-vertical .btn:focus span,
+.btn-group-vertical .btn:active:focus span {
+  color: #000000;
 }
 .panel {
   position: absolute;
@@ -40,45 +46,31 @@
   border: none;
   z-index: 2;
 }
-.nav-tabs li.active {
-  border: none !important;
-}
-.nav-tabs li a {
-  padding-top: 5px;
-  padding-bottom: 6px;
-  border: none !important;
-  border-radius: 0 !important;
-  text-transform: uppercase;
-  color: #ffffff;
-  background-color: #333333;
-  box-shadow: 1px 1px 2px #ffffff;
-  cursor: pointer;
-}
-.nav-tabs li a:hover,
-.nav-tabs li a:active,
-.nav-tabs li a:focus {
-  color: #ffffff;
-  background-color: #327CCB;
-  cursor: pointer
-}
-.nav-tabs.nav-justified > li > a {
-  border-bottom-color: transparent
-}
-.tab-content {
-  padding-top: 10px
-}
-.tab-pane .btn {
+.panel-body .btn {
   color: #9D9D9D;
   background-color: transparent;
   background-image: none;
-  text-shadow: none;
-  box-shadow: none
+  border: none;
+  outline-style: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
-.tab-pane .btn:hover,
-.tab-pane .btn:active,
-.tab-pane .btn:focus {
-  color: #ffffff;
-  background-color: #327CCB
+.panel-body .btn:hover,
+.panel-body .btn:active,
+.panel-body .btn:focus,
+.panel-body .btn:active:focus {
+  background-color: #F58723;
+}
+.panel-body .btn span {
+  color: #9D9D9D;
+  text-shadow: none;
+}
+.panel-body .btn:hover span,
+.panel-body .btn:active span,
+.panel-body .btn:focus span,
+.panel-body .btn:active:focus span {
+  color: #000000;
 }
 .list-group {
   -webkit-box-shadow: none;
@@ -89,8 +81,10 @@
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 10px;
-  color: #ffffff;
+  color: #FFFFFF;
   background-color: #F58723;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 5px #000000;;
 }
 .list-group > div span:last-child {
   padding-left: 5px

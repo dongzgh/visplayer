@@ -1,25 +1,33 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$timeout', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Nodes', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $window, $timeout, $upload, Authentication, Scene, Files, Tools, Nodes, FileTypes, fileWidgets, sceneWidgets, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$timeout', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $window, $timeout, $upload, Authentication, Scene, Files, Tools, Trees, FileTypes, fileWidgets, sceneWidgets, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
   //  Initialization
   //---------------------------------------------------
+  // Initialize panel visibility toggle
+  $scope.link = null;
+  $scope.url = $location.url();
+  $scope.isVisible = false;
+
   // Initialize ticker
   $scope.ticker = 0.0;
   $scope.showTicker = false;
 
-  // Find a list of Tools
-  $scope.tool = Tools.getTool('sidebar');
+  // Find a list of sidebar Tools
+  $scope.sidebarTools = Tools.getTool('sidebar');
 
-  // Find a list of file Nodes  
-  $scope.fileTree = Nodes.getNode('fileTree').items;
+  // Find a list of panel Tools
+  $scope.panelTools = Tools.getTool('panel');
+
+  // Find a list of file Trees  
+  $scope.fileTree = Trees.getTree('fileTree');
   Files.query(function(filenames) {
     if (filenames && filenames.length > 0) {
       filenames.forEach(function(filename) {
-        addFileNode(filename.toLowerCase());
+        addFileTree(filename.toLowerCase());
       });
     }
   });
@@ -27,44 +35,25 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Initialize scene
   Scene.initialize();
 
-  // Find a list of scene model Nodes
-  $scope.sceneTree = Nodes.getNode('sceneTree').items;
+  // Find a list of scene model Trees
+  $scope.sceneTree = Trees.getTree('sceneTree');
   Scene.queryModels(function(modelnames) {
     modelnames.forEach(function(modelname) {
-      addSceneNode(modelname);
+      addSceneTree(modelname);
     });
   });
 
   //---------------------------------------------------
   //  Callbacks
   //---------------------------------------------------
-  /**
-   * Tools callbacks
-   */
-  // Active a tool set
-  $scope.showPanel = false;
-  $scope.subTools = [];
-  $scope.activeIndex = -1;
-  $scope.activateToolset = function(index) {
-    if ($scope.activeIndex === -1) {
-      $scope.activeIndex = index;
-      $scope.showPanel = true;
-      $scope.subTools = $scope.tool.items[index].items;
-    } else if ($scope.activeIndex === index) {
-      $scope.activeIndex = -1;
-      $scope.showPanel = false;
-      $scope.subTools = [];
-    } else if ($scope.activeIndex !== index) {
-      $scope.subTools = $scope.tool.items[index].items;
-      $scope.activeIndex = index;
-      $scope.showPanel = $scope.subTools.length > 0 ? true : false;
-    }
-  };
-
   // Tool callbacks
-  // Activate a tool
-  $scope.activateTool = function(index) {
-    $scope[$scope.subTools[index].action]();
+  $scope.toggleVisibility = function (link) {
+    if(link !== $scope.link) {
+      $scope.isVisible = true;
+      $scope.link = link;
+    } else {
+      $scope.isVisible = !$scope.isVisible;
+    }    
   };
 
   // Import model
@@ -73,14 +62,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Widget callbacks
-  // Activate a widget
-  $scope.activateWidget = function(action, node) {
-    $scope[action](node);
-  };
-
   // Load a file
-  $scope.loadFile = function(node) {
-    var filename = node.title;
+  $scope.loadFile = function(tree) {
+    var filename = tree.title;
 
     // Define progress callback
     function onprogress(evt, total) {
@@ -100,8 +84,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       // Load data to scene
       var data = JSON.parse(res);
       Scene.loadModel(data, function(object) {
-        // Add scene node
-        addSceneNode(object.displayName.toLowerCase());
+        // Add scene tree
+        addSceneTree(object.displayName.toLowerCase());
 
         // Reset ticker
         resetTicker();
@@ -123,14 +107,14 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Delete a file
-  $scope.deleteFile = function(node) {
-    var filename = node.title;
+  $scope.deleteFile = function(tree) {
+    var filename = tree.title;
     var message = 'Delete ' + filename + ' from server?';
     var res = $window.confirm(message);
 
     // Define delete callback
     function ondelete(filename) {
-      removeFileNode(filename);
+      removeFileTree(filename);
     }
 
     // Delete file
@@ -140,9 +124,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Remove a model
-  $scope.removeModel = function(node) {
-    Scene.removeModel(node.title);
-    removeSceneNode(node.title);
+  $scope.removeModel = function(tree) {
+    Scene.removeModel(tree.title);
+    removeSceneTree(tree.title);
   };
 
   /**
@@ -174,8 +158,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       var icon = getFileIcon(ext);
       var widgets = getFileWidgets(ext);
 
-      // Add file node
-      Nodes.addSubNodeItem('fileTree', 'resources', config.file.name, icon, widgets, config.file.name);
+      // Add file tree
+      Trees.addSubTreeItem('fileTree', 'resources', config.file.name, icon, widgets, config.file.name);
 
       // Reset ticker
       resetTicker();
@@ -303,31 +287,31 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     return widgets;
   }
 
-  // Add file node
-  function addFileNode(filename) {
+  // Add file tree
+  function addFileTree(filename) {
     var ext = filename.split('.').reverse()[0];
     var icon = getFileIcon(ext);
     var widgets = getFileWidgets(ext);
-    Nodes.addSubNodeItem('fileTree', 'resources', filename, icon, widgets, filename);
+    Trees.addSubTreeItem('fileTree', 'resources', filename, icon, widgets, filename);
   }
 
-  // Remove file node
-  function removeFileNode(filename) {
-    Nodes.removeSubNodeItem('fileTree', filename);
+  // Remove file tree
+  function removeFileTree(filename) {
+    Trees.removeSubTreeItem('fileTree', filename);
   }
 
   /**
    * Scene related
    */
-  // Add scene node
-  function addSceneNode(modelname) {
+  // Add scene tree
+  function addSceneTree(modelname) {
     var widgets = [];
     widgets.push(sceneWidgets[0]);
-    Nodes.addSubNodeItem('sceneTree', 'models', modelname, 'glyphicon-knight', widgets, modelname);
+    Trees.addSubTreeItem('sceneTree', 'models', modelname, 'glyphicon-knight', widgets, modelname);
   }
 
-  // Remove scene node
-  function removeSceneNode(modelname) {
-    Nodes.removeSubNodeItem('sceneTree', modelname);
+  // Remove scene tree
+  function removeSceneTree(modelname) {
+    Trees.removeSubTreeItem('sceneTree', modelname);
   }
 }]);
