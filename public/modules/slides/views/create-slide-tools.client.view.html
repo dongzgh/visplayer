@@ -1,3 +1,3 @@
-<button data-ng-repeat="item in panelTools.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" type="button" class="btn btn-default" data-ng-click="{{item.action}}()">
+<button data-ng-repeat="item in panelTools.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" type="button" class="btn btn-default" tooltip-placement="bottom" tooltip="{{item.tooltip}}" data-ng-click="{{item.action}}()">
   <span class="glyphicon {{item.icon}}"></span>
 </button>

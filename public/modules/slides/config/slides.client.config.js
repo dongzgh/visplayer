@@ -16,9 +16,9 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees',
     Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'slides/create/markups');
 
     // Set panel tool items
-    Tools.addToolItem('panel', 'Upload File', 'glyphicon-upload', null, 'uploadFiles');
-    Tools.addToolItem('panel', 'Download File', 'glyphicon-download', null, 'downloadFile');
-    Tools.addToolItem('panel', 'Take Snapshot', 'glyphicon-picture', null, 'takeSnapshot');
+    Tools.addToolItem('panel', 'Upload File', 'glyphicon-upload', null, 'uploadFiles', 'Upload multiple files');
+    Tools.addToolItem('panel', 'Download File', 'glyphicon-download', null, 'downloadFile', 'Download a file');
+    Tools.addToolItem('panel', 'Take Snapshot', 'glyphicon-picture', null, 'takeSnapshot' , 'Take a snapshot for the scene');
 
     // Set file tree node items
     Trees.addTreeItem('fileTree', 'Resources', 'glyphicon-briefcase', 'resources');

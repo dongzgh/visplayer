@@ -1,8 +1,8 @@
 'use strict';
 
 //Files service used to communicate Files REST endpoints
-angular.module('core').service('Files', ['$resource', '$window', '$upload', 'Authentication',
-  function($resource, $window, $upload, Authentication) {
+angular.module('core').service('Files', ['$resource', '$window', '$log'. '$upload', 'Authentication',
+  function($resource, $window, $log, $upload, Authentication) {
     var authentication = Authentication;
 
     // Define file resouce binding
@@ -86,11 +86,11 @@ angular.module('core').service('Files', ['$resource', '$window', '$upload', 'Aut
           filename: filename
         },
         function(res) {
-          console.log('%s is deleted successfully.', filename);
+          $log.info('%s is deleted successfully.', filename);
           cb(filename);
         },
         function(err) {
-          console.log('Failed to delete %s!', filename);
+          $log.error('Failed to delete %s!', filename);
         });
     };
   }

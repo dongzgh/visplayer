@@ -1,7 +1,7 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$timeout', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $window, $timeout, $upload, Authentication, Scene, Files, Tools, Trees, FileTypes, fileWidgets, sceneWidgets, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$timeout', '$log', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $window, $timeout, $log, $upload, Authentication, Scene, Files, Tools, Trees, FileTypes, fileWidgets, sceneWidgets, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
@@ -58,7 +58,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Import model
   $scope.uploadFiles = function() {
-    angular.element(document.querySelector('#upload')).triggerHandler('click');
+    //angular.element(document.querySelector('#upload')).triggerHandler('click');
   };
 
   // Widget callbacks
@@ -73,13 +73,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       $scope.$apply();
 
       // Log
-      console.log('progress: ' + $scope.ticker + '% ' + filename);
+      $log.log('progress: ' + $scope.ticker + '% ' + filename);
     }
 
     // Define success callback
     function onsuccess(evt, res) {
       // Log
-      console.log('Model is loaded successfully.');
+      $log.info('Model is loaded successfully.');
 
       // Load data to scene
       var data = JSON.parse(res);
@@ -95,7 +95,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     // Define error callback
     function onerror(evt) {
       // Log
-      console.log('Failed to load model %s!', filename);
+      $log.error('Failed to load model %s!', filename);
 
       // Reset ticker
       resetTicker();
@@ -145,13 +145,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       $scope.ticker = (evt.loaded / evt.total * 100).toFixed();
 
       // Log
-      console.log('progress: ' + $scope.ticker + '% ' + evt.config.file.name);
+      $log.log('progress: ' + $scope.ticker + '% ' + evt.config.file.name);
     }
 
     // Define success callback
     function onsuccess(data, status, headers, config) {
       // Log
-      console.log('%s is uploaded successfully.', config.file.name);
+      $log.info('%s is uploaded successfully.', config.file.name);
 
       // Prepare icon and widgets
       var ext = config.file.name.split('.').reverse()[0];
@@ -168,7 +168,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     // Define error callback
     function onerror(err) {
       // Log
-      console.log(err);
+      $log.error(err);
 
       // Reset ticker
       resetTicker();

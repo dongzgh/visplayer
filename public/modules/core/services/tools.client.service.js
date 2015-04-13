@@ -79,7 +79,7 @@ angular.module('core').service('Tools', [
     };
 
     // Add tool item object
-    this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemAction, isPublic, roles, position) {
+    this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemAction, toolItemTip, isPublic, roles, position) {
       // Validate that the tool exists
       this.validateToolExistance(toolId);
 
@@ -90,6 +90,7 @@ angular.module('core').service('Tools', [
         link: toolItemURL || toolItemAction,
         uiRoute: '/' + toolItemURL,
         action: toolItemAction,
+        tooltip: toolItemTip,
         isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.tools[toolId].isPublic : isPublic),
         roles: ((roles === null || typeof roles === 'undefined') ? this.tools[toolId].roles : roles),
         position: position || 0,
