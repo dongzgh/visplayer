@@ -16,7 +16,8 @@
     "angular-ui-router": "~0.2.11",
     "ng-file-upload": "~3.1.1",
     "threejs": "*",
-    "cryptojslib": "~3.1.2"
+    "cryptojslib": "~3.1.2",
+    "angular-material": "~0.8.3"
   },
   "resolutions": {
     "angular-bootstrap": "~0.12.1"

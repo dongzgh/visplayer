@@ -1,7 +1,7 @@
 'use strict';
 
 //Files service used to communicate Files REST endpoints
-angular.module('core').service('Files', ['$resource', '$window', '$log'. '$upload', 'Authentication',
+angular.module('core').service('Files', ['$resource', '$window', '$log', '$upload', 'Authentication',
   function($resource, $window, $log, $upload, Authentication) {
     var authentication = Authentication;
 
@@ -57,7 +57,7 @@ angular.module('core').service('Files', ['$resource', '$window', '$log'. '$uploa
         // var iv = $window.CryptoJS.enc.Hex.parse(raw.iv);
         // var dec = $window.CryptoJS.AES.decrypt(params, key, {iv: iv, mode: $window.CryptoJS.mode.CBC});
         // var res = dec.toString($window.CryptoJS.enc.Utf8);
-        
+
         // Set raw data
         var res = req.response;
 

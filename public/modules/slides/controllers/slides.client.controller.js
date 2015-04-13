@@ -1,7 +1,7 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$timeout', '$log', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $window, $timeout, $log, $upload, Authentication, Scene, Files, Tools, Trees, FileTypes, fileWidgets, sceneWidgets, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$timeout', '$log', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'Dialogs', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $window, $timeout, $log, $upload, Authentication, Scene, Files, Tools, Trees, Dialogs, FileTypes, fileWidgets, sceneWidgets, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
@@ -47,17 +47,18 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //  Callbacks
   //---------------------------------------------------
   // Tool callbacks
-  $scope.toggleVisibility = function (link) {
-    if(link !== $scope.link) {
+  $scope.toggleVisibility = function(link) {
+    if (link !== $scope.link) {
       $scope.isVisible = true;
       $scope.link = link;
     } else {
       $scope.isVisible = !$scope.isVisible;
-    }    
+    }
   };
 
   // Import model
   $scope.uploadFiles = function() {
+    $scope.modalInstance = Dialogs.uploadFiles();
     //angular.element(document.querySelector('#upload')).triggerHandler('click');
   };
 
@@ -69,7 +70,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     // Define progress callback
     function onprogress(evt, total) {
       // Set ticker
-      $scope.ticker= (evt.loaded / total * 100).toFixed();
+      $scope.ticker = (evt.loaded / total * 100).toFixed();
       $scope.$apply();
 
       // Log
@@ -176,7 +177,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
     // Upload
     $scope.showTicker = true;
-    Files.upload(files, onprogress, onsuccess, onerror);    
+    Files.upload(files, onprogress, onsuccess, onerror);
   };
 
   /**
@@ -252,7 +253,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       $scope.ticker = 0.0;
       $scope.$apply();
     }, 1000);
-  }  
+  }
 
   /**
    * File related

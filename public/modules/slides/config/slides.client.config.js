@@ -1,8 +1,8 @@
 'use strict';
 
 // Configuring the Slides module
-angular.module('slides').run(['Menus', 'Tools', 'Trees',
-  function(Menus, Tools, Trees) {
+angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
+  function(Menus, Tools, Trees, Dialogs) {
     // Set topbar menu items
     Menus.addMenuItem('topbar', 'Slides', 'slides', 'dropdown');
     Menus.addSubMenuItem('topbar', 'slides', 'New Slide', 'slides/create');
