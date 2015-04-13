@@ -10,6 +10,6 @@ angular.module('core').service('Dialogs', ['$modal',
         controller: 'UploadFilesController',
         size: 'sm'
       });
-    }
+    };
   }
 ]);

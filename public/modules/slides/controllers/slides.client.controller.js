@@ -11,6 +11,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.link = null;
   $scope.url = $location.url();
   $scope.isVisible = false;
+  $scope.modalInstance = null;
 
   // Initialize ticker
   $scope.ticker = 0.0;
@@ -59,7 +60,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Import model
   $scope.uploadFiles = function() {
     $scope.modalInstance = Dialogs.uploadFiles();
-    //angular.element(document.querySelector('#upload')).triggerHandler('click');
   };
 
   // Widget callbacks

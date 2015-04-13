@@ -24,6 +24,12 @@ h3 {
 label {
   font-weight: normal;
 }
+input[type="file"] {
+  width: 38px !important;
+  height: 34px !important;
+  margin-top: -27px !important;
+  margin-left: -10px !important;
+}
 .btn {
   border-top-right-radius: 0 !important;
   border-top-left-radius: 0 !important;
@@ -217,6 +223,11 @@ nav[role=navigation] {
   padding: 0;
   width: 100%;
   height: 100%;
+}
+@media (min-width: 768px) {
+  .modal-dialog {
+    margin-top: 200px !important;
+  }
 }
 .modal-content {
   border-radius: 0;
