@@ -48,6 +48,10 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //  Callbacks
   //---------------------------------------------------
   // Tool callbacks
+  $scope.activateTool = function (action) {
+    $scope[action]();
+  };
+
   $scope.toggleVisibility = function(link) {
     if (link !== $scope.link) {
       $scope.isVisible = true;
@@ -63,6 +67,11 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Widget callbacks
+  // Activate a widget
+  $scope.activateWidget = function (action, subItem) {
+    $scope[action](subItem);
+  };
+
   // Load a file
   $scope.loadFile = function(tree) {
     var filename = tree.title;

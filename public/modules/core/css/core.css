@@ -84,7 +84,7 @@ nav[role=navigation] {
   left: 0;
   height: 40px;
   margin: 0;
-  padding: 6px 8px;
+  padding: 6px 7px;
   border: none;
   border-radius: 0;
   display: inline-block;
@@ -96,12 +96,14 @@ nav[role=navigation] {
   background-color: #E8373E;
 }
 .navbar-brand {
-  font-family: 'Bevan', cursive;
+  font-family: 'Exo', sans-serif;
+  font-weight: bold;
+  font-size: 1.5em;
   position: absolute;
   top: 0;
   left: 38px;
   height: 40px;
-  margin-left: 0 !important;
+  margin-left: 6px !important;
   padding: 6px;
   line-height: 1.5em;
 }
@@ -110,8 +112,8 @@ nav[role=navigation] {
 .navbar-inverse .navbar-brand:active,
 .navbar-inverse .navbar-brand:focus {
   color: #E8373E;
-  background-color: #ffffff;
-  text-shadow: 2px 2px 5px #000000;
+  background-color: #333333;
+  text-shadow: 1px 1px 1px #000000;
 }
 .navbar-nav {
   margin: 0 0 0 168px;
@@ -250,14 +252,26 @@ nav[role=navigation] {
   padding-top: 5px;
   float: right;
 }
-.modal-body input {
+.modal-body .input-group input {
   border-radius: 0;
   border: none;
 }
-.modal-body .btn {
+.modal-body .input-group .btn {
   padding-top: 7px;
   padding-bottom: 7px;
   border: none;
+}
+.modal-body .btn-group {
+  margin-top: 10px;
+}
+.modal-body .btn-group .btn {
+  margin-right: 5px;
+  background-image: none;
+}
+.modal-body .btn-group .btn:hover {
+  color: #FFFFFF;
+  text-shadow: none;
+  background-color: #E8373E;
 }
 .modal-footer {
   border-radius: 0;
