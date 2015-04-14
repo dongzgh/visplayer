@@ -277,3 +277,11 @@ nav[role=navigation] {
   border-radius: 0;
   border-top-color: #9D9D9D;
 }
+.progress-striped {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 0;
+  width: 100%;
+  background-color: transparent;
+  background-image: none;
+}

@@ -6,7 +6,7 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
     var authentication = Authentication;
 
     // Define file resouce binding
-    var rsc = $resource('files/:filename', {
+    var rc = $resource('files/:filename', {
       filename: '@filename'
     }, {
       update: {
@@ -29,7 +29,7 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
 
     // Define query method
     this.query = function(cb) {
-      rsc.query(cb);
+      rc.query(cb);
     };
 
     // Deinfe load method
@@ -82,7 +82,7 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
 
     // Define delete method
     this.delete = function(filename, cb) {
-      rsc.delete({
+      rc.delete({
           filename: filename
         },
         function(res) {

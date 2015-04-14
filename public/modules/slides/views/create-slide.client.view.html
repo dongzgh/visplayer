@@ -1,14 +1,13 @@
 <section data-ng-controller="SlidesController">
   <div class="btn-group-vertical" role="group">
-    <button data-ng-repeat="item in sidebarTools.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.uiRoute}}" type="button" class="btn btn-default" data-ng-click="toggleVisibility(item.link)">
+    <button data-ng-repeat="item in sidebarTools.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.uiRoute}}" type="button" class="btn btn-default" data-ng-click="activatePanel(item.link)">
       <a href="/#!/{{item.link}}">
         <span class="glyphicon {{item.icon}}"></span>
       </a>
     </button>
   </div>
-  <div class="panel panel-default" data-ng-show="isVisible">
+  <div class="panel panel-default" data-ng-show="showPanel">
     <div data-ui-view class="panel-body"></div>
   </div>
-  <progressbar class="progress-striped active" value="ticker" type="success" data-ng-show="showTicker"><b>{{ticker}}%</b></progressbar>
   <div id="canvas"></div>  
 </section>

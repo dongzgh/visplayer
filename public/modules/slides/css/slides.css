@@ -122,15 +122,6 @@
 .list-group-item > div a:focus {
   color: #ffffff
 }
-.progress-striped {
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 0;
-  width: 100%;
-  background-color: transparent;
-  background-image: none;
-  z-index: 1;
-}
 canvas {
   position: absolute;
 }

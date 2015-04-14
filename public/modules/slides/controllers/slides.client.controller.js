@@ -7,10 +7,11 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //---------------------------------------------------
   //  Initialization
   //---------------------------------------------------
-  // Initialize panel visibility toggle
+  // Initialize panel params
   $scope.link = null;
-  $scope.url = $location.url();
-  $scope.isVisible = false;
+  $scope.showPanel = false;
+
+  // Initialize modal instance
   $scope.modalInstance = null;
 
   // Initialize ticker
@@ -28,7 +29,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   Files.query(function(filenames) {
     if (filenames && filenames.length > 0) {
       filenames.forEach(function(filename) {
-        addFileTree(filename.toLowerCase());
+        addFileItem(filename.toLowerCase());
       });
     }
   });
@@ -40,7 +41,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.sceneTree = Trees.getTree('sceneTree');
   Scene.queryModels(function(modelnames) {
     modelnames.forEach(function(modelname) {
-      addSceneTree(modelname);
+      addSceneItem(modelname);
     });
   });
 
@@ -48,20 +49,22 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //  Callbacks
   //---------------------------------------------------
   // Tool callbacks
+  // Activate a tool
   $scope.activateTool = function (action) {
     $scope[action]();
   };
 
-  $scope.toggleVisibility = function(link) {
+  // Activate the panel
+  $scope.activatePanel = function(link) {
     if (link !== $scope.link) {
-      $scope.isVisible = true;
+      $scope.showPanel = true;
       $scope.link = link;
     } else {
-      $scope.isVisible = !$scope.isVisible;
+      $scope.showPanel = !$scope.showPanel;
     }
   };
 
-  // Import model
+  // Import files
   $scope.uploadFiles = function() {
     $scope.modalInstance = Dialogs.uploadFiles();
   };
@@ -95,7 +98,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       var data = JSON.parse(res);
       Scene.loadModel(data, function(object) {
         // Add scene tree
-        addSceneTree(object.displayName.toLowerCase());
+        addSceneItem(object.displayName.toLowerCase());
 
         // Reset ticker
         resetTicker();
@@ -124,7 +127,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
     // Define delete callback
     function ondelete(filename) {
-      removeFileTree(filename);
+      removeFileItem(filename);
     }
 
     // Delete file
@@ -136,17 +139,12 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Remove a model
   $scope.removeModel = function(tree) {
     Scene.removeModel(tree.title);
-    removeSceneTree(tree.title);
+    removeSceneItem(tree.title);
   };
 
   /**
    * Hidden callbacks
    */
-  // Watch on files
-  $scope.$watch('files', function() {
-    $scope.upload($scope.files);
-  });
-
   // Upload files
   $scope.upload = function(files) {
     // Define progress callback
@@ -298,7 +296,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   }
 
   // Add file tree
-  function addFileTree(filename) {
+  function addFileItem(filename) {
     var ext = filename.split('.').reverse()[0];
     var icon = getFileIcon(ext);
     var widgets = getFileWidgets(ext);
@@ -306,7 +304,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   }
 
   // Remove file tree
-  function removeFileTree(filename) {
+  function removeFileItem(filename) {
     Trees.removeSubTreeItem('fileTree', filename);
   }
 
@@ -314,14 +312,14 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    * Scene related
    */
   // Add scene tree
-  function addSceneTree(modelname) {
+  function addSceneItem(modelname) {
     var widgets = [];
     widgets.push(sceneWidgets[0]);
     Trees.addSubTreeItem('sceneTree', 'models', modelname, 'glyphicon-knight', widgets, modelname);
   }
 
   // Remove scene tree
-  function removeSceneTree(modelname) {
+  function removeSceneItem(modelname) {
     Trees.removeSubTreeItem('sceneTree', modelname);
   }
 }]);
