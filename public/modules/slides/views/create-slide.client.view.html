@@ -1,6 +1,6 @@
 <section data-ng-controller="SlidesController">
   <div class="btn-group-vertical" role="group">
-    <button data-ng-repeat="item in sidebarTools.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.uiRoute}}" type="button" class="btn btn-default" data-ng-click="activatePanel(item.link)">
+    <button data-ng-repeat="item in sidebarTools.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.uiRoute}}" type="button" class="btn btn-default" data-ng-class="{active: ($uiRoute)}" data-ng-click="activatePanel(item.link)">
       <a href="/#!/{{item.link}}">
         <span class="glyphicon {{item.icon}}"></span>
       </a>

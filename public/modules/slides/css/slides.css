@@ -37,6 +37,12 @@
 .btn-group-vertical .btn:active:focus span {
   color: #000000;
 }
+.btn-group-vertical .btn.active {
+  background-color: #F58723;
+}
+.btn-group-vertical .btn.active span {
+  color: #000000;
+}
 .panel {
   position: absolute;
   margin-top: 0;

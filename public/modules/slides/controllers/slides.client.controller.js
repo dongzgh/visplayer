@@ -208,14 +208,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //---------------------------------------------------
   // Listener for upload-files.success
   $scope.$on('upload-files.success', function(event, filename) {
-    // Prepare icon and widgets
-    var ext = filename.split('.').reverse()[0];
-    var icon = getFileIcon(ext);
-    var widgets = getFileWidgets(ext);
-
-    // Add file to File Tree
-    Trees.addSubTreeItem('fileTree', 'resources', filename, icon, widgets, filename);
-  });  
+    addFileItem(filename);
+  });
 
   //---------------------------------------------------
   //  Utilities
@@ -269,7 +263,15 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     var ext = filename.split('.').reverse()[0];
     var icon = getFileIcon(ext);
     var widgets = getFileWidgets(ext);
-    Trees.addSubTreeItem('fileTree', 'resources', filename, icon, widgets, filename);
+    if (FileTypes.models.indexOf(ext) !== -1) {
+      Trees.addSubTreeItem('fileTree', 'models', filename, icon, widgets, filename);
+    } else if (FileTypes.images.indexOf(ext) !== -1) {
+      Trees.addSubTreeItem('fileTree', 'images', filename, icon, widgets, filename);
+    } else if (FileTypes.texts.indexOf(ext) !== -1) {
+      Trees.addSubTreeItem('fileTree', 'texts', filename, icon, widgets, filename);
+    } else {
+      Trees.addSubTreeItem('fileTree', 'others', filename, icon, widgets, filename);
+    }
   }
 
   // Remove file tree

@@ -18,13 +18,17 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     // Set panel tool items
     Tools.addToolItem('panel', 'Upload File', 'glyphicon-upload', null, 'uploadFiles', 'Upload multiple files');
     Tools.addToolItem('panel', 'Download File', 'glyphicon-download', null, 'downloadFile', 'Download a file');
-    Tools.addToolItem('panel', 'Take Snapshot', 'glyphicon-picture', null, 'takeSnapshot' , 'Take a snapshot for the scene');
+    Tools.addToolItem('panel', 'Take Snapshot', 'glyphicon-picture', null, 'takeSnapshot', 'Take a snapshot for the scene');
 
     // Set file tree node items
-    Trees.addTreeItem('fileTree', 'Resources', 'glyphicon-briefcase', 'resources');
+    Trees.addTreeItem('fileTree', 'Models', 'glyphicon-briefcase', 'models');
+    Trees.addTreeItem('fileTree', 'Images', 'glyphicon-briefcase', 'images');
+    Trees.addTreeItem('fileTree', 'Texts', 'glyphicon-briefcase', 'texts');
+    Trees.addTreeItem('fileTree', 'Others', 'glyphicon-briefcase', 'others');
 
     // Set scene tree node items 
     Trees.addTreeItem('sceneTree', 'Models', 'glyphicon-briefcase', 'models');
+    Trees.addTreeItem('sceneTree', 'Lights', 'glyphicon-briefcase', 'lights');
   }
 ]);
 
