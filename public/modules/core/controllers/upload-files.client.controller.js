@@ -1,15 +1,15 @@
 'use strict';
 
-angular.module('slides').controller('UploadFilesController', ['$scope', '$log', '$modalInstance', 'Files',
+angular.module('slides').controller('UploadFilesController', ['$rootScope', '$scope', '$log', '$modalInstance', 'Files',
 
-  function($scope, $log, $modalInstance, Files) {
+  function($rootScope, $scope, $log, $modalInstance, Files) {
     // Initialize file name list
     $scope.files = [];
     $scope.names = [];
 
     // Initialize ticker
     $scope.ticker = 0.0;
-    $scope.showTicker = true;
+    $scope.showTicker = false;
 
     // Collect files
     $scope.collect = function(files) {
@@ -47,6 +47,7 @@ angular.module('slides').controller('UploadFilesController', ['$scope', '$log', 
       $scope.ticker= 0.0;
       $scope.showTicker = false;
       $modalInstance.dismiss('success');
+      $rootScope.$broadcast('upload-files.success', config.file.name);
     };
 
     // Define error callback
@@ -55,6 +56,7 @@ angular.module('slides').controller('UploadFilesController', ['$scope', '$log', 
       $scope.ticker = 0.0;
       $scope.showTicker = false;
       $modalInstance.dismiss('failed');
+      $rootScope.$broadcast('upload-files.failed');
     };
   }
 ]);

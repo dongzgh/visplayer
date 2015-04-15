@@ -18,13 +18,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.ticker = 0.0;
   $scope.showTicker = false;
 
-  // Find a list of sidebar Tools
+  // Find a list of sidebar tools
   $scope.sidebarTools = Tools.getTool('sidebar');
 
-  // Find a list of panel Tools
+  // Find a list of panel tools
   $scope.panelTools = Tools.getTool('panel');
 
-  // Find a list of file Trees  
+  // Find a list of file tree items  
   $scope.fileTree = Trees.getTree('fileTree');
   Files.query(function(filenames) {
     if (filenames && filenames.length > 0) {
@@ -37,7 +37,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Initialize scene
   Scene.initialize();
 
-  // Find a list of scene model Trees
+  // Find a list of scene tree items
   $scope.sceneTree = Trees.getTree('sceneTree');
   Scene.queryModels(function(modelnames) {
     modelnames.forEach(function(modelname) {
@@ -50,7 +50,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //---------------------------------------------------
   // Tool callbacks
   // Activate a tool
-  $scope.activateTool = function (action) {
+  $scope.activateTool = function(action) {
     $scope[action]();
   };
 
@@ -71,7 +71,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Widget callbacks
   // Activate a widget
-  $scope.activateWidget = function (action, subItem) {
+  $scope.activateWidget = function(action, subItem) {
     $scope[action](subItem);
   };
 
@@ -143,51 +143,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   /**
-   * Hidden callbacks
-   */
-  // Upload files
-  $scope.upload = function(files) {
-    // Define progress callback
-    function onprogress(evt) {
-      // Set ticker
-      $scope.ticker = (evt.loaded / evt.total * 100).toFixed();
-
-      // Log
-      $log.log('progress: ' + $scope.ticker + '% ' + evt.config.file.name);
-    }
-
-    // Define success callback
-    function onsuccess(data, status, headers, config) {
-      // Log
-      $log.info('%s is uploaded successfully.', config.file.name);
-
-      // Prepare icon and widgets
-      var ext = config.file.name.split('.').reverse()[0];
-      var icon = getFileIcon(ext);
-      var widgets = getFileWidgets(ext);
-
-      // Add file tree
-      Trees.addSubTreeItem('fileTree', 'resources', config.file.name, icon, widgets, config.file.name);
-
-      // Reset ticker
-      resetTicker();
-    }
-
-    // Define error callback
-    function onerror(err) {
-      // Log
-      $log.error(err);
-
-      // Reset ticker
-      resetTicker();
-    }
-
-    // Upload
-    $scope.showTicker = true;
-    Files.upload(files, onprogress, onsuccess, onerror);
-  };
-
-  /**
    * DB callbacks
    */
   // Create new Slide
@@ -249,6 +204,20 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   //---------------------------------------------------
+  //  Listeners
+  //---------------------------------------------------
+  // Listener for upload-files.success
+  $scope.$on('upload-files.success', function(event, filename) {
+    // Prepare icon and widgets
+    var ext = filename.split('.').reverse()[0];
+    var icon = getFileIcon(ext);
+    var widgets = getFileWidgets(ext);
+
+    // Add file to File Tree
+    Trees.addSubTreeItem('fileTree', 'resources', filename, icon, widgets, filename);
+  });  
+
+  //---------------------------------------------------
   //  Utilities
   //---------------------------------------------------
   /**
@@ -295,7 +264,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     return widgets;
   }
 
-  // Add file tree
+  // Add file item to tree
   function addFileItem(filename) {
     var ext = filename.split('.').reverse()[0];
     var icon = getFileIcon(ext);
@@ -311,14 +280,14 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   /**
    * Scene related
    */
-  // Add scene tree
+  // Add scene item to tree
   function addSceneItem(modelname) {
     var widgets = [];
     widgets.push(sceneWidgets[0]);
     Trees.addSubTreeItem('sceneTree', 'models', modelname, 'glyphicon-knight', widgets, modelname);
   }
 
-  // Remove scene tree
+  // Remove scene item from tree
   function removeSceneItem(modelname) {
     Trees.removeSubTreeItem('sceneTree', modelname);
   }
