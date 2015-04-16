@@ -120,26 +120,27 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Delete a file
-  $scope.deleteFile = function(tree) {
-    var filename = tree.title;
+  $scope.deleteFile = function(item) {
+    var filename = item.title;
     var message = 'Delete ' + filename + ' from server?';
-    var res = $window.confirm(message);
+    var ret = $window.confirm(message);
 
     // Define delete callback
-    function ondelete(filename) {
-      removeFileItem(filename);
+    function onsuccess(res) {
+      Trees.removeSubTreeItem('fileTree', filename);
     }
 
     // Delete file
-    if (res === true) {
-      Files.delete(filename, ondelete);
+    if (ret === true) {
+      Files.delete(filename, onsuccess);
     }
   };
 
   // Remove a model
-  $scope.removeModel = function(tree) {
-    Scene.removeModel(tree.title);
-    removeSceneItem(tree.title);
+  $scope.removeModel = function(item) {
+    var modelname = item.title;
+    Scene.removeModel(modelname);
+    Trees.removeSubTreeItem('sceneTree', modelname);
   };
 
   /**
@@ -274,11 +275,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     }
   }
 
-  // Remove file tree
-  function removeFileItem(filename) {
-    Trees.removeSubTreeItem('fileTree', filename);
-  }
-
   /**
    * Scene related
    */
@@ -287,10 +283,5 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     var widgets = [];
     widgets.push(sceneWidgets[0]);
     Trees.addSubTreeItem('sceneTree', 'models', modelname, 'glyphicon-knight', widgets, modelname);
-  }
-
-  // Remove scene item from tree
-  function removeSceneItem(modelname) {
-    Trees.removeSubTreeItem('sceneTree', modelname);
   }
 }]);

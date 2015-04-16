@@ -81,16 +81,17 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
     };
 
     // Define delete method
-    this.delete = function(filename, cb) {
+    this.delete = function(filename, onsucess, onerror) {
       rc.delete({
           filename: filename
         },
         function(res) {
           $log.info('%s is deleted successfully.', filename);
-          cb(filename);
+          if(onsucess) onsucess(res);
         },
         function(err) {
           $log.error('Failed to delete %s!', filename);
+          if(onerror) onerror(err);
         });
     };
   }
