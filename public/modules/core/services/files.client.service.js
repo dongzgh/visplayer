@@ -28,19 +28,18 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
     };
 
     // Define query method
-    this.query = function(cb) {
-      rc.query(cb);
+    this.query = function(onsuccess) {
+      rc.query(onsuccess);
     };
 
     // Deinfe load method
     this.load = function(filename, onprogress, onsuccess, onerror) {
-      // Initialize XMLHttpRequest
-      var req = new $window.XMLHttpRequest();
-
       // Define progress callback
       function cbprogress(evt) {
         var total = req.getResponseHeader('ContentLength');
-        onprogress(evt, total);
+        var perc = (evt.loaded / total * 100).toFixed();
+        $log.log('progress: ' + perc + '% ' + filename);
+        onprogress(perc);
       }
 
       // Define success callback
@@ -57,18 +56,18 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
         // var iv = $window.CryptoJS.enc.Hex.parse(raw.iv);
         // var dec = $window.CryptoJS.AES.decrypt(params, key, {iv: iv, mode: $window.CryptoJS.mode.CBC});
         // var res = dec.toString($window.CryptoJS.enc.Utf8);
-
-        // Set raw data
-        var res = req.response;
-
-        // Post-processing
-        onsuccess(evt, res);
+        $log.info('%s is loaded successfully.', filename);
+        onsuccess(req.response);
       }
 
       // Define error callback
       function cberror(evt) {
+        $log.error('Failed to load %s.', filename);
         onerror(evt);
       }
+
+      // Initialize XMLHttpRequest
+      var req = new $window.XMLHttpRequest();
 
       // Add event listeners
       req.addEventListener('progress', cbprogress, false);
@@ -82,17 +81,26 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
 
     // Define delete method
     this.delete = function(filename, onsucess, onerror) {
+      // Define success callback
+      function cbsuccess(res) {
+        $log.info('%s is deleted successfully.', filename);
+        if (onsucess) {
+          onsucess(res);
+        }
+      }
+
+      // Define error callback
+      function cberror(err) {
+        $log.error('Failed to delete %s!', filename);
+        if (onerror) {
+          onerror(err);
+        }
+      }
+
+      // Send request
       rc.delete({
-          filename: filename
-        },
-        function(res) {
-          $log.info('%s is deleted successfully.', filename);
-          if(onsucess) onsucess(res);
-        },
-        function(err) {
-          $log.error('Failed to delete %s!', filename);
-          if(onerror) onerror(err);
-        });
+        filename: filename
+      }, cbsuccess, cberror);
     };
   }
 ]);

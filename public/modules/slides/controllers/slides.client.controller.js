@@ -77,58 +77,43 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Load a file
   $scope.loadFile = function(tree) {
-    var filename = tree.title;
-
     // Define progress callback
-    function onprogress(evt, total) {
-      // Set ticker
-      $scope.ticker = (evt.loaded / total * 100).toFixed();
-      $scope.$apply();
-
-      // Log
-      $log.log('progress: ' + $scope.ticker + '% ' + filename);
+    function onprogress(perc) {
+      $scope.ticker = perc;
+      $scope.$apply();      
     }
 
     // Define success callback
-    function onsuccess(evt, res) {
-      // Log
-      $log.info('Model is loaded successfully.');
-
-      // Load data to scene
+    function onsuccess(res) {
       var data = JSON.parse(res);
       Scene.loadModel(data, function(object) {
-        // Add scene tree
         addSceneItem(object.displayName.toLowerCase());
-
-        // Reset ticker
         resetTicker();
       });
     }
 
     // Define error callback
     function onerror(evt) {
-      // Log
-      $log.error('Failed to load model %s!', filename);
-
-      // Reset ticker
       resetTicker();
     }
 
     // Load file
+    var filename = tree.title;
     $scope.showTicker = true;
     Files.load(filename, onprogress, onsuccess, onerror);
   };
 
   // Delete a file
   $scope.deleteFile = function(item) {
-    var filename = item.title;
-    var message = 'Delete ' + filename + ' from server?';
-    var ret = $window.confirm(message);
-
     // Define delete callback
     function onsuccess(res) {
       Trees.removeSubTreeItem('fileTree', filename);
     }
+
+    // Confirm deletion
+    var filename = item.title;
+    var msg = 'Delete ' + filename + ' from server?';
+    var ret = $window.confirm(msg);
 
     // Delete file
     if (ret === true) {
