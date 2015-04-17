@@ -16,8 +16,7 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'slides/create/markups');
 
     // Set panel tool items
-    Tools.addToolItem('panel', 'Upload File', 'glyphicon-upload', null, 'uploadFiles', 'Upload multiple files');
-    Tools.addToolItem('panel', 'Download File', 'glyphicon-download', null, 'downloadFile', 'Download a file');
+    Tools.addToolItem('panel', 'Upload Files', 'glyphicon-cloud-upload', null, 'uploadFiles', 'Upload multiple files');
     Tools.addToolItem('panel', 'Take Snapshot', 'glyphicon-picture', null, 'takeSnapshot', 'Take a snapshot for the scene');
 
     // Set file tree node items
@@ -29,30 +28,42 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     // Set scene tree node items 
     Trees.addTreeItem('sceneTree', 'Models', 'glyphicon-briefcase', 'models');
     Trees.addTreeItem('sceneTree', 'Lights', 'glyphicon-briefcase', 'lights');
+    Trees.addTreeItem('sceneTree', 'Markups', 'glyphicon-briefcase', 'markups');
   }
 ]);
 
 // Configuring file widgets
-angular.module('slides').constant('fileWidgets', [{
-  'name': 'Delete',
-  'action': 'deleteFile',
-  'icon': 'glyphicon-trash'
-}, {
-  'name': 'Load',
-  'action': 'loadFile',
-  'icon': 'glyphicon-download'
-}, {
-  'name': 'Edit',
-  'action': 'editFile',
-  'icon': 'glyphicon-edit'
-}]);
+angular.module('slides').constant('fileWidgets', {
+  'Delete': {
+    'action': 'deleteFile',
+    'icon': 'glyphicon-trash',
+    'tooltip': 'Delete the file from server'
+  },
+  'Download': {
+    'action': 'downloadFile',
+    'icon': 'glyphicon-cloud-download',
+    'tooltip': 'Download the file from server'
+  },
+  'Load': {
+    'action': 'loadFile',
+    'icon': 'glyphicon-download',
+    'tooltip': 'Load the file into scene'
+  },
+  'Edit': {
+    'action': 'editFile',
+    'icon': 'glyphicon-edit',
+    'tooltip': 'Edit the file'
+  }
+});
 
 // Configuring scene widgets
-angular.module('slides').constant('sceneWidgets', [{
-  'name': 'Remove',
-  'action': 'removeModel',
-  'icon': 'glyphicon-remove'
-}]);
+angular.module('slides').constant('sceneWidgets', {
+  'Remove': {
+    'action': 'removeModel',
+    'icon': 'glyphicon-remove',
+    'tooltip': 'Remove item from scene'
+  }
+});
 
 // Configure http interseptor
 angular.module('slides').factory('httpResponseInterceptor', ['$q', function($q) {

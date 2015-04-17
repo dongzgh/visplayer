@@ -75,8 +75,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     $scope[action](subItem);
   };
 
+  // Download a file
+  $scope.downloadFile = function(item) {
+    $log.log('Download %s', item.title);
+  };
+
   // Load a file
-  $scope.loadFile = function(tree) {
+  $scope.loadFile = function(item) {
     // Define progress callback
     function onprogress(perc) {
       $scope.ticker = perc;
@@ -98,7 +103,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     }
 
     // Load file
-    var filename = tree.title;
+    var filename = item.title;
     $scope.showTicker = true;
     Files.load(filename, onprogress, onsuccess, onerror);
   };
@@ -231,15 +236,19 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   function getFileWidgets(ext) {
     var widgets = [];
     if (FileTypes.models.indexOf(ext) !== -1) {
-      widgets.push(fileWidgets[0]);
-      widgets.push(fileWidgets[1]);
+      widgets.push(fileWidgets.Delete);
+      widgets.push(fileWidgets.Download);
+      widgets.push(fileWidgets.Load);
     } else if (FileTypes.images.indexOf(ext) !== -1) {
-      widgets.push(fileWidgets[0]);
+      widgets.push(fileWidgets.Delete);
+      widgets.push(fileWidgets.Download);
+      widgets.push(fileWidgets.Load);
     } else if (FileTypes.texts.indexOf(ext) !== -1) {
-      widgets.push(fileWidgets[0]);
-      widgets.push(fileWidgets[2]);
+      widgets.push(fileWidgets.Delete);
+      widgets.push(fileWidgets.Download);
+      widgets.push(fileWidgets.Edit);
     } else {
-      widgets.push(fileWidgets[0]);
+      widgets.push(fileWidgets.Delete);
     }
     return widgets;
   }
@@ -266,7 +275,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Add scene item to tree
   function addSceneItem(modelname) {
     var widgets = [];
-    widgets.push(sceneWidgets[0]);
+    widgets.push(sceneWidgets.Remove);
     Trees.addSubTreeItem('sceneTree', 'models', modelname, 'glyphicon-knight', widgets, modelname);
   }
 }]);
