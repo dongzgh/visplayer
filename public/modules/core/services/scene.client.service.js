@@ -154,7 +154,7 @@ angular.module('core').service('Scene', ['$window', '$document',
           object.box.union(faceGeometry.boundingBox);
         }
 
-        // Create mesh        
+        // Create mesh
         var faceMesh = new $window.THREE.Mesh(faceGeometry, faceDefaultMaterial);
 
         // Add to parent
