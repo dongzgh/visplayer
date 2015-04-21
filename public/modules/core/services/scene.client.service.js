@@ -96,18 +96,18 @@ angular.module('core').service('Scene', ['$window', '$document',
     };
 
     // Query models
-    this.queryModels = function(cb) {
+    this.queryModels = function(onsuccess) {
       var modelnames = [];
       activeScene.children.forEach(function(object) {
         if(object.type === 'model') {
           modelnames.push(object.name);
         }
       });
-      cb(modelnames);
+      onsuccess(modelnames);
     };
 
     // Load model
-    this.loadModel = function(gd, cb) {
+    this.loadModel = function(gd, onsuccess) {
       // Count instances
       var count = countModelInstances(gd.name) + 1;
 
@@ -154,7 +154,7 @@ angular.module('core').service('Scene', ['$window', '$document',
           object.box.union(faceGeometry.boundingBox);
         }
 
-        // Create mesh        
+        // Create mesh
         var faceMesh = new $window.THREE.Mesh(faceGeometry, faceDefaultMaterial);
 
         // Add to parent
@@ -212,7 +212,7 @@ angular.module('core').service('Scene', ['$window', '$document',
       activeScene.add(object);
 
       // Post-processing
-      cb(object);
+      onsuccess(object);
     };
 
     // Remove model
