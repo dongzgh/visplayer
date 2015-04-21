@@ -59,6 +59,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     if (link !== $scope.link) {
       $scope.showPanel = true;
       $scope.link = link;
+      $location.url(link);
     } else {
       $scope.showPanel = !$scope.showPanel;
     }
