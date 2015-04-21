@@ -23,7 +23,8 @@ module.exports = {
         'public/lib/cryptojslib/rollups/aes.js',
         'public/lib/threejs/build/three.min.js',
         'public/libr/threejs/build/detector.min.js',
-        'public/libr/threejs/build/controls/orbit-controls.min.js'
+        'public/libr/threejs/build/controls/orbit-controls.min.js',
+        'public/libr/threejs/build/controls/transform-controls.min.js'
       ]
     },
     css: 'public/dist/application.min.css',

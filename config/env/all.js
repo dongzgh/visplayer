@@ -31,7 +31,8 @@ module.exports = {
         'public/lib/cryptojslib/rollups/aes.js',
         'public/lib/threejs/build/three.js',
         'public/libr/threejs/build/detector.js',
-        'public/libr/threejs/build/controls/orbit-controls.js'
+        'public/libr/threejs/build/controls/orbit-controls.js',
+        'public/libr/threejs/build/controls/transform-controls.js'
       ]
     },
     css: [
