@@ -243,6 +243,7 @@ angular.module('core').service('Scene', ['$window', '$document',
         }) :
         new $window.THREE.CanvasRenderer();
       renderer.setSize($window.innerWidth, $window.innerHeight);
+      renderer.setPixelRatio($window.devicePixelRatio);
       renderer.autoClear = true;
       container.appendChild(renderer.domElement);
     };
