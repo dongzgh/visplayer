@@ -10,7 +10,7 @@ angular.module('core').service('Menus', [
     // Define the menus object
     this.menus = {};
 
-    // A private function for rendering decision 
+    // A private function for rendering decision
     var shouldRender = function(user) {
       if (user) {
         if (!!~this.roles.indexOf('*')) {

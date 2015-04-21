@@ -266,7 +266,7 @@ nav[role=navigation] {
   border-radius: 0;
   border: none;
 }
-.modal-body .input-group input[type=checkbox]{
+.modal-body .input-group input[type=checkbox] {
   margin-right: 5px;
 }
 .modal-body .input-group .btn {

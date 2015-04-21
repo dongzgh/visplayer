@@ -1,4 +1,4 @@
-@media (min-width:992px) {
+@media (min-width: 992px) {
   .nav-users {
     position: fixed;
   }
@@ -12,7 +12,7 @@
   right: 10px;
   position: absolute;
 }
-@media (min-width:768px) {
+@media (min-width: 768px) {
   .well {
     padding: 80px 35% !important;
   }

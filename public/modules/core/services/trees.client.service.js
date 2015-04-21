@@ -10,7 +10,7 @@ angular.module('core').service('Trees', [
     // Define the trees object
     this.trees = {};
 
-    // A private function for rendering decision 
+    // A private function for rendering decision
     var shouldRender = function(user) {
       if (user) {
         if (!!~this.roles.indexOf('*')) {

@@ -99,7 +99,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     this.queryModels = function(onsuccess) {
       var modelnames = [];
       activeScene.children.forEach(function(object) {
-        if(object.type === 'model') {
+        if (object.type === 'model') {
           modelnames.push(object.name);
         }
       });
@@ -288,11 +288,11 @@ angular.module('core').service('Scene', ['$window', '$document',
     };
 
     // Count object instances
-    var countModelInstances = function (name) {
+    var countModelInstances = function(name) {
       var count = 0;
       activeScene.children.forEach(function(object) {
-        if(object.type === 'model') {
-          if(object.name === name) {
+        if (object.type === 'model') {
+          if (object.name === name) {
             count++;
           }
         }

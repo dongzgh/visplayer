@@ -24,7 +24,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Find a list of panel tools
   $scope.panelTools = Tools.getTool('panel');
 
-  // Find a list of file tree items  
+  // Find a list of file tree items
   $scope.fileTree = Trees.getTree('fileTree');
   Files.query(function(filenames) {
     if (filenames && filenames.length > 0) {
@@ -85,7 +85,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     // Define progress callback
     function onprogress(perc) {
       $scope.ticker = perc;
-      $scope.$apply();      
+      $scope.$apply();
     }
 
     // Define success callback

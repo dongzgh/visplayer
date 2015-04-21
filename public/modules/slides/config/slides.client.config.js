@@ -25,7 +25,7 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Trees.addTreeItem('fileTree', 'Texts', 'glyphicon-briefcase', 'texts');
     Trees.addTreeItem('fileTree', 'Others', 'glyphicon-briefcase', 'others');
 
-    // Set scene tree node items 
+    // Set scene tree node items
     Trees.addTreeItem('sceneTree', 'Models', 'glyphicon-briefcase', 'models');
     Trees.addTreeItem('sceneTree', 'Lights', 'glyphicon-briefcase', 'lights');
     Trees.addTreeItem('sceneTree', 'Markups', 'glyphicon-briefcase', 'markups');

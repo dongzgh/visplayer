@@ -4,7 +4,7 @@
  */
 var Detector = {
   canvas: !!window.CanvasRenderingContext2D,
-  webgl: (function () {
+  webgl: (function() {
     try {
       var canvas = document.createElement('canvas');
       return !!(window.WebGLRenderingContext && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
@@ -14,7 +14,7 @@ var Detector = {
   })(),
   workers: !!window.Worker,
   fileapi: window.File && window.FileReader && window.FileList && window.Blob,
-  getWebGLErrorMessage: function () {
+  getWebGLErrorMessage: function() {
     var element = document.createElement('div');
     element.id = 'webgl-error-message';
     element.style.fontFamily = 'monospace';
@@ -31,7 +31,7 @@ var Detector = {
     }
     return element;
   },
-  addGetWebGLMessage: function (parameters) {
+  addGetWebGLMessage: function(parameters) {
     var parent, id, element;
     parameters = parameters || {};
     parent = parameters.parent !== undefined ? parameters.parent : document.body;

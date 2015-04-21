@@ -28,30 +28,30 @@ angular.module('slides').controller('UploadFilesController', ['$rootScope', '$sc
     });
 
     // Upload files
-    $scope.upload = function () {
-      if($scope.files.length > 0) {
+    $scope.upload = function() {
+      if ($scope.files.length > 0) {
         $scope.showTicker = true;
         Files.upload($scope.files, $scope.onprogress, $scope.onsuccess, $scope.onerror);
-      }      
+      }
     };
 
     // Define progress callback
-    $scope.onprogress = function (evt) {
+    $scope.onprogress = function(evt) {
       $scope.ticker = (evt.loaded / evt.total * 100).toFixed();
       $log.log('progress: ' + $scope.ticker + '% ' + evt.config.file.name);
     };
 
     // Define success callback
-    $scope.onsuccess = function (data, status, headers, config) {
+    $scope.onsuccess = function(data, status, headers, config) {
       $log.info('%s is uploaded successfully.', config.file.name);
-      $scope.ticker= 0.0;
+      $scope.ticker = 0.0;
       $scope.showTicker = false;
       $modalInstance.dismiss('success');
       $rootScope.$broadcast('upload-files.success', config.file.name);
     };
 
     // Define error callback
-    $scope.onerror = function (err) {
+    $scope.onerror = function(err) {
       $log.error(err);
       $scope.ticker = 0.0;
       $scope.showTicker = false;

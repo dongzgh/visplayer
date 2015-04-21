@@ -34,7 +34,7 @@ exports.upload = function(req, res) {
         var destname = path.join(dir, path.basename(filename));
         file.pipe(fs.createWriteStream(destname));
       }
-    });    
+    });
   });
   busboy.on('finish', function() {
     res.status(200).end();
