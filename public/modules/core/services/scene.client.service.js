@@ -213,9 +213,10 @@ angular.module('core').service('Scene', ['$window', '$document',
 
       // Create transformer
       var transformer = new $window.THREE.TransformControls(activeCamera, renderer.domElement);
-      transformer.addEventListener('change', render);
       transformer.attach(object);
       transformer.translateY(halfy);
+      transformer.setMode('rotate');
+      transformer.addEventListener('change', render);
 
       // Add to scene
       activeScene.add(transformer);
