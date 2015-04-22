@@ -56,7 +56,6 @@ angular.module('core').service('Scene', ['$window', '$document',
     var activeScene;
     var eyeLight;
     var orbitor;
-    var transformer;
 
     // Transient variables
     var i, j, k;
@@ -88,10 +87,6 @@ angular.module('core').service('Scene', ['$window', '$document',
 
       // Create orbitor
       orbitor = new $window.THREE.OrbitControls(activeCamera, renderer.domElement);
-
-      // Create transformer
-      transformer = new $window.THREE.TransformControls(activeCamera, renderer.domElement);
-      transformer.addEventListener('change', render);
 
       // Add listeners
       $window.addEventListener('resize', onWindowResize, false);
@@ -216,9 +211,14 @@ angular.module('core').service('Scene', ['$window', '$document',
       // Add to scene
       activeScene.add(object);
 
-      // Attach transformer
-      activeScene.add(transformer);
+      // Create transformer
+      var transformer = new $window.THREE.TransformControls(activeCamera, renderer.domElement);
+      transformer.addEventListener('change', render);
       transformer.attach(object);
+      transformer.translateY(halfy);
+
+      // Add to scene
+      activeScene.add(transformer);
 
       // Post-processing
       onsuccess(object);
