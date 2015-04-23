@@ -18,11 +18,14 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.ticker = 0.0;
   $scope.showTicker = false;
 
-  // Find a list of sidebar tools
+  // Find a list of tools
   $scope.sidebarTools = Tools.getTool('sidebar');
-
-  // Find a list of panel tools
-  $scope.panelTools = Tools.getTool('panel');
+  $scope.viewTools = Tools.getTool('views');
+  $scope.sceneTools = Tools.getTool('scene');
+  $scope.fileTools = Tools.getTool('files');
+  $scope.modelingTools = Tools.getTool('modeling');
+  $scope.materialTools = Tools.getTool('materials');
+  $scope.markupTools = Tools.getTool('markups');
 
   // Find a list of file tree items
   $scope.fileTree = Trees.getTree('fileTree');

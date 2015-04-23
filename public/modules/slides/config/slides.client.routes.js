@@ -25,9 +25,9 @@ angular.module('slides').config(['$stateProvider',
       url: '/files',
       templateUrl: 'modules/slides/views/create-slide-files.client.view.html'
     }).
-    state('createSlide.Tools', {
-      url: '/tools',
-      templateUrl: 'modules/slides/views/create-slide-tools.client.view.html'
+    state('createSlide.Modeling', {
+      url: '/modeling',
+      templateUrl: 'modules/slides/views/create-slide-modeling.client.view.html'
     }).
     state('createSlide.Materials', {
       url: '/materials',

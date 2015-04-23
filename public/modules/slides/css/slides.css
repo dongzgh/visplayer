@@ -54,8 +54,12 @@
   border: none;
   z-index: 2;
 }
+.panel-body > div:first-child {
+  background-color: #80A1BC;
+  margin-bottom: 10px;
+}
 .panel-body .btn {
-  color: #9D9D9D;
+  color: #FFFFFF;
   background-color: transparent;
   background-image: none;
   border: none;
@@ -69,7 +73,7 @@
   background-color: #F58723;
 }
 .panel-body .btn span {
-  color: #9D9D9D;
+  color: #FFFFFF;
   text-shadow: none;
 }
 .panel-body .btn:hover span,
@@ -82,12 +86,13 @@
   box-shadow: none
 }
 .list-group > div {
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
   padding-left: 10px;
-  color: #F58723;
-  background-color: #151515;
+  font-size: 0.9em;
+  color: #FFFFFF;
   text-transform: uppercase;
+  background-color: #333333
 }
 .list-group > div span:last-child {
   padding-left: 5px

@@ -117,9 +117,5 @@ angular.module('core').service('Tools', [
       // Return the tool object
       return this.tools[toolId];
     };
-
-    //Adding the sidebar tool
-    this.addTool('sidebar');
-    this.addTool('panel');
   }
 ]);
