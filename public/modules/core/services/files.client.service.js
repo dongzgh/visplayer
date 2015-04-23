@@ -80,27 +80,35 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
     };
 
     // Define delete method
-    this.delete = function(filename, onsucess, onerror) {
+    this.delete = function(filenames, onsuccess, onerror) {
+      var i = 0;
+      var passed = [];
+      var failed = [];
+
       // Define success callback
       function cbsuccess(res) {
-        $log.info('%s is deleted successfully.', filename);
-        if (onsucess) {
-          onsucess(res);
+        passed.push(filenames[i]);
+        $log.info('%s is deleted successfully.', filenames[i++]);
+        if(i === filenames.length && onsuccess) {
+          onsuccess(passed);
         }
       }
 
       // Define error callback
       function cberror(err) {
-        $log.error('Failed to delete %s!', filename);
-        if (onerror) {
-          onerror(err);
+        failed.push(filenames[i]);
+        $log.error('Failed to delete %s!', filenames[i++]);
+        if(i === filenames.length && onerror) {
+          onerror(failed);
         }
       }
 
       // Send request
-      rc.delete({
-        filename: filename
-      }, cbsuccess, cberror);
+      filenames.forEach(function(filename) {
+        rc.delete({
+          filename: filename
+        }, cbsuccess, cberror);
+      });
     };
   }
 ]);

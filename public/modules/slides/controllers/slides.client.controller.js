@@ -111,22 +111,31 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.deleteFiles = function() {
     // Get selected files
     var items = Trees.getCheckedSubTreeItems('files');
-    items.forEach(function(item) {
-      // Confirm deletion
-      var filename = item.title;
-      var msg = 'Delete ' + filename + ' from server?';
-      var ret = $window.confirm(msg);
 
-      // Define success callback
-      function onsuccess(res) {
-        Trees.removeSubTreeItem('files', filename);
-      }
-
-      // Delete file
-      if (ret === true) {
-        Files.delete(filename, onsuccess);
-      }
+    // Collect filenames
+    var filenames = [];
+    items.forEach(function(item){
+      filenames.push(item.title);
     });
+
+    // Define success callback
+    function onsuccess(passed) {
+      passed.forEach(function(filename) {
+        Trees.removeSubTreeItem('files', filename);
+      });
+    }
+
+    // Define error callback
+    function onerror(failed) {
+      var msg = 'Failed to delete:\n';
+      failed.forEach(function(filename) {
+        msg += filename + '\n';
+      });
+      $window.alert(msg);
+    }
+
+    // Delete files
+    Files.delete(filenames, onsuccess, onerror);
   };
 
   // Remove models
