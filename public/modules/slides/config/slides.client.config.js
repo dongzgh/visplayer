@@ -7,7 +7,7 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Menus.addMenuItem('topbar', 'Slides', 'slides', 'dropdown');
     Menus.addSubMenuItem('topbar', 'slides', 'New Project', 'slides/create');
 
-    //Adding tools
+    // Adding tools
     Tools.addTool('sidebar');
     Tools.addTool('views');
     Tools.addTool('scene');
@@ -42,51 +42,22 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
 
     // Set markups tool items
 
+    // Adding trees
+    Trees.addTree('files');
+    Trees.addTree('scene');
+
     // Set file tree node items
-    Trees.addTreeItem('fileTree', 'Models', 'glyphicon-briefcase', 'models');
-    Trees.addTreeItem('fileTree', 'Images', 'glyphicon-briefcase', 'images');
-    Trees.addTreeItem('fileTree', 'Texts', 'glyphicon-briefcase', 'texts');
-    Trees.addTreeItem('fileTree', 'Others', 'glyphicon-briefcase', 'others');
+    Trees.addTreeItem('files', 'Models', 'glyphicon-briefcase', 'models');
+    Trees.addTreeItem('files', 'Images', 'glyphicon-briefcase', 'images');
+    Trees.addTreeItem('files', 'Texts', 'glyphicon-briefcase', 'texts');
+    Trees.addTreeItem('files', 'Others', 'glyphicon-briefcase', 'others');
 
     // Set scene tree node items
-    Trees.addTreeItem('sceneTree', 'Models', 'glyphicon-briefcase', 'models');
-    Trees.addTreeItem('sceneTree', 'Lights', 'glyphicon-briefcase', 'lights');
-    Trees.addTreeItem('sceneTree', 'Markups', 'glyphicon-briefcase', 'markups');
+    Trees.addTreeItem('scene', 'Models', 'glyphicon-briefcase', 'models');
+    Trees.addTreeItem('scene', 'Lights', 'glyphicon-briefcase', 'lights');
+    Trees.addTreeItem('scene', 'Markups', 'glyphicon-briefcase', 'markups');
   }
 ]);
-
-// Configuring file widgets
-angular.module('slides').constant('fileWidgets', {
-  'Delete': {
-    'action': 'deleteFile',
-    'icon': 'glyphicon-trash',
-    'tooltip': 'Delete the file from server'
-  },
-  'Download': {
-    'action': 'downloadFile',
-    'icon': 'glyphicon-cloud-download',
-    'tooltip': 'Download the file from server'
-  },
-  'Load': {
-    'action': 'loadFile',
-    'icon': 'glyphicon-download',
-    'tooltip': 'Load the file into scene'
-  },
-  'Edit': {
-    'action': 'editFile',
-    'icon': 'glyphicon-edit',
-    'tooltip': 'Edit the file'
-  }
-});
-
-// Configuring scene widgets
-angular.module('slides').constant('sceneWidgets', {
-  'Remove': {
-    'action': 'removeModel',
-    'icon': 'glyphicon-remove',
-    'tooltip': 'Remove item from scene'
-  }
-});
 
 // Configure http interseptor
 angular.module('slides').factory('httpResponseInterceptor', ['$q', function($q) {

@@ -10,11 +10,9 @@
   </div>
   <li data-ng-repeat="subItem in item.items" class="list-group-item">
     <div>
+      <input type="checkbox" data-ng-model="subItem.checked">
       <span class="glyphicon {{subItem.icon}}"></span>
       <span data-ng-bind="subItem.title"></span>
-      <a data-ng-repeat="widget in subItem.widgets" tooltip-placement="left" tooltip="{{widget.tooltip}}" data-ng-click="activateWidget(widget.action, subItem)">
-        <span class="glyphicon {{widget.icon}}"></span>
-      </a>
     </div>
   </li>
 </ul>

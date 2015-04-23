@@ -226,7 +226,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     };
 
     // Remove model
-    this.removeModel = function(modelname) {
+    this.removeObject = function(modelname) {
       var index = 0;
       activeScene.children.forEach(function(object) {
         if (object.displayName === modelname) {

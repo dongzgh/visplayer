@@ -99,7 +99,7 @@ angular.module('core').service('Trees', [
     };
 
     // Add subtree item object
-    this.addSubTreeItem = function(treeId, rootTreeItemURL, treeItemTitle, treeItemIcon, treeItemWidgets, treeItemURL, isPublic, roles) {
+    this.addSubTreeItem = function(treeId, rootTreeItemURL, treeItemTitle, treeItemIcon, treeItemURL, isPublic, roles) {
       // Validate that the tree exists
       this.validateTreeExistance(treeId);
 
@@ -110,7 +110,6 @@ angular.module('core').service('Trees', [
           this.trees[treeId].items[itemIndex].items.push({
             title: treeItemTitle,
             icon: treeItemIcon,
-            widgets: treeItemWidgets,
             link: treeItemURL,
             isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.trees[treeId].items[itemIndex].isPublic : isPublic),
             roles: ((roles === null || typeof roles === 'undefined') ? this.trees[treeId].items[itemIndex].roles : roles),
@@ -157,10 +156,23 @@ angular.module('core').service('Trees', [
       return this.trees[treeId];
     };
 
-    // Adding the file tree tree
-    this.addTree('fileTree');
+    // Get checked tree object.
+    this.getCheckedSubTreeItems = function(treeId) {
+      // Validate that the tree exists
+      this.validateTreeExistance(treeId);
 
-    // Adding the scene tree tree
-    this.addTree('sceneTree');
+      // Search for tree item to remove
+      var items = [];
+      for (var itemIndex in this.trees[treeId].items) {
+        for (var subitemIndex in this.trees[treeId].items[itemIndex].items) {
+          if (this.trees[treeId].items[itemIndex].items[subitemIndex].checked === true) {
+            items.push(this.trees[treeId].items[itemIndex].items[subitemIndex]);
+          }
+        }
+      }
+
+      // Return the tree object
+      return items;
+    };
   }
 ]);
