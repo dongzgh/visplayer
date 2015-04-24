@@ -52,6 +52,7 @@
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.5);
   border: none;
+  overflow: auto;
   z-index: 2;
 }
 .panel-body > div:first-child {
@@ -94,8 +95,15 @@
   text-transform: uppercase;
   background-color: #333333
 }
-.list-group > div span:last-child {
-  padding-left: 5px
+.list-group > div span:not(:first-child) {
+  padding-left: 5px;
+}
+.list-group > div .checkbox-inline {
+  margin-left: 10px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding: 0;
+  float: right;
 }
 .list-group-item {
   border: none;

@@ -66,6 +66,28 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     }
   };
 
+  // Select all files
+  $scope.checkAllFiles = function (item) {
+    item.checked = !item.checked;
+    Trees.checkAllSubTreeItems('files', item.link, item.checked);
+  };
+
+  // Select all objects
+  $scope.checkAllObjects = function (item) {
+    item.checked = !item.checked;
+    Trees.checkAllSubTreeItems('scene', item.link, item.checked);
+  };
+
+  // Disable all files
+  $scope.disableCheckAll = function (item) {
+    if(item.items.length === 0) {
+      item.checked = false;
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   // Import files
   $scope.uploadFiles = function() {
     $scope.modalInstance = Dialogs.uploadFiles();

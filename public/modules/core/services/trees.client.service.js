@@ -91,6 +91,7 @@ angular.module('core').service('Trees', [
         isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.trees[treeId].isPublic : isPublic),
         roles: ((roles === null || typeof roles === 'undefined') ? this.trees[treeId].roles : roles),
         items: [],
+        checked: false,
         shouldRender: shouldRender
       });
 
@@ -113,6 +114,7 @@ angular.module('core').service('Trees', [
             link: treeItemURL,
             isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.trees[treeId].items[itemIndex].isPublic : isPublic),
             roles: ((roles === null || typeof roles === 'undefined') ? this.trees[treeId].items[itemIndex].roles : roles),
+            checked: false,
             shouldRender: shouldRender
           });
         }
@@ -156,7 +158,25 @@ angular.module('core').service('Trees', [
       return this.trees[treeId];
     };
 
-    // Get checked tree object.
+    // Select subtree items
+    this.checkAllSubTreeItems = function(treeId, rootTreeItemURL, checked) {
+      // Validate that the tree exists
+      this.validateTreeExistance(treeId);
+
+      // Search for subtree items
+      for (var itemIndex in this.trees[treeId].items) {
+        if (this.trees[treeId].items[itemIndex].link === rootTreeItemURL) {
+          var item = this.trees[treeId].items[itemIndex];
+          if (angular.isDefined(item.items) && item.items.length > 0) {
+            for (var subitemIndex in item.items) {
+              item.items[subitemIndex].checked = checked;
+            }
+          }
+        }
+      }
+    };
+
+    // Get checked tree object
     this.getCheckedSubTreeItems = function(treeId) {
       // Validate that the tree exists
       this.validateTreeExistance(treeId);
