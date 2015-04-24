@@ -103,11 +103,17 @@ angular.module('core').service('Scene', ['$window', '$document',
           modelnames.push(object.name);
         }
       });
-      onsuccess(modelnames);
+      if(onsuccess) {
+        onsuccess(modelnames);
+      }
     };
 
     // Load model
     this.loadModel = function(gd, onsuccess) {
+      // Check input data
+      if(!angular.isDefined(gd))
+        return;
+
       // Count instances
       var count = countModelInstances(gd.name) + 1;
 
@@ -222,14 +228,21 @@ angular.module('core').service('Scene', ['$window', '$document',
       activeScene.add(transformer);
 
       // Post-processing
-      onsuccess(object);
+      if(onsuccess) {
+        onsuccess(object);
+      }
     };
 
-    // Remove model
-    this.removeObject = function(modelname) {
+    // Remove object
+    this.removeObject = function(objname) {
+      // Check input data
+      if(!angular.isDefined(objname))
+        return;
+
+      // Remove object
       var index = 0;
       activeScene.children.forEach(function(object) {
-        if (object.displayName === modelname) {
+        if (object.displayName === objname) {
           activeScene.children.splice(index, 1);
           return;
         }
@@ -244,7 +257,7 @@ angular.module('core').service('Scene', ['$window', '$document',
      * Scene management
      */
     // Create renderer
-    var createRenderer = function() {
+    function createRenderer() {
       container = $document[0].getElementById('canvas');
       renderer = $window.WebGLRenderingContext ?
         new $window.THREE.WebGLRenderer({
@@ -256,27 +269,27 @@ angular.module('core').service('Scene', ['$window', '$document',
       renderer.setPixelRatio($window.devicePixelRatio);
       renderer.autoClear = true;
       container.appendChild(renderer.domElement);
-    };
+    }
 
     // Create camera
-    var createCamera = function() {
+    function createCamera() {
       var camera = new $window.THREE.PerspectiveCamera(CAMERA_ANGLE, $window.innerWidth / $window.innerHeight, 1, BOX_SIZE * 10);
       camera.name = 'VIEW #' + cameras.length + 1;
       camera.position.set(BOX_SIZE * 2, BOX_SIZE, BOX_SIZE * 2);
       camera.target = new $window.THREE.Vector3();
       cameras.push(camera);
       activeCamera = camera;
-    };
+    }
 
     // Create scene
-    var createScene = function() {
+    function createScene() {
       var scene = new $window.THREE.Scene();
       scenes.push(scene);
       activeScene = scene;
-    };
+    }
 
     // Create helpers
-    var createHelpers = function() {
+    function createHelpers() {
       // Grid
       var grid = new $window.THREE.GridHelper(BOX_SIZE, GAP_SIZE);
       grid.name = 'GRID';
@@ -287,18 +300,23 @@ angular.module('core').service('Scene', ['$window', '$document',
       axis.name = 'AXIS';
       axis.visible = false;
       activeScene.add(axis);
-    };
+    }
 
     // Create lights
-    var createLights = function() {
+    function createLights() {
       eyeLight = new $window.THREE.DirectionalLight(0xffffff, 0.5);
       eyeLight.name = 'EYE LIGHT';
       eyeLight.position.set(BOX_SIZE, BOX_SIZE, BOX_SIZE);
       activeScene.add(eyeLight);
-    };
+    }
 
     // Count object instances
-    var countModelInstances = function(name) {
+    function countModelInstances(name) {
+      // Check input data
+      if(!angular.isDefined(name))
+        return 0;
+
+      // Count object instances
       var count = 0;
       activeScene.children.forEach(function(object) {
         if (object.type === 'model') {
@@ -308,37 +326,37 @@ angular.module('core').service('Scene', ['$window', '$document',
         }
       });
       return count;
-    };
+    }
 
     /**
      * Event callbacks
      */
     // Resize
-    var onWindowResize = function() {
+    function onWindowResize() {
       activeCamera.aspect = $window.innerWidth / $window.innerHeight;
       activeCamera.updateProjectionMatrix();
       renderer.setSize($window.innerWidth, $window.innerHeight);
-    };
+    }
 
     /**
      * Rendering utilities
      */
     // Animate
-    var animate = function() {
+    function animate() {
       $window.requestAnimationFrame(animate);
       update();
       render();
-    };
+    }
 
     // Render
-    var render = function() {
+    function render() {
       renderer.render(activeScene, activeCamera);
-    };
+    }
 
     // Update
-    var update = function() {
+    function update() {
       activeCamera.target.copy(orbitor.target);
       eyeLight.position.set(activeCamera.position.x, activeCamera.position.y, activeCamera.position.z);
-    };
+    }
   }
 ]);

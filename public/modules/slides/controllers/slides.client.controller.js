@@ -14,10 +14,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Initialize modal instance
   $scope.modalInstance = null;
 
-  // Initialize ticker
-  $scope.ticker = 0.0;
-  $scope.showTicker = false;
-
   // Find a list of tools
   $scope.sidebarTools = Tools.getTool('sidebar');
   $scope.viewTools = Tools.getTool('views');
@@ -65,7 +61,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Activate a tool
   $scope.activateTool = function(action) {
-    $scope[action]();
+    if (angular.isDefined(action)) {
+      $scope[action]();
+    }
   };
 
   // Import files
@@ -80,69 +78,61 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Load files
-  $scope.loadFiles = function(item) {
-    // Define progress callback
-    function onprogress(perc) {
-      $scope.ticker = perc;
-      $scope.$apply();
-    }
+  $scope.loadFiles = function() {
+    // Get selected filenames
+    var filenames = getCheckedSubTreeItems('files');
 
     // Define success callback
     function onsuccess(res) {
       var data = JSON.parse(res);
       Scene.loadModel(data, function(object) {
         addSceneItem(object.displayName.toLowerCase());
-        resetTicker();
       });
     }
 
-    // Define error callback
-    function onerror(evt) {
-      resetTicker();
-    }
-
     // Load file
-    var filename = item.title;
-    $scope.showTicker = true;
-    Files.load(filename, onprogress, onsuccess, onerror);
+    Files.load(filenames, null, onsuccess);
   };
 
   // Delete files
   $scope.deleteFiles = function() {
-    // Get selected files
-    var items = Trees.getCheckedSubTreeItems('files');
-
-    // Collect filenames
-    var filenames = [];
-    items.forEach(function(item){
-      filenames.push(item.title);
-    });
+    // Get selected filenames
+    var filenames = getCheckedSubTreeItems('files');
 
     // Define success callback
     function onsuccess(passed) {
-      passed.forEach(function(filename) {
-        Trees.removeSubTreeItem('files', filename);
-      });
+      if (angular.isDefined(passed) && passed.length > 0) {
+        passed.forEach(function(filename) {
+          Trees.removeSubTreeItem('files', filename);
+        });
+      }
     }
 
     // Define error callback
     function onerror(failed) {
-      var msg = 'Failed to delete:\n';
-      failed.forEach(function(filename) {
-        msg += filename + '\n';
-      });
-      $window.alert(msg);
+      if (angular.isDefined(failed) && failed.length > 0) {
+        var msg = 'Failed to delete:\n';
+        failed.forEach(function(filename) {
+          msg += filename + '\n';
+        });
+        $window.alert(msg);
+      }
     }
 
     // Delete files
     Files.delete(filenames, onsuccess, onerror);
   };
 
-  // Remove models
-  $scope.removeObjects = function(item) {
-    var objectname = item.title;
-    Scene.removeObject(objectname);
-    Trees.removeSubTreeItem('scene', objectname);
+  // Remove objects
+  $scope.removeObjects = function() {
+    // Get checked objects
+    var objnames = getCheckedSubTreeItems('scene');
+
+    // Remove objects
+    objnames.forEach(function(objname) {
+      Scene.removeObject(objname);
+      Trees.removeSubTreeItem('scene', objname);
+    });
   };
 
   /**
@@ -220,12 +210,14 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   /**
    * GUI related
    */
-  function resetTicker() {
-    $timeout(function() {
-      $scope.showTicker = false;
-      $scope.ticker = 0.0;
-      $scope.$apply();
-    }, 1000);
+  // Get checked subtree items
+  function getCheckedSubTreeItems(treeId) {
+    var items = Trees.getCheckedSubTreeItems(treeId);
+    var names = [];
+    items.forEach(function(item) {
+      names.push(item.title);
+    });
+    return names;
   }
 
   /**
