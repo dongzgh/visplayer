@@ -8,7 +8,7 @@
     <span class="glyphicon {{item.icon}}"></span>
     <span data-ng-bind="item.title"></span>
     <label class="checkbox-inline">
-      <input type="checkbox" data-ng-model="item.checked" data-ng-click="checkAllObjects(item)" data-ng-disabled="disableCheckAll(item)">All
+      <input type="checkbox" data-ng-model="item.checked" data-ng-click="checkAllObjects(item)" data-ng-disabled="disableCheckAll(item)">
     </label>
   </div>
   <li data-ng-repeat="subItem in item.items" class="list-group-item">
