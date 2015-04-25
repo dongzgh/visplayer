@@ -301,6 +301,7 @@ nav[role=navigation] {
   background-color: #FFFFFF;
 }
 .tooltip-inner {
+  font-family: 'Ubuntu Condensed', sans-serif;
   color: #333333;
   background-color: #FFFFFF;
 }

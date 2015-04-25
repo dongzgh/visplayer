@@ -17,12 +17,12 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addTool('markups');
 
     // Set sidebar tool items
-    Tools.addToolItem('sidebar', 'Views', 'glyphicon-blackboard', 'slides/create/views');
-    Tools.addToolItem('sidebar', 'Scene', 'glyphicon-camera', 'slides/create/scene');
-    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/create/files');
-    Tools.addToolItem('sidebar', 'Modeling', 'glyphicon-wrench', 'slides/create/modeling');
-    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'slides/create/materials');
-    Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'slides/create/markups');
+    Tools.addToolItem('sidebar', 'Views', 'glyphicon-blackboard', 'slides/create/views', null, 'List of views');
+    Tools.addToolItem('sidebar', 'Scene', 'glyphicon-camera', 'slides/create/scene', null, 'List of scene objects');
+    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/create/files', null, 'List of files');
+    Tools.addToolItem('sidebar', 'Modeling', 'glyphicon-wrench', 'slides/create/modeling', null, 'List of modeling tools');
+    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'slides/create/materials', null, 'List of materials');
+    Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'slides/create/markups', null, 'List of markups');
 
     // Set views tool items
 
