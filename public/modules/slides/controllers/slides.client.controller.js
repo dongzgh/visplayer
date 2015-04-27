@@ -100,8 +100,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
     // Define success callback
     function onsuccess(data, filename) {
-      var json = JSON.stringify(data);
-      var blob = new Blob([json]);
+      var blob = new $window.Blob([data]);
       var windowURL = $window.URL || $window.webkitURL;
       var url = windowURL.createObjectURL(blob);
       var el = $document[0].getElementById('download');

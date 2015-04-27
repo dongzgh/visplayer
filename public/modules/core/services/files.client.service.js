@@ -14,6 +14,24 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
       }
     });
 
+    // Decrypt encrypted data
+    this.decryptData = function(data, userId) {
+      var raw = JSON.parse(data);
+      var params = $window.CryptoJS.lib.CipherParams.create({
+        ciphertext: $window.CryptoJS.enc.Hex.parse(raw.ciphertext)
+      });
+      var salt = $window.CryptoJS.enc.Hex.parse(raw.salt);
+      var key = $window.CryptoJS.EvpKDF(userId, salt, {
+        keySize: 128 / 32
+      });
+      var iv = $window.CryptoJS.enc.Hex.parse(raw.iv);
+      var dec = $window.CryptoJS.AES.decrypt(params, key, {
+        iv: iv,
+        mode: $window.CryptoJS.mode.CBC
+      });
+      var res = dec.toString($window.CryptoJS.enc.Utf8);
+    };
+
     // Define upload method
     this.upload = function(files, onprogress, onsuccess, onerror) {
       // Check input data
@@ -29,7 +47,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         }
 
         // Define success callback
-        function cbsuccess(data, status, headers, config) {
+        function cbsuccess(data, status, getHeaders, config) {
           $log.info('%s is uploaded successfully.', config.file.name);
           if (onsuccess) {
             onsuccess(config);
@@ -74,24 +92,26 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
       // Download each file
       filenames.forEach(function(filename) {
         // Define success callback
-        function cbsuccess(data, status, headers, config) {
+        function cbsuccess(data, status, getHeaders, config) {
           if (data && onsuccess) {
             onsuccess(data, filename);
           }
         }
 
         // Define error callback
-        function cberror(data, status, headers, config) {
+        function cberror(data, status, getHeaders, config) {
           if (onerror) {
             onerror(status);
           }
         }
 
         // Send request
-        $http.get('files/' + filename, {
+        var url = 'files/' + filename;
+        $http.get(url, {
             params: {
-              level: 'full'
-            }
+              mode: 'download'
+            },
+            responseType: 'blob'
           })
           .success(cbsuccess)
           .error(cberror);
@@ -119,17 +139,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         // Define success callback
         function cbsuccess(evt) {
           // // Decrypt encrypted data
-          // var raw = JSON.parse(req.responseText);
-          // var params = $window.CryptoJS.lib.CipherParams.create({
-          //   ciphertext: $window.CryptoJS.enc.Hex.parse(raw.ciphertext)
-          // });
-          // var salt = $window.CryptoJS.enc.Hex.parse(raw.salt);
-          // var key = $window.CryptoJS.EvpKDF(authentication.user._id, salt, {
-          //   keySize: 128 / 32
-          // });
-          // var iv = $window.CryptoJS.enc.Hex.parse(raw.iv);
-          // var dec = $window.CryptoJS.AES.decrypt(params, key, {iv: iv, mode: $window.CryptoJS.mode.CBC});
-          // var res = dec.toString($window.CryptoJS.enc.Utf8);
+          //decryptData(req.responseText, authentication.user._id);
           $log.info('%s is loaded successfully.', filename);
           if (onsuccess) {
             onsuccess(req.response);
@@ -166,7 +176,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
       // Delete each file
       filenames.forEach(function(filename) {
         // Define success callback
-        function cbsuccess(value, getHeader) {
+        function cbsuccess(data, getHeader) {
           passed.push(filename);
           $log.info('%s is deleted successfully.', filename);
           if (onsuccess) {
@@ -175,7 +185,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         }
 
         // Define error callback
-        function cberror(value) {
+        function cberror(data) {
           failed.push(filename);
           $log.error('Failed to delete %s!', filename);
           if (onerror) {

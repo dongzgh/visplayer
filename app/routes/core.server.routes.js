@@ -14,6 +14,6 @@ module.exports = function(app) {
 
   // Setting up the load route
   app.route('/files/:filename')
-    .get(core.load)
+    .get(core.retrieve)
     .delete(core.delete);
 };
