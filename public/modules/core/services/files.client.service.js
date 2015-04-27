@@ -1,8 +1,8 @@
 'use strict';
 
 //Files service used to communicate Files REST endpoints
-angular.module('core').service('Files', ['$resource', '$window', '$log', '$upload', 'Authentication',
-  function($resource, $window, $log, $upload, Authentication) {
+angular.module('core').service('Files', ['$resource', '$http', '$window', '$log', '$upload', 'Authentication',
+  function($resource, $http, $window, $log, $upload, Authentication) {
     var authentication = Authentication;
 
     // Define file resouce binding
@@ -53,16 +53,49 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
     };
 
     // Define query method
-    this.query = function(onsuccess) {
+    this.list = function(onsuccess) {
       // Define success callback
-      function cbsuccess(data, header) {
+      function cbsuccess(data, getHeader) {
         if (onsuccess) {
           onsuccess(data);
         }
       }
 
       // Send request
-      rc.query(onsuccess);
+      rc.query(cbsuccess);
+    };
+
+    // Define download method
+    this.download = function(filenames, onsuccess, onerror) {
+      // Check input data
+      if (!angular.isDefined(filenames) || filenames.length <= 0)
+        return;
+
+      // Download each file
+      filenames.forEach(function(filename) {
+        // Define success callback
+        function cbsuccess(data, status, headers, config) {
+          if (data && onsuccess) {
+            onsuccess(data, filename);
+          }
+        }
+
+        // Define error callback
+        function cberror(data, status, headers, config) {
+          if (onerror) {
+            onerror(status);
+          }
+        }
+
+        // Send request
+        $http.get('files/' + filename, {
+            params: {
+              level: 'full'
+            }
+          })
+          .success(cbsuccess)
+          .error(cberror);
+      });
     };
 
     // Deinfe load method
@@ -120,7 +153,7 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
         req.addEventListener('error', cberror, false);
 
         // Send request
-        req.open('get', 'files/' + filename, true);
+        req.open('get', 'files/' + filename + '?level=display', true);
         req.send();
       });
     };
@@ -133,7 +166,7 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
       // Delete each file
       filenames.forEach(function(filename) {
         // Define success callback
-        function cbsuccess(res) {
+        function cbsuccess(value, getHeader) {
           passed.push(filename);
           $log.info('%s is deleted successfully.', filename);
           if (onsuccess) {
@@ -142,7 +175,7 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
         }
 
         // Define error callback
-        function cberror(err) {
+        function cberror(value) {
           failed.push(filename);
           $log.error('Failed to delete %s!', filename);
           if (onerror) {

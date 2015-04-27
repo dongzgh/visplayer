@@ -1,7 +1,7 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$timeout', '$log', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'Dialogs', 'FileTypes', 'Slides', function($scope, $stateParams, $location, $window, $timeout, $log, $upload, Authentication, Scene, Files, Tools, Trees, Dialogs, FileTypes, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$document', '$timeout', '$log', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'Dialogs', 'FileTypes', 'Slides', function($scope, $stateParams, $location, $window, $document, $timeout, $log, $upload, Authentication, Scene, Files, Tools, Trees, Dialogs, FileTypes, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
@@ -25,7 +25,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Find a list of file tree items
   $scope.fileTree = Trees.getTree('files');
-  Files.query(function(filenames) {
+  Files.list(function(filenames) {
     if (filenames && filenames.length > 0) {
       filenames.forEach(function(filename) {
         addFileItem(filename.toLowerCase());
@@ -67,20 +67,20 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Select all files
-  $scope.checkAllFiles = function (item) {
+  $scope.checkAllFiles = function(item) {
     item.checked = !item.checked;
     Trees.checkAllSubTreeItems('files', item.link, item.checked);
   };
 
   // Select all objects
-  $scope.checkAllObjects = function (item) {
+  $scope.checkAllObjects = function(item) {
     item.checked = !item.checked;
     Trees.checkAllSubTreeItems('scene', item.link, item.checked);
   };
 
   // Disable all files
-  $scope.disableCheckAll = function (item) {
-    if(item.items.length === 0) {
+  $scope.disableCheckAll = function(item) {
+    if (item.items.length === 0) {
       item.checked = false;
       return true;
     } else {
@@ -95,8 +95,23 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Download files
   $scope.downloadFiles = function() {
-    var items = Trees.getCheckedSubTreeItems('files');
-    // TODO: downloa files from server
+    // Get selected filenames
+    var filenames = getCheckedSubTreeItems('files');
+
+    // Define success callback
+    function onsuccess(data, filename) {
+      var json = JSON.stringify(data);
+      var blob = new Blob([json]);
+      var windowURL = $window.URL || $window.webkitURL;
+      var url = windowURL.createObjectURL(blob);
+      var el = $document[0].getElementById('download');
+      el.href = url;
+      el.download = filename;
+      el.click();
+    }
+
+    // Download file
+    Files.download(filenames, onsuccess);
   };
 
   // Load files

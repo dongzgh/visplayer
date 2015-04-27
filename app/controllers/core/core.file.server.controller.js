@@ -65,15 +65,28 @@ exports.list = function(req, res) {
 exports.load = function(req, res) {
   var username = req.user.username;
   var filename = req.params.filename;
-  if (typeof username === 'undefined' ||
-    typeof filename === 'undefined')
+  if (typeof username === 'undefined' || typeof filename === 'undefined') {
     return;
-  var filepath = 'users/' + username + '/' + filename;
+  }
   var ext = path.extname(filename);
-  if (ext === '.vis') {
-    exports.loadVis(res, filepath);
-  } else {
-    res.status(404).end();
+  var level = req.query.level;
+  var filepath = null;
+  if (typeof level === 'undefined' || level === 'display') {
+    filepath = 'users/' + username + '/' + filename;
+    if (ext === '.vis') {
+      exports.loadVis(res, filepath);
+    } else {
+      res.status(404).end();
+    }
+  } else if (level === 'full') {
+    filepath = __dirname + '/../../../' + 'users/' + username + '/' + filename;
+    res.download(filepath, filename, function(err) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).end();
+      }
+    });
   }
 };
 
