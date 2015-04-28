@@ -21,6 +21,7 @@ module.exports = {
         'public/lib/ng-file-upload/angular-file-upload-shim.min.js',
         'public/lib/ng-file-upload/angular-file-upload.min.js',
         'public/lib/cryptojslib/rollups/aes.js',
+        'public/lib/dat-gui/build/dat.gui.min.js',
         'public/lib/threejs/build/three.min.js',
         'public/libr/threejs/build/detector.min.js',
         'public/libr/threejs/build/controls/orbit-controls.min.js',

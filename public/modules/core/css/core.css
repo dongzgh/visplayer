@@ -295,3 +295,12 @@ nav[role=navigation] {
   border-radius: 0;
   border-top-color: #9D9D9D;
 }
+.dg.ac {
+  top: 50px !important;
+}
+.dg .property-name {
+  text-transform: uppercase;
+}
+.dg .c select {
+  color: #333333;
+}

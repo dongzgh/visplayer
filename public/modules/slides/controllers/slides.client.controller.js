@@ -12,7 +12,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.showPanel = false;
 
   // Initialize modal instance
-  $scope.modalInstance = null;
+  $scope.modal = null;
+  $scope.gui = null;
 
   // Find a list of tools
   $scope.sidebarTools = Tools.getTool('sidebar');
@@ -49,7 +50,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //---------------------------------------------------
   //  Callbacks
   //---------------------------------------------------
-  // Tool callbacks
   // Activate the panel
   $scope.activatePanel = function(link) {
     if (link !== $scope.link) {
@@ -90,9 +90,34 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     }
   };
 
+  /**
+   * Scene tools callbacks
+   */
+  // Take snapshot
+  $scope.takeSnapshot = function() {
+    var el = $document[0].getElementById('canvas').children[0];
+    var url = el.toDataURL('image/png');
+    downloadData(url, 'screenshot.png');
+  };
+
+  // Remove objects
+  $scope.removeObjects = function() {
+    // Get checked objects
+    var objnames = getCheckedSubTreeItems('scene');
+
+    // Remove objects
+    objnames.forEach(function(objname) {
+      Scene.removeObject(objname);
+      Trees.removeSubTreeItem('scene', objname);
+    });
+  };
+
+  /**
+   * File tools callbacks
+   */
   // Import files
   $scope.uploadFiles = function() {
-    $scope.modalInstance = Dialogs.uploadFiles();
+    $scope.modal = Dialogs.uploadFiles();
   };
 
   // Download files
@@ -158,23 +183,12 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     Files.delete(filenames, onsuccess, onerror);
   };
 
-  // Take snapshot
-  $scope.takeSnapshot = function() {
-    var el = $document[0].getElementById('canvas').children[0];
-    var url = el.toDataURL('image/png');
-    downloadData(url, 'screenshot.png');
-  };
-
-  // Remove objects
-  $scope.removeObjects = function() {
-    // Get checked objects
-    var objnames = getCheckedSubTreeItems('scene');
-
-    // Remove objects
-    objnames.forEach(function(objname) {
-      Scene.removeObject(objname);
-      Trees.removeSubTreeItem('scene', objname);
-    });
+  /**
+   * Modeling tools callbacks
+   */
+  // Transform model
+  $scope.transformModel = function() {
+    $scope.gui = Dialogs.transformModel();
   };
 
   /**
@@ -293,6 +307,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     }
   }
 
+  // Download data
   function downloadData(url, filename) {
     var el = $document[0].getElementById('download');
     el.href = url;
