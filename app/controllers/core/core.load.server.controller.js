@@ -83,7 +83,7 @@ exports.loadVis = function(res, filepath, level) {
         // Send data
         // var msg = encryptData(res.req.user.id, gd); // encrype data
         var msg = JSON.stringify(gd);
-        res.set('Content-Length', msg.length);
+        res.set('ContentLength', msg.length);
         res.send(msg).status(200).end();
       });
       inp.pipe(out);

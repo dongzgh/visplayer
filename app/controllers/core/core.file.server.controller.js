@@ -50,9 +50,13 @@ exports.upload = function(req, res) {
  */
 exports.list = function(req, res) {
   // Check input data
-  var username = req.user.username;
-  if (typeof username === 'undefined')
+  if (typeof req.user === 'undefined') {
     return;
+  }
+  var username = req.user.username;
+  if (typeof username === 'undefined') {
+    return;
+  }
 
   // List files
   var dir = 'users/' + username;
