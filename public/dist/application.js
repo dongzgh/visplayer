@@ -2,24 +2,24 @@
 
 // Init the application configuration module for AngularJS application
 var ApplicationConfiguration = (function() {
-	// Init module configuration options
-	var applicationModuleName = 'visplayer';
-	var applicationModuleVendorDependencies = ['ngResource', 'ngCookies',  'ngAnimate',  'ngTouch',  'ngSanitize',  'ui.router', 'ui.bootstrap', 'ui.utils', 'angularFileUpload'];
+  // Init module configuration options
+  var applicationModuleName = 'visplayer';
+  var applicationModuleVendorDependencies = ['ngResource', 'ngCookies', 'ngAnimate', 'ngTouch', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'ui.utils', 'angularFileUpload'];
 
-	// Add a new vertical module
-	var registerModule = function(moduleName, dependencies) {
-		// Create angular module
-		angular.module(moduleName, dependencies || []);
+  // Add a new vertical module
+  var registerModule = function(moduleName, dependencies) {
+    // Create angular module
+    angular.module(moduleName, dependencies || []);
 
-		// Add the module to the AngularJS configuration file
-		angular.module(applicationModuleName).requires.push(moduleName);
-	};
+    // Add the module to the AngularJS configuration file
+    angular.module(applicationModuleName).requires.push(moduleName);
+  };
 
-	return {
-		applicationModuleName: applicationModuleName,
-		applicationModuleVendorDependencies: applicationModuleVendorDependencies,
-		registerModule: registerModule
-	};
+  return {
+    applicationModuleName: applicationModuleName,
+    applicationModuleVendorDependencies: applicationModuleVendorDependencies,
+    registerModule: registerModule
+  };
 })();
 
 'use strict';
@@ -29,31 +29,35 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
 
 // Setting HTML5 Location Mode
 angular.module(ApplicationConfiguration.applicationModuleName).config(['$locationProvider',
-	function($locationProvider) {
-		$locationProvider.hashPrefix('!');
-	}
+  function($locationProvider) {
+    $locationProvider.hashPrefix('!');
+  }
 ]);
 
 //Then define the init function for starting up the application
 angular.element(document).ready(function() {
-	//Fixing facebook bug with redirect
-	if (window.location.hash === '#_=_') window.location.hash = '#!';
+  //Fixing facebook bug with redirect
+  if (window.location.hash === '#_=_') window.location.hash = '#!';
 
-	//Then init the app
-	angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
+  //Then init the app
+  angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
 });
+
 'use strict';
 
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('core');
+
 'use strict';
 
 // Use applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('slides');
+
 'use strict';
 
 // Use Applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('users');
+
 'use strict';
 
 // Configuring file type constants
@@ -62,50 +66,53 @@ angular.module('core').constant('FileTypes', {
   'images': ['png', 'jpg', 'gif'],
   'texts': ['txt', 'js', 'md']
 });
+
 'use strict';
 
 // Setting up route
 angular.module('core').config(['$stateProvider', '$urlRouterProvider',
-	function($stateProvider, $urlRouterProvider) {
-		// Redirect to home view when route not found
-		$urlRouterProvider.otherwise('/');
+  function($stateProvider, $urlRouterProvider) {
+    // Redirect to home view when route not found
+    $urlRouterProvider.otherwise('/');
 
-		// Home state routing
-		$stateProvider.
-		state('home', {
-			url: '/',
-			templateUrl: 'modules/core/views/home.client.view.html'
-		});
-	}
+    // Home state routing
+    $stateProvider.
+    state('home', {
+      url: '/',
+      templateUrl: 'modules/core/views/home.client.view.html'
+    });
+  }
 ]);
 
 'use strict';
 
 angular.module('core').controller('HeaderController', ['$scope', 'Authentication', 'Menus',
-	function($scope, Authentication, Menus) {
-		$scope.authentication = Authentication;
-		$scope.isCollapsed = false;
-		$scope.menu = Menus.getMenu('topbar');
+  function($scope, Authentication, Menus) {
+    $scope.authentication = Authentication;
+    $scope.isCollapsed = false;
+    $scope.menu = Menus.getMenu('topbar');
 
-		$scope.toggleCollapsibleMenu = function() {
-			$scope.isCollapsed = !$scope.isCollapsed;
-		};
+    $scope.toggleCollapsibleMenu = function() {
+      $scope.isCollapsed = !$scope.isCollapsed;
+    };
 
-		// Collapsing the menu after navigation
-		$scope.$on('$stateChangeSuccess', function() {
-			$scope.isCollapsed = false;
-		});
-	}
+    // Collapsing the menu after navigation
+    $scope.$on('$stateChangeSuccess', function() {
+      $scope.isCollapsed = false;
+    });
+  }
 ]);
+
 'use strict';
 
 
 angular.module('core').controller('HomeController', ['$scope', 'Authentication',
-	function($scope, Authentication) {
-		// This provides Authentication context.
-		$scope.authentication = Authentication;
-	}
+  function($scope, Authentication) {
+    // This provides Authentication context.
+    $scope.authentication = Authentication;
+  }
 ]);
+
 'use strict';
 
 angular.module('slides').controller('UploadFilesController', ['$rootScope', '$scope', '$log', '$modalInstance', 'Files',
@@ -115,19 +122,17 @@ angular.module('slides').controller('UploadFilesController', ['$rootScope', '$sc
     $scope.files = [];
     $scope.names = [];
 
-    // Initialize ticker
-    $scope.ticker = 0.0;
-    $scope.showTicker = false;
-
     // Collect files
     $scope.collect = function(files) {
-      $scope.files = files;
+      // Check input data
+      if (!angular.isDefined(files) || files.length <= 0)
+        return;
+
+      // Collect files
       $scope.names = [];
-      if (angular.isDefined(files) && files.length > 0) {
-        files.forEach(function(file) {
-          $scope.names.push(file.name);
-        });
-      }
+      files.forEach(function(file) {
+        $scope.names.push(file.name);
+      });
     };
 
     // Watch on files
@@ -136,35 +141,22 @@ angular.module('slides').controller('UploadFilesController', ['$rootScope', '$sc
     });
 
     // Upload files
-    $scope.upload = function () {
-      if($scope.files.length > 0) {
-        $scope.showTicker = true;
-        Files.upload($scope.files, $scope.onprogress, $scope.onsuccess, $scope.onerror);
-      }      
-    };
+    $scope.upload = function() {
+      // Define success callback
+      function onsuccess(config) {
+        $modalInstance.dismiss('success');
+        $rootScope.$broadcast('upload-files.success', config.file.name);
+      }
 
-    // Define progress callback
-    $scope.onprogress = function (evt) {
-      $scope.ticker = (evt.loaded / evt.total * 100).toFixed();
-      $log.log('progress: ' + $scope.ticker + '% ' + evt.config.file.name);
-    };
+      // Define error callback
+      function onerror(err) {
+        $modalInstance.dismiss('failed');
+        $rootScope.$broadcast('upload-files.failed');
+      }
 
-    // Define success callback
-    $scope.onsuccess = function (data, status, headers, config) {
-      $log.info('%s is uploaded successfully.', config.file.name);
-      $scope.ticker= 0.0;
-      $scope.showTicker = false;
-      $modalInstance.dismiss('success');
-      $rootScope.$broadcast('upload-files.success', config.file.name);
-    };
-
-    // Define error callback
-    $scope.onerror = function (err) {
-      $log.error(err);
-      $scope.ticker = 0.0;
-      $scope.showTicker = false;
-      $modalInstance.dismiss('failed');
-      $rootScope.$broadcast('upload-files.failed');
+      if ($scope.files.length > 0) {
+        Files.upload($scope.files, null, onsuccess, onerror);
+      }
     };
   }
 ]);
@@ -188,8 +180,8 @@ angular.module('core').service('Dialogs', ['$modal',
 'use strict';
 
 //Files service used to communicate Files REST endpoints
-angular.module('core').service('Files', ['$resource', '$window', '$log', '$upload', 'Authentication',
-  function($resource, $window, $log, $upload, Authentication) {
+angular.module('core').service('Files', ['$resource', '$http', '$window', '$log', '$upload', 'Authentication',
+  function($resource, $http, $window, $log, $upload, Authentication) {
     var authentication = Authentication;
 
     // Define file resouce binding
@@ -201,96 +193,194 @@ angular.module('core').service('Files', ['$resource', '$window', '$log', '$uploa
       }
     });
 
+    // Decrypt encrypted data
+    this.decryptData = function(data, userId) {
+      var raw = JSON.parse(data);
+      var params = $window.CryptoJS.lib.CipherParams.create({
+        ciphertext: $window.CryptoJS.enc.Hex.parse(raw.ciphertext)
+      });
+      var salt = $window.CryptoJS.enc.Hex.parse(raw.salt);
+      var key = $window.CryptoJS.EvpKDF(userId, salt, {
+        keySize: 128 / 32
+      });
+      var iv = $window.CryptoJS.enc.Hex.parse(raw.iv);
+      var dec = $window.CryptoJS.AES.decrypt(params, key, {
+        iv: iv,
+        mode: $window.CryptoJS.mode.CBC
+      });
+      var res = dec.toString($window.CryptoJS.enc.Utf8);
+    };
+
     // Define upload method
     this.upload = function(files, onprogress, onsuccess, onerror) {
-      if (files && files.length) {
-        for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          $upload.upload({
-            url: '/upload',
-            file: file
-          }).progress(onprogress).success(onsuccess).error(onerror);
+      // Check input data
+      if (!angular.isDefined(files) || files.length <= 0)
+        return;
+
+      // Upload each file
+      files.forEach(function(file) {
+        // Define progress callback
+        function cbprogress(evt) {
+          var perc = (evt.loaded / evt.total * 100).toFixed();
+          $log.log('progress: ' + perc + '% ' + evt.config.file.name);
         }
-      }
+
+        // Define success callback
+        function cbsuccess(data, status, getHeaders, config) {
+          $log.info('%s is uploaded successfully.', config.file.name);
+          if (onsuccess) {
+            onsuccess(config);
+          }
+        }
+
+        // Define error callback
+        function cberror(err) {
+          $log.error(err);
+          if (onerror) {
+            onerror(err);
+          }
+        }
+
+        // Send request
+        $upload.upload({
+          url: '/upload',
+          file: file
+        }).progress(cbprogress).success(cbsuccess).error(cberror);
+      });
     };
 
     // Define query method
-    this.query = function(onsuccess) {
-      rc.query(onsuccess);
+    this.list = function(onsuccess) {
+      // Define success callback
+      function cbsuccess(data, getHeader) {
+        if (onsuccess) {
+          onsuccess(data);
+        }
+      }
+
+      // Send request
+      rc.query(cbsuccess);
+    };
+
+    // Define download method
+    this.download = function(filenames, onsuccess, onerror) {
+      // Check input data
+      if (!angular.isDefined(filenames) || filenames.length <= 0)
+        return;
+
+      // Download each file
+      filenames.forEach(function(filename) {
+        // Define success callback
+        function cbsuccess(data, status, getHeaders, config) {
+          if (data && onsuccess) {
+            onsuccess(data, filename);
+          }
+        }
+
+        // Define error callback
+        function cberror(data, status, getHeaders, config) {
+          if (onerror) {
+            onerror(status);
+          }
+        }
+
+        // Send request
+        var url = 'files/' + filename;
+        $http.get(url, {
+            params: {
+              mode: 'download'
+            },
+            responseType: 'blob'
+          })
+          .success(cbsuccess)
+          .error(cberror);
+      });
     };
 
     // Deinfe load method
-    this.load = function(filename, onprogress, onsuccess, onerror) {
-      // Define progress callback
-      function cbprogress(evt) {
-        var total = req.getResponseHeader('ContentLength');
-        var perc = (evt.loaded / total * 100).toFixed();
-        $log.log('progress: ' + perc + '% ' + filename);
-        onprogress(perc);
-      }
+    this.load = function(filenames, onprogress, onsuccess, onerror) {
+      // Check input data
+      if (!angular.isDefined(filenames) || filenames.length <= 0)
+        return;
 
-      // Define success callback
-      function cbsuccess(evt) {
-        // // Decrypt encrypted data
-        // var raw = JSON.parse(req.responseText);
-        // var params = $window.CryptoJS.lib.CipherParams.create({
-        //   ciphertext: $window.CryptoJS.enc.Hex.parse(raw.ciphertext)
-        // });
-        // var salt = $window.CryptoJS.enc.Hex.parse(raw.salt);
-        // var key = $window.CryptoJS.EvpKDF(authentication.user._id, salt, {
-        //   keySize: 128 / 32
-        // });
-        // var iv = $window.CryptoJS.enc.Hex.parse(raw.iv);
-        // var dec = $window.CryptoJS.AES.decrypt(params, key, {iv: iv, mode: $window.CryptoJS.mode.CBC});
-        // var res = dec.toString($window.CryptoJS.enc.Utf8);
-        $log.info('%s is loaded successfully.', filename);
-        onsuccess(req.response);
-      }
+      // Load each file
+      filenames.forEach(function(filename) {
+        // Define progress callback
+        function cbprogress(evt) {
+          var total = req.getResponseHeader('ContentLength');
+          var perc = (evt.loaded / total * 100).toFixed();
+          $log.log('progress: ' + perc + '% ' + filename);
+          if (onprogress) {
+            onprogress(perc);
+          }
+        }
 
-      // Define error callback
-      function cberror(evt) {
-        $log.error('Failed to load %s.', filename);
-        onerror(evt);
-      }
+        // Define success callback
+        function cbsuccess(evt) {
+          // // Decrypt encrypted data
+          //decryptData(req.responseText, authentication.user._id);
+          $log.info('%s is loaded successfully.', filename);
+          if (onsuccess) {
+            onsuccess(req.response);
+          }
+        }
 
-      // Initialize XMLHttpRequest
-      var req = new $window.XMLHttpRequest();
+        // Define error callback
+        function cberror(evt) {
+          $log.error('Failed to load %s.', filenames);
+          if (onerror) {
+            onerror(evt);
+          }
+        }
 
-      // Add event listeners
-      req.addEventListener('progress', cbprogress, false);
-      req.addEventListener('load', cbsuccess, false);
-      req.addEventListener('error', cberror, false);
+        // Initialize XMLHttpRequest
+        var req = new $window.XMLHttpRequest();
 
-      // Send request
-      req.open('get', 'files/' + filename, true);
-      req.send();
+        // Add event listeners
+        req.addEventListener('progress', cbprogress, false);
+        req.addEventListener('load', cbsuccess, false);
+        req.addEventListener('error', cberror, false);
+
+        // Send request
+        req.open('get', 'files/' + filename + '?level=display', true);
+        req.send();
+      });
     };
 
     // Define delete method
-    this.delete = function(filename, onsucess, onerror) {
-      // Define success callback
-      function cbsuccess(res) {
-        $log.info('%s is deleted successfully.', filename);
-        if (onsucess) {
-          onsucess(res);
-        }
-      }
+    this.delete = function(filenames, onsuccess, onerror) {
+      var passed = [];
+      var failed = [];
 
-      // Define error callback
-      function cberror(err) {
-        $log.error('Failed to delete %s!', filename);
-        if (onerror) {
-          onerror(err);
+      // Delete each file
+      filenames.forEach(function(filename) {
+        // Define success callback
+        function cbsuccess(data, getHeader) {
+          passed.push(filename);
+          $log.info('%s is deleted successfully.', filename);
+          if (onsuccess) {
+            onsuccess(passed);
+          }
         }
-      }
 
-      // Send request
-      rc.delete({
-        filename: filename
-      }, cbsuccess, cberror);
+        // Define error callback
+        function cberror(data) {
+          failed.push(filename);
+          $log.error('Failed to delete %s!', filename);
+          if (onerror) {
+            onerror(failed);
+          }
+        }
+
+        // Send request
+        rc.delete({
+          filename: filename
+        }, cbsuccess, cberror);
+      });
     };
   }
 ]);
+
 'use strict';
 
 //Menu service used for managing  menus
@@ -303,7 +393,7 @@ angular.module('core').service('Menus', [
     // Define the menus object
     this.menus = {};
 
-    // A private function for rendering decision 
+    // A private function for rendering decision
     var shouldRender = function(user) {
       if (user) {
         if (!!~this.roles.indexOf('*')) {
@@ -542,10 +632,10 @@ angular.module('core').service('Scene', ['$window', '$document',
       // Create helpers
       createHelpers();
 
-      // Create lights.
+      // Create lights
       createLights();
 
-      // Create orbit control
+      // Create orbitor
       orbitor = new $window.THREE.OrbitControls(activeCamera, renderer.domElement);
 
       // Add listeners
@@ -556,18 +646,24 @@ angular.module('core').service('Scene', ['$window', '$document',
     };
 
     // Query models
-    this.queryModels = function(cb) {
+    this.queryModels = function(onsuccess) {
       var modelnames = [];
       activeScene.children.forEach(function(object) {
-        if(object.type === 'model') {
+        if (object.type === 'model') {
           modelnames.push(object.name);
         }
       });
-      cb(modelnames);
+      if(onsuccess) {
+        onsuccess(modelnames);
+      }
     };
 
     // Load model
-    this.loadModel = function(gd, cb) {
+    this.loadModel = function(gd, onsuccess) {
+      // Check input data
+      if(!angular.isDefined(gd))
+        return;
+
       // Count instances
       var count = countModelInstances(gd.name) + 1;
 
@@ -614,7 +710,7 @@ angular.module('core').service('Scene', ['$window', '$document',
           object.box.union(faceGeometry.boundingBox);
         }
 
-        // Create mesh        
+        // Create mesh
         var faceMesh = new $window.THREE.Mesh(faceGeometry, faceDefaultMaterial);
 
         // Add to parent
@@ -671,15 +767,32 @@ angular.module('core').service('Scene', ['$window', '$document',
       // Add to scene
       activeScene.add(object);
 
+      // Create transformer
+      var transformer = new $window.THREE.TransformControls(activeCamera, renderer.domElement);
+      transformer.attach(object);
+      transformer.translateY(halfy);
+      transformer.setMode('rotate');
+      transformer.addEventListener('change', render);
+
+      // Add to scene
+      activeScene.add(transformer);
+
       // Post-processing
-      cb(object);
+      if(onsuccess) {
+        onsuccess(object);
+      }
     };
 
-    // Remove model
-    this.removeModel = function(modelname) {
+    // Remove object
+    this.removeObject = function(objname) {
+      // Check input data
+      if(!angular.isDefined(objname))
+        return;
+
+      // Remove object
       var index = 0;
       activeScene.children.forEach(function(object) {
-        if (object.displayName === modelname) {
+        if (object.displayName === objname) {
           activeScene.children.splice(index, 1);
           return;
         }
@@ -694,38 +807,40 @@ angular.module('core').service('Scene', ['$window', '$document',
      * Scene management
      */
     // Create renderer
-    var createRenderer = function() {
+    function createRenderer() {
       container = $document[0].getElementById('canvas');
       renderer = $window.WebGLRenderingContext ?
         new $window.THREE.WebGLRenderer({
           alpha: true,
-          antialias: true
+          antialias: true,
+          preserveDrawingBuffer: true
         }) :
         new $window.THREE.CanvasRenderer();
       renderer.setSize($window.innerWidth, $window.innerHeight);
+      renderer.setPixelRatio($window.devicePixelRatio);
       renderer.autoClear = true;
       container.appendChild(renderer.domElement);
-    };
+    }
 
     // Create camera
-    var createCamera = function() {
+    function createCamera() {
       var camera = new $window.THREE.PerspectiveCamera(CAMERA_ANGLE, $window.innerWidth / $window.innerHeight, 1, BOX_SIZE * 10);
       camera.name = 'VIEW #' + cameras.length + 1;
       camera.position.set(BOX_SIZE * 2, BOX_SIZE, BOX_SIZE * 2);
       camera.target = new $window.THREE.Vector3();
       cameras.push(camera);
       activeCamera = camera;
-    };
+    }
 
     // Create scene
-    var createScene = function() {
+    function createScene() {
       var scene = new $window.THREE.Scene();
       scenes.push(scene);
       activeScene = scene;
-    };
+    }
 
     // Create helpers
-    var createHelpers = function() {
+    function createHelpers() {
       // Grid
       var grid = new $window.THREE.GridHelper(BOX_SIZE, GAP_SIZE);
       grid.name = 'GRID';
@@ -736,59 +851,64 @@ angular.module('core').service('Scene', ['$window', '$document',
       axis.name = 'AXIS';
       axis.visible = false;
       activeScene.add(axis);
-    };
+    }
 
     // Create lights
-    var createLights = function() {
+    function createLights() {
       eyeLight = new $window.THREE.DirectionalLight(0xffffff, 0.5);
       eyeLight.name = 'EYE LIGHT';
       eyeLight.position.set(BOX_SIZE, BOX_SIZE, BOX_SIZE);
       activeScene.add(eyeLight);
-    };
+    }
 
     // Count object instances
-    var countModelInstances = function (name) {
+    function countModelInstances(name) {
+      // Check input data
+      if(!angular.isDefined(name))
+        return 0;
+
+      // Count object instances
       var count = 0;
       activeScene.children.forEach(function(object) {
-        if(object.type === 'model') {
-          if(object.name === name) {
+        if (object.type === 'model') {
+          if (object.name === name) {
             count++;
           }
         }
       });
       return count;
-    };
+    }
 
     /**
      * Event callbacks
      */
     // Resize
-    var onWindowResize = function() {
+    function onWindowResize() {
       activeCamera.aspect = $window.innerWidth / $window.innerHeight;
       activeCamera.updateProjectionMatrix();
       renderer.setSize($window.innerWidth, $window.innerHeight);
-    };
+    }
 
     /**
      * Rendering utilities
      */
     // Animate
-    var animate = function() {
+    function animate() {
       $window.requestAnimationFrame(animate);
       update();
       render();
-    };
+    }
 
     // Render
-    var render = function() {
+    function render() {
       renderer.render(activeScene, activeCamera);
-    };
+    }
 
     // Update
-    var update = function() {
+    function update() {
       activeCamera.target.copy(orbitor.target);
       eyeLight.position.set(activeCamera.position.x, activeCamera.position.y, activeCamera.position.z);
-    };
+    }
   }
 ]);
 
@@ -804,7 +924,7 @@ angular.module('core').service('Tools', [
     // Define the tools object
     this.tools = {};
 
-    // A private function for rendering decision 
+    // A private function for rendering decision
     var shouldRender = function(user) {
       if (user) {
         if (!!~this.roles.indexOf('*')) {
@@ -911,10 +1031,6 @@ angular.module('core').service('Tools', [
       // Return the tool object
       return this.tools[toolId];
     };
-
-    //Adding the sidebar tool
-    this.addTool('sidebar');
-    this.addTool('panel');
   }
 ]);
 
@@ -930,7 +1046,7 @@ angular.module('core').service('Trees', [
     // Define the trees object
     this.trees = {};
 
-    // A private function for rendering decision 
+    // A private function for rendering decision
     var shouldRender = function(user) {
       if (user) {
         if (!!~this.roles.indexOf('*')) {
@@ -1011,6 +1127,7 @@ angular.module('core').service('Trees', [
         isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.trees[treeId].isPublic : isPublic),
         roles: ((roles === null || typeof roles === 'undefined') ? this.trees[treeId].roles : roles),
         items: [],
+        checked: false,
         shouldRender: shouldRender
       });
 
@@ -1019,7 +1136,7 @@ angular.module('core').service('Trees', [
     };
 
     // Add subtree item object
-    this.addSubTreeItem = function(treeId, rootTreeItemURL, treeItemTitle, treeItemIcon, treeItemWidgets, treeItemURL, isPublic, roles) {
+    this.addSubTreeItem = function(treeId, rootTreeItemURL, treeItemTitle, treeItemIcon, treeItemURL, isPublic, roles) {
       // Validate that the tree exists
       this.validateTreeExistance(treeId);
 
@@ -1030,10 +1147,10 @@ angular.module('core').service('Trees', [
           this.trees[treeId].items[itemIndex].items.push({
             title: treeItemTitle,
             icon: treeItemIcon,
-            widgets: treeItemWidgets,
             link: treeItemURL,
             isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.trees[treeId].items[itemIndex].isPublic : isPublic),
             roles: ((roles === null || typeof roles === 'undefined') ? this.trees[treeId].items[itemIndex].roles : roles),
+            checked: false,
             shouldRender: shouldRender
           });
         }
@@ -1077,11 +1194,42 @@ angular.module('core').service('Trees', [
       return this.trees[treeId];
     };
 
-    // Adding the file tree tree
-    this.addTree('fileTree');
+    // Select subtree items
+    this.checkAllSubTreeItems = function(treeId, rootTreeItemURL, checked) {
+      // Validate that the tree exists
+      this.validateTreeExistance(treeId);
 
-    // Adding the scene tree tree
-    this.addTree('sceneTree');
+      // Search for subtree items
+      for (var itemIndex in this.trees[treeId].items) {
+        if (this.trees[treeId].items[itemIndex].link === rootTreeItemURL) {
+          var item = this.trees[treeId].items[itemIndex];
+          if (angular.isDefined(item.items) && item.items.length > 0) {
+            for (var subitemIndex in item.items) {
+              item.items[subitemIndex].checked = checked;
+            }
+          }
+        }
+      }
+    };
+
+    // Get checked tree object
+    this.getCheckedSubTreeItems = function(treeId) {
+      // Validate that the tree exists
+      this.validateTreeExistance(treeId);
+
+      // Search for tree item to remove
+      var items = [];
+      for (var itemIndex in this.trees[treeId].items) {
+        for (var subitemIndex in this.trees[treeId].items[itemIndex].items) {
+          if (this.trees[treeId].items[itemIndex].items[subitemIndex].checked === true) {
+            items.push(this.trees[treeId].items[itemIndex].items[subitemIndex]);
+          }
+        }
+      }
+
+      // Return the tree object
+      return items;
+    };
   }
 ]);
 
@@ -1092,54 +1240,59 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
   function(Menus, Tools, Trees, Dialogs) {
     // Set topbar menu items
     Menus.addMenuItem('topbar', 'Slides', 'slides', 'dropdown');
-    Menus.addSubMenuItem('topbar', 'slides', 'New Slide', 'slides/create');
+    Menus.addSubMenuItem('topbar', 'slides', 'New Project', 'slides/create');
+
+    // Adding tools
+    Tools.addTool('sidebar');
+    Tools.addTool('views');
+    Tools.addTool('scene');
+    Tools.addTool('files');
+    Tools.addTool('modeling');
+    Tools.addTool('materials');
+    Tools.addTool('markups');
 
     // Set sidebar tool items
-    Tools.addToolItem('sidebar', 'Views', 'glyphicon-blackboard', 'slides/create/views');
-    Tools.addToolItem('sidebar', 'Scene', 'glyphicon-camera', 'slides/create/scene');
-    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/create/files');
-    Tools.addToolItem('sidebar', 'Tools', 'glyphicon-wrench', 'slides/create/tools');
-    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'slides/create/materials');
-    Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'slides/create/markups');
+    Tools.addToolItem('sidebar', 'Views', 'glyphicon-blackboard', 'slides/create/views', null, 'List of views');
+    Tools.addToolItem('sidebar', 'Scene', 'glyphicon-camera', 'slides/create/scene', null, 'List of scene objects');
+    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/create/files', null, 'List of files');
+    Tools.addToolItem('sidebar', 'Modeling', 'glyphicon-wrench', 'slides/create/modeling', null, 'List of modeling tools');
+    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'slides/create/materials', null, 'List of materials');
+    Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'slides/create/markups', null, 'List of markups');
 
-    // Set panel tool items
-    Tools.addToolItem('panel', 'Upload File', 'glyphicon-upload', null, 'uploadFiles', 'Upload multiple files');
-    Tools.addToolItem('panel', 'Download File', 'glyphicon-download', null, 'downloadFile', 'Download a file');
-    Tools.addToolItem('panel', 'Take Snapshot', 'glyphicon-picture', null, 'takeSnapshot', 'Take a snapshot for the scene');
+    // Set views tool items
+
+    // Set scene tool items
+    Tools.addToolItem('scene', 'Take Snapshot', 'glyphicon-picture', null, 'takeSnapshot', 'Take a snapshot for the scene');
+    Tools.addToolItem('scene', 'Remove Objects', 'glyphicon-remove', null, 'removeObjects', 'Remove objects from scene');
+
+    // Set files tool items
+    Tools.addToolItem('files', 'Upload Files', 'glyphicon-cloud-upload', null, 'uploadFiles', 'Upload files to server');
+    Tools.addToolItem('files', 'Download Files', 'glyphicon-cloud-download', null, 'downloadFiles', 'Download files from server');
+    Tools.addToolItem('files', 'Load Files', 'glyphicon-download', null, 'loadFiles', 'Load files into scene');
+    Tools.addToolItem('files', 'Delete Files', 'glyphicon-remove', null, 'deleteFiles', 'Delete files from server');
+
+    // Set modeling tool items
+
+    // Set marterials tool items
+
+    // Set markups tool items
+
+    // Adding trees
+    Trees.addTree('files');
+    Trees.addTree('scene');
 
     // Set file tree node items
-    Trees.addTreeItem('fileTree', 'Models', 'glyphicon-briefcase', 'models');
-    Trees.addTreeItem('fileTree', 'Images', 'glyphicon-briefcase', 'images');
-    Trees.addTreeItem('fileTree', 'Texts', 'glyphicon-briefcase', 'texts');
-    Trees.addTreeItem('fileTree', 'Others', 'glyphicon-briefcase', 'others');
+    Trees.addTreeItem('files', 'Models', 'glyphicon-briefcase', 'models');
+    Trees.addTreeItem('files', 'Images', 'glyphicon-briefcase', 'images');
+    Trees.addTreeItem('files', 'Texts', 'glyphicon-briefcase', 'texts');
+    Trees.addTreeItem('files', 'Others', 'glyphicon-briefcase', 'others');
 
-    // Set scene tree node items 
-    Trees.addTreeItem('sceneTree', 'Models', 'glyphicon-briefcase', 'models');
-    Trees.addTreeItem('sceneTree', 'Lights', 'glyphicon-briefcase', 'lights');
+    // Set scene tree node items
+    Trees.addTreeItem('scene', 'Models', 'glyphicon-briefcase', 'models');
+    Trees.addTreeItem('scene', 'Lights', 'glyphicon-briefcase', 'lights');
+    Trees.addTreeItem('scene', 'Markups', 'glyphicon-briefcase', 'markups');
   }
 ]);
-
-// Configuring file widgets
-angular.module('slides').constant('fileWidgets', [{
-  'name': 'Delete',
-  'action': 'deleteFile',
-  'icon': 'glyphicon-trash'
-}, {
-  'name': 'Load',
-  'action': 'loadFile',
-  'icon': 'glyphicon-download'
-}, {
-  'name': 'Edit',
-  'action': 'editFile',
-  'icon': 'glyphicon-edit'
-}]);
-
-// Configuring scene widgets
-angular.module('slides').constant('sceneWidgets', [{
-  'name': 'Remove',
-  'action': 'removeModel',
-  'icon': 'glyphicon-remove'
-}]);
 
 // Configure http interseptor
 angular.module('slides').factory('httpResponseInterceptor', ['$q', function($q) {
@@ -1152,6 +1305,7 @@ angular.module('slides').factory('httpResponseInterceptor', ['$q', function($q) 
   .config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('httpResponseInterceptor');
   }]);
+
 'use strict';
 
 //Setting up route
@@ -1179,9 +1333,9 @@ angular.module('slides').config(['$stateProvider',
       url: '/files',
       templateUrl: 'modules/slides/views/create-slide-files.client.view.html'
     }).
-    state('createSlide.Tools', {
-      url: '/tools',
-      templateUrl: 'modules/slides/views/create-slide-tools.client.view.html'
+    state('createSlide.Modeling', {
+      url: '/modeling',
+      templateUrl: 'modules/slides/views/create-slide-modeling.client.view.html'
     }).
     state('createSlide.Materials', {
       url: '/materials',
@@ -1205,7 +1359,7 @@ angular.module('slides').config(['$stateProvider',
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$timeout', '$log', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'Dialogs', 'FileTypes', 'fileWidgets', 'sceneWidgets', 'Slides', function($scope, $stateParams, $location, $window, $timeout, $log, $upload, Authentication, Scene, Files, Tools, Trees, Dialogs, FileTypes, fileWidgets, sceneWidgets, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$document', '$timeout', '$log', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'Dialogs', 'FileTypes', 'Slides', function($scope, $stateParams, $location, $window, $document, $timeout, $log, $upload, Authentication, Scene, Files, Tools, Trees, Dialogs, FileTypes, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
@@ -1218,19 +1372,18 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Initialize modal instance
   $scope.modalInstance = null;
 
-  // Initialize ticker
-  $scope.ticker = 0.0;
-  $scope.showTicker = false;
-
-  // Find a list of sidebar tools
+  // Find a list of tools
   $scope.sidebarTools = Tools.getTool('sidebar');
+  $scope.viewTools = Tools.getTool('views');
+  $scope.sceneTools = Tools.getTool('scene');
+  $scope.fileTools = Tools.getTool('files');
+  $scope.modelingTools = Tools.getTool('modeling');
+  $scope.materialTools = Tools.getTool('materials');
+  $scope.markupTools = Tools.getTool('markups');
 
-  // Find a list of panel tools
-  $scope.panelTools = Tools.getTool('panel');
-
-  // Find a list of file tree items  
-  $scope.fileTree = Trees.getTree('fileTree');
-  Files.query(function(filenames) {
+  // Find a list of file tree items
+  $scope.fileTree = Trees.getTree('files');
+  Files.list(function(filenames) {
     if (filenames && filenames.length > 0) {
       filenames.forEach(function(filename) {
         addFileItem(filename.toLowerCase());
@@ -1242,7 +1395,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   Scene.initialize();
 
   // Find a list of scene tree items
-  $scope.sceneTree = Trees.getTree('sceneTree');
+  $scope.sceneTree = Trees.getTree('scene');
   Scene.queryModels(function(modelnames) {
     modelnames.forEach(function(modelname) {
       addSceneItem(modelname);
@@ -1253,18 +1406,43 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //  Callbacks
   //---------------------------------------------------
   // Tool callbacks
-  // Activate a tool
-  $scope.activateTool = function(action) {
-    $scope[action]();
-  };
-
   // Activate the panel
   $scope.activatePanel = function(link) {
     if (link !== $scope.link) {
       $scope.showPanel = true;
       $scope.link = link;
+      $location.url(link);
     } else {
       $scope.showPanel = !$scope.showPanel;
+    }
+  };
+
+  // Activate a tool
+  $scope.activateTool = function(action) {
+    if (angular.isDefined(action)) {
+      $scope[action]();
+    }
+  };
+
+  // Select all files
+  $scope.checkAllFiles = function(item) {
+    item.checked = !item.checked;
+    Trees.checkAllSubTreeItems('files', item.link, item.checked);
+  };
+
+  // Select all objects
+  $scope.checkAllObjects = function(item) {
+    item.checked = !item.checked;
+    Trees.checkAllSubTreeItems('scene', item.link, item.checked);
+  };
+
+  // Disable all files
+  $scope.disableCheckAll = function(item) {
+    if (item.items.length === 0) {
+      item.checked = false;
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -1273,63 +1451,86 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     $scope.modalInstance = Dialogs.uploadFiles();
   };
 
-  // Widget callbacks
-  // Activate a widget
-  $scope.activateWidget = function(action, subItem) {
-    $scope[action](subItem);
+  // Download files
+  $scope.downloadFiles = function() {
+    // Get selected filenames
+    var filenames = getCheckedSubTreeItems('files');
+
+    // Define success callback
+    function onsuccess(data, filename) {
+      var blob = new $window.Blob([data]);
+      var windowURL = $window.URL || $window.webkitURL;
+      var url = windowURL.createObjectURL(blob);
+      downloadData(url, filename);
+    }
+
+    // Download file
+    Files.download(filenames, onsuccess);
   };
 
-  // Load a file
-  $scope.loadFile = function(tree) {
-    // Define progress callback
-    function onprogress(perc) {
-      $scope.ticker = perc;
-      $scope.$apply();      
-    }
+  // Load files
+  $scope.loadFiles = function() {
+    // Get selected filenames
+    var filenames = getCheckedSubTreeItems('files');
 
     // Define success callback
     function onsuccess(res) {
       var data = JSON.parse(res);
       Scene.loadModel(data, function(object) {
         addSceneItem(object.displayName.toLowerCase());
-        resetTicker();
       });
     }
 
-    // Define error callback
-    function onerror(evt) {
-      resetTicker();
-    }
-
     // Load file
-    var filename = tree.title;
-    $scope.showTicker = true;
-    Files.load(filename, onprogress, onsuccess, onerror);
+    Files.load(filenames, null, onsuccess);
   };
 
-  // Delete a file
-  $scope.deleteFile = function(item) {
-    // Define delete callback
-    function onsuccess(res) {
-      Trees.removeSubTreeItem('fileTree', filename);
+  // Delete files
+  $scope.deleteFiles = function() {
+    // Get selected filenames
+    var filenames = getCheckedSubTreeItems('files');
+
+    // Define success callback
+    function onsuccess(passed) {
+      if (angular.isDefined(passed) && passed.length > 0) {
+        passed.forEach(function(filename) {
+          Trees.removeSubTreeItem('files', filename);
+        });
+      }
     }
 
-    // Confirm deletion
-    var filename = item.title;
-    var msg = 'Delete ' + filename + ' from server?';
-    var ret = $window.confirm(msg);
-
-    // Delete file
-    if (ret === true) {
-      Files.delete(filename, onsuccess);
+    // Define error callback
+    function onerror(failed) {
+      if (angular.isDefined(failed) && failed.length > 0) {
+        var msg = 'Failed to delete:\n';
+        failed.forEach(function(filename) {
+          msg += filename + '\n';
+        });
+        $window.alert(msg);
+      }
     }
+
+    // Delete files
+    Files.delete(filenames, onsuccess, onerror);
   };
 
-  // Remove a model
-  $scope.removeModel = function(item) {
-    var modelname = item.title;
-    Scene.removeModel(modelname);
-    Trees.removeSubTreeItem('sceneTree', modelname);
+  // Take snapshot
+  $scope.takeSnapshot = function() {
+    var el = $document[0].getElementById('canvas').children[0];
+    var url = el.toDataURL('image/png');
+    downloadData(url, 'screenshot.png');
+  };
+
+  // Remove objects
+  $scope.removeObjects = function() {
+    // Get checked objects
+    var objnames = getCheckedSubTreeItems('scene');
+
+    // Remove objects
+    objnames.forEach(function(objname) {
+      Scene.removeObject(objname);
+      Trees.removeSubTreeItem('scene', objname);
+    });
   };
 
   /**
@@ -1407,12 +1608,14 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   /**
    * GUI related
    */
-  function resetTicker() {
-    $timeout(function() {
-      $scope.showTicker = false;
-      $scope.ticker = 0.0;
-      $scope.$apply();
-    }, 1000);
+  // Get checked subtree items
+  function getCheckedSubTreeItems(treeId) {
+    var items = Trees.getCheckedSubTreeItems(treeId);
+    var names = [];
+    items.forEach(function(item) {
+      names.push(item.title);
+    });
+    return names;
   }
 
   /**
@@ -1431,37 +1634,26 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     }
   }
 
-  // Get widgets associated with file
-  function getFileWidgets(ext) {
-    var widgets = [];
-    if (FileTypes.models.indexOf(ext) !== -1) {
-      widgets.push(fileWidgets[0]);
-      widgets.push(fileWidgets[1]);
-    } else if (FileTypes.images.indexOf(ext) !== -1) {
-      widgets.push(fileWidgets[0]);
-    } else if (FileTypes.texts.indexOf(ext) !== -1) {
-      widgets.push(fileWidgets[0]);
-      widgets.push(fileWidgets[2]);
-    } else {
-      widgets.push(fileWidgets[0]);
-    }
-    return widgets;
-  }
-
   // Add file item to tree
   function addFileItem(filename) {
     var ext = filename.split('.').reverse()[0];
     var icon = getFileIcon(ext);
-    var widgets = getFileWidgets(ext);
     if (FileTypes.models.indexOf(ext) !== -1) {
-      Trees.addSubTreeItem('fileTree', 'models', filename, icon, widgets, filename);
+      Trees.addSubTreeItem('files', 'models', filename, icon, filename);
     } else if (FileTypes.images.indexOf(ext) !== -1) {
-      Trees.addSubTreeItem('fileTree', 'images', filename, icon, widgets, filename);
+      Trees.addSubTreeItem('files', 'images', filename, icon, filename);
     } else if (FileTypes.texts.indexOf(ext) !== -1) {
-      Trees.addSubTreeItem('fileTree', 'texts', filename, icon, widgets, filename);
+      Trees.addSubTreeItem('files', 'texts', filename, icon, filename);
     } else {
-      Trees.addSubTreeItem('fileTree', 'others', filename, icon, widgets, filename);
+      Trees.addSubTreeItem('files', 'others', filename, icon, filename);
     }
+  }
+
+  function downloadData(url, filename) {
+    var el = $document[0].getElementById('download');
+    el.href = url;
+    el.download = filename;
+    el.click();
   }
 
   /**
@@ -1469,9 +1661,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    */
   // Add scene item to tree
   function addSceneItem(modelname) {
-    var widgets = [];
-    widgets.push(sceneWidgets[0]);
-    Trees.addSubTreeItem('sceneTree', 'models', modelname, 'glyphicon-knight', widgets, modelname);
+    Trees.addSubTreeItem('scene', 'models', modelname, 'glyphicon-knight', modelname);
   }
 }]);
 
@@ -1494,250 +1684,255 @@ angular.module('slides').factory('Slides', ['$resource',
 
 // Config HTTP Error Handling
 angular.module('users').config(['$httpProvider',
-	function($httpProvider) {
-		// Set the httpProvider "not authorized" interceptor
-		$httpProvider.interceptors.push(['$q', '$location', 'Authentication',
-			function($q, $location, Authentication) {
-				return {
-					responseError: function(rejection) {
-						switch (rejection.status) {
-							case 401:
-								// Deauthenticate the global user
-								Authentication.user = null;
+  function($httpProvider) {
+    // Set the httpProvider "not authorized" interceptor
+    $httpProvider.interceptors.push(['$q', '$location', 'Authentication',
+      function($q, $location, Authentication) {
+        return {
+          responseError: function(rejection) {
+            switch (rejection.status) {
+              case 401:
+                // Deauthenticate the global user
+                Authentication.user = null;
 
-								// Redirect to signin page
-								$location.path('signin');
-								break;
-							case 403:
-								// Add unauthorized behaviour 
-								break;
-						}
+                // Redirect to signin page
+                $location.path('signin');
+                break;
+              case 403:
+                // Add unauthorized behaviour
+                break;
+            }
 
-						return $q.reject(rejection);
-					}
-				};
-			}
-		]);
-	}
+            return $q.reject(rejection);
+          }
+        };
+      }
+    ]);
+  }
 ]);
+
 'use strict';
 
 // Setting up route
 angular.module('users').config(['$stateProvider',
-	function($stateProvider) {
-		// Users state routing
-		$stateProvider.
-		state('profile', {
-			url: '/settings/profile',
-			templateUrl: 'modules/users/views/settings/edit-profile.client.view.html'
-		}).
-		state('password', {
-			url: '/settings/password',
-			templateUrl: 'modules/users/views/settings/change-password.client.view.html'
-		}).
-		state('accounts', {
-			url: '/settings/accounts',
-			templateUrl: 'modules/users/views/settings/social-accounts.client.view.html'
-		}).
-		state('signup', {
-			url: '/signup',
-			templateUrl: 'modules/users/views/authentication/signup.client.view.html'
-		}).
-		state('signin', {
-			url: '/signin',
-			templateUrl: 'modules/users/views/authentication/signin.client.view.html'
-		}).
-		state('forgot', {
-			url: '/password/forgot',
-			templateUrl: 'modules/users/views/password/forgot-password.client.view.html'
-		}).
-		state('reset-invalid', {
-			url: '/password/reset/invalid',
-			templateUrl: 'modules/users/views/password/reset-password-invalid.client.view.html'
-		}).
-		state('reset-success', {
-			url: '/password/reset/success',
-			templateUrl: 'modules/users/views/password/reset-password-success.client.view.html'
-		}).
-		state('reset', {
-			url: '/password/reset/:token',
-			templateUrl: 'modules/users/views/password/reset-password.client.view.html'
-		});
-	}
+  function($stateProvider) {
+    // Users state routing
+    $stateProvider.
+    state('profile', {
+      url: '/settings/profile',
+      templateUrl: 'modules/users/views/settings/edit-profile.client.view.html'
+    }).
+    state('password', {
+      url: '/settings/password',
+      templateUrl: 'modules/users/views/settings/change-password.client.view.html'
+    }).
+    state('accounts', {
+      url: '/settings/accounts',
+      templateUrl: 'modules/users/views/settings/social-accounts.client.view.html'
+    }).
+    state('signup', {
+      url: '/signup',
+      templateUrl: 'modules/users/views/authentication/signup.client.view.html'
+    }).
+    state('signin', {
+      url: '/signin',
+      templateUrl: 'modules/users/views/authentication/signin.client.view.html'
+    }).
+    state('forgot', {
+      url: '/password/forgot',
+      templateUrl: 'modules/users/views/password/forgot-password.client.view.html'
+    }).
+    state('reset-invalid', {
+      url: '/password/reset/invalid',
+      templateUrl: 'modules/users/views/password/reset-password-invalid.client.view.html'
+    }).
+    state('reset-success', {
+      url: '/password/reset/success',
+      templateUrl: 'modules/users/views/password/reset-password-success.client.view.html'
+    }).
+    state('reset', {
+      url: '/password/reset/:token',
+      templateUrl: 'modules/users/views/password/reset-password.client.view.html'
+    });
+  }
 ]);
+
 'use strict';
 
 angular.module('users').controller('AuthenticationController', ['$scope', '$http', '$location', 'Authentication',
-	function($scope, $http, $location, Authentication) {
-		$scope.authentication = Authentication;
+  function($scope, $http, $location, Authentication) {
+    $scope.authentication = Authentication;
 
-		// If user is signed in then redirect back home
-		if ($scope.authentication.user) $location.path('/');
+    // If user is signed in then redirect back home
+    if ($scope.authentication.user) $location.path('/');
 
-		$scope.signup = function() {
-			$http.post('/auth/signup', $scope.credentials).success(function(response) {
-				// If successful we assign the response to the global user model
-				$scope.authentication.user = response;
+    $scope.signup = function() {
+      $http.post('/auth/signup', $scope.credentials).success(function(response) {
+        // If successful we assign the response to the global user model
+        $scope.authentication.user = response;
 
-				// And redirect to the index page
-				$location.path('/');
-			}).error(function(response) {
-				$scope.error = response.message;
-			});
-		};
+        // And redirect to the index page
+        $location.path('/');
+      }).error(function(response) {
+        $scope.error = response.message;
+      });
+    };
 
-		$scope.signin = function() {
-			$http.post('/auth/signin', $scope.credentials).success(function(response) {
-				// If successful we assign the response to the global user model
-				$scope.authentication.user = response;
+    $scope.signin = function() {
+      $http.post('/auth/signin', $scope.credentials).success(function(response) {
+        // If successful we assign the response to the global user model
+        $scope.authentication.user = response;
 
-				// And redirect to the index page
-				$location.path('/');
-			}).error(function(response) {
-				$scope.error = response.message;
-			});
-		};
-	}
+        // And redirect to the index page
+        $location.path('/');
+      }).error(function(response) {
+        $scope.error = response.message;
+      });
+    };
+  }
 ]);
 
 'use strict';
 
 angular.module('users').controller('PasswordController', ['$scope', '$stateParams', '$http', '$location', 'Authentication',
-	function($scope, $stateParams, $http, $location, Authentication) {
-		$scope.authentication = Authentication;
+  function($scope, $stateParams, $http, $location, Authentication) {
+    $scope.authentication = Authentication;
 
-		//If user is signed in then redirect back home
-		if ($scope.authentication.user) $location.path('/');
+    //If user is signed in then redirect back home
+    if ($scope.authentication.user) $location.path('/');
 
-		// Submit forgotten password account id
-		$scope.askForPasswordReset = function() {
-			$scope.success = $scope.error = null;
+    // Submit forgotten password account id
+    $scope.askForPasswordReset = function() {
+      $scope.success = $scope.error = null;
 
-			$http.post('/auth/forgot', $scope.credentials).success(function(response) {
-				// Show user success message and clear form
-				$scope.credentials = null;
-				$scope.success = response.message;
+      $http.post('/auth/forgot', $scope.credentials).success(function(response) {
+        // Show user success message and clear form
+        $scope.credentials = null;
+        $scope.success = response.message;
 
-			}).error(function(response) {
-				// Show user error message and clear form
-				$scope.credentials = null;
-				$scope.error = response.message;
-			});
-		};
+      }).error(function(response) {
+        // Show user error message and clear form
+        $scope.credentials = null;
+        $scope.error = response.message;
+      });
+    };
 
-		// Change user password
-		$scope.resetUserPassword = function() {
-			$scope.success = $scope.error = null;
+    // Change user password
+    $scope.resetUserPassword = function() {
+      $scope.success = $scope.error = null;
 
-			$http.post('/auth/reset/' + $stateParams.token, $scope.passwordDetails).success(function(response) {
-				// If successful show success message and clear form
-				$scope.passwordDetails = null;
+      $http.post('/auth/reset/' + $stateParams.token, $scope.passwordDetails).success(function(response) {
+        // If successful show success message and clear form
+        $scope.passwordDetails = null;
 
-				// Attach user profile
-				Authentication.user = response;
+        // Attach user profile
+        Authentication.user = response;
 
-				// And redirect to the index page
-				$location.path('/password/reset/success');
-			}).error(function(response) {
-				$scope.error = response.message;
-			});
-		};
-	}
+        // And redirect to the index page
+        $location.path('/password/reset/success');
+      }).error(function(response) {
+        $scope.error = response.message;
+      });
+    };
+  }
 ]);
+
 'use strict';
 
 angular.module('users').controller('SettingsController', ['$scope', '$http', '$location', 'Users', 'Authentication',
-	function($scope, $http, $location, Users, Authentication) {
-		$scope.user = Authentication.user;
+  function($scope, $http, $location, Users, Authentication) {
+    $scope.user = Authentication.user;
 
-		// If user is not signed in then redirect back home
-		if (!$scope.user) $location.path('/');
+    // If user is not signed in then redirect back home
+    if (!$scope.user) $location.path('/');
 
-		// Check if there are additional accounts 
-		$scope.hasConnectedAdditionalSocialAccounts = function(provider) {
-			for (var i in $scope.user.additionalProvidersData) {
-				return true;
-			}
+    // Check if there are additional accounts
+    $scope.hasConnectedAdditionalSocialAccounts = function(provider) {
+      for (var i in $scope.user.additionalProvidersData) {
+        return true;
+      }
 
-			return false;
-		};
+      return false;
+    };
 
-		// Check if provider is already in use with current user
-		$scope.isConnectedSocialAccount = function(provider) {
-			return $scope.user.provider === provider || ($scope.user.additionalProvidersData && $scope.user.additionalProvidersData[provider]);
-		};
+    // Check if provider is already in use with current user
+    $scope.isConnectedSocialAccount = function(provider) {
+      return $scope.user.provider === provider || ($scope.user.additionalProvidersData && $scope.user.additionalProvidersData[provider]);
+    };
 
-		// Remove a user social account
-		$scope.removeUserSocialAccount = function(provider) {
-			$scope.success = $scope.error = null;
+    // Remove a user social account
+    $scope.removeUserSocialAccount = function(provider) {
+      $scope.success = $scope.error = null;
 
-			$http.delete('/users/accounts', {
-				params: {
-					provider: provider
-				}
-			}).success(function(response) {
-				// If successful show success message and clear form
-				$scope.success = true;
-				$scope.user = Authentication.user = response;
-			}).error(function(response) {
-				$scope.error = response.message;
-			});
-		};
+      $http.delete('/users/accounts', {
+        params: {
+          provider: provider
+        }
+      }).success(function(response) {
+        // If successful show success message and clear form
+        $scope.success = true;
+        $scope.user = Authentication.user = response;
+      }).error(function(response) {
+        $scope.error = response.message;
+      });
+    };
 
-		// Update a user profile
-		$scope.updateUserProfile = function(isValid) {
-			if (isValid) {
-				$scope.success = $scope.error = null;
-				var user = new Users($scope.user);
+    // Update a user profile
+    $scope.updateUserProfile = function(isValid) {
+      if (isValid) {
+        $scope.success = $scope.error = null;
+        var user = new Users($scope.user);
 
-				user.$update(function(response) {
-					$scope.success = true;
-					Authentication.user = response;
-				}, function(response) {
-					$scope.error = response.data.message;
-				});
-			} else {
-				$scope.submitted = true;
-			}
-		};
+        user.$update(function(response) {
+          $scope.success = true;
+          Authentication.user = response;
+        }, function(response) {
+          $scope.error = response.data.message;
+        });
+      } else {
+        $scope.submitted = true;
+      }
+    };
 
-		// Change user password
-		$scope.changeUserPassword = function() {
-			$scope.success = $scope.error = null;
+    // Change user password
+    $scope.changeUserPassword = function() {
+      $scope.success = $scope.error = null;
 
-			$http.post('/users/password', $scope.passwordDetails).success(function(response) {
-				// If successful show success message and clear form
-				$scope.success = true;
-				$scope.passwordDetails = null;
-			}).error(function(response) {
-				$scope.error = response.message;
-			});
-		};
-	}
+      $http.post('/users/password', $scope.passwordDetails).success(function(response) {
+        // If successful show success message and clear form
+        $scope.success = true;
+        $scope.passwordDetails = null;
+      }).error(function(response) {
+        $scope.error = response.message;
+      });
+    };
+  }
 ]);
+
 'use strict';
 
 // Authentication service for user variables
 angular.module('users').factory('Authentication', [
-	function() {
-		var _this = this;
+  function() {
+    var _this = this;
 
-		_this._data = {
-			user: window.user
-		};
+    _this._data = {
+      user: window.user
+    };
 
-		return _this._data;
-	}
+    return _this._data;
+  }
 ]);
+
 'use strict';
 
 // Users service used for communicating with the users REST endpoint
 angular.module('users').factory('Users', ['$resource',
-	function($resource) {
-		return $resource('users', {}, {
-			update: {
-				method: 'PUT'
-			}
-		});
-	}
+  function($resource) {
+    return $resource('users', {}, {
+      update: {
+        method: 'PUT'
+      }
+    });
+  }
 ]);
