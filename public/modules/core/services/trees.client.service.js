@@ -1,9 +1,9 @@
 'use strict';
 
 //Tree service used for managing  trees
-angular.module('core').service('Trees', [
+angular.module('core').service('Trees', ['$log',
 
-  function() {
+  function($log) {
     // Define a set of default roles
     this.defaultRoles = ['*'];
 
@@ -34,22 +34,20 @@ angular.module('core').service('Trees', [
     // Validate tree existance
     this.validateTreeExistance = function(treeId) {
       if (treeId && treeId.length) {
-        if (this.trees[treeId]) {
-          return true;
-        } else {
-          throw new Error('Tree does not exists');
+        if (!this.trees[treeId]) {
+          $log.error('Tree does not exists');
+          return false;
         }
-      } else {
-        throw new Error('TreeId was not provided');
       }
-
-      return false;
+      return true;
     };
 
     // Get the tree object by tree id
     this.getTree = function(treeId) {
       // Validate that the tree exists
-      this.validateTreeExistance(treeId);
+      if(!this.validateTreeExistance(treeId)) {
+        return;
+      }
 
       // Return the tree object
       return this.trees[treeId];
@@ -69,19 +67,54 @@ angular.module('core').service('Trees', [
       return this.trees[treeId];
     };
 
+    // Empty existing tree objects
+    this.emptyTree = function(treeId) {
+      // Validate that the tree exists
+      if(!this.validateTreeExistance(treeId)) {
+        return;
+      }
+
+      // Search for tree item to remove
+      for (var itemIndex in this.trees[treeId].items) {
+        this.trees[treeId].items[itemIndex].items = [];
+      }
+    };
+
     // Remove existing tree object by tree id
     this.removeTree = function(treeId) {
       // Validate that the tree exists
-      this.validateTreeExistance(treeId);
+      if(!this.validateTreeExistance(treeId)) {
+        return;
+      }
 
       // Return the tree object
       delete this.trees[treeId];
     };
 
+    // Validate tree item existance
+    this.validateTreeItemExistance = function(treeId, treeItemURL) {
+      if (treeItemURL && treeItemURL.length) {
+        for (var itemIndex in this.trees[treeId].items) {
+          if (this.trees[treeId].items[itemIndex].link === treeItemURL) {
+            $log.error('Tree item is already existant');
+            return false;
+          }
+        }
+      }
+      return true;
+    };
+
     // Add tree item object
     this.addTreeItem = function(treeId, treeItemTitle, treeItemIcon, treeItemURL, isPublic, roles) {
       // Validate that the tree exists
-      this.validateTreeExistance(treeId);
+      if(!this.validateTreeExistance(treeId)) {
+        return;
+      }
+
+      // Validate that the tree item exists
+      if(!this.validateTreeItemExistance(treeId, treeItemURL)) {
+        return;
+      }
 
       // Push new tree item
       this.trees[treeId].items.push({
@@ -99,10 +132,57 @@ angular.module('core').service('Trees', [
       return this.trees[treeId];
     };
 
+    // Remove existing tree object by tree id
+    this.removeTreeItem = function(treeId, treeItemURL) {
+      // Validate that the tree exists
+      if(!this.validateTreeExistance(treeId)) {
+        return;
+      }
+
+      // Search for tree item to remove
+      for (var itemIndex in this.trees[treeId].items) {
+        if (this.trees[treeId].items[itemIndex].link === treeItemURL) {
+          this.trees[treeId].items.splice(itemIndex, 1);
+        }
+      }
+
+      // Return the tree object
+      return this.trees[treeId];
+    };
+
+    // Validate tree item existance
+    this.validateSubTreeItemExistance = function(treeId, rootTreeItemURL, subtreeItemURL) {
+      if (subtreeItemURL && subtreeItemURL.length) {
+        for (var itemIndex in this.trees[treeId].items) {
+          if (this.trees[treeId].items[itemIndex].link === rootTreeItemURL) {
+            for (var subitemIndex in this.trees[treeId].items[itemIndex].items) {
+              if (this.trees[treeId].items[itemIndex].items[subitemIndex].link === subtreeItemURL) {
+                $log.error('Sub tree item is already existant');
+                return false;
+              }
+            }
+          }
+        }
+      }
+      return true;
+    };
+
     // Add subtree item object
     this.addSubTreeItem = function(treeId, rootTreeItemURL, treeItemTitle, treeItemIcon, treeItemURL, isPublic, roles) {
       // Validate that the tree exists
-      this.validateTreeExistance(treeId);
+      if(!this.validateTreeExistance(treeId)) {
+        return;
+      }
+
+      // Validate that the tree item exists
+      if(!this.validateTreeItemExistance(treeId, treeItemURL)) {
+        return;
+      }
+
+      // Validate that the tree exists
+      if(!this.validateSubTreeItemExistance(treeId, rootTreeItemURL, treeItemURL)) {
+        return;
+      }
 
       // Search for tree item
       for (var itemIndex in this.trees[treeId].items) {
@@ -125,25 +205,11 @@ angular.module('core').service('Trees', [
     };
 
     // Remove existing tree object by tree id
-    this.removeTreeItem = function(treeId, treeItemURL) {
-      // Validate that the tree exists
-      this.validateTreeExistance(treeId);
-
-      // Search for tree item to remove
-      for (var itemIndex in this.trees[treeId].items) {
-        if (this.trees[treeId].items[itemIndex].link === treeItemURL) {
-          this.trees[treeId].items.splice(itemIndex, 1);
-        }
-      }
-
-      // Return the tree object
-      return this.trees[treeId];
-    };
-
-    // Remove existing tree object by tree id
     this.removeSubTreeItem = function(treeId, subtreeItemURL) {
       // Validate that the tree exists
-      this.validateTreeExistance(treeId);
+      if(!this.validateTreeExistance(treeId)) {
+        return;
+      }
 
       // Search for tree item to remove
       for (var itemIndex in this.trees[treeId].items) {
@@ -161,7 +227,9 @@ angular.module('core').service('Trees', [
     // Select subtree items
     this.checkAllSubTreeItems = function(treeId, rootTreeItemURL, checked) {
       // Validate that the tree exists
-      this.validateTreeExistance(treeId);
+      if(!this.validateTreeExistance(treeId)) {
+        return;
+      }
 
       // Search for subtree items
       for (var itemIndex in this.trees[treeId].items) {
@@ -179,7 +247,9 @@ angular.module('core').service('Trees', [
     // Get checked tree object
     this.getCheckedSubTreeItems = function(treeId) {
       // Validate that the tree exists
-      this.validateTreeExistance(treeId);
+      if(!this.validateTreeExistance(treeId)) {
+        return;
+      }
 
       // Search for tree item to remove
       var items = [];

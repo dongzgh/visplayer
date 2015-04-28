@@ -1,9 +1,9 @@
 'use strict';
 
 //Tool service used for managing  tools
-angular.module('core').service('Tools', [
+angular.module('core').service('Tools', ['$log',
 
-  function() {
+  function($log) {
     // Define a set of default roles
     this.defaultRoles = ['*'];
 
@@ -34,22 +34,20 @@ angular.module('core').service('Tools', [
     // Validate tool existance
     this.validateToolExistance = function(toolId) {
       if (toolId && toolId.length) {
-        if (this.tools[toolId]) {
-          return true;
-        } else {
-          throw new Error('Tool does not exists');
+        if (!this.tools[toolId]) {
+          $log.error('Tree does not exists');
+          return false;
         }
-      } else {
-        throw new Error('ToolId was not provided');
       }
-
-      return false;
+      return true;
     };
 
     // Get the tool object by tool id
     this.getTool = function(toolId) {
       // Validate that the tool exists
-      this.validateToolExistance(toolId);
+      if(!this.validateToolExistance(toolId)) {
+        return;
+      }
 
       // Return the tool object
       return this.tools[toolId];
@@ -72,7 +70,9 @@ angular.module('core').service('Tools', [
     // Remove existing tool object by tool id
     this.removeTool = function(toolId) {
       // Validate that the tool exists
-      this.validateToolExistance(toolId);
+      if(!this.validateToolExistance(toolId)) {
+        return;
+      }
 
       // Return the tool object
       delete this.tools[toolId];
@@ -81,7 +81,9 @@ angular.module('core').service('Tools', [
     // Add tool item object
     this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemAction, toolItemTip, isPublic, roles, position) {
       // Validate that the tool exists
-      this.validateToolExistance(toolId);
+      if(!this.validateToolExistance(toolId)) {
+        return;
+      }
 
       // Push new tool item
       this.tools[toolId].items.push({
@@ -105,7 +107,9 @@ angular.module('core').service('Tools', [
     // Remove existing tool object by tool id
     this.removeToolItem = function(toolId, toolItemURL) {
       // Validate that the tool exists
-      this.validateToolExistance(toolId);
+      if(!this.validateToolExistance(toolId)) {
+        return;
+      }
 
       // Search for tool item to remove
       for (var itemIndex in this.tools[toolId].items) {

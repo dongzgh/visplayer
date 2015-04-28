@@ -24,6 +24,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.markupTools = Tools.getTool('markups');
 
   // Find a list of file tree items
+  Trees.emptyTree('files');
   $scope.fileTree = Trees.getTree('files');
   Files.list(function(filenames) {
     if (filenames && filenames.length > 0) {
@@ -37,6 +38,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   Scene.initialize();
 
   // Find a list of scene tree items
+  Trees.emptyTree('scene');
   $scope.sceneTree = Trees.getTree('scene');
   Scene.queryModels(function(modelnames) {
     modelnames.forEach(function(modelname) {
