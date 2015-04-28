@@ -262,7 +262,8 @@ angular.module('core').service('Scene', ['$window', '$document',
       renderer = $window.WebGLRenderingContext ?
         new $window.THREE.WebGLRenderer({
           alpha: true,
-          antialias: true
+          antialias: true,
+          preserveDrawingBuffer: true
         }) :
         new $window.THREE.CanvasRenderer();
       renderer.setSize($window.innerWidth, $window.innerHeight);

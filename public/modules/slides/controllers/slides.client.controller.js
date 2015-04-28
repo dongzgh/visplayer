@@ -103,10 +103,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       var blob = new $window.Blob([data]);
       var windowURL = $window.URL || $window.webkitURL;
       var url = windowURL.createObjectURL(blob);
-      var el = $document[0].getElementById('download');
-      el.href = url;
-      el.download = filename;
-      el.click();
+      downloadData(url, filename);
     }
 
     // Download file
@@ -157,6 +154,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
     // Delete files
     Files.delete(filenames, onsuccess, onerror);
+  };
+
+  // Take snapshot
+  $scope.takeSnapshot = function() {
+    var el = $document[0].getElementById('canvas').children[0];
+    var url = el.toDataURL('image/png');
+    downloadData(url, 'screenshot.png');
   };
 
   // Remove objects
@@ -285,6 +289,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     } else {
       Trees.addSubTreeItem('files', 'others', filename, icon, filename);
     }
+  }
+
+  function downloadData(url, filename) {
+    var el = $document[0].getElementById('download');
+    el.href = url;
+    el.download = filename;
+    el.click();
   }
 
   /**
