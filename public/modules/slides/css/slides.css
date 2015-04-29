@@ -93,7 +93,16 @@
   font-size: 0.9em;
   color: #FFFFFF;
   text-transform: uppercase;
-  background-color: #333333
+}
+.list-group > div:first-child {
+  background-color: #333333;
+}
+.list-group > div.collapse {
+  background-color: transparent;
+}
+.list-group > div span i.glyphicon {
+  font-size: 10px;
+  top: -1px;
 }
 .list-group > div span:not(:first-child) {
   padding-left: 5px;
@@ -109,13 +118,13 @@
   border: none;
   border-radius: 0 !important;
   padding: 0;
-  background-color: transparent
+  background-color: transparent;
 }
 .list-group-item > div {
   padding: 5px 10px 5px 20px;
   border: none;
   border-radius: 0;
-  color: #ffffff
+  color: #ffffff;
 }
 .list-group-item > div:hover {
   background-color: #327CCB
@@ -127,7 +136,7 @@
   float: right;
   margin-left: 5px;
   color: #9D9D9D;
-  cursor: pointer
+  cursor: pointer;
 }
 .list-group-item > div a:hover,
 .list-group-item > div a:active,

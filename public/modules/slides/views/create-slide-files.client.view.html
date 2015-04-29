@@ -5,17 +5,23 @@
 </div>
 <ul data-ng-repeat="item in fileTree.items" class="list-group">
   <div>
+    <span data-ng-click="isCollapsed = !isCollapsed">
+      <i data-ng-if="isCollapsed" class="glyphicon glyphicon-triangle-bottom"></i>
+      <i data-ng-if="!isCollapsed" class="glyphicon glyphicon-triangle-right"></i>
+    </span>
     <span class="glyphicon {{item.icon}}"></span>
     <span data-ng-bind="item.title"></span>
     <label class="checkbox-inline">
-      <input type="checkbox" data-ng-model="item.checked" data-ng-click="checkAllFiles(item)" data-ng-disabled="disableCheckAll(item)">
+      <input type="checkbox" data-ng-checked="item.checked" data-ng-click="checkAllFiles(item)" data-ng-disabled="disableCheckAll(item)">
     </label>
   </div>
-  <li data-ng-repeat="subItem in item.items" class="list-group-item">
-    <div>
-      <input type="checkbox" data-ng-model="subItem.checked">
-      <span class="glyphicon {{subItem.icon}}"></span>
-      <span data-ng-bind="subItem.title"></span>
-    </div>
-  </li>
+  <div data-ng-show="item.items.length > 0" collapse="!isCollapsed">
+    <li data-ng-repeat="subItem in item.items" class="list-group-item">
+      <div>
+        <input type="checkbox" data-ng-checked="subItem.checked">
+        <span class="glyphicon {{subItem.icon}}"></span>
+        <span data-ng-bind="subItem.title"></span>
+      </div>
+    </li>
+  </div>
 </ul>
