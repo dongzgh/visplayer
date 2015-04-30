@@ -1,7 +1,7 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$document', '$timeout', '$log', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'Dialogs', 'FileTypes', 'Slides', function($scope, $stateParams, $location, $window, $document, $timeout, $log, $upload, Authentication, Scene, Files, Tools, Trees, Dialogs, FileTypes, Slides) {
+angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$document', '$log', '$controller', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'Dialogs', 'FileTypes', 'Slides', function($scope, $stateParams, $location, $window, $document, $log, $controller, $upload, Authentication, Scene, Files, Tools, Trees, Dialogs, FileTypes, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
@@ -89,6 +89,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       return false;
     }
   };
+
+  // Show gui
+  $scope.guiTemplate = null;
 
   /**
    * Scene tools callbacks
@@ -178,7 +181,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    */
   // Transform model
   $scope.transformModel = function() {
-    $scope.gui = Dialogs.transformModel();
+    $scope.guiTemplate = 'modules/core/views/transform-models.client.view.html';
   };
 
   /**
@@ -247,8 +250,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //---------------------------------------------------
   // Listener for upload-files.success
   $scope.$on('upload-files.success', function(event, filename) {
-      addFileItem(filename);
-    });
+    addFileItem(filename);
+  });
+
+  // Listener for gui-dialog
+  $scope.$on('gui-dialog.cancel', function(event) {
+    $scope.guiTemplate = null;
+  });
 
   //---------------------------------------------------
   //  Utilities

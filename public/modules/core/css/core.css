@@ -205,7 +205,7 @@ nav[role=navigation] {
   font-size: 14px;
   padding-top: 2px !important;
   padding-bottom: 2px !important;
-  background: #ffffff !important;
+  background-color: #ffffff !important;
   color: #333333 !important;
   text-transform: capitalize;
 }
@@ -256,16 +256,14 @@ nav[role=navigation] {
   border-bottom-color: #9D9D9D;
   text-align: left;
 }
-.modal-header span {
-  text-transform: uppercase;
-}
 .modal-header span:first-child {
   padding: 5px;
-  background: #E8373E;
+  background-color: #E8373E;
 }
 .modal-header span:last-child {
   padding-top: 5px;
   float: right;
+  text-transform: uppercase;
 }
 .modal-body .input-group {
   margin-bottom: 10px;
@@ -303,4 +301,62 @@ nav[role=navigation] {
 }
 .dg .c select {
   color: #333333;
+}
+.gui-dialog {
+  float: right;
+  margin-right: 350px;
+  z-index: 3;
+}
+.gui-dialog .panel {
+  height: auto !important;
+  border-radius: 0;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #FFFFFF;
+}
+.gui-dialog .panel-heading {
+  background-color: transparent;
+  background-image: none;
+  color: #FFFFFF;
+  border-radius: 0;
+  text-transform: uppercase;
+}
+.gui-dialog .panel-heading span:first-child {
+  padding: 5px 7px 5px 5px;
+  background-color: #E8373E;
+}
+.gui-dialog .panel-heading span:last-child {
+  padding-top: 5px;
+  float: right;
+}
+.gui-dialog .panel-body .input-group {
+  background-color: #327CCB;
+  margin-bottom: 0;
+}
+.gui-dialog .panel-body .btn {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  box-shadow: 2px 2px 5px #000000;
+}
+.gui-dialog .panel-body .btn span {
+  color: #FFFFFF;
+}
+.gui-dialog .panel-body .btn-group {
+  margin-top: 5px;
+}
+.gui-dialog .panel-body .btn-info {
+  background-color: #327CCB;
+  color: #FFFFFF;
+}
+.gui-dialog .panel-body .btn-info.active {
+  background-color: #F58723;
+  color: #FFFFFF;
+}
+.gui-dialog .panel-body .btn-group {
+  background-color: #327CCB;
+}
+.gui-dialog .panel-footer {
+  background-color: transparent;
+  border-radius: 0;
+  border-top-color: #9D9D9D;
 }

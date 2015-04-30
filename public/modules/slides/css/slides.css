@@ -66,6 +66,7 @@
   border: none;
   outline-style: none;
   box-shadow: none;
+  margin-bottom: 1px;
 }
 .panel-body .btn:hover,
 .panel-body .btn:active,

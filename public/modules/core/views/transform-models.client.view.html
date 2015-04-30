@@ -1,0 +1,35 @@
+<div class="panel panel-default" data-ng-controller="TransformModelsController">
+  <div class="panel-heading">
+    <span class="glyphicon glyphicon-random"></span>
+    <span>Transform Models</span>
+  </div>
+  <div class="panel-body">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default">
+          <span class="glyphicon glyphicon-map-marker"></span>
+      </button>
+      </span>
+      <input data-ng-disabled="true" class="form-control" placeholder="Component...">
+    </div>
+    <div class="btn-group btn-group-justified">
+      <label class="btn btn-info" ng-model="mode" btn-radio="'Translate'" uncheckable>Translate</label>
+      <label class="btn btn-info" ng-model="mode" btn-radio="'Rotate'" uncheckable>Rotate</label>
+      <label class="btn btn-info" ng-model="mode" btn-radio="'Scale'" uncheckable>Scale</label>
+    </div>
+    <div class="btn-group btn-group-justified">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default" data-ng-click="onOK()"><span>OK</span></button>
+      </div>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default" data-ng-click="onApply()"><span>Apply</span></button>
+      </div>
+      <div class="btn-group">
+        <button type="button" class="btn btn-default" data-ng-click="onCancel()"><span>Cancel</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    Ready
+  </div>
+</div>

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('slides').controller('UploadFilesController', ['$rootScope', '$scope', '$log', '$modalInstance', 'Files',
+angular.module('core').controller('UploadFilesController', ['$rootScope', '$scope', '$log', '$modalInstance', 'Files',
 
   function($rootScope, $scope, $log, $modalInstance, Files) {
     // Initialize file name list
