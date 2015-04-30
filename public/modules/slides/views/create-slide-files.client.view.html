@@ -12,13 +12,13 @@
     <span class="glyphicon {{item.icon}}"></span>
     <span data-ng-bind="item.title"></span>
     <label class="checkbox-inline">
-      <input type="checkbox" data-ng-checked="item.checked" data-ng-click="checkAllFiles(item)" data-ng-disabled="disableCheckAll(item)">
+      <input type="checkbox" data-ng-model="item.checked" data-ng-click="checkAllFiles(item)" data-ng-disabled="disableCheckAll(item)">
     </label>
   </div>
   <div data-ng-show="item.items.length > 0" collapse="!isCollapsed">
     <li data-ng-repeat="subItem in item.items" class="list-group-item">
       <div>
-        <input type="checkbox" data-ng-checked="subItem.checked">
+        <input type="checkbox" data-ng-model="subItem.checked">
         <span class="glyphicon {{subItem.icon}}"></span>
         <span data-ng-bind="subItem.title"></span>
       </div>
