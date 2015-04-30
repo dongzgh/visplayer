@@ -29,18 +29,20 @@ angular.module('slides').controller('UploadFilesController', ['$rootScope', '$sc
     $scope.upload = function() {
       // Define success callback
       function onsuccess(config) {
-        $modalInstance.dismiss('success');
         $rootScope.$broadcast('upload-files.success', config.file.name);
       }
 
-      // Define error callback
-      function onerror(err) {
-        $modalInstance.dismiss('failed');
-        $rootScope.$broadcast('upload-files.failed');
+      // Define final callback
+      function onfinal(passed, failed) {
+        if(passed.length === $scope.files.length) {
+          $modalInstance.dismiss('success');
+        } else {
+          $modalInstance.dismiss('failed');
+        }
       }
 
       if ($scope.files.length > 0) {
-        Files.upload($scope.files, null, onsuccess, onerror);
+        Files.upload($scope.files, null, onsuccess, null, onfinal);
       }
     };
   }

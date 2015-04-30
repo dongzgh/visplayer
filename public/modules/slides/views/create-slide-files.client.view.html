@@ -15,7 +15,7 @@
       <input type="checkbox" data-ng-model="item.checked" data-ng-click="checkAllFiles(item)" data-ng-disabled="disableCheckAll(item)">
     </label>
   </div>
-  <div data-ng-show="item.items.length > 0" collapse="!isCollapsed">
+  <div collapse="!isCollapsed">
     <li data-ng-repeat="subItem in item.items" class="list-group-item">
       <div>
         <input type="checkbox" data-ng-model="subItem.checked">

@@ -160,23 +160,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     var filenames = getCheckedSubTreeItems('files');
 
     // Define success callback
-    function onsuccess(passed) {
-      if (angular.isDefined(passed) && passed.length > 0) {
-        passed.forEach(function(filename) {
-          Trees.removeSubTreeItem('files', filename);
-        });
-      }
+    function onsuccess(filename) {
+      Trees.removeSubTreeItem('files', filename);
     }
 
     // Define error callback
-    function onerror(failed) {
-      if (angular.isDefined(failed) && failed.length > 0) {
-        var msg = 'Failed to delete:\n';
-        failed.forEach(function(filename) {
-          msg += filename + '\n';
-        });
-        $window.alert(msg);
-      }
+    function onerror(filename) {
+      $window.alert('Failed to delete: ' + filename);
     }
 
     // Delete files
@@ -257,8 +247,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //---------------------------------------------------
   // Listener for upload-files.success
   $scope.$on('upload-files.success', function(event, filename) {
-    addFileItem(filename);
-  });
+      addFileItem(filename);
+    });
 
   //---------------------------------------------------
   //  Utilities
