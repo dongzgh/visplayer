@@ -331,7 +331,7 @@ nav[role=navigation] {
   background-color: transparent;
   margin-bottom: 0;
 }
-.gui-dialog .panel-body .input-group input{
+.gui-dialog .panel-body .input-group input {
   border-radius: 0;
   height: 1.9em;
 }
@@ -344,11 +344,19 @@ nav[role=navigation] {
   color: #FFFFFF;
   border-left: 1px solid #FFFFFF;
 }
+.gui-dialog .panel-body .btn:focus,
+.gui-dialog .panel-body .btn:active {
+  background-color: #327CCB;
+}
+.gui-dialog .panel-body .btn:focus span,
+.gui-dialog .panel-body .btn:active span {
+  color: #FFFFFF;
+}
+.gui-dialog .panel-body .btn.active {
+  background-color: #F58723;
+}
 .gui-dialog .panel-body .btn-group {
   margin-top: 5px;
-}
-.gui-dialog .panel-body .btn-info.active {
-  background-color: #F58723;
 }
 .gui-dialog .panel-footer {
   background-color: transparent;

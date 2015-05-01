@@ -6,13 +6,15 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
     // Initialize
     $scope.mode = 'Translate';
     $scope.modelname = null;
+    $scope.enablePicking = false;
 
     //---------------------------------------------------
     //  Callbacks
     //------------------------------------------------
     // Pick a component
     $scope.pickModel = function() {
-      Scene.togglePicking(true, 'model');
+      $scope.enablePicking = !$scope.enablePicking;
+      Scene.enablePicking($scope.enablePicking, 'model');
     };
 
     // OK

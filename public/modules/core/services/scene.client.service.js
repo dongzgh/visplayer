@@ -174,7 +174,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
         }
 
         // Create mesh
-        var faceMesh = new $window.THREE.Mesh(faceGeometry, faceDefaultMaterial);
+        var faceMesh = new $window.THREE.Mesh(faceGeometry, faceDefaultMaterial.clone());
 
         // Add to parent
         faces.add(faceMesh);
@@ -199,7 +199,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
         edgeGeometry.computeBoundingBox();
 
         // Create line
-        var edgeMesh = new $window.THREE.Line(edgeGeometry, edgeDefaultMaterial);
+        var edgeMesh = new $window.THREE.Line(edgeGeometry, edgeDefaultMaterial.clone());
 
         // Add to parent
         edges.add(edgeMesh);
@@ -254,7 +254,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
     };
 
     // Enalbe picking
-    this.togglePicking = function(enable, type) {
+    this.enablePicking = function(enable, type) {
       isPickingEnabled = enable;
       if (angular.isDefined(type)) {
         pickType = type;
@@ -374,36 +374,75 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
       var intersects = raycaster.intersectObjects(activeScene.children, true);
       if (intersects.length > 0) {
         // Check object type
+        var candidate = null;
         if (pickType === null) {
           return;
-        } else if ((pickType === 'model' || pickType === 'face') && !(intersects[0].object instanceof $window.THREE.Mesh)) {
-          return;
+        } else if (pickType === 'model' || pickType === 'face') {
+          candidate = getPickedModel(intersects);
+          if(candidate === null) {
+            return;
+          }
         }
 
         // Update picked
         if (picked !== null) {
-          picked.material.emissive.setHex(0x000000);
-          if (picked === intersects[0].object) {
+          enableHighlight(picked, false);
+          if (picked === candidate) {
             picked = null;
           } else {
-            picked = intersects[0].object;
-            picked.material.emissive.setHex(pickedColor);
+            picked = candidate;
+            enableHighlight(picked, true);
           }
         } else {
-          picked = intersects[0].object;
-          picked.material.emissive.setHex(pickedColor);
+          picked = candidate;
+          enableHighlight(picked, true);
         }
       }
 
       // Broadcast
       if (picked !== null) {
-        var object = null;
-        if (pickType === 'model') {
-          object = picked.parent.parent;
-        }
-        $rootScope.$broadcast('scene.picked', object);
+        $rootScope.$broadcast('scene.picked', picked);
       }
     }
+
+    // Set highlight
+    function enableHighlight(object, enable) {
+      if(angular.isUndefined(object.material) && angular.isDefined(object.children)) {
+        object.children.forEach(function(child){
+          enableHighlight(child, enable);
+        });
+      } else {
+        if(angular.isUndefined(object.material.emissive)) {
+          object.material.emissive = new $window.THREE.Color(0x000000);
+        }
+        if(enable) {
+          object.material.emissive.setHex(pickedColor);
+        } else {
+          object.material.emissive.setHex(0x000000);
+        }
+      }
+    }
+
+    // Check model
+    function getPickedModel(intersects) {
+      // Check input data
+      if(intersects.length === 0) {
+        return;
+      }
+
+      // Find candidate
+      var candidate = null;
+      for(i = 0; i < intersects.length; i++) {
+        if(intersects[i].object instanceof $window.THREE.Mesh) {
+          candidate = intersects[i].object.parent.parent;
+          break;
+        }
+      }
+
+      // Return picked
+      return candidate;
+    }
+
 
     /**
      * Rendering
