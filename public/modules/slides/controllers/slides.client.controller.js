@@ -15,6 +15,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.modal = null;
   $scope.gui = null;
 
+  // Initialize gui template
+  $scope.guiTemplate = null;
+
   // Find a list of tools
   $scope.sidebarTools = Tools.getTool('sidebar');
   $scope.viewTools = Tools.getTool('views');
@@ -90,11 +93,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     }
   };
 
-  // Show gui
-  $scope.guiTemplate = null;
-
   /**
-   * Scene tools callbacks
+   * Scene callbacks
    */
   // Take snapshot
   $scope.takeSnapshot = function() {
@@ -116,7 +116,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   /**
-   * File tools callbacks
+   * File callbacks
    */
   // Import files
   $scope.uploadFiles = function() {
@@ -177,7 +177,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   /**
-   * Modeling tools callbacks
+   * Modeling callbacks
    */
   // Transform model
   $scope.transformModel = function() {
@@ -254,7 +254,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   });
 
   // Listener for gui-dialog
-  $scope.$on('gui-dialog.cancel', function(event) {
+  $scope.$on('gui-dialog.close', function(event) {
     $scope.guiTemplate = null;
   });
 

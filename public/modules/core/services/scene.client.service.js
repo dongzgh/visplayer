@@ -1,11 +1,11 @@
 'use strict';
 
 //Scene service used for managing scene
-angular.module('core').service('Scene', ['$window', '$document',
+angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
 
-  function($window, $document) {
+  function($rootScope, $window, $document) {
     //---------------------------------------------------
-    //  Variables
+    //  Initialization
     //---------------------------------------------------
     // Static variables
     var BOX_SIZE = 1500;
@@ -44,7 +44,7 @@ angular.module('core').service('Scene', ['$window', '$document',
       side: $window.THREE.DoubleSide
     });
     var edgeDefaultMaterial = new $window.THREE.LineBasicMaterial({
-      color: 0x333333
+      color: 0x333333,
     });
 
     // Scene definitions
@@ -56,12 +56,17 @@ angular.module('core').service('Scene', ['$window', '$document',
     var activeScene;
     var eyeLight;
     var orbitor;
+    var raycaster;
+    var enableRaycasting = false;
+    var picked = null;
+    var pickedHex = 0xe8373e;
+    var mouse = new $window.THREE.Vector2();
 
     // Transient variables
     var i, j, k;
 
     //---------------------------------------------------
-    //  Exports
+    //  Callbacks
     //---------------------------------------------------
     // Initialize scene
     this.initialize = function() {
@@ -88,8 +93,12 @@ angular.module('core').service('Scene', ['$window', '$document',
       // Create orbitor
       orbitor = new $window.THREE.OrbitControls(activeCamera, renderer.domElement);
 
+      // Create raycaster
+      raycaster = new $window.THREE.Raycaster();
+
       // Add listeners
       $window.addEventListener('resize', onWindowResize, false);
+      $document[0].addEventListener('mousemove', onDocumentMouseMove, false);
 
       // Animate
       animate();
@@ -103,7 +112,7 @@ angular.module('core').service('Scene', ['$window', '$document',
           modelnames.push(object.name);
         }
       });
-      if(onsuccess) {
+      if (onsuccess) {
         onsuccess(modelnames);
       }
     };
@@ -111,7 +120,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     // Load model
     this.loadModel = function(gd, onsuccess) {
       // Check input data
-      if(!angular.isDefined(gd))
+      if (!angular.isDefined(gd))
         return;
 
       // Count instances
@@ -217,18 +226,8 @@ angular.module('core').service('Scene', ['$window', '$document',
       // Add to scene
       activeScene.add(object);
 
-      // Create transformer
-      var transformer = new $window.THREE.TransformControls(activeCamera, renderer.domElement);
-      transformer.attach(object);
-      transformer.translateY(halfy);
-      transformer.setMode('rotate');
-      transformer.addEventListener('change', render);
-
-      // Add to scene
-      activeScene.add(transformer);
-
       // Post-processing
-      if(onsuccess) {
+      if (onsuccess) {
         onsuccess(object);
       }
     };
@@ -236,7 +235,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     // Remove object
     this.removeObject = function(objname) {
       // Check input data
-      if(!angular.isDefined(objname))
+      if (!angular.isDefined(objname))
         return;
 
       // Remove object
@@ -250,8 +249,31 @@ angular.module('core').service('Scene', ['$window', '$document',
       });
     };
 
+    // Enalbe picking
+    this.enablePicking = function(enable) {
+      enableRaycasting = enable;
+      picked = null;
+    };
+
     //---------------------------------------------------
-    //  Internals
+    //  Listeners
+    //------------------------------------------------
+    // Resize
+    function onWindowResize() {
+      activeCamera.aspect = $window.innerWidth / $window.innerHeight;
+      activeCamera.updateProjectionMatrix();
+      renderer.setSize($window.innerWidth, $window.innerHeight);
+    }
+
+    // Mouse move
+    function onDocumentMouseMove(event) {
+      event.preventDefault();
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
+
+    //---------------------------------------------------
+    //  Utilities
     //---------------------------------------------------
     /**
      * Scene management
@@ -314,7 +336,7 @@ angular.module('core').service('Scene', ['$window', '$document',
     // Count object instances
     function countModelInstances(name) {
       // Check input data
-      if(!angular.isDefined(name))
+      if (!angular.isDefined(name))
         return 0;
 
       // Count object instances
@@ -330,17 +352,33 @@ angular.module('core').service('Scene', ['$window', '$document',
     }
 
     /**
-     * Event callbacks
+     * Selection
      */
-    // Resize
-    function onWindowResize() {
-      activeCamera.aspect = $window.innerWidth / $window.innerHeight;
-      activeCamera.updateProjectionMatrix();
-      renderer.setSize($window.innerWidth, $window.innerHeight);
+    // Pick object
+    function pickObject() {
+      raycaster.setFromCamera(mouse, activeCamera);
+      var intersects = raycaster.intersectObjects(activeScene.children);
+      if (intersects.length > 0) {
+        if (picked !== null) {
+          picked.material.color.setHex(0xffffff);
+          if (picked === intersects[0].object) {
+            picked = null;
+          } else {
+            picked = intersects[0].object;
+            picked.material.emissive.setHex(pickedHex);
+          }
+        } else {
+          picked = intersects[0].object;
+          picked.material.emissive.setHex(pickedHex);
+        }
+      }
+      if (picked !== null) {
+        $rootScope.$broadcast('scene.picked', picked);
+      }
     }
 
     /**
-     * Rendering utilities
+     * Rendering
      */
     // Animate
     function animate() {
@@ -351,6 +389,9 @@ angular.module('core').service('Scene', ['$window', '$document',
 
     // Render
     function render() {
+      if (enableRaycasting) {
+        pickObject();
+      }
       renderer.render(activeScene, activeCamera);
     }
 
