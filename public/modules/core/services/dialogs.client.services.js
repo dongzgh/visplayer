@@ -12,17 +12,5 @@ angular.module('core').service('Dialogs', ['$window', '$modal',
         size: 'sm'
       });
     };
-
-    // Define transformModel non-modal dialog box
-    this.transformModel = function() {
-      var items = {
-        title: 'Transform Model',
-        method: 'translate'
-      };
-      var gui = new $window.dat.GUI();
-      gui.add(items, 'title');
-      gui.add(items, 'method', ['translate', 'rotate', 'scale']);
-      return gui;
-    };
   }
 ]);

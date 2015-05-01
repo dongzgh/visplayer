@@ -14,14 +14,15 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
     var CAMERA_POSITION = new $window.THREE.Vector3(1122.6119550523206, 832.1930544185049, 2077.2549403849953);
 
     // Material definitions
-    var faceAnalysisMaterial = new $window.THREE.MeshNormalMaterial({
-      side: $window.THREE.DoubleSide
-    });
     var faceDefaultMaterial = new $window.THREE.MeshPhongMaterial({
       color: 0xcecece,
       specular: 0xffffff,
       metal: true,
       shininess: 25,
+      emissive: 0x000000,
+      side: $window.THREE.DoubleSide
+    });
+    var faceAnalysisMaterial = new $window.THREE.MeshNormalMaterial({
       side: $window.THREE.DoubleSide
     });
     var faceShinyGlassMaterial = new $window.THREE.MeshBasicMaterial({
@@ -48,22 +49,23 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
     });
 
     // Scene definitions
-    var container;
-    var renderer;
+    var container = null;
+    var renderer = null;
     var cameras = [];
-    var activeCamera;
+    var activeCamera = null;
     var scenes = [];
-    var activeScene;
-    var eyeLight;
-    var orbitor;
-    var raycaster;
-    var enableRaycasting = false;
+    var activeScene = null;
+    var eyeLight = null;
+    var orbitor = null;
+    var raycaster = null;
+    var isPickingEnabled = false;
+    var pickType = null;
     var picked = null;
-    var pickedHex = 0xe8373e;
+    var pickedColor = 0xe8373e;
     var mouse = new $window.THREE.Vector2();
 
     // Transient variables
-    var i, j, k;
+    var i = 0, j = 0, k = 0;
 
     //---------------------------------------------------
     //  Callbacks
@@ -99,6 +101,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
       // Add listeners
       $window.addEventListener('resize', onWindowResize, false);
       $document[0].addEventListener('mousemove', onDocumentMouseMove, false);
+      $document[0].addEventListener('mousedown', onDocumentMouseDown, false);
 
       // Animate
       animate();
@@ -120,8 +123,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
     // Load model
     this.loadModel = function(gd, onsuccess) {
       // Check input data
-      if (!angular.isDefined(gd))
+      if (gd === null) {
         return;
+      }
 
       // Count instances
       var count = countModelInstances(gd.name) + 1;
@@ -235,7 +239,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
     // Remove object
     this.removeObject = function(objname) {
       // Check input data
-      if (!angular.isDefined(objname))
+      if (objname !== null)
         return;
 
       // Remove object
@@ -250,8 +254,11 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
     };
 
     // Enalbe picking
-    this.enablePicking = function(enable) {
-      enableRaycasting = enable;
+    this.togglePicking = function(enable, type) {
+      isPickingEnabled = enable;
+      if (angular.isDefined(type)) {
+        pickType = type;
+      }
       picked = null;
     };
 
@@ -270,6 +277,13 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
       event.preventDefault();
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
+
+    // Mouse down
+    function onDocumentMouseDown(event) {
+      if (isPickingEnabled) {
+        pickObject();
+      }
     }
 
     //---------------------------------------------------
@@ -336,7 +350,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
     // Count object instances
     function countModelInstances(name) {
       // Check input data
-      if (!angular.isDefined(name))
+      if (name !== null)
         return 0;
 
       // Count object instances
@@ -357,23 +371,37 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
     // Pick object
     function pickObject() {
       raycaster.setFromCamera(mouse, activeCamera);
-      var intersects = raycaster.intersectObjects(activeScene.children);
+      var intersects = raycaster.intersectObjects(activeScene.children, true);
       if (intersects.length > 0) {
+        // Check object type
+        if (pickType === null) {
+          return;
+        } else if ((pickType === 'model' || pickType === 'face') && !(intersects[0].object instanceof $window.THREE.Mesh)) {
+          return;
+        }
+
+        // Update picked
         if (picked !== null) {
-          picked.material.color.setHex(0xffffff);
+          picked.material.emissive.setHex(0x000000);
           if (picked === intersects[0].object) {
             picked = null;
           } else {
             picked = intersects[0].object;
-            picked.material.emissive.setHex(pickedHex);
+            picked.material.emissive.setHex(pickedColor);
           }
         } else {
           picked = intersects[0].object;
-          picked.material.emissive.setHex(pickedHex);
+          picked.material.emissive.setHex(pickedColor);
         }
       }
+
+      // Broadcast
       if (picked !== null) {
-        $rootScope.$broadcast('scene.picked', picked);
+        var object = null;
+        if (pickType === 'model') {
+          object = picked.parent.parent;
+        }
+        $rootScope.$broadcast('scene.picked', object);
       }
     }
 
@@ -389,9 +417,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
 
     // Render
     function render() {
-      if (enableRaycasting) {
-        pickObject();
-      }
       renderer.render(activeScene, activeCamera);
     }
 

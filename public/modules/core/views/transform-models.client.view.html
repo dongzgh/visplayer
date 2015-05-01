@@ -6,11 +6,11 @@
   <div class="panel-body">
     <div class="input-group">
       <span class="input-group-btn">
-        <button type="button" class="btn btn-default" data-ng-click="pickComponent()">
+        <button type="button" class="btn btn-default" data-ng-click="pickModel()">
           <span class="glyphicon glyphicon-map-marker"></span>
       </button>
       </span>
-      <input data-ng-disabled="true" class="form-control" placeholder="Component...">
+      <input data-ng-disabled="true" class="form-control" placeholder="Model ..." data-ng-model="modelname" required>
     </div>
     <div class="btn-group btn-group-justified">
       <label class="btn btn-info" ng-model="mode" btn-radio="'Translate'" uncheckable>Translate</label>

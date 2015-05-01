@@ -5,13 +5,14 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
   function($rootScope, $scope, $window, $log, Scene) {
     // Initialize
     $scope.mode = 'Translate';
+    $scope.modelname = null;
 
     //---------------------------------------------------
     //  Callbacks
     //------------------------------------------------
     // Pick a component
-    $scope.pickComponent = function() {
-      Scene.enablePicking(true);
+    $scope.pickModel = function() {
+      Scene.togglePicking(true, 'model');
     };
 
     // OK
@@ -28,6 +29,8 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
     //  Listeners
     //------------------------------------------------
     $scope.$on('scene.picked', function (event, object) {
+      $scope.modelname = object.displayName;
+      $scope.$apply();
     });
   }
 ]);

@@ -66,7 +66,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Activate a tool
   $scope.activateTool = function(action) {
-    if (angular.isDefined(action)) {
+    if (action !== null) {
       $scope[action]();
     }
   };
