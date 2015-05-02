@@ -239,8 +239,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document',
     // Remove object
     this.removeObject = function(objname) {
       // Check input data
-      if (objname !== null)
+      if (objname === null) {
         return;
+      }
 
       // Remove object
       var index = 0;
