@@ -56,7 +56,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var scenes = [];
     var activeScene = null;
     var eyeLight = null;
-    var trackball = null;
+    var orbitor = null;
     var raycaster = null;
     var isPickingEnabled = false;
     var pickType = null;
@@ -65,9 +65,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var mouse = new $window.THREE.Vector2();
 
     // Transient variables
-    var i = 0,
-      j = 0,
-      k = 0;
+    var i = 0, j = 0, k = 0;
 
     //---------------------------------------------------
     //  Callbacks
@@ -94,8 +92,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Create lights
       createLights();
 
-      // Create trackball
-      createTrackball();
+      // Create orbitor
+      orbitor = new $window.THREE.OrbitControls(activeCamera, renderer.domElement);
 
       // Create raycaster
       raycaster = new $window.THREE.Raycaster();
@@ -265,7 +263,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeCamera.aspect = $window.innerWidth / $window.innerHeight;
       activeCamera.updateProjectionMatrix();
       renderer.setSize($window.innerWidth, $window.innerHeight);
-      trackball.handleResize();
     }
 
     // Mouse move
@@ -342,7 +339,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
       // Update camera target
       activeCamera.lookAt(center);
-      trackball.target.copy(center);
+      orbitor.target.copy(center);
+      orbitor.update();
     }
 
     // Create scene
@@ -371,20 +369,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       eyeLight.name = 'EYE LIGHT';
       eyeLight.position.set(BOX_SIZE, BOX_SIZE, BOX_SIZE);
       activeScene.add(eyeLight);
-    }
-
-    // Create trackball
-    function createTrackball() {
-      trackball = new $window.THREE.TrackballControls(activeCamera);
-      trackball.rotateSpeed = 5;
-      trackball.zoomSpeed = 1.2;
-      trackball.panSpeed = 0.8;
-      trackball.noZoom = false;
-      trackball.noPan = false;
-      trackball.staticMoving = true;
-      trackball.dynamicDampingFactor = 0.3;
-      trackball.keys = [65, 83, 68];
-      trackball.addEventListener('change', render);
     }
 
     // Count object instances
@@ -502,8 +486,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Update
     function update() {
-      trackball.update();
-      eyeLight.position.set(activeCamera.position.x, activeCamera.position.y, activeCamera.position.z);
+      activeCamera.target.copy(orbitor.target);
+      eyeLight.position.copy(activeCamera.position);
     }
   }
 ]);

@@ -32,7 +32,7 @@ module.exports = {
         'public/lib/dat-gui/build/dat.gui.js',
         'public/lib/threejs/build/three.js',
         'public/libr/threejs/build/detector.js',
-        'public/libr/threejs/build/controls/trackball-controls.js',
+        'public/libr/threejs/build/controls/orbit-controls.js',
         'public/libr/threejs/build/controls/transform-controls.js'
       ]
     },
