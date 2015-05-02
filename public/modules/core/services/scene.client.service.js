@@ -86,8 +86,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Create scene
       createScene();
 
-      // // Create helpers
-      // createHelpers();
+      // Create helpers
+      createHelpers();
 
       // Create lights
       createLights();
@@ -487,7 +487,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Update
     function update() {
       activeCamera.target.copy(orbitor.target);
-      eyeLight.position.copy(activeCamera.position);
+      var direction = new $window.THREE.Vector3();
+      direction.copy(activeCamera.position).sub(activeCamera.target).normalize();
+      eyeLight.position.copy(direction);
     }
   }
 ]);
