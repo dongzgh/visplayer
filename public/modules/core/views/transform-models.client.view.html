@@ -10,12 +10,12 @@
           <span class="glyphicon glyphicon-map-marker"></span>
       </button>
       </span>
-      <input data-ng-disabled="true" class="form-control" placeholder="Model ..." data-ng-model="modelname" required>
+      <input data-ng-disabled="true" class="form-control" placeholder="Model ..." data-ng-model="picked.displayName" required>
     </div>
     <div class="btn-group btn-group-justified">
-      <label class="btn btn-info" ng-model="mode" btn-radio="'Translate'" uncheckable>Translate</label>
-      <label class="btn btn-info" ng-model="mode" btn-radio="'Rotate'" uncheckable>Rotate</label>
-      <label class="btn btn-info" ng-model="mode" btn-radio="'Scale'" uncheckable>Scale</label>
+      <label class="btn btn-info" ng-model="mode" btn-radio="'translate'" uncheckable>Translate</label>
+      <label class="btn btn-info" ng-model="mode" btn-radio="'rotate'" uncheckable>Rotate</label>
+      <label class="btn btn-info" ng-model="mode" btn-radio="'scale'" uncheckable>Scale</label>
     </div>
     <div class="btn-group btn-group-justified">
       <div class="btn-group">

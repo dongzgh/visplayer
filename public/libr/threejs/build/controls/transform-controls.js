@@ -304,12 +304,9 @@
       var geometry = new THREE.Geometry();
       arc = arc ? arc : 1;
       for (var i = 0; i <= 64 * arc; ++i) {
-        if (facing == 'x') geometry.vertices.push(new THREE.Vector3(0, Math.cos(i / 32 * Math.PI), Math.sin(i / 32 * Math.PI))
-          .multiplyScalar(radius));
-        if (facing == 'y') geometry.vertices.push(new THREE.Vector3(Math.cos(i / 32 * Math.PI), 0, Math.sin(i / 32 * Math.PI))
-          .multiplyScalar(radius));
-        if (facing == 'z') geometry.vertices.push(new THREE.Vector3(Math.sin(i / 32 * Math.PI), Math.cos(i / 32 * Math.PI), 0)
-          .multiplyScalar(radius));
+        if (facing == 'x') geometry.vertices.push(new THREE.Vector3(0, Math.cos(i / 32 * Math.PI), Math.sin(i / 32 * Math.PI)).multiplyScalar(radius));
+        if (facing == 'y') geometry.vertices.push(new THREE.Vector3(Math.cos(i / 32 * Math.PI), 0, Math.sin(i / 32 * Math.PI)).multiplyScalar(radius));
+        if (facing == 'z') geometry.vertices.push(new THREE.Vector3(Math.sin(i / 32 * Math.PI), Math.cos(i / 32 * Math.PI), 0).multiplyScalar(radius));
       }
       return geometry;
     };
@@ -401,8 +398,7 @@
       var eye = eye2.clone();
       worldRotation.copy(this.planes["XY"].rotation);
       tempQuaternion.setFromEuler(worldRotation);
-      tempMatrix.makeRotationFromQuaternion(tempQuaternion)
-        .getInverse(tempMatrix);
+      tempMatrix.makeRotationFromQuaternion(tempQuaternion).getInverse(tempMatrix);
       eye.applyMatrix4(tempMatrix);
       this.traverse(function(child) {
         tempQuaternion.setFromEuler(worldRotation);
@@ -656,9 +652,7 @@
       scale = worldPosition.distanceTo(camPosition) / 6 * scope.size;
       this.position.copy(worldPosition);
       this.scale.set(scale, scale, scale);
-      eye.copy(camPosition)
-        .sub(worldPosition)
-        .normalize();
+      eye.copy(camPosition).sub(worldPosition).normalize();
       if (scope.space == "local") this.gizmo[_mode].update(worldRotation, eye);
       else if (scope.space == "world") this.gizmo[_mode].update(new THREE.Euler(), eye);
       this.gizmo[_mode].highlight(scope.axis);
@@ -691,9 +685,7 @@
           scope.dispatchEvent(mouseDownEvent);
           scope.axis = intersect.object.name;
           scope.update();
-          eye.copy(camPosition)
-            .sub(worldPosition)
-            .normalize();
+          eye.copy(camPosition).sub(worldPosition).normalize();
           scope.gizmo[_mode].setActivePlane(scope.axis, eye);
           var planeIntersect = intersectObjects(pointer, [scope.gizmo[_mode].activePlane]);
           oldPosition.copy(scope.object.position);
@@ -759,8 +751,7 @@
       } else if (_mode == "rotate") {
         point.sub(worldPosition);
         point.multiply(parentScale);
-        tempVector.copy(offset)
-          .sub(worldPosition);
+        tempVector.copy(offset).sub(worldPosition);
         tempVector.multiply(parentScale);
         if (scope.axis == "E") {
           point.applyMatrix4(tempMatrix.getInverse(lookAtMatrix));
@@ -774,12 +765,9 @@
           tempQuaternion.multiplyQuaternions(tempQuaternion, quaternionXYZ);
           scope.object.quaternion.copy(tempQuaternion);
         } else if (scope.axis == "XYZE") {
-          quaternionE.setFromEuler(point.clone()
-            .cross(tempVector)
-            .normalize()); // rotation axis
+          quaternionE.setFromEuler(point.clone().cross(tempVector).normalize()); // rotation axis
           tempQuaternion.setFromRotationMatrix(tempMatrix.getInverse(parentRotationMatrix));
-          quaternionX.setFromAxisAngle(quaternionE, -point.clone()
-            .angleTo(tempVector));
+          quaternionX.setFromAxisAngle(quaternionE, -point.clone().angleTo(tempVector));
           quaternionXYZ.setFromRotationMatrix(worldRotationMatrix);
           tempQuaternion.multiplyQuaternions(tempQuaternion, quaternionX);
           tempQuaternion.multiplyQuaternions(tempQuaternion, quaternionXYZ);
@@ -832,8 +820,7 @@
       var y = (pointer.clientY - rect.top) / rect.height;
       pointerVector.set((x * 2) - 1, -(y * 2) + 1, 0.5);
       pointerVector.unproject(camera);
-      ray.set(camPosition, pointerVector.sub(camPosition)
-        .normalize());
+      ray.set(camPosition, pointerVector.sub(camPosition).normalize());
       var intersections = ray.intersectObjects(objects, true);
       return intersections[0] ? intersections[0] : false;
     }

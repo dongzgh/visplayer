@@ -4,9 +4,9 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
 
   function($rootScope, $scope, $window, $log, Scene) {
     // Initialize
-    $scope.mode = 'Translate';
-    $scope.modelname = null;
     $scope.enablePicking = false;
+    $scope.picked = null;
+    $scope.mode = 'translate';
 
     //---------------------------------------------------
     //  Callbacks
@@ -19,11 +19,21 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
 
     // OK
     $scope.onOK = function () {
+      // Disable picking
+      Scene.enablePicking(false);
+      Scene.clear();
+
+      // Broadcast
       $rootScope.$broadcast('gui-dialog.close');
     };
 
     // Cancel
     $scope.onCancel = function() {
+      // Disable picking
+      Scene.enablePicking(false);
+      Scene.clear();
+
+      // Broadcast
       $rootScope.$broadcast('gui-dialog.close');
     };
 
@@ -31,7 +41,13 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
     //  Listeners
     //------------------------------------------------
     $scope.$on('scene.picked', function (event, object) {
-      $scope.modelname = object.displayName;
+      // Save picked
+      $scope.picked = object;
+
+      // // Attach transformer
+      // Scene.attachTransformer(object, $scope.mode);
+
+      // Update gui
       $scope.$apply();
     });
   }
