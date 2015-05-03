@@ -333,7 +333,7 @@ nav[role=navigation] {
 }
 .gui-dialog .panel-body .input-group input {
   border-radius: 0;
-  height: 1.9em;
+  height: 1.85em;
 }
 .gui-dialog .panel-body .btn {
   padding-top: 3px;
@@ -342,7 +342,7 @@ nav[role=navigation] {
   margin-right: 2px;
   background-color: #327CCB;
   color: #FFFFFF;
-  border-left: 1px solid #FFFFFF;
+  border-right: 1px solid #FFFFFF;
 }
 .gui-dialog .panel-body .btn:focus,
 .gui-dialog .panel-body .btn:active {
