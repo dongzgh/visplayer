@@ -17,6 +17,12 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
       Scene.enablePicking($scope.enablePicking, 'model');
     };
 
+    // Change transformer
+    $scope.changeType = function() {
+      if($scope.picked === null) return;
+      Scene.attachTransformer($scope.picked, $scope.mode);
+    };
+
     // OK
     $scope.onOK = function () {
       // Disable picking

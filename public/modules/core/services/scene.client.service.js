@@ -66,9 +66,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var mouse = new $window.THREE.Vector2();
 
     // Transient variables
-    var i = 0,
-      j = 0,
-      k = 0;
+    var i = 0;
+    var j = 0;
+    var k = 0;
 
     //---------------------------------------------------
     //  Callbacks
@@ -76,9 +76,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Initialize scene
     this.initialize = function() {
       // Check webgl
-      if (!$window.Detector.webgl) {
+      if (!$window.Detector.webgl)
         $window.Detector.addGetWebGLMessage();
-      }
 
       // Create camera
       createCamera();
@@ -114,21 +113,16 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     this.queryModels = function(onsuccess) {
       var modelnames = [];
       activeScene.children.forEach(function(object) {
-        if (object.type === 'model') {
+        if (object.type === 'model')
           modelnames.push(object.name);
-        }
       });
-      if (onsuccess) {
-        onsuccess(modelnames);
-      }
+      if (onsuccess) onsuccess(modelnames);
     };
 
     // Load model
     this.loadModel = function(gd, onsuccess) {
       // Check input data
-      if (gd === null) {
-        return;
-      }
+      if (gd === null) return;
 
       // Count instances
       var count = countModelInstances(gd.name) + 1;
@@ -216,17 +210,13 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       fitCamera();
 
       // Post-processing
-      if (onsuccess) {
-        onsuccess(model);
-      }
+      if (onsuccess) onsuccess(model);
     };
 
     // Remove object
     this.removeObject = function(objname) {
       // Check input data
-      if (objname === null) {
-        return;
-      }
+      if (objname === null) return;
 
       // Remove object
       var index = 0;
@@ -242,24 +232,22 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Attach transformer
     this.attachTransformer = function(object, mode) {
       // Check input data
-      if (angular.isUndefined(object.type) || object.type !== 'model') {
-        return;
-      }
+      if (angular.isUndefined(object.type) || object.type !== 'model') return;
 
       // Create transformer
-      transformer = new $window.THREE.TransformControls(activeCamera, renderer.domElement);
+      if (transformer === null) {
+        transformer = new $window.THREE.TransformControls(activeCamera, renderer.domElement);
+        activeScene.add(transformer);
+      }
       transformer.attach(object);
       transformer.setMode(mode);
       transformer.addEventListener('change', render);
-      activeScene.add(transformer);
     };
 
     // Enalbe picking
     this.enablePicking = function(enable, type) {
       isPickingEnabled = enable;
-      if (angular.isDefined(type)) {
-        pickType = type;
-      }
+      if (angular.isDefined(type)) pickType = type;
       picked = null;
     };
 
@@ -287,9 +275,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Mouse down
     function onDocumentMouseDown(event) {
-      if (isPickingEnabled) {
-        pickObject();
-      }
+      if (isPickingEnabled) pickObject();
     }
 
     //---------------------------------------------------
@@ -387,17 +373,13 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Count object instances
     function countModelInstances(name) {
       // Check input data
-      if (name === null) {
-        return 0;
-      }
+      if (name === null) return 0;
 
       // Count object instances
       var count = 0;
       activeScene.children.forEach(function(object) {
         if (object.type === 'model') {
-          if (object.name === name) {
-            count++;
-          }
+          if (object.name === name) count++;
         }
       });
       return count;
@@ -415,11 +397,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         var candidate = null;
         if (pickType === null) {
           return;
-        } else if (pickType === 'model' || pickType === 'face') {
+        } else if (pickType === 'model') {
           candidate = getPickedModel(intersects);
-          if (candidate === null) {
-            return;
-          }
+          if (candidate === null) return;
         }
 
         // Update picked
@@ -438,9 +418,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       }
 
       // Broadcast
-      if (picked !== null) {
+      if (picked !== null)
         $rootScope.$broadcast('scene.picked', picked);
-      }
     }
 
     // Set highlight
@@ -450,9 +429,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           highlightObject(child, enable);
         });
       } else {
-        if (angular.isUndefined(object.material.emissive)) {
+        if (angular.isUndefined(object.material.emissive))
           object.material.emissive = new $window.THREE.Color(0x000000);
-        }
         if (enable) {
           object.material.emissive.setHex(pickedColor);
         } else {
@@ -464,16 +442,15 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Check model
     function getPickedModel(intersects) {
       // Check input data
-      if (intersects.length === 0) {
-        return;
-      }
+      if (intersects.length === 0) return;
 
       // Find candidate
       var candidate = null;
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Mesh) {
           candidate = intersects[i].object.parent.parent;
-          break;
+          if (angular.isDefined(candidate.type) && candidate.type === 'model') break;
+          candidate = null;
         }
       }
 
@@ -500,14 +477,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Update
     function update() {
       // Orbitor
-      if (orbitor !== null) {
-        orbitor.update();
-      }
+      if (orbitor !== null) orbitor.update();
 
       // Transformer
-      if (transformer !== null) {
-        transformer.update();
-      }
+      if (transformer !== null) transformer.update();
 
       // Lights
       var direction = new $window.THREE.Vector3();

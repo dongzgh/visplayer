@@ -12,7 +12,7 @@
       </span>
       <input data-ng-disabled="true" class="form-control" placeholder="Model ..." data-ng-model="picked.displayName" required>
     </div>
-    <div class="btn-group btn-group-justified">
+    <div class="btn-group btn-group-justified" data-ng-click="changeType()">
       <label class="btn btn-info" ng-model="mode" btn-radio="'translate'" uncheckable>Translate</label>
       <label class="btn btn-info" ng-model="mode" btn-radio="'rotate'" uncheckable>Rotate</label>
       <label class="btn btn-info" ng-model="mode" btn-radio="'scale'" uncheckable>Scale</label>
