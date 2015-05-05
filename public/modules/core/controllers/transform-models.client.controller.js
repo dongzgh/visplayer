@@ -4,7 +4,7 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
 
   function($rootScope, $scope, $window, $log, Scene) {
     // Initialize
-    $scope.enablePicking = false;
+    $scope.isPickingEnabled = false;
     $scope.picked = null;
     $scope.mode = 'translate';
 
@@ -12,9 +12,13 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
     //  Callbacks
     //------------------------------------------------
     // Pick a component
-    $scope.pickModel = function() {
-      $scope.enablePicking = !$scope.enablePicking;
-      Scene.enablePicking($scope.enablePicking, 'model');
+    $scope.enablePicking = function() {
+      $scope.isPickingEnabled = !$scope.isPickingEnabled;
+      if($scope.isPickingEnabled) {
+        Scene.enablePicking(true, 'model');
+      } else {
+        Scene.enablePicking(false);
+      }
     };
 
     // Change transformer

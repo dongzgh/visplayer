@@ -51,6 +51,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Scene definitions
     var container = null;
     var renderer = null;
+    var canvas = null;
     var cameras = [];
     var activeCamera = null;
     var scenes = [];
@@ -95,15 +96,15 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       createLights();
 
       // Create orbitor
-      orbitor = new $window.THREE.OrbitControls(activeCamera, renderer.domElement);
+      orbitor = new $window.THREE.OrbitControls(activeCamera, canvas);
 
       // Create raycaster
       raycaster = new $window.THREE.Raycaster();
 
       // Add listeners
       $window.addEventListener('resize', onWindowResize, false);
-      $document[0].addEventListener('mousemove', onDocumentMouseMove, false);
-      $document[0].addEventListener('mousedown', onDocumentMouseDown, false);
+      canvas.addEventListener('mousemove', onDocumentMouseMove, false);
+      canvas.addEventListener('mousedown', onDocumentMouseDown, false);
 
       // Animate
       animate();
@@ -236,7 +237,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
       // Create transformer
       if (transformer === null) {
-        transformer = new $window.THREE.TransformControls(activeCamera, renderer.domElement);
+        transformer = new $window.THREE.TransformControls(activeCamera, canvas);
         activeScene.add(transformer);
       }
       transformer.attach(object);
@@ -247,13 +248,19 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Enalbe picking
     this.enablePicking = function(enable, type) {
       isPickingEnabled = enable;
-      if (angular.isDefined(type)) pickType = type;
-      picked = null;
+      if(isPickingEnabled) {
+        picked = null;
+        if (angular.isDefined(type)) pickType = type;
+      } else {
+        highlightObject(activeScene, false);
+      }
     };
 
     // Highlight object
     this.clear = function() {
       highlightObject(activeScene, false);
+      activeScene.remove(transformer);
+      transformer = null;
     };
 
     //---------------------------------------------------
@@ -297,7 +304,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       renderer.setSize($window.innerWidth, $window.innerHeight);
       renderer.setPixelRatio($window.devicePixelRatio);
       renderer.autoClear = true;
-      container.appendChild(renderer.domElement);
+      canvas = renderer.domElement;
+      container.appendChild(canvas);
     }
 
     // Create camera

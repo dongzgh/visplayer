@@ -650,7 +650,11 @@
       camPosition.setFromMatrixPosition(camera.matrixWorld);
       camRotation.setFromRotationMatrix(tempMatrix.extractRotation(camera.matrixWorld));
       scale = worldPosition.distanceTo(camPosition) / 16 * scope.size;
-      this.position.copy(worldPosition);
+      if (scope.object.origin) {
+        var point = new THREE.Vector3();
+        point.copy(scope.object.origin).add(worldPosition);
+        this.position.copy(point);
+      }
       this.scale.set(scale, scale, scale);
       eye.copy(camPosition).sub(worldPosition).normalize();
       if (scope.space == "local") this.gizmo[_mode].update(worldRotation, eye);
