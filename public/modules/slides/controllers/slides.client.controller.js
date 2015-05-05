@@ -177,6 +177,11 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   /**
    * Modeling callbacks
    */
+  // Top view
+  $scope.topView = function() {
+    Scene.topView();
+  };
+
   // Transform model
   $scope.transformModel = function() {
     $scope.guiTemplate = 'modules/core/views/transform-models.client.view.html';

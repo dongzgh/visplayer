@@ -201,14 +201,14 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       }
 
       // Update model center
-      model.origin = new $window.THREE.Vector3();
-      model.origin.copy(model.box.min).add(model.box.max).multiplyScalar(0.5);
+      model.center = new $window.THREE.Vector3();
+      model.center.copy(model.box.min).add(model.box.max).multiplyScalar(0.5);
 
       // Add to scene
       activeScene.add(model);
 
       // Fit view.
-      fitCamera();
+      fitView();
 
       // Post-processing
       if (onsuccess) onsuccess(model);
@@ -228,6 +228,19 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         }
         index++;
       });
+    };
+
+    // Top view
+    this.topView = function() {
+      updateSceneBox(activeScene);
+      var dz = Math.abs(activeScene.box.max.z - activeScene.box.min.z);
+      var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
+      var d = Math.max(dz, dx) / 2.0;
+      var x = activeScene.center.x;
+      var y = activeScene.box.max.y + d;
+      var z = activeScene.center.z;
+      activeCamera.position.set(x, y, z);
+      activeCamera.lookAt(activeScene.center);
     };
 
     // Attach transformer
@@ -319,7 +332,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     }
 
     // Fit camera
-    function fitCamera() {
+    function fitView() {
       // Evaluate box of models
       var box = new $window.THREE.Box3();
       activeScene.children.forEach(function(object) {
@@ -356,6 +369,25 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       scenes.push(scene);
       activeScene = scene;
     }
+
+    // Evaluate scene center
+    function updateSceneBox(scene) {
+      // Check input data
+      if(!(scene instanceof $window.THREE.Scene)) return;
+
+      // Update box
+      scene.box = new $window.THREE.Box3();
+      scene.traverse(function(object){
+        if(angular.isDefined(object.type) && object.type === 'model') {
+          scene.box.union(object.box);
+        }
+      });
+
+      // Update center
+      scene.center = new $window.THREE.Vector3();
+      scene.center.copy(scene.box.min).add(scene.box.max).multiplyScalar(0.5);
+    }
+
 
     // Create helpers
     function createHelpers() {
@@ -486,6 +518,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     function update() {
       // Orbitor
       if (orbitor !== null) orbitor.update();
+      activeCamera.target.copy(orbitor.target);
 
       // Transformer
       if (transformer !== null) transformer.update();

@@ -650,9 +650,9 @@
       camPosition.setFromMatrixPosition(camera.matrixWorld);
       camRotation.setFromRotationMatrix(tempMatrix.extractRotation(camera.matrixWorld));
       scale = worldPosition.distanceTo(camPosition) / 16 * scope.size;
-      if (scope.object.origin) {
+      if (scope.object.center) {
         var point = new THREE.Vector3();
-        point.copy(scope.object.origin).add(worldPosition);
+        point.copy(scope.object.center).add(worldPosition);
         this.position.copy(point);
       }
       this.scale.set(scale, scale, scale);
