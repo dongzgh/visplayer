@@ -45,9 +45,7 @@ angular.module('core').service('Menus', ['$log',
     // Get the menu object by menu id
     this.getMenu = function(menuId) {
       // Validate that the tool exists
-      if(!this.validateMenuExistance(menuId)) {
-        return;
-      }
+      if (!this.validateMenuExistance(menuId)) return;
 
       // Return the menu object
       return this.menus[menuId];
@@ -70,9 +68,7 @@ angular.module('core').service('Menus', ['$log',
     // Remove existing menu object by menu id
     this.removeMenu = function(menuId) {
       // Validate that the tool exists
-      if(!this.validateMenuExistance(menuId)) {
-        return;
-      }
+      if (!this.validateMenuExistance(menuId)) return;
 
       // Return the menu object
       delete this.menus[menuId];
@@ -81,9 +77,7 @@ angular.module('core').service('Menus', ['$log',
     // Add menu item object
     this.addMenuItem = function(menuId, menuItemTitle, menuItemURL, menuItemType, menuItemUIRoute, isPublic, roles, position) {
       // Validate that the tool exists
-      if(!this.validateMenuExistance(menuId)) {
-        return;
-      }
+      if (!this.validateMenuExistance(menuId)) return;
 
       // Push new menu item
       this.menus[menuId].items.push({
@@ -106,9 +100,7 @@ angular.module('core').service('Menus', ['$log',
     // Remove existing menu object by menu id
     this.removeMenuItem = function(menuId, menuItemURL) {
       // Validate that the tool exists
-      if(!this.validateMenuExistance(menuId)) {
-        return;
-      }
+      if (!this.validateMenuExistance(menuId)) return;
 
       // Search for menu item to remove
       for (var itemIndex in this.menus[menuId].items) {
@@ -124,9 +116,7 @@ angular.module('core').service('Menus', ['$log',
     // Add submenu item object
     this.addSubMenuItem = function(menuId, rootMenuItemURL, menuItemTitle, menuItemURL, menuItemUIRoute, isPublic, roles, position) {
       // Validate that the tool exists
-      if(!this.validateMenuExistance(menuId)) {
-        return;
-      }
+      if (!this.validateMenuExistance(menuId)) return;
 
       // Search for menu item
       for (var itemIndex in this.menus[menuId].items) {
@@ -151,9 +141,7 @@ angular.module('core').service('Menus', ['$log',
     // Remove existing menu object by menu id
     this.removeSubMenuItem = function(menuId, submenuItemURL) {
       // Validate that the tool exists
-      if(!this.validateMenuExistance(menuId)) {
-        return;
-      }
+      if (!this.validateMenuExistance(menuId)) return;
 
       // Search for menu item to remove
       for (var itemIndex in this.menus[menuId].items) {

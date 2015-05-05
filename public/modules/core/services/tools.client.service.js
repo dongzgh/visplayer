@@ -45,9 +45,7 @@ angular.module('core').service('Tools', ['$log',
     // Get the tool object by tool id
     this.getTool = function(toolId) {
       // Validate that the tool exists
-      if(!this.validateToolExistance(toolId)) {
-        return;
-      }
+      if (!this.validateToolExistance(toolId)) return;
 
       // Return the tool object
       return this.tools[toolId];
@@ -70,9 +68,7 @@ angular.module('core').service('Tools', ['$log',
     // Remove existing tool object by tool id
     this.removeTool = function(toolId) {
       // Validate that the tool exists
-      if(!this.validateToolExistance(toolId)) {
-        return;
-      }
+      if (!this.validateToolExistance(toolId)) return;
 
       // Return the tool object
       delete this.tools[toolId];
@@ -81,9 +77,7 @@ angular.module('core').service('Tools', ['$log',
     // Add tool item object
     this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemAction, toolItemTip, isPublic, roles, position) {
       // Validate that the tool exists
-      if(!this.validateToolExistance(toolId)) {
-        return;
-      }
+      if (!this.validateToolExistance(toolId)) return;
 
       // Push new tool item
       this.tools[toolId].items.push({
@@ -107,9 +101,7 @@ angular.module('core').service('Tools', ['$log',
     // Remove existing tool object by tool id
     this.removeToolItem = function(toolId, toolItemURL) {
       // Validate that the tool exists
-      if(!this.validateToolExistance(toolId)) {
-        return;
-      }
+      if (!this.validateToolExistance(toolId)) return;
 
       // Search for tool item to remove
       for (var itemIndex in this.tools[toolId].items) {

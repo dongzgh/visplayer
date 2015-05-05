@@ -10,8 +10,7 @@ angular.module('core').controller('UploadFilesController', ['$rootScope', '$scop
     // Collect files
     $scope.collect = function(files) {
       // Check input data
-      if (!angular.isDefined(files) || files.length <= 0)
-        return;
+      if (!angular.isDefined(files) || files.length <= 0) return;
 
       // Collect files
       $scope.names = [];
@@ -34,16 +33,15 @@ angular.module('core').controller('UploadFilesController', ['$rootScope', '$scop
 
       // Define final callback
       function onfinal(passed, failed) {
-        if(passed.length === $scope.files.length) {
+        if (passed.length === $scope.files.length) {
           $modalInstance.dismiss('success');
         } else {
           $modalInstance.dismiss('failed');
         }
       }
 
-      if ($scope.files.length > 0) {
+      if ($scope.files.length > 0)
         Files.upload($scope.files, null, onsuccess, null, onfinal);
-      }
     };
   }
 ]);

@@ -35,8 +35,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     // Define upload method
     this.upload = function(files, onprogress, onsuccess, onerror, onfinal) {
       // Check input data
-      if (!angular.isDefined(files) || files.length <= 0)
-        return;
+      if (!angular.isDefined(files) || files.length <= 0) return;
 
       // Upload each file
       var passed = [];
@@ -46,18 +45,14 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         function cbprogress(update) {
           var progress = (update.loaded / update.total * 100).toFixed();
           $log.log('progress: ' + progress + '% ' + update.config.file.name);
-          if (onprogress) {
-            onprogress(progress);
-          }
+          if (onprogress) onprogress(progress);
         }
 
         // Define success callback
         function cbsuccess(data, status, getHeaders, config) {
           passed.push(config.file.name);
           $log.info('%s is uploaded successfully.', config.file.name);
-          if (onsuccess) {
-            onsuccess(config);
-          }
+          if (onsuccess) onsuccess(config);
           cbfinal();
         }
 
@@ -65,17 +60,13 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         function cberror(data, status, getHeaders, config) {
           failed.push(config.file.name);
           $log.error('Failed to upload %s.', config.file.name);
-          if (onerror) {
-            onerror(config);
-          }
+          if (onerror) onerror(config);
           cbfinal();
         }
 
         // Define final callback
         function cbfinal() {
-          if(index === files.length - 1 && onfinal) {
-            onfinal(passed, failed);
-          }
+          if (index === files.length - 1 && onfinal) onfinal(passed, failed);
         }
 
         // Send request
@@ -90,9 +81,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     this.list = function(onsuccess) {
       // Define success callback
       function cbsuccess(data, getHeaders) {
-        if (onsuccess) {
-          onsuccess(data);
-        }
+        if (onsuccess) onsuccess(data);
       }
 
       // Send request
@@ -102,23 +91,18 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     // Define download method
     this.download = function(filenames, onsuccess, onerror) {
       // Check input data
-      if (!angular.isDefined(filenames) || filenames.length <= 0)
-        return;
+      if (!angular.isDefined(filenames) || filenames.length <= 0) return;
 
       // Download each file
       filenames.forEach(function(filename) {
         // Define success callback
         function cbsuccess(data, status, getHeaders, config) {
-          if (data && onsuccess) {
-            onsuccess(data, filename);
-          }
+          if (data && onsuccess) onsuccess(data, filename);
         }
 
         // Define error callback
         function cberror(data, status, getHeaders, config) {
-          if (onerror) {
-            onerror(status);
-          }
+          if (onerror) onerror(status);
         }
 
         // Send request
@@ -137,8 +121,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     // Deinfe load method
     this.load = function(filenames, onprogress, onsuccess, onerror) {
       // Check input data
-      if (!angular.isDefined(filenames) || filenames.length <= 0)
-        return;
+      if (!angular.isDefined(filenames) || filenames.length <= 0) return;
 
       // Load each file
       filenames.forEach(function(filename) {
@@ -147,9 +130,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
           var total = req.getResponseHeader('ContentLength');
           var progress = (evt.loaded / total * 100).toFixed();
           $log.log('progress: ' + progress + '% ' + filename);
-          if (onprogress) {
-            onprogress(progress);
-          }
+          if (onprogress) onprogress(progress);
         }
 
         // Define success callback
@@ -157,17 +138,13 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
           // // Decrypt encrypted data
           //decryptData(req.responseText, authentication.user._id);
           $log.info('%s is loaded successfully.', filename);
-          if (onsuccess) {
-            onsuccess(req.response);
-          }
+          if (onsuccess) onsuccess(req.response);
         }
 
         // Define error callback
         function cberror(evt) {
           $log.error('Failed to load %s.', filenames);
-          if (onerror) {
-            onerror(evt);
-          }
+          if (onerror) onerror(evt);
         }
 
         // Initialize XMLHttpRequest
@@ -187,25 +164,20 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     // Define delete method
     this.delete = function(filenames, onsuccess, onerror) {
       // Check input data
-      if (!angular.isDefined(filenames) || filenames.length <= 0)
-        return;
+      if (!angular.isDefined(filenames) || filenames.length <= 0) return;
 
       // Delete each file
       filenames.forEach(function(filename) {
         // Define success callback
         function cbsuccess(data, getHeader) {
           $log.info('%s is deleted successfully.', filename);
-          if (onsuccess) {
-            onsuccess(filename);
-          }
+          if (onsuccess) onsuccess(filename);
         }
 
         // Define error callback
         function cberror(data) {
           $log.error('Failed to delete %s!', filename);
-          if (onerror) {
-            onerror(filename);
-          }
+          if (onerror) onerror(filename);
         }
 
         // Send request

@@ -45,9 +45,7 @@ angular.module('core').service('Trees', ['$log',
     // Get the tree object by tree id
     this.getTree = function(treeId) {
       // Validate that the tree exists
-      if(!this.validateTreeExistance(treeId)) {
-        return;
-      }
+      if (!this.validateTreeExistance(treeId)) return;
 
       // Return the tree object
       return this.trees[treeId];
@@ -70,9 +68,7 @@ angular.module('core').service('Trees', ['$log',
     // Empty existing tree objects
     this.emptyTree = function(treeId) {
       // Validate that the tree exists
-      if(!this.validateTreeExistance(treeId)) {
-        return;
-      }
+      if (!this.validateTreeExistance(treeId)) return;
 
       // Search for tree item to remove
       for (var itemIndex in this.trees[treeId].items) {
@@ -83,9 +79,7 @@ angular.module('core').service('Trees', ['$log',
     // Remove existing tree object by tree id
     this.removeTree = function(treeId) {
       // Validate that the tree exists
-      if(!this.validateTreeExistance(treeId)) {
-        return;
-      }
+      if (!this.validateTreeExistance(treeId)) return;
 
       // Return the tree object
       delete this.trees[treeId];
@@ -107,14 +101,10 @@ angular.module('core').service('Trees', ['$log',
     // Add tree item object
     this.addTreeItem = function(treeId, treeItemTitle, treeItemIcon, treeItemURL, isPublic, roles) {
       // Validate that the tree exists
-      if(!this.validateTreeExistance(treeId)) {
-        return;
-      }
+      if (!this.validateTreeExistance(treeId)) return;
 
       // Validate that the tree item exists
-      if(!this.validateTreeItemExistance(treeId, treeItemURL)) {
-        return;
-      }
+      if (!this.validateTreeItemExistance(treeId, treeItemURL)) return;
 
       // Push new tree item
       this.trees[treeId].items.push({
@@ -135,9 +125,7 @@ angular.module('core').service('Trees', ['$log',
     // Remove existing tree object by tree id
     this.removeTreeItem = function(treeId, treeItemURL) {
       // Validate that the tree exists
-      if(!this.validateTreeExistance(treeId)) {
-        return;
-      }
+      if (!this.validateTreeExistance(treeId)) return;
 
       // Search for tree item to remove
       for (var itemIndex in this.trees[treeId].items) {
@@ -170,19 +158,13 @@ angular.module('core').service('Trees', ['$log',
     // Add subtree item object
     this.addSubTreeItem = function(treeId, rootTreeItemURL, treeItemTitle, treeItemIcon, treeItemURL, isPublic, roles) {
       // Validate that the tree exists
-      if(!this.validateTreeExistance(treeId)) {
-        return;
-      }
+      if (!this.validateTreeExistance(treeId)) return;
 
       // Validate that the tree item exists
-      if(!this.validateTreeItemExistance(treeId, treeItemURL)) {
-        return;
-      }
+      if (!this.validateTreeItemExistance(treeId, treeItemURL)) return;
 
       // Validate that the tree exists
-      if(!this.validateSubTreeItemExistance(treeId, rootTreeItemURL, treeItemURL)) {
-        return;
-      }
+      if (!this.validateSubTreeItemExistance(treeId, rootTreeItemURL, treeItemURL)) return;
 
       // Search for tree item
       for (var itemIndex in this.trees[treeId].items) {
@@ -207,9 +189,7 @@ angular.module('core').service('Trees', ['$log',
     // Remove existing tree object by tree id
     this.removeSubTreeItem = function(treeId, subtreeItemURL) {
       // Validate that the tree exists
-      if(!this.validateTreeExistance(treeId)) {
-        return;
-      }
+      if (!this.validateTreeExistance(treeId)) return;
 
       // Search for tree item to remove
       for (var itemIndex in this.trees[treeId].items) {
@@ -227,9 +207,7 @@ angular.module('core').service('Trees', ['$log',
     // Select subtree items
     this.checkAllSubTreeItems = function(treeId, rootTreeItemURL, checked) {
       // Validate that the tree exists
-      if(!this.validateTreeExistance(treeId)) {
-        return;
-      }
+      if (!this.validateTreeExistance(treeId)) return;
 
       // Search for subtree items
       for (var itemIndex in this.trees[treeId].items) {
@@ -247,9 +225,7 @@ angular.module('core').service('Trees', ['$log',
     // Get checked tree object
     this.getCheckedSubTreeItems = function(treeId) {
       // Validate that the tree exists
-      if(!this.validateTreeExistance(treeId)) {
-        return;
-      }
+      if (!this.validateTreeExistance(treeId)) return;
 
       // Search for tree item to remove
       var items = [];
