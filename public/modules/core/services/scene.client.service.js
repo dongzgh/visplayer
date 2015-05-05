@@ -62,10 +62,13 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var pickType = null;
     var picked = null;
     var pickedColor = 0xe8373e;
+    var transformer = null;
     var mouse = new $window.THREE.Vector2();
 
     // Transient variables
-    var i = 0, j = 0, k = 0;
+    var i = 0,
+      j = 0,
+      k = 0;
 
     //---------------------------------------------------
     //  Callbacks
@@ -202,6 +205,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         edges.add(edgeMesh);
       }
 
+      // Update model center
+      model.origin = new $window.THREE.Vector3();
+      model.origin.copy(model.box.min).add(model.box.max).multiplyScalar(0.5);
+
       // Add to scene
       activeScene.add(model);
 
@@ -234,7 +241,13 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Attach transformer
     this.attachTransformer = function(object, mode) {
-      var transformer = new $window.THREE.TransformControls(activeCamera, renderer.domElement);
+      // Check input data
+      if (angular.isUndefined(object.type) || object.type !== 'model') {
+        return;
+      }
+
+      // Create transformer
+      transformer = new $window.THREE.TransformControls(activeCamera, renderer.domElement);
       transformer.attach(object);
       transformer.setMode(mode);
       transformer.addEventListener('change', render);
@@ -486,7 +499,17 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Update
     function update() {
-      activeCamera.target.copy(orbitor.target);
+      // Orbitor
+      if (orbitor !== null) {
+        orbitor.update();
+      }
+
+      // Transformer
+      if (transformer !== null) {
+        transformer.update();
+      }
+
+      // Lights
       var direction = new $window.THREE.Vector3();
       direction.copy(activeCamera.position).sub(activeCamera.target).normalize();
       eyeLight.position.copy(direction);

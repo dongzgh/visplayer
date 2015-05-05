@@ -44,6 +44,9 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
       // Save picked
       $scope.picked = object;
 
+      // Attach transformer
+      Scene.attachTransformer($scope.picked, $scope.mode);
+
       // Update gui
       $scope.$apply();
     });
