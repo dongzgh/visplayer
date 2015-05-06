@@ -38,6 +38,9 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
 
     // Set modeling tool items
     Tools.addToolItem('modeling', 'Top View', 'glyphicon-hand-down', null, 'topView', 'View scene from top');
+    Tools.addToolItem('modeling', 'Bottom View', 'glyphicon-hand-up', null, 'bottomView', 'View scene from bottom');
+    Tools.addToolItem('modeling', 'Left View', 'glyphicon-hand-right', null, 'leftView', 'View scene from left');
+    Tools.addToolItem('modeling', 'Right View', 'glyphicon-hand-left', null, 'rightView', 'View scene from right');
     Tools.addToolItem('modeling', 'Transform Model', 'glyphicon-random', null, 'transformModel', 'Transform model');
 
     // Set marterials tool items

@@ -66,7 +66,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Activate a tool
   $scope.activateTool = function(action) {
-    if (action !== null) $scope[action]();
+    if (action !== null) {
+      if(action === 'topView') Scene.topView();
+      else if (action === 'bottomView') Scene.bottomView();
+      else if (action === 'leftView') Scene.leftView();
+      else if (action === 'rightView') Scene.rightView();
+      else if(angular.isDefined($scope[action])) $scope[action]();
+    }
   };
 
   // Select all files
@@ -177,11 +183,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   /**
    * Modeling callbacks
    */
-  // Top view
-  $scope.topView = function() {
-    Scene.topView();
-  };
-
   // Transform model
   $scope.transformModel = function() {
     $scope.guiTemplate = 'modules/core/views/transform-models.client.view.html';

@@ -113,9 +113,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Query models
     this.queryModels = function(onsuccess) {
       var modelnames = [];
-      activeScene.children.forEach(function(object) {
-        if (object.type === 'model')
-          modelnames.push(object.name);
+      activeScene.traverse(function(object) {
+        if (object.type === 'model') modelnames.push(object.name);
       });
       if (onsuccess) onsuccess(modelnames);
     };
@@ -237,7 +236,46 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
       var d = Math.max(dz, dx) / 2.0;
       var x = activeScene.center.x;
-      var y = activeScene.box.max.y + d;
+      var y = activeScene.box.max.y + d * Math.atan(CAMERA_ANGLE / 2.0);
+      var z = activeScene.center.z;
+      activeCamera.position.set(x, y, z);
+      activeCamera.lookAt(activeScene.center);
+    };
+
+    // Bottom view
+    this.bottomView = function() {
+      updateSceneBox(activeScene);
+      var dz = Math.abs(activeScene.box.max.z - activeScene.box.min.z);
+      var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
+      var d = Math.max(dz, dx) / 2.0;
+      var x = activeScene.center.x;
+      var y = activeScene.box.min.y - d * Math.atan(CAMERA_ANGLE / 2.0);
+      var z = activeScene.center.z;
+      activeCamera.position.set(x, y, z);
+      activeCamera.lookAt(activeScene.center);
+    };
+
+    // Left view
+    this.leftView = function() {
+      updateSceneBox(activeScene);
+      var dz = Math.abs(activeScene.box.max.z - activeScene.box.min.z);
+      var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
+      var d = Math.max(dz, dx) / 2.0;
+      var x = activeScene.box.min.x - d * Math.atan(CAMERA_ANGLE / 2.0);
+      var y = activeScene.center.y;
+      var z = activeScene.center.z;
+      activeCamera.position.set(x, y, z);
+      activeCamera.lookAt(activeScene.center);
+    };
+
+    // Right view
+    this.rightView = function() {
+      updateSceneBox(activeScene);
+      var dz = Math.abs(activeScene.box.max.z - activeScene.box.min.z);
+      var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
+      var d = Math.max(dz, dx) / 2.0;
+      var x = activeScene.box.max.x + d * Math.atan(CAMERA_ANGLE / 2.0);
+      var y = activeScene.center.y;
       var z = activeScene.center.z;
       activeCamera.position.set(x, y, z);
       activeCamera.lookAt(activeScene.center);
@@ -261,7 +299,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Enalbe picking
     this.enablePicking = function(enable, type) {
       isPickingEnabled = enable;
-      if(isPickingEnabled) {
+      if (isPickingEnabled) {
         picked = null;
         if (angular.isDefined(type)) pickType = type;
       } else {
@@ -335,7 +373,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     function fitView() {
       // Evaluate box of models
       var box = new $window.THREE.Box3();
-      activeScene.children.forEach(function(object) {
+      activeScene.traverse(function(object) {
         if (angular.isDefined(object.type) && object.type === 'model') {
           var model = object;
           box.union(model.box);
@@ -373,12 +411,12 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Evaluate scene center
     function updateSceneBox(scene) {
       // Check input data
-      if(!(scene instanceof $window.THREE.Scene)) return;
+      if (!(scene instanceof $window.THREE.Scene)) return;
 
       // Update box
       scene.box = new $window.THREE.Box3();
-      scene.traverse(function(object){
-        if(angular.isDefined(object.type) && object.type === 'model') {
+      scene.traverse(function(object) {
+        if (angular.isDefined(object.type) && object.type === 'model') {
           scene.box.union(object.box);
         }
       });
@@ -417,7 +455,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
       // Count object instances
       var count = 0;
-      activeScene.children.forEach(function(object) {
+      activeScene.traverse(function(object) {
         if (object.type === 'model') {
           if (object.name === name) count++;
         }
@@ -527,6 +565,35 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var direction = new $window.THREE.Vector3();
       direction.copy(activeCamera.position).sub(activeCamera.target).normalize();
       eyeLight.position.copy(direction);
+    }
+
+    //---------------------------------------------------
+    //  Debugging
+    //---------------------------------------------------
+    // Create a point
+    function createPoint(x, y, z) {
+      var geometry = new $window.THREE.SphereGeometry(1, 32, 32);
+      var material = new $window.THREE.MeshBasicMaterial({
+        color: 0xffff00
+      });
+      var sphere = new $window.THREE.Mesh(geometry, material);
+      sphere.position.set(x, y, z);
+      activeScene.add(sphere);
+    }
+
+    // Create a box
+    function createBox(model) {
+      var dx = model.box.max.x - model.box.min.x;
+      var dy = model.box.max.y - model.box.min.y;
+      var dz = model.box.max.z - model.box.min.z;
+      var geometry = new $window.THREE.BoxGeometry(dx, dy, dz);
+      var material = new $window.THREE.MeshBasicMaterial({
+        color: 0x00ff00,
+        wireframe: true
+      });
+      var cube = new $window.THREE.Mesh(geometry, material);
+      cube.position.copy(model.center);
+      activeScene.add(cube);
     }
   }
 ]);
