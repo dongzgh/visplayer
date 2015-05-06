@@ -11,11 +11,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.link = null;
   $scope.showPanel = false;
 
-  // Initialize modal instance
+  // Initialize modal and gui instance
   $scope.modal = null;
   $scope.gui = null;
-
-  // Initialize gui template
   $scope.guiTemplate = null;
 
   // Find a list of tools
@@ -66,29 +64,18 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Activate a tool
   $scope.activateTool = function(action) {
-    if (action !== null) {
-      if(action === 'topView') Scene.topView();
-      else if (action === 'bottomView') Scene.bottomView();
-      else if (action === 'leftView') Scene.leftView();
-      else if (action === 'rightView') Scene.rightView();
-      else if(angular.isDefined($scope[action])) $scope[action]();
-    }
+    if (action !== null && angular.isDefined($scope[action])) $scope[action]();
   };
 
-  // Select all files
-  $scope.checkAllFiles = function(item) {
+  // Select all subtree items
+  $scope.checkAllItems = function(tree, item) {
     item.checked = !item.checked;
-    Trees.checkAllSubTreeItems('files', item.link, item.checked);
+    Trees.checkAllSubTreeItems(tree, item.link, item.checked);
   };
 
-  // Select all objects
-  $scope.checkAllObjects = function(item) {
-    item.checked = !item.checked;
-    Trees.checkAllSubTreeItems('scene', item.link, item.checked);
-  };
 
   // Disable all files
-  $scope.disableCheckAll = function(item) {
+  $scope.isCheckEnabled = function(item) {
     if (item.items.length === 0) {
       item.checked = false;
       return true;
@@ -110,7 +97,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Remove objects
   $scope.removeObjects = function() {
     // Get checked objects
-    var objnames = getCheckedSubTreeItems('scene');
+    var objnames = getCheckedItems('scene');
 
     // Remove objects
     objnames.forEach(function(objname) {
@@ -130,7 +117,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Download files
   $scope.downloadFiles = function() {
     // Get selected filenames
-    var filenames = getCheckedSubTreeItems('files');
+    var filenames = getCheckedItems('files');
 
     // Define success callback
     function onsuccess(data, filename) {
@@ -147,7 +134,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Load files
   $scope.loadFiles = function() {
     // Get selected filenames
-    var filenames = getCheckedSubTreeItems('files');
+    var filenames = getCheckedItems('files');
 
     // Define success callback
     function onsuccess(res) {
@@ -164,7 +151,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Delete files
   $scope.deleteFiles = function() {
     // Get selected filenames
-    var filenames = getCheckedSubTreeItems('files');
+    var filenames = getCheckedItems('files');
 
     // Define success callback
     function onsuccess(filename) {
@@ -183,6 +170,12 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   /**
    * Modeling callbacks
    */
+  $scope.fitView = Scene.fitView;
+  $scope.topView = Scene.topView;
+  $scope.bottomView = Scene.bottomView;
+  $scope.leftView = Scene.leftView;
+  $scope.rightView = Scene.rightView;
+
   // Transform model
   $scope.transformModel = function() {
     $scope.guiTemplate = 'modules/core/views/transform-models.client.view.html';
@@ -269,7 +262,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    * GUI related
    */
   // Get checked subtree items
-  function getCheckedSubTreeItems(treeId) {
+  function getCheckedItems(treeId) {
     var items = Trees.getCheckedSubTreeItems(treeId);
     var names = [];
     items.forEach(function(item) {

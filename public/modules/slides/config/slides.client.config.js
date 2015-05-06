@@ -37,6 +37,7 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addToolItem('files', 'Delete Files', 'glyphicon-remove', null, 'deleteFiles', 'Delete files from server');
 
     // Set modeling tool items
+    Tools.addToolItem('modeling', 'Fit View', 'glyphicon-fullscreen', null, 'fitView', 'Fit view');
     Tools.addToolItem('modeling', 'Top View', 'glyphicon-hand-down', null, 'topView', 'View scene from top');
     Tools.addToolItem('modeling', 'Bottom View', 'glyphicon-hand-up', null, 'bottomView', 'View scene from bottom');
     Tools.addToolItem('modeling', 'Left View', 'glyphicon-hand-right', null, 'leftView', 'View scene from left');

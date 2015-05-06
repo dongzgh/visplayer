@@ -11,7 +11,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var BOX_SIZE = 1500;
     var GAP_SIZE = 100;
     var CAMERA_ANGLE = 45;
-    var CAMERA_POSITION = new $window.THREE.Vector3(1122.6119550523206, 832.1930544185049, 2077.2549403849953);
 
     // Material definitions
     var faceDefaultMaterial = new $window.THREE.MeshPhongMaterial({
@@ -125,7 +124,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       if (gd === null) return;
 
       // Count instances
-      var count = countModelInstances(gd.name) + 1;
+      var count = countModels(gd.name) + 1;
 
       // Create scene object
       var model = new $window.THREE.Object3D();
@@ -229,6 +228,51 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       });
     };
 
+    // Fit view
+    this.fitView = function () {
+      // Collect box points
+      var points = [];
+      points.push(new $window.THREE.Vector3(activeScene.box.min.x, activeScene.box.min.y, activeScene.box.min.z));
+      points.push(new $window.THREE.Vector3(activeScene.box.max.x, activeScene.box.min.y, activeScene.box.min.z));
+      points.push(new $window.THREE.Vector3(activeScene.box.max.x, activeScene.box.max.y, activeScene.box.min.z));
+      points.push(new $window.THREE.Vector3(activeScene.box.min.x, activeScene.box.max.y, activeScene.box.min.z));
+      points.push(new $window.THREE.Vector3(activeScene.box.min.x, activeScene.box.min.y, activeScene.box.max.z));
+      points.push(new $window.THREE.Vector3(activeScene.box.max.x, activeScene.box.min.y, activeScene.box.max.z));
+      points.push(new $window.THREE.Vector3(activeScene.box.max.x, activeScene.box.max.y, activeScene.box.max.z));
+      points.push(new $window.THREE.Vector3(activeScene.box.min.x, activeScene.box.max.y, activeScene.box.max.z));
+
+      // Evaluate direction
+      var v = new $window.THREE.Vector3();
+      v.copy(activeCamera.position).sub(activeScene.center).normalize();
+
+      // Evaluate projection radius
+      var radius = null;
+      points.forEach(function(point){
+        var v1 = new $window.THREE.Vector3();
+        v1.copy(point).sub(activeScene.center);
+        var l1 = v1.dot(v);
+        var v2 = new $window.THREE.Vector3();
+        v2.copy(v).multiplyScalar(l1);
+        var v3 = new $window.THREE.Vector3();
+        v3.copy(v1).sub(v2);
+        var l2 = v3.length();
+        if(radius === null || radius < l2) radius = l2;
+      });
+
+      // Evaluate distance
+      var d = radius / Math.atan(CAMERA_ANGLE / 2.0);
+      v.multiplyScalar(d);
+      var p = new $window.THREE.Vector3();
+      p.copy(activeScene.center).add(v);
+
+      // Set camera
+      activeCamera.position.copy(p);
+      activeCamera.lookAt(activeScene.center);
+      createPoint(activeCamera.position.x, activeCamera.position.y, activeCamera.position.z);
+      orbitor.target.copy(activeScene.center);
+      orbitor.update();
+    };
+
     // Top view
     this.topView = function() {
       updateSceneBox(activeScene);
@@ -308,7 +352,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
 
     // Highlight object
-    this.clear = function() {
+    this.clearScene = function() {
       highlightObject(activeScene, false);
       activeScene.remove(transformer);
       transformer = null;
@@ -371,20 +415,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Fit camera
     function fitView() {
-      // Evaluate box of models
-      var box = new $window.THREE.Box3();
-      activeScene.traverse(function(object) {
-        if (angular.isDefined(object.type) && object.type === 'model') {
-          var model = object;
-          box.union(model.box);
-        }
-      });
-
       // Evalute camera position
-      var center = new $window.THREE.Vector3();
-      center.copy(box.min).add(box.max).multiplyScalar(0.5);
+      updateSceneBox(activeScene);
       var v1 = new $window.THREE.Vector3();
-      var radius = v1.copy(box.max).sub(box.min).length();
+      var radius = v1.copy(activeScene.box.max).sub(activeScene.box.min).length();
       var v2 = new $window.THREE.Vector3();
       v2.x = 1.0;
       v2.y = 1.0;
@@ -392,12 +426,12 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       v2.normalize();
       v2.multiplyScalar(radius * 2.0);
       var p = new $window.THREE.Vector3();
-      p.copy(center).add(v2);
+      p.copy(activeScene.center).add(v2);
       activeCamera.position.copy(p);
 
       // Update camera target
-      activeCamera.lookAt(center);
-      orbitor.target.copy(center);
+      activeCamera.lookAt(activeScene.center);
+      orbitor.target.copy(activeScene.center);
       orbitor.update();
     }
 
@@ -449,7 +483,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     }
 
     // Count object instances
-    function countModelInstances(name) {
+    function countModels(name) {
       // Check input data
       if (name === null) return 0;
 
@@ -594,6 +628,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var cube = new $window.THREE.Mesh(geometry, material);
       cube.position.copy(model.center);
       activeScene.add(cube);
+    }
+
+    // Crate camera helper
+    function createCameraHelper(position, target) {
     }
   }
 ]);
