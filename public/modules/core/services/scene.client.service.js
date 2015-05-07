@@ -14,19 +14,19 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var TYPE_MODEL = 'model';
     var TYPE_FACE = 'face';
     var TYPE_EDGE = 'edge';
-    var DEF_EMISSIVE = 0x000000;
-    var DEF_SPECULAR = 0xffffff;
-    var DEF_COL_FACE = 0xcecece;
-    var DEF_COL_EDGE = 0x333333;
+    var EMISSIVE = 0x000000;
+    var SPECULAR = 0xffffff;
+    var COL_FACE = 0xcecece;
+    var COL_EDGE = 0x333333;
     var COL_PICKED = 0xe8373e;
 
     // Material definitions
     var faceDefaultMaterial = new $window.THREE.MeshPhongMaterial({
-      color: DEF_COL_FACE,
-      specular: DEF_SPECULAR,
+      color: COL_FACE,
+      specular: SPECULAR,
       metal: true,
       shininess: 25,
-      emissive: DEF_EMISSIVE,
+      emissive: EMISSIVE,
       side: $window.THREE.DoubleSide
     });
     var faceAnalysisMaterial = new $window.THREE.MeshNormalMaterial({
@@ -52,7 +52,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       side: $window.THREE.DoubleSide
     });
     var edgeDefaultMaterial = new $window.THREE.LineBasicMaterial({
-      color: DEF_COL_EDGE,
+      color: COL_EDGE,
     });
 
     // Scene definitions
@@ -569,13 +569,13 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           if (enable) {
             object.material.emissive.setHex(COL_PICKED);
           } else {
-            object.material.emissive.setHex(0x000000);
+            object.material.emissive.setHex(EMISSIVE);
           }
         } else if(object.material instanceof $window.THREE.LineBasicMaterial) {
           if(enable) {
             object.material.color.setHex(COL_PICKED);
           } else {
-            object.material.color.setHex(0x333333);
+            object.material.color.setHex(COL_EDGE);
           }
         }
       }
