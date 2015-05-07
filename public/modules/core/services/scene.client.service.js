@@ -206,7 +206,13 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeScene.add(model);
 
       // Fit view.
-      fitView();
+      updateSceneBox(activeScene);
+      var v = new $window.THREE.Vector3(1, 0.5, 1);
+      v.normalize();
+      var p = new $window.THREE.Vector3();
+      p.copy(activeScene.center);
+      p.add(v);
+      this.fitView(p);
 
       // Post-processing
       if (onsuccess) onsuccess(model);
@@ -229,7 +235,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
 
     // Fit view
-    this.fitView = function () {
+    this.fitView = function (position) {
+      // Update scene box
+      updateSceneBox(activeScene);
+
       // Collect box points
       var points = [];
       points.push(new $window.THREE.Vector3(activeScene.box.min.x, activeScene.box.min.y, activeScene.box.min.z));
@@ -243,6 +252,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
       // Evaluate direction
       var v = new $window.THREE.Vector3();
+      if(angular.isDefined(position))
+        activeCamera.position.copy(position);
       v.copy(activeCamera.position).sub(activeScene.center).normalize();
 
       // Evaluate projection radius
@@ -260,7 +271,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       });
 
       // Evaluate distance
-      var d = radius / Math.atan(CAMERA_ANGLE / 2.0);
+      var d = radius / Math.tan(toRadian(CAMERA_ANGLE / 2.0));
       v.multiplyScalar(d);
       var p = new $window.THREE.Vector3();
       p.copy(activeScene.center).add(v);
@@ -268,7 +279,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Set camera
       activeCamera.position.copy(p);
       activeCamera.lookAt(activeScene.center);
-      createPoint(activeCamera.position.x, activeCamera.position.y, activeCamera.position.z);
       orbitor.target.copy(activeScene.center);
       orbitor.update();
     };
@@ -280,7 +290,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
       var d = Math.max(dz, dx) / 2.0;
       var x = activeScene.center.x;
-      var y = activeScene.box.max.y + d * Math.atan(CAMERA_ANGLE / 2.0);
+      var y = activeScene.box.max.y + d / Math.tan(toRadian(CAMERA_ANGLE / 2.0));
       var z = activeScene.center.z;
       activeCamera.position.set(x, y, z);
       activeCamera.lookAt(activeScene.center);
@@ -293,7 +303,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
       var d = Math.max(dz, dx) / 2.0;
       var x = activeScene.center.x;
-      var y = activeScene.box.min.y - d * Math.atan(CAMERA_ANGLE / 2.0);
+      var y = activeScene.box.min.y - d / Math.tan(toRadian(CAMERA_ANGLE / 2.0));
       var z = activeScene.center.z;
       activeCamera.position.set(x, y, z);
       activeCamera.lookAt(activeScene.center);
@@ -305,7 +315,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var dz = Math.abs(activeScene.box.max.z - activeScene.box.min.z);
       var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
       var d = Math.max(dz, dx) / 2.0;
-      var x = activeScene.box.min.x - d * Math.atan(CAMERA_ANGLE / 2.0);
+      var x = activeScene.box.min.x - d / Math.tan(toRadian(CAMERA_ANGLE / 2.0));
       var y = activeScene.center.y;
       var z = activeScene.center.z;
       activeCamera.position.set(x, y, z);
@@ -318,7 +328,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var dz = Math.abs(activeScene.box.max.z - activeScene.box.min.z);
       var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
       var d = Math.max(dz, dx) / 2.0;
-      var x = activeScene.box.max.x + d * Math.atan(CAMERA_ANGLE / 2.0);
+      var x = activeScene.box.max.x + d / Math.tan(toRadian(CAMERA_ANGLE / 2.0));
       var y = activeScene.center.y;
       var z = activeScene.center.z;
       activeCamera.position.set(x, y, z);
@@ -384,6 +394,19 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     //  Utilities
     //---------------------------------------------------
     /**
+     * Math
+     */
+    // Convert degree to radian
+    function toRadian (degree) {
+      return degree / 180 * Math.PI;
+    }
+
+    // Convert radian to degree
+    function toDegree (radian) {
+      return radian / Math.PI * 180;
+    }
+
+    /**
      * Scene management
      */
     // Create renderer
@@ -411,28 +434,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       camera.target = new $window.THREE.Vector3();
       cameras.push(camera);
       activeCamera = camera;
-    }
-
-    // Fit camera
-    function fitView() {
-      // Evalute camera position
-      updateSceneBox(activeScene);
-      var v1 = new $window.THREE.Vector3();
-      var radius = v1.copy(activeScene.box.max).sub(activeScene.box.min).length();
-      var v2 = new $window.THREE.Vector3();
-      v2.x = 1.0;
-      v2.y = 1.0;
-      v2.z = 1.0;
-      v2.normalize();
-      v2.multiplyScalar(radius * 2.0);
-      var p = new $window.THREE.Vector3();
-      p.copy(activeScene.center).add(v2);
-      activeCamera.position.copy(p);
-
-      // Update camera target
-      activeCamera.lookAt(activeScene.center);
-      orbitor.target.copy(activeScene.center);
-      orbitor.update();
     }
 
     // Create scene
@@ -606,7 +607,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     //---------------------------------------------------
     // Create a point
     function createPoint(x, y, z) {
-      var geometry = new $window.THREE.SphereGeometry(1, 32, 32);
+      var geometry = new $window.THREE.SphereGeometry(0.1, 32, 32);
       var material = new $window.THREE.MeshBasicMaterial({
         color: 0xffff00
       });
