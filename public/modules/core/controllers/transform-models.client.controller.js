@@ -50,9 +50,12 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
     //---------------------------------------------------
     //  Listeners
     //------------------------------------------------
-    $scope.$on('scene.picked', function (event, object) {
+    $scope.$on('scene.picked', function (event, objects) {
+      // Check input data
+      if(objects.length === 0) return;
+
       // Save picked
-      $scope.picked = object;
+      $scope.picked = objects[0];
 
       // Attach transformer
       Scene.attachTransformer($scope.picked, $scope.mode);

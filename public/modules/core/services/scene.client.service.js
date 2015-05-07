@@ -69,7 +69,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var raycaster = null;
     var isPickingEnabled = false;
     var pickType = null;
-    var picked = null;
+    var picked = [];
     var transformer = null;
     var mouse = new $window.THREE.Vector2();
 
@@ -366,7 +366,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     this.enablePicking = function(enable, type) {
       isPickingEnabled = enable;
       if (isPickingEnabled) {
-        picked = null;
+        picked = [];
         if (angular.isDefined(type))
           pickType = type;
       } else {
@@ -602,17 +602,18 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         }
 
         // Update picked
-        if (picked !== null) {
-          lightObject(picked, false);
-          if (picked === candidate) {
-            picked = null;
+        if (picked.length !== 0) {
+          var index = picked.indexOf(candidate);
+          if(index !== -1) {
+            picked.splice(index, 1);
+            lightObject(candidate, false);
           } else {
-            picked = candidate;
-            lightObject(picked, true);
+            picked.push(candidate);
+            lightObject(candidate, true);
           }
         } else {
-          picked = candidate;
-          lightObject(picked, true);
+          picked.push(candidate);
+          lightObject(candidate, true);
         }
       }
 
