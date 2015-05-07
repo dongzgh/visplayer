@@ -11,14 +11,22 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var BOX_SIZE = 1500;
     var GAP_SIZE = 100;
     var CAMERA_ANGLE = 45;
+    var TYPE_MODEL = 'model';
+    var TYPE_FACE = 'face';
+    var TYPE_EDGE = 'edge';
+    var DEF_EMISSIVE = 0x000000;
+    var DEF_SPECULAR = 0xffffff;
+    var DEF_COL_FACE = 0xcecece;
+    var DEF_COL_EDGE = 0x333333;
+    var COL_PICKED = 0xe8373e;
 
     // Material definitions
     var faceDefaultMaterial = new $window.THREE.MeshPhongMaterial({
-      color: 0xcecece,
-      specular: 0xffffff,
+      color: DEF_COL_FACE,
+      specular: DEF_SPECULAR,
       metal: true,
       shininess: 25,
-      emissive: 0x000000,
+      emissive: DEF_EMISSIVE,
       side: $window.THREE.DoubleSide
     });
     var faceAnalysisMaterial = new $window.THREE.MeshNormalMaterial({
@@ -44,10 +52,11 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       side: $window.THREE.DoubleSide
     });
     var edgeDefaultMaterial = new $window.THREE.LineBasicMaterial({
-      color: 0x333333,
+      color: DEF_COL_EDGE,
     });
 
     // Scene definitions
+    var scope = this;
     var container = null;
     var renderer = null;
     var canvas = null;
@@ -61,7 +70,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var isPickingEnabled = false;
     var pickType = null;
     var picked = null;
-    var pickedColor = 0xe8373e;
     var transformer = null;
     var mouse = new $window.THREE.Vector2();
 
@@ -73,6 +81,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     //---------------------------------------------------
     //  Callbacks
     //---------------------------------------------------
+    /**
+     * Scene
+     */
     // Initialize scene
     this.initialize = function() {
       // Check webgl
@@ -113,7 +124,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     this.queryModels = function(onsuccess) {
       var modelnames = [];
       activeScene.traverse(function(object) {
-        if (object.type === 'model') modelnames.push(object.name);
+        if (object.type === TYPE_MODEL) modelnames.push(object.name);
       });
       if (onsuccess) onsuccess(modelnames);
     };
@@ -130,20 +141,21 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var model = new $window.THREE.Object3D();
       model.name = gd.name;
       model.displayName = model.name + ' #' + count;
-      model.type = 'model';
+      model.type = TYPE_MODEL;
       model.box = new $window.THREE.Box3();
       var faces = new $window.THREE.Object3D();
       model.add(faces);
       var edges = new $window.THREE.Object3D();
       model.add(edges);
+      var geometry;
 
       // Create faces
       for (i = 0; i < gd.faces.length; i++) {
         // Create geometry
-        var faceGeometry = new $window.THREE.Geometry();
+        geometry = new $window.THREE.Geometry();
         var fd = gd.faces[i].tessellation.facets[0];
         for (j = 0; j < fd.vertexCount; j++) {
-          faceGeometry.vertices.push(
+          geometry.vertices.push(
             new $window.THREE.Vector3(
               fd.vertexCoordinates[j * 3],
               fd.vertexCoordinates[j * 3 + 1],
@@ -151,7 +163,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
             ));
         }
         for (j = 0; j < fd.facetCount; j++) {
-          faceGeometry.faces.push(
+          geometry.faces.push(
             new $window.THREE.Face3(
               fd.vertexIndices[j * 3] - 1,
               fd.vertexIndices[j * 3 + 1] - 1,
@@ -159,27 +171,28 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
             ));
         }
 
-        // Evaluate faceGeometry addtional gd
-        faceGeometry.key = gd.faces[i].id;
-        faceGeometry.computeFaceNormals();
-        faceGeometry.computeVertexNormals();
-        faceGeometry.computeBoundingBox();
-        model.box.union(faceGeometry.boundingBox);
+        // Evaluate geometry addtional gd
+        geometry.key = gd.faces[i].id;
+        geometry.computeFaceNormals();
+        geometry.computeVertexNormals();
+        geometry.computeBoundingBox();
+        model.box.union(geometry.boundingBox);
 
         // Create mesh
-        var faceMesh = new $window.THREE.Mesh(faceGeometry, faceDefaultMaterial.clone());
+        var face = new $window.THREE.Mesh(geometry, faceDefaultMaterial.clone());
+        face.type = TYPE_FACE;
 
         // Add to parent
-        faces.add(faceMesh);
+        faces.add(face);
       }
 
       // Create gd.edges
       for (i = 0; i < gd.edges.length; i++) {
         // Create geometry
-        var edgeGeometry = new $window.THREE.Geometry();
+        geometry = new $window.THREE.Geometry();
         var ed = gd.edges[i].tessellation;
         for (j = 0; j < ed.vertexCount; j++) {
-          edgeGeometry.vertices.push(
+          geometry.vertices.push(
             new $window.THREE.Vector3(
               ed.points[j * 3],
               ed.points[j * 3 + 1],
@@ -188,14 +201,15 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         }
 
         // Compute geometry addtional gd
-        edgeGeometry.key = ed.id;
-        edgeGeometry.computeBoundingBox();
+        geometry.key = ed.id;
+        geometry.computeBoundingBox();
 
         // Create line
-        var edgeMesh = new $window.THREE.Line(edgeGeometry, edgeDefaultMaterial.clone());
+        var edge = new $window.THREE.Line(geometry, edgeDefaultMaterial.clone());
+        edge.type = TYPE_EDGE;
 
         // Add to parent
-        edges.add(edgeMesh);
+        edges.add(edge);
       }
 
       // Update model center
@@ -212,7 +226,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var p = new $window.THREE.Vector3();
       p.copy(activeScene.center);
       p.add(v);
-      this.fitView(p);
+      scope.fitView(p);
 
       // Post-processing
       if (onsuccess) onsuccess(model);
@@ -234,8 +248,18 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       });
     };
 
+    // Highlight object
+    this.clearScene = function() {
+      lightObject(activeScene, false);
+      activeScene.remove(transformer);
+      transformer = null;
+    };
+
+    /**
+     * View
+     */
     // Fit view
-    this.fitView = function (position) {
+    this.fitView = function(position) {
       // Update scene box
       updateSceneBox(activeScene);
 
@@ -252,13 +276,13 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
       // Evaluate direction
       var v = new $window.THREE.Vector3();
-      if(angular.isDefined(position))
+      if (angular.isDefined(position))
         activeCamera.position.copy(position);
       v.copy(activeCamera.position).sub(activeScene.center).normalize();
 
       // Evaluate projection radius
       var radius = null;
-      points.forEach(function(point){
+      points.forEach(function(point) {
         var v1 = new $window.THREE.Vector3();
         v1.copy(point).sub(activeScene.center);
         var l1 = v1.dot(v);
@@ -267,7 +291,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         var v3 = new $window.THREE.Vector3();
         v3.copy(v1).sub(v2);
         var l2 = v3.length();
-        if(radius === null || radius < l2) radius = l2;
+        if (radius === null || radius < l2) radius = l2;
       });
 
       // Evaluate distance
@@ -335,10 +359,62 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeCamera.lookAt(activeScene.center);
     };
 
+    /**
+     * Selection
+     */
+    // Enalbe picking
+    this.enablePicking = function(enable, type) {
+      isPickingEnabled = enable;
+      if (isPickingEnabled) {
+        picked = null;
+        if (angular.isDefined(type))
+          pickType = type;
+      } else {
+        lightObject(activeScene, false);
+      }
+    };
+
+    // Pick model
+    this.pickModel = function() {
+      if(isPickingEnabled) {
+        if(pickType === TYPE_MODEL)
+          isPickingEnabled = false;
+      } else {
+        isPickingEnabled = true;
+      }
+      scope.enablePicking(isPickingEnabled, TYPE_MODEL);
+    };
+
+    // Pick face
+    this.pickFace = function() {
+      if(isPickingEnabled) {
+        if(pickType === TYPE_FACE)
+          isPickingEnabled = false;
+      } else {
+        isPickingEnabled = true;
+      }
+      scope.enablePicking(isPickingEnabled, TYPE_FACE);
+    };
+
+    // Pick edge
+    this.pickEdge = function() {
+      if(isPickingEnabled) {
+        if(pickType === TYPE_EDGE)
+          isPickingEnabled = false;
+      } else {
+        isPickingEnabled = true;
+      }
+      scope.enablePicking(isPickingEnabled, TYPE_EDGE);
+    };
+
+
+    /**
+     * Functionalities
+     */
     // Attach transformer
     this.attachTransformer = function(object, mode) {
       // Check input data
-      if (angular.isUndefined(object.type) || object.type !== 'model') return;
+      if (angular.isUndefined(object.type) || object.type !== TYPE_MODEL) return;
 
       // Create transformer
       if (transformer === null) {
@@ -348,24 +424,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       transformer.attach(object);
       transformer.setMode(mode);
       transformer.addEventListener('change', render);
-    };
-
-    // Enalbe picking
-    this.enablePicking = function(enable, type) {
-      isPickingEnabled = enable;
-      if (isPickingEnabled) {
-        picked = null;
-        if (angular.isDefined(type)) pickType = type;
-      } else {
-        highlightObject(activeScene, false);
-      }
-    };
-
-    // Highlight object
-    this.clearScene = function() {
-      highlightObject(activeScene, false);
-      activeScene.remove(transformer);
-      transformer = null;
     };
 
     //---------------------------------------------------
@@ -397,18 +455,43 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      * Math
      */
     // Convert degree to radian
-    function toRadian (degree) {
+    function toRadian(degree) {
       return degree / 180 * Math.PI;
     }
 
     // Convert radian to degree
-    function toDegree (radian) {
+    function toDegree(radian) {
       return radian / Math.PI * 180;
     }
 
     /**
-     * Scene management
+     * Scene
      */
+    // Create scene
+    function createScene() {
+      var scene = new $window.THREE.Scene();
+      scenes.push(scene);
+      activeScene = scene;
+    }
+
+    // Evaluate scene center
+    function updateSceneBox(scene) {
+      // Check input data
+      if (!(scene instanceof $window.THREE.Scene)) return;
+
+      // Update box
+      scene.box = new $window.THREE.Box3();
+      scene.traverse(function(object) {
+        if (angular.isDefined(object.type) && object.type === TYPE_MODEL) {
+          scene.box.union(object.box);
+        }
+      });
+
+      // Update center
+      scene.center = new $window.THREE.Vector3();
+      scene.center.copy(scene.box.min).add(scene.box.max).multiplyScalar(0.5);
+    }
+
     // Create renderer
     function createRenderer() {
       container = $document[0].getElementById('canvas');
@@ -435,32 +518,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       cameras.push(camera);
       activeCamera = camera;
     }
-
-    // Create scene
-    function createScene() {
-      var scene = new $window.THREE.Scene();
-      scenes.push(scene);
-      activeScene = scene;
-    }
-
-    // Evaluate scene center
-    function updateSceneBox(scene) {
-      // Check input data
-      if (!(scene instanceof $window.THREE.Scene)) return;
-
-      // Update box
-      scene.box = new $window.THREE.Box3();
-      scene.traverse(function(object) {
-        if (angular.isDefined(object.type) && object.type === 'model') {
-          scene.box.union(object.box);
-        }
-      });
-
-      // Update center
-      scene.center = new $window.THREE.Vector3();
-      scene.center.copy(scene.box.min).add(scene.box.max).multiplyScalar(0.5);
-    }
-
 
     // Create helpers
     function createHelpers() {
@@ -491,7 +548,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Count object instances
       var count = 0;
       activeScene.traverse(function(object) {
-        if (object.type === 'model') {
+        if (object.type === TYPE_MODEL) {
           if (object.name === name) count++;
         }
       });
@@ -501,6 +558,29 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     /**
      * Selection
      */
+    // Set highlight
+    function lightObject(object, enable) {
+      if (angular.isUndefined(object.material) && angular.isDefined(object.children)) {
+        object.children.forEach(function(child) {
+          lightObject(child, enable);
+        });
+      } else {
+        if(object.material instanceof $window.THREE.MeshPhongMaterial) {
+          if (enable) {
+            object.material.emissive.setHex(COL_PICKED);
+          } else {
+            object.material.emissive.setHex(0x000000);
+          }
+        } else if(object.material instanceof $window.THREE.LineBasicMaterial) {
+          if(enable) {
+            object.material.color.setHex(COL_PICKED);
+          } else {
+            object.material.color.setHex(0x333333);
+          }
+        }
+      }
+    }
+
     // Pick object
     function pickObject() {
       raycaster.setFromCamera(mouse, activeCamera);
@@ -510,23 +590,29 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         var candidate = null;
         if (pickType === null) {
           return;
-        } else if (pickType === 'model') {
+        } else if (pickType === TYPE_MODEL) {
           candidate = getPickedModel(intersects);
+          if (candidate === null) return;
+        } else if (pickType === TYPE_FACE) {
+          candidate = getPickedFace(intersects);
+          if (candidate === null) return;
+        } else if (pickType === TYPE_EDGE) {
+          candidate = getPickedEdge(intersects);
           if (candidate === null) return;
         }
 
         // Update picked
         if (picked !== null) {
-          highlightObject(picked, false);
+          lightObject(picked, false);
           if (picked === candidate) {
             picked = null;
           } else {
             picked = candidate;
-            highlightObject(picked, true);
+            lightObject(picked, true);
           }
         } else {
           picked = candidate;
-          highlightObject(picked, true);
+          lightObject(picked, true);
         }
       }
 
@@ -535,41 +621,60 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         $rootScope.$broadcast('scene.picked', picked);
     }
 
-    // Set highlight
-    function highlightObject(object, enable) {
-      if (angular.isUndefined(object.material) && angular.isDefined(object.children)) {
-        object.children.forEach(function(child) {
-          highlightObject(child, enable);
-        });
-      } else {
-        if (angular.isUndefined(object.material.emissive))
-          object.material.emissive = new $window.THREE.Color(0x000000);
-        if (enable) {
-          object.material.emissive.setHex(pickedColor);
-        } else {
-          object.material.emissive.setHex(0x000000);
-        }
-      }
-    }
-
-    // Check model
+    // Get picked model
     function getPickedModel(intersects) {
       // Check input data
       if (intersects.length === 0) return;
 
       // Find candidate
-      var candidate = null;
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Mesh) {
-          candidate = intersects[i].object.parent.parent;
-          if (angular.isDefined(candidate.type) && candidate.type === 'model') break;
-          candidate = null;
+          var candidate = intersects[i].object.parent.parent;
+          if (angular.isDefined(candidate.type) && candidate.type === TYPE_MODEL)
+            return candidate;
         }
       }
 
       // Return picked
-      return candidate;
+      return null;
     }
+
+    // Get picked face
+    function getPickedFace(intersects) {
+      // Check input data
+      if (intersects.length === 0) return;
+
+      // Find candidate
+      for (i = 0; i < intersects.length; i++) {
+        if (intersects[i].object instanceof $window.THREE.Mesh) {
+          var candidate = intersects[i].object;
+          if (angular.isDefined(candidate.type) && candidate.type === TYPE_FACE)
+            return candidate;
+        }
+      }
+
+      // Return picked
+      return null;
+    }
+
+    // Get picked edge
+    function getPickedEdge(intersects) {
+      // Check input data
+      if (intersects.length === 0) return;
+
+      // Find candidate
+      for (i = 0; i < intersects.length; i++) {
+        if (intersects[i].object instanceof $window.THREE.Line) {
+          var candidate = intersects[i].object;
+          if (angular.isDefined(candidate.type) && candidate.type === TYPE_EDGE)
+            return candidate;
+        }
+      }
+
+      // Return picked
+      return null;
+    }
+
 
 
     /**
@@ -629,10 +734,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var cube = new $window.THREE.Mesh(geometry, material);
       cube.position.copy(model.center);
       activeScene.add(cube);
-    }
-
-    // Crate camera helper
-    function createCameraHelper(position, target) {
     }
   }
 ]);

@@ -42,6 +42,9 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addToolItem('modeling', 'Bottom View', 'glyphicon-hand-up', null, 'bottomView', 'View scene from bottom');
     Tools.addToolItem('modeling', 'Left View', 'glyphicon-hand-right', null, 'leftView', 'View scene from left');
     Tools.addToolItem('modeling', 'Right View', 'glyphicon-hand-left', null, 'rightView', 'View scene from right');
+    Tools.addToolItem('modeling', 'Pick Model', 'glyphicon-screenshot', null, 'pickModel', 'Pick a model from scene');
+    Tools.addToolItem('modeling', 'Pick Face', 'glyphicon-screenshot', null, 'pickFace', 'Pick a face from scene');
+    Tools.addToolItem('modeling', 'Pick Edge', 'glyphicon-screenshot', null, 'pickEdge', 'Pick an edge from scene');
     Tools.addToolItem('modeling', 'Transform Model', 'glyphicon-random', null, 'transformModel', 'Transform model');
 
     // Set marterials tool items

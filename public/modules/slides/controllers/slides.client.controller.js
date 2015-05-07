@@ -170,11 +170,17 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   /**
    * Modeling callbacks
    */
+  // View callbacks
   $scope.fitView = Scene.fitView;
   $scope.topView = Scene.topView;
   $scope.bottomView = Scene.bottomView;
   $scope.leftView = Scene.leftView;
   $scope.rightView = Scene.rightView;
+
+  // Picking callbacks
+  $scope.pickModel = Scene.pickModel;
+  $scope.pickFace = Scene.pickFace;
+  $scope.pickEdge = Scene.pickEdge;
 
   // Transform model
   $scope.transformModel = function() {
