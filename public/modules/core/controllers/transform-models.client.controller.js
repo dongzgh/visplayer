@@ -15,7 +15,7 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
     $scope.enablePicking = function() {
       $scope.isPickingEnabled = !$scope.isPickingEnabled;
       if($scope.isPickingEnabled) {
-        Scene.enablePicking(true, 'model', 'single');
+        Scene.enablePicking(true, Scene.TYPE_MODEL, Scene.PICK_SINGLE);
       } else {
         Scene.enablePicking(false);
       }
