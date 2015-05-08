@@ -19,6 +19,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var COL_FACE = 0xcecece;
     var COL_EDGE = 0x333333;
     var COL_PICKED = 0xe8373e;
+    var PICK_MULTIP = 'multiple';
+    var PICK_SINGLE = 'single';
 
     // Material definitions
     var faceDefaultMaterial = new $window.THREE.MeshPhongMaterial({
@@ -70,6 +72,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var isPickingEnabled = false;
     var pickType = null;
     var picked = [];
+    var pickMode = PICK_MULTIP;
     var transformer = null;
     var mouse = new $window.THREE.Vector2();
 
@@ -363,12 +366,14 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      * Selection
      */
     // Enalbe picking
-    this.enablePicking = function(enable, type) {
+    this.enablePicking = function(enable, type, mode) {
       isPickingEnabled = enable;
       if (isPickingEnabled) {
         picked = [];
         if (angular.isDefined(type))
           pickType = type;
+        if (angular.isDefined(mode))
+          pickMode = mode;
       } else {
         lightObject(activeScene, false);
       }
@@ -376,35 +381,35 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Pick model
     this.pickModel = function() {
-      if(isPickingEnabled) {
-        if(pickType === TYPE_MODEL)
+      if (isPickingEnabled) {
+        if (pickType === TYPE_MODEL)
           isPickingEnabled = false;
       } else {
         isPickingEnabled = true;
       }
-      scope.enablePicking(isPickingEnabled, TYPE_MODEL);
+      scope.enablePicking(isPickingEnabled, TYPE_MODEL, PICK_MULTIP);
     };
 
     // Pick face
     this.pickFace = function() {
-      if(isPickingEnabled) {
-        if(pickType === TYPE_FACE)
+      if (isPickingEnabled) {
+        if (pickType === TYPE_FACE)
           isPickingEnabled = false;
       } else {
         isPickingEnabled = true;
       }
-      scope.enablePicking(isPickingEnabled, TYPE_FACE);
+      scope.enablePicking(isPickingEnabled, TYPE_FACE, PICK_MULTIP);
     };
 
     // Pick edge
     this.pickEdge = function() {
-      if(isPickingEnabled) {
-        if(pickType === TYPE_EDGE)
+      if (isPickingEnabled) {
+        if (pickType === TYPE_EDGE)
           isPickingEnabled = false;
       } else {
         isPickingEnabled = true;
       }
-      scope.enablePicking(isPickingEnabled, TYPE_EDGE);
+      scope.enablePicking(isPickingEnabled, TYPE_EDGE, PICK_MULTIP);
     };
 
 
@@ -565,17 +570,23 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           lightObject(child, enable);
         });
       } else {
-        if(object.material instanceof $window.THREE.MeshPhongMaterial) {
+        if (object.material instanceof $window.THREE.MeshPhongMaterial) {
           if (enable) {
+            object.material.savedColor = new $window.THREE.Color();
+            object.material.savedColor.copy(object.material.emissive);
             object.material.emissive.setHex(COL_PICKED);
           } else {
-            object.material.emissive.setHex(EMISSIVE);
+            if (angular.isDefined(object.material.savedColor) && object.material.savedColor !== null)
+              object.material.emissive.setHex(object.material.savedColor);
           }
-        } else if(object.material instanceof $window.THREE.LineBasicMaterial) {
-          if(enable) {
+        } else if (object.material instanceof $window.THREE.LineBasicMaterial) {
+          if (enable) {
+            object.material.savedColor = new $window.THREE.Color();
+            object.material.savedColor.copy(object.material.color);
             object.material.color.setHex(COL_PICKED);
           } else {
-            object.material.color.setHex(COL_EDGE);
+            if (angular.isDefined(object.material.savedColor) && object.material.savedColor !== null)
+              object.material.color.copy(object.material.savedColor);
           }
         }
       }
@@ -586,7 +597,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       raycaster.setFromCamera(mouse, activeCamera);
       var intersects = raycaster.intersectObjects(activeScene.children, true);
       if (intersects.length > 0) {
-        // Check object type
+        // Check candidate type
         var candidate = null;
         if (pickType === null) {
           return;
@@ -602,16 +613,18 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         }
 
         // Update picked
-        if (picked.length !== 0) {
+        if (picked.length !== 0 &&
+          picked.indexOf(candidate) !== -1) {
           var index = picked.indexOf(candidate);
-          if(index !== -1) {
-            picked.splice(index, 1);
-            lightObject(candidate, false);
-          } else {
-            picked.push(candidate);
-            lightObject(candidate, true);
-          }
+          picked.splice(index, 1);
+          lightObject(candidate, false);
         } else {
+          if (pickMode === PICK_SINGLE) {
+            picked.forEach(function(object) {
+              lightObject(object, false);
+            });
+            picked = [];
+          }
           picked.push(candidate);
           lightObject(candidate, true);
         }
