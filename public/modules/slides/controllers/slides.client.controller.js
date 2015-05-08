@@ -178,6 +178,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.rightView = Scene.rightView;
 
   // Picking callbacks
+  $scope.clearView = Scene.clearView;
   $scope.pickModel = Scene.pickModel;
   $scope.pickFace = Scene.pickFace;
   $scope.pickEdge = Scene.pickEdge;

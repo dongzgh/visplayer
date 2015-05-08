@@ -31,7 +31,7 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
     $scope.onOK = function () {
       // Disable picking
       Scene.enablePicking(false);
-      Scene.clearScene();
+      Scene.clearView();
 
       // Broadcast
       $rootScope.$broadcast('gui-dialog.close');
@@ -41,7 +41,7 @@ angular.module('core').controller('TransformModelsController', ['$rootScope', '$
     $scope.onCancel = function() {
       // Disable picking
       Scene.enablePicking(false);
-      Scene.clearScene();
+      Scene.clearView();
 
       // Broadcast
       $rootScope.$broadcast('gui-dialog.close');

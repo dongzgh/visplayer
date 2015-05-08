@@ -254,7 +254,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
 
     // Highlight object
-    this.clearScene = function() {
+    this.clearView = function() {
+      isPickingEnabled = false;
       lightObject(activeScene, false);
       activeScene.remove(transformer);
       transformer = null;
