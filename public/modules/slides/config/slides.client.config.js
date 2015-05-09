@@ -9,6 +9,7 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
 
     // Adding tools
     Tools.addTool('sidebar');
+    Tools.addTool('static');
     Tools.addTool('views');
     Tools.addTool('scene');
     Tools.addTool('files');
@@ -24,6 +25,17 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'slides/create/materials', null, 'List of materials');
     Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'slides/create/markups', null, 'List of markups');
 
+    // Set static tool items
+    Tools.addToolItem('static', 'Fit View', 'glyphicon-fullscreen', null, 'fitView', 'Fit view');
+    Tools.addToolItem('static', 'Top View', 'glyphicon-hand-down', null, 'topView', 'View scene from top');
+    Tools.addToolItem('static', 'Bottom View', 'glyphicon-hand-up', null, 'bottomView', 'View scene from bottom');
+    Tools.addToolItem('static', 'Left View', 'glyphicon-hand-right', null, 'leftView', 'View scene from left');
+    Tools.addToolItem('static', 'Right View', 'glyphicon-hand-left', null, 'rightView', 'View scene from right');
+    Tools.addToolItem('static', 'Clear Scene', 'glyphicon-refresh', null, 'clearView', 'Clear view');
+    Tools.addToolItem('static', 'Pick Model', 'glyphicon-screenshot', null, 'pickModel', 'Pick a model from scene');
+    Tools.addToolItem('static', 'Pick Face', 'glyphicon-screenshot', null, 'pickFace', 'Pick a face from scene');
+    Tools.addToolItem('static', 'Pick Edge', 'glyphicon-screenshot', null, 'pickEdge', 'Pick an edge from scene');
+
     // Set views tool items
 
     // Set scene tool items
@@ -37,15 +49,6 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addToolItem('files', 'Delete Files', 'glyphicon-remove', null, 'deleteFiles', 'Delete files from server');
 
     // Set modeling tool items
-    Tools.addToolItem('modeling', 'Fit View', 'glyphicon-fullscreen', null, 'fitView', 'Fit view');
-    Tools.addToolItem('modeling', 'Top View', 'glyphicon-hand-down', null, 'topView', 'View scene from top');
-    Tools.addToolItem('modeling', 'Bottom View', 'glyphicon-hand-up', null, 'bottomView', 'View scene from bottom');
-    Tools.addToolItem('modeling', 'Left View', 'glyphicon-hand-right', null, 'leftView', 'View scene from left');
-    Tools.addToolItem('modeling', 'Right View', 'glyphicon-hand-left', null, 'rightView', 'View scene from right');
-    Tools.addToolItem('modeling', 'Clear Scene', 'glyphicon-refresh', null, 'clearView', 'Clear view');
-    Tools.addToolItem('modeling', 'Pick Model', 'glyphicon-screenshot', null, 'pickModel', 'Pick a model from scene');
-    Tools.addToolItem('modeling', 'Pick Face', 'glyphicon-screenshot', null, 'pickFace', 'Pick a face from scene');
-    Tools.addToolItem('modeling', 'Pick Edge', 'glyphicon-screenshot', null, 'pickEdge', 'Pick an edge from scene');
     Tools.addToolItem('modeling', 'Transform Model', 'glyphicon-random', null, 'transformModel', 'Transform model');
 
     // Set marterials tool items
@@ -58,13 +61,10 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
 
     // Set file tree node items
     Trees.addTreeItem('files', 'Models', 'glyphicon-briefcase', 'models');
-    Trees.addTreeItem('files', 'Images', 'glyphicon-briefcase', 'images');
-    Trees.addTreeItem('files', 'Texts', 'glyphicon-briefcase', 'texts');
     Trees.addTreeItem('files', 'Others', 'glyphicon-briefcase', 'others');
 
     // Set scene tree node items
     Trees.addTreeItem('scene', 'Models', 'glyphicon-briefcase', 'models');
-    Trees.addTreeItem('scene', 'Lights', 'glyphicon-briefcase', 'lights');
     Trees.addTreeItem('scene', 'Markups', 'glyphicon-briefcase', 'markups');
   }
 ]);

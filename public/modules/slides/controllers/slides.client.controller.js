@@ -18,6 +18,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Find a list of tools
   $scope.sidebarTools = Tools.getTool('sidebar');
+  $scope.staticTools = Tools.getTool('static');
   $scope.viewTools = Tools.getTool('views');
   $scope.sceneTools = Tools.getTool('scene');
   $scope.fileTools = Tools.getTool('files');
@@ -285,10 +286,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   function getFileIcon(ext) {
     if (FileTypes.models.indexOf(ext) !== -1) {
       return 'glyphicon-knight';
-    } else if (FileTypes.images.indexOf(ext) !== -1) {
-      return 'glyphicon-picture';
-    } else if (FileTypes.texts.indexOf(ext) !== -1) {
-      return 'glyphicon-list-alt';
     } else {
       return 'glyphicon-file';
     }
@@ -300,10 +297,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     var icon = getFileIcon(ext);
     if (FileTypes.models.indexOf(ext) !== -1) {
       Trees.addSubTreeItem('files', 'models', filename, icon, filename);
-    } else if (FileTypes.images.indexOf(ext) !== -1) {
-      Trees.addSubTreeItem('files', 'images', filename, icon, filename);
-    } else if (FileTypes.texts.indexOf(ext) !== -1) {
-      Trees.addSubTreeItem('files', 'texts', filename, icon, filename);
     } else {
       Trees.addSubTreeItem('files', 'others', filename, icon, filename);
     }

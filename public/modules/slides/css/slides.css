@@ -1,8 +1,16 @@
 .btn-group-vertical {
   position: absolute;
   height: 100%;
-  background-color: #000000;
   z-index: 2;
+}
+.sidebar.btn-group-vertical {
+  left: 0;
+  background-color: #000000;
+}
+.staticbar.btn-group-vertical {
+  right: 5px;
+  width: 36px;
+  background-color: transparent;
 }
 .btn-group-vertical > .btn:first-child {
   margin-top: 42px
