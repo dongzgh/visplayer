@@ -86,6 +86,22 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   /**
+   * Static callbacks
+   */
+  // View callbacks
+  $scope.fitView = Scene.fitView;
+  $scope.topView = Scene.topView;
+  $scope.bottomView = Scene.bottomView;
+  $scope.leftView = Scene.leftView;
+  $scope.rightView = Scene.rightView;
+
+  // Picking callbacks
+  $scope.clearView = Scene.clearView;
+  $scope.pickModel = Scene.pickModel;
+  $scope.pickFace = Scene.pickFace;
+  $scope.pickEdge = Scene.pickEdge;
+
+  /**
    * Scene callbacks
    */
   // Take snapshot
@@ -171,18 +187,10 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   /**
    * Modeling callbacks
    */
-  // View callbacks
-  $scope.fitView = Scene.fitView;
-  $scope.topView = Scene.topView;
-  $scope.bottomView = Scene.bottomView;
-  $scope.leftView = Scene.leftView;
-  $scope.rightView = Scene.rightView;
-
-  // Picking callbacks
-  $scope.clearView = Scene.clearView;
-  $scope.pickModel = Scene.pickModel;
-  $scope.pickFace = Scene.pickFace;
-  $scope.pickEdge = Scene.pickEdge;
+  // Transform model
+  $scope.moveModel = Scene.moveModel;
+  $scope.rotateModel = Scene.rotateModel;
+  $scope.scaleModel = Scene.scaleModel;
 
   // Transform model
   $scope.transformModel = function() {

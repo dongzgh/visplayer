@@ -415,22 +415,54 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       scope.enablePicking(isPickingEnabled, scope.TYPE_EDGE, scope.PICK_MULTIP);
     };
 
-
     /**
-     * Functionalities
+     * Transformation
      */
-    // Attach transformer
-    this.attachTransformer = function(object, mode) {
+    // Move model
+    this.moveModel = function(object) {
       // Check input data
-      if (angular.isUndefined(object.type) || object.type !== scope.TYPE_MODEL) return;
+      if(picked.length === 0) return;
+      if(angular.isUndefined(picked[0].type) || picked[0].type !== scope.TYPE_MODEL) return;
 
-      // Create transformer
+      // Attach transformer
       if (transformer === null) {
         transformer = new $window.THREE.TransformControls(activeCamera, canvas);
         activeScene.add(transformer);
       }
-      transformer.attach(object);
-      transformer.setMode(mode);
+      transformer.attach(picked[0]);
+      transformer.setMode('translate');
+      transformer.addEventListener('change', render);
+    };
+
+    // Rotate model
+    this.rotateModel = function(object) {
+      // Check input data
+      if(picked.length === 0) return;
+      if(angular.isUndefined(picked[0].type) || picked[0].type !== scope.TYPE_MODEL) return;
+
+      // Attach transformer
+      if (transformer === null) {
+        transformer = new $window.THREE.TransformControls(activeCamera, canvas);
+        activeScene.add(transformer);
+      }
+      transformer.attach(picked[0]);
+      transformer.setMode('rotate');
+      transformer.addEventListener('change', render);
+    };
+
+    // Scale model
+    this.scaleModel = function(object) {
+      // Check input data
+      if(picked.length === 0) return;
+      if(angular.isUndefined(picked[0].type) || picked[0].type !== scope.TYPE_MODEL) return;
+
+      // Attach transformer
+      if (transformer === null) {
+        transformer = new $window.THREE.TransformControls(activeCamera, canvas);
+        activeScene.add(transformer);
+      }
+      transformer.attach(picked[0]);
+      transformer.setMode('scale');
       transformer.addEventListener('change', render);
     };
 

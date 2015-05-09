@@ -49,7 +49,9 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addToolItem('files', 'Delete Files', 'glyphicon-remove', null, 'deleteFiles', 'Delete files from server');
 
     // Set modeling tool items
-    Tools.addToolItem('modeling', 'Transform Model', 'glyphicon-random', null, 'transformModel', 'Transform model');
+    Tools.addToolItem('modeling', 'Move Model', 'glyphicon-move', null, 'moveModel', 'Move model');
+    Tools.addToolItem('modeling', 'Rotate Model', 'glyphicon-repeat', null, 'rotateModel', 'Rotate model');
+    Tools.addToolItem('modeling', 'Scale Model', 'glyphicon-resize-full', null, 'scaleModel', 'Scale model');
 
     // Set marterials tool items
 
