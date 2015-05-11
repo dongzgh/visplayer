@@ -11,6 +11,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var BOX_SIZE = 1500;
     var GAP_SIZE = 100;
     var CAMERA_ANGLE = 45;
+    var CAMERA_NEAR = 1;
+    var CAMERA_FAR = BOX_SIZE * 10;
     var EMISSIVE = 0x000000;
     var SPECULAR = 0xffffff;
     var COL_FACE = 0xcecece;
@@ -71,12 +73,15 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var eyeLight = null;
     var orbitor = null;
     var raycaster = null;
-    var isPickingEnabled = false;
+    var isClickPickEnabled = false;
+    var isWindowPickEnabled = false;
     var pickType = null;
     var picked = [];
     var pickMode = scope.PICK_MULTIP;
-    var transformer = null;
     var mouse = new $window.THREE.Vector2();
+    var wins = new $window.THREE.Vector2();
+    var wine = new $window.THREE.Vector2();
+    var transformer = null;
 
     // Transient variables
     var i = 0;
@@ -118,8 +123,11 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
       // Add listeners
       $window.addEventListener('resize', onWindowResize, false);
-      canvas.addEventListener('mousemove', onDocumentMouseMove, false);
-      canvas.addEventListener('mousedown', onDocumentMouseDown, false);
+      canvas.addEventListener('mousedown', onCanvasMouseDown, false);
+      canvas.addEventListener('mousemove', onCanvasMouseMove, false);
+      canvas.addEventListener('mouseup', onCanvasMouseUp, false);
+      $document[0].addEventListener('keydown', onCanvasKeyDown, false);
+      $document[0].addEventListener('keyup', onCanvasKeyUp, false);
 
       // Animate
       animate();
@@ -255,7 +263,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Highlight object
     this.clearView = function() {
-      isPickingEnabled = false;
+      isClickPickEnabled = false;
       lightObject(activeScene, false);
       activeScene.remove(transformer);
       transformer = null;
@@ -370,8 +378,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      */
     // Enalbe picking
     this.enablePicking = function(enable, type, mode) {
-      isPickingEnabled = enable;
-      if (isPickingEnabled) {
+      isClickPickEnabled = enable;
+      if (isClickPickEnabled) {
         picked = [];
         if (angular.isDefined(type))
           pickType = type;
@@ -384,35 +392,35 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Pick model
     this.pickModel = function() {
-      if (isPickingEnabled) {
+      if (isClickPickEnabled) {
         if (pickType === scope.TYPE_MODEL)
-          isPickingEnabled = false;
+          isClickPickEnabled = false;
       } else {
-        isPickingEnabled = true;
+        isClickPickEnabled = true;
       }
-      scope.enablePicking(isPickingEnabled, scope.TYPE_MODEL, scope.PICK_MULTIP);
+      scope.enablePicking(isClickPickEnabled, scope.TYPE_MODEL, scope.PICK_MULTIP);
     };
 
     // Pick face
     this.pickFace = function() {
-      if (isPickingEnabled) {
+      if (isClickPickEnabled) {
         if (pickType === scope.TYPE_FACE)
-          isPickingEnabled = false;
+          isClickPickEnabled = false;
       } else {
-        isPickingEnabled = true;
+        isClickPickEnabled = true;
       }
-      scope.enablePicking(isPickingEnabled, scope.TYPE_FACE, scope.PICK_MULTIP);
+      scope.enablePicking(isClickPickEnabled, scope.TYPE_FACE, scope.PICK_MULTIP);
     };
 
     // Pick edge
     this.pickEdge = function() {
-      if (isPickingEnabled) {
+      if (isClickPickEnabled) {
         if (pickType === scope.TYPE_EDGE)
-          isPickingEnabled = false;
+          isClickPickEnabled = false;
       } else {
-        isPickingEnabled = true;
+        isClickPickEnabled = true;
       }
-      scope.enablePicking(isPickingEnabled, scope.TYPE_EDGE, scope.PICK_MULTIP);
+      scope.enablePicking(isClickPickEnabled, scope.TYPE_EDGE, scope.PICK_MULTIP);
     };
 
     /**
@@ -421,8 +429,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Move model
     this.moveModel = function(object) {
       // Check input data
-      if(picked.length === 0) return;
-      if(angular.isUndefined(picked[0].type) || picked[0].type !== scope.TYPE_MODEL) return;
+      if (picked.length === 0) return;
+      if (angular.isUndefined(picked[0].type) || picked[0].type !== scope.TYPE_MODEL) return;
 
       // Attach transformer
       if (transformer === null) {
@@ -437,8 +445,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Rotate model
     this.rotateModel = function(object) {
       // Check input data
-      if(picked.length === 0) return;
-      if(angular.isUndefined(picked[0].type) || picked[0].type !== scope.TYPE_MODEL) return;
+      if (picked.length === 0) return;
+      if (angular.isUndefined(picked[0].type) || picked[0].type !== scope.TYPE_MODEL) return;
 
       // Attach transformer
       if (transformer === null) {
@@ -453,8 +461,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Scale model
     this.scaleModel = function(object) {
       // Check input data
-      if(picked.length === 0) return;
-      if(angular.isUndefined(picked[0].type) || picked[0].type !== scope.TYPE_MODEL) return;
+      if (picked.length === 0) return;
+      if (angular.isUndefined(picked[0].type) || picked[0].type !== scope.TYPE_MODEL) return;
 
       // Attach transformer
       if (transformer === null) {
@@ -476,16 +484,49 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       renderer.setSize($window.innerWidth, $window.innerHeight);
     }
 
+    // Mouse down
+    function onCanvasMouseDown(event) {
+      event.preventDefault();
+      wins.copy(mouse);
+      if (isClickPickEnabled) clickPickObjects();
+    }
+
     // Mouse move
-    function onDocumentMouseMove(event) {
+    function onCanvasMouseMove(event) {
       event.preventDefault();
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     }
 
-    // Mouse down
-    function onDocumentMouseDown(event) {
-      if (isPickingEnabled) pickObject();
+    // Mouse up
+    function onCanvasMouseUp(event) {
+      event.preventDefault();
+      wine.copy(mouse);
+      if (isWindowPickEnabled) windowPickObjects();
+    }
+
+    // Key down
+    function onCanvasKeyDown(event) {
+      event.preventDefault();
+
+      // Disable orbitor
+      if (!event.ctrlKey) return;
+      orbitor.enabled = false;
+
+      // Enable selection
+      isWindowPickEnabled = true;
+    }
+
+    // Key up
+    function onCanvasKeyUp(event) {
+      event.preventDefault();
+
+      // Enable orbitor
+      if (event.ctrlKey) return;
+      orbitor.enabled = true;
+
+      // Disable selection
+      isWindowPickEnabled = false;
     }
 
     //---------------------------------------------------
@@ -551,7 +592,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Create camera
     function createCamera() {
-      var camera = new $window.THREE.PerspectiveCamera(CAMERA_ANGLE, $window.innerWidth / $window.innerHeight, 1, BOX_SIZE * 10);
+      var camera = new $window.THREE.PerspectiveCamera(CAMERA_ANGLE, $window.innerWidth / $window.innerHeight, CAMERA_NEAR, CAMERA_FAR);
       camera.name = 'VIEW #' + cameras.length + 1;
       camera.position.set(BOX_SIZE * 2, BOX_SIZE, BOX_SIZE * 2);
       camera.target = new $window.THREE.Vector3();
@@ -627,8 +668,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       }
     }
 
-    // Pick object
-    function pickObject() {
+    // Click pick objects
+    function clickPickObjects() {
       raycaster.setFromCamera(mouse, activeCamera);
       var intersects = raycaster.intersectObjects(activeScene.children, true);
       if (intersects.length > 0) {
@@ -668,6 +709,29 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Broadcast
       if (picked !== null)
         $rootScope.$broadcast('scene.picked', picked);
+    }
+
+    // Window pick objects
+    function windowPickObjects() {
+      // Get ray direction
+      var p1 = new $window.THREE.Vector3(wins.x, wins.y, 0.5);
+      p1.unproject(activeCamera);
+      createPoint(p1);
+      var p2 = new $window.THREE.Vector3(wine.x, wins.y, 0.5);
+      p2.unproject(activeCamera);
+      createPoint(p2);
+       var p3 = new $window.THREE.Vector3(wine.x, wine.y, 0.5);
+      p3.unproject(activeCamera);
+      createPoint(p3);
+      var p4 = new $window.THREE.Vector3(wins.x, wine.y, 0.5);
+      p4.unproject(activeCamera);
+      createPoint(p4);
+
+      // activeScene.traverse(function(object) {
+      //   if(angular.isDefined(object.type) && object.type === pickType) {
+      //     object.boundingBox.isIntersectionBox();
+      //   }
+      // });
     }
 
     // Get picked model
