@@ -713,19 +713,25 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Window pick objects
     function windowPickObjects() {
-      // Get ray direction
-      var p1 = new $window.THREE.Vector3(wins.x, wins.y, 0.5);
-      p1.unproject(activeCamera);
-      createPoint(p1);
-      var p2 = new $window.THREE.Vector3(wine.x, wins.y, 0.5);
-      p2.unproject(activeCamera);
-      createPoint(p2);
-       var p3 = new $window.THREE.Vector3(wine.x, wine.y, 0.5);
-      p3.unproject(activeCamera);
-      createPoint(p3);
-      var p4 = new $window.THREE.Vector3(wins.x, wine.y, 0.5);
-      p4.unproject(activeCamera);
-      createPoint(p4);
+      // Get window points
+      var w1 = new $window.THREE.Vector3(wins.x, wins.y, 0);
+      w1.unproject(activeCamera);
+      var w2 = new $window.THREE.Vector3(wine.x, wins.y, 0);
+      w2.unproject(activeCamera);
+      var w3 = new $window.THREE.Vector3(wine.x, wine.y, 0);
+      w3.unproject(activeCamera);
+      var w4 = new $window.THREE.Vector3(wins.x, wine.y, 0);
+      w4.unproject(activeCamera);
+      var winc = new $window.THREE.Vector2(wins.x, wins.y);
+      winc.add(wine).multiplyScalar(0.5);
+
+      // Create plane
+      var p1 = new $window.THREE.Vector3();
+      p1.copy(w1).add(w2).multiplyScalar(0.5);
+      var v1 = new $window.THREE.Vector3(0, 1, 0);
+      v1.unproject(activeCamera);
+      var plane1 = new $window.THREE.Plane();
+      plane1.setFromNormalAndCoplanarPoint(p1, v1);
 
       // activeScene.traverse(function(object) {
       //   if(angular.isDefined(object.type) && object.type === pickType) {
