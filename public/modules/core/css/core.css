@@ -32,8 +32,7 @@ input[type="file"] {
 }
 .btn {
   border-radius: 0 !important;
-  border: none;
-  padding: 5.5px 11px;
+  /* border: none; */
 }
 .btn:hover,
 .btn:active,
@@ -181,6 +180,7 @@ nav[role=navigation] {
   border-radius: 0;
   padding-top: 0;
   padding-bottom: 0;
+  margin-top: 5px !important;
 }
 .dropdown-menu li {
   background-color: #ffffff;
@@ -201,7 +201,7 @@ nav[role=navigation] {
   padding-bottom: 2px !important;
   background-color: #ffffff !important;
   color: #333333 !important;
-  text-transform: capitalize;
+  text-transform: uppercase;
 }
 .dropdown-menu a:hover,
 .dropdown-menu a:active,

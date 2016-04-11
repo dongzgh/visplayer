@@ -4,8 +4,8 @@
 angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
   function(Menus, Tools, Trees, Dialogs) {
     // Set topbar menu items
-    Menus.addMenuItem('topbar', 'Slides', 'slides', 'dropdown');
-    Menus.addSubMenuItem('topbar', 'slides', 'New Project', 'slides/create');
+    Menus.addMenuItem('topbar', 'Applications', 'slides', 'dropdown');
+    Menus.addSubMenuItem('topbar', 'slides', 'visMarker', 'slides/create');
 
     // Adding tools
     Tools.addTool('sidebar');
@@ -18,7 +18,6 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addTool('markups');
 
     // Set sidebar tool items
-    Tools.addToolItem('sidebar', 'Views', 'glyphicon-blackboard', 'slides/create/views', null, 'List of views');
     Tools.addToolItem('sidebar', 'Scene', 'glyphicon-camera', 'slides/create/scene', null, 'List of scene objects');
     Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/create/files', null, 'List of files');
     Tools.addToolItem('sidebar', 'Modeling', 'glyphicon-wrench', 'slides/create/modeling', null, 'List of modeling tools');
@@ -35,8 +34,6 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addToolItem('static', 'Pick Model', 'glyphicon-screenshot', null, 'pickModel', 'Pick a model from scene');
     Tools.addToolItem('static', 'Pick Face', 'glyphicon-screenshot', null, 'pickFace', 'Pick a face from scene');
     Tools.addToolItem('static', 'Pick Edge', 'glyphicon-screenshot', null, 'pickEdge', 'Pick an edge from scene');
-
-    // Set views tool items
 
     // Set scene tool items
     Tools.addToolItem('scene', 'Take Snapshot', 'glyphicon-picture', null, 'takeSnapshot', 'Take a snapshot for the scene');
