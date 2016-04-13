@@ -60,11 +60,9 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
 
     // Set file tree node items
     Trees.addTreeItem('files', 'Models', 'glyphicon-briefcase', 'models');
-    Trees.addTreeItem('files', 'Others', 'glyphicon-briefcase', 'others');
 
     // Set scene tree node items
     Trees.addTreeItem('scene', 'Models', 'glyphicon-briefcase', 'models');
-    Trees.addTreeItem('scene', 'Markups', 'glyphicon-briefcase', 'markups');
   }
 ]);
 
