@@ -30,9 +30,11 @@ input[type="file"] {
   margin-top: -27px !important;
   margin-left: -10px !important;
 }
+input {
+  border-radius: 0 !important;
+}
 .btn {
   border-radius: 0 !important;
-  /* border: none; */
 }
 .btn:hover,
 .btn:active,

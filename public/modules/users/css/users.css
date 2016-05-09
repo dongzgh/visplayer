@@ -19,17 +19,18 @@
 }
 @media (min-width: 768px) {
   .well {
-    padding: 80px 30% !important;
+    padding: 80px 37.5% !important;
   }
 }
 .well {
-  height: 100%;
   margin-bottom: 0;
   color: #ffffff;
   background-color: rgb(0, 0, 0);
   background-color: rgba(255, 255, 255, 0);
   background-image: none;
   border: none;
+  border-color: transparent;
+  box-shadow: none;
   font-size: 16px !important;
   font-weight: normal;
 }
