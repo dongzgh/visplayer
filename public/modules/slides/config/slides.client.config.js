@@ -4,8 +4,8 @@
 angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
   function(Menus, Tools, Trees, Dialogs) {
     // Set topbar menu items
-    Menus.addMenuItem('topbar', 'Applications', 'slides', 'dropdown');
-    Menus.addSubMenuItem('topbar', 'slides', 'visMarker', 'slides/create');
+    Menus.addMenuItem('topbar', 'visMarker', 'slides', 'dropdown');
+    Menus.addSubMenuItem('topbar', 'slides', 'Modeling', 'slides/edit');
 
     // Adding tools
     Tools.addTool('sidebar');
@@ -18,11 +18,11 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addTool('markups');
 
     // Set sidebar tool items
-    Tools.addToolItem('sidebar', 'Scene', 'glyphicon-camera', 'slides/create/scene', null, 'List of scene objects');
-    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/create/files', null, 'List of files');
-    Tools.addToolItem('sidebar', 'Modeling', 'glyphicon-wrench', 'slides/create/modeling', null, 'List of modeling tools');
-    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'slides/create/materials', null, 'List of materials');
-    Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'slides/create/markups', null, 'List of markups');
+    Tools.addToolItem('sidebar', 'Scene', 'glyphicon-camera', 'slides/edit/scene', null, 'List of scene objects');
+    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/edit/files', null, 'List of files');
+    Tools.addToolItem('sidebar', 'Modeling', 'glyphicon-wrench', 'slides/edit/modeling', null, 'List of modeling tools');
+    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'slides/edit/materials', null, 'List of materials');
+    Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'slides/edit/markups', null, 'List of markups');
 
     // Set static tool items
     Tools.addToolItem('static', 'Fit View', 'glyphicon-fullscreen', null, 'fitView', 'Fit view');
