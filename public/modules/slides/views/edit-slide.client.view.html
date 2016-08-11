@@ -1,6 +1,6 @@
 <section data-ng-controller="SlidesController">
   <div class="sidebar btn-group-vertical">
-    <button data-ng-repeat="item in sidebarTools.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.uiRoute}}" type="button" class="btn btn-default" data-ng-class="{active: ($uiRoute)}" tooltip-placement="right" tooltip="{{item.tooltip}}" tooltip-append-to-body="true" data-ng-click="activatePanel(item.link)">
+    <button data-ng-repeat="item in sidebarTools.items" data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.uiRoute}}" type="button" class="btn btn-default" data-ng-class="{active: ($uiRoute)}" tooltip-placement="right" tooltip="{{item.tooltip}}" tooltip-append-to-body="true" data-ng-click="activatePanel(item.link)">
       <a href="/#!/{{item.link}}">
         <span class="glyphicon {{item.icon}}"></span>
       </a>
@@ -8,11 +8,6 @@
   </div>
   <div class="panel panel-default" data-ng-show="showPanel">
     <div data-ui-view class="panel-body"></div>
-  </div>
-  <div class="staticbar btn-group-vertical">
-    <button data-ng-repeat="item in staticTools.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" type="button" class="btn btn-default" tooltip-placement="left" tooltip="{{item.tooltip}}" tooltip-append-to-body="true" data-ng-click="activateTool(item.action)">
-      <span class="glyphicon {{item.icon}}"></span>
-    </button>
   </div>
   <div class="gui-dialog" data-ng-show="guiTemplate !== null" data-ng-include="guiTemplate"></div>
   <div id="canvas"></div>

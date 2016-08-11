@@ -18,10 +18,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Find a list of tools
   $scope.sidebarTools = Tools.getTool('sidebar');
-  $scope.staticTools = Tools.getTool('static');
-  $scope.viewTools = Tools.getTool('views');
-  $scope.sceneTools = Tools.getTool('scene');
   $scope.fileTools = Tools.getTool('files');
+  $scope.sceneTools = Tools.getTool('scene');
   $scope.modelingTools = Tools.getTool('modeling');
   $scope.materialTools = Tools.getTool('materials');
   $scope.markupTools = Tools.getTool('markups');
