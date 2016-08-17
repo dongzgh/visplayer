@@ -1,9 +1,9 @@
 'use strict';
 
 //Menu service used for managing  menus
-angular.module('core').service('Menus', ['$log',
+angular.module('core').service('Menus', [
 
-  function($log) {
+	function() {
     // Define a set of default roles
     this.defaultRoles = ['*'];
 
@@ -34,18 +34,22 @@ angular.module('core').service('Menus', ['$log',
     // Validate menu existance
     this.validateMenuExistance = function(menuId) {
       if (menuId && menuId.length) {
-        if (!this.menus[menuId]) {
-          $log.error('Tree does not exists');
-          return false;
+				if (this.menus[menuId]) {
+					return true;
+				} else {
+					throw new Error('Menu does not exists');
         }
+			} else {
+				throw new Error('MenuId was not provided');
       }
-      return true;
+
+			return false;
     };
 
     // Get the menu object by menu id
     this.getMenu = function(menuId) {
-      // Validate that the tool exists
-      if (!this.validateMenuExistance(menuId)) return;
+			// Validate that the menu exists
+			this.validateMenuExistance(menuId);
 
       // Return the menu object
       return this.menus[menuId];
@@ -67,8 +71,8 @@ angular.module('core').service('Menus', ['$log',
 
     // Remove existing menu object by menu id
     this.removeMenu = function(menuId) {
-      // Validate that the tool exists
-      if (!this.validateMenuExistance(menuId)) return;
+			// Validate that the menu exists
+			this.validateMenuExistance(menuId);
 
       // Return the menu object
       delete this.menus[menuId];
@@ -76,8 +80,8 @@ angular.module('core').service('Menus', ['$log',
 
     // Add menu item object
     this.addMenuItem = function(menuId, menuItemTitle, menuItemURL, menuItemType, menuItemUIRoute, isPublic, roles, position) {
-      // Validate that the tool exists
-      if (!this.validateMenuExistance(menuId)) return;
+			// Validate that the menu exists
+			this.validateMenuExistance(menuId);
 
       // Push new menu item
       this.menus[menuId].items.push({
@@ -97,26 +101,10 @@ angular.module('core').service('Menus', ['$log',
       return this.menus[menuId];
     };
 
-    // Remove existing menu object by menu id
-    this.removeMenuItem = function(menuId, menuItemURL) {
-      // Validate that the tool exists
-      if (!this.validateMenuExistance(menuId)) return;
-
-      // Search for menu item to remove
-      for (var itemIndex in this.menus[menuId].items) {
-        if (this.menus[menuId].items[itemIndex].link === menuItemURL) {
-          this.menus[menuId].items.splice(itemIndex, 1);
-        }
-      }
-
-      // Return the menu object
-      return this.menus[menuId];
-    };
-
     // Add submenu item object
     this.addSubMenuItem = function(menuId, rootMenuItemURL, menuItemTitle, menuItemURL, menuItemUIRoute, isPublic, roles, position) {
-      // Validate that the tool exists
-      if (!this.validateMenuExistance(menuId)) return;
+			// Validate that the menu exists
+			this.validateMenuExistance(menuId);
 
       // Search for menu item
       for (var itemIndex in this.menus[menuId].items) {
@@ -139,9 +127,25 @@ angular.module('core').service('Menus', ['$log',
     };
 
     // Remove existing menu object by menu id
+		this.removeMenuItem = function(menuId, menuItemURL) {
+			// Validate that the menu exists
+			this.validateMenuExistance(menuId);
+
+			// Search for menu item to remove
+			for (var itemIndex in this.menus[menuId].items) {
+				if (this.menus[menuId].items[itemIndex].link === menuItemURL) {
+					this.menus[menuId].items.splice(itemIndex, 1);
+				}
+			}
+
+			// Return the menu object
+			return this.menus[menuId];
+		};
+
+		// Remove existing menu object by menu id
     this.removeSubMenuItem = function(menuId, submenuItemURL) {
-      // Validate that the tool exists
-      if (!this.validateMenuExistance(menuId)) return;
+			// Validate that the menu exists
+			this.validateMenuExistance(menuId);
 
       // Search for menu item to remove
       for (var itemIndex in this.menus[menuId].items) {

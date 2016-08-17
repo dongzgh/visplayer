@@ -4,7 +4,7 @@
 var ApplicationConfiguration = (function() {
   // Init module configuration options
   var applicationModuleName = 'visplayer';
-  var applicationModuleVendorDependencies = ['ngResource', 'ngCookies', 'ngAnimate', 'ngTouch', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'ui.utils', 'angularFileUpload'];
+  var applicationModuleVendorDependencies = ['ngResource', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router', 'ui.bootstrap', 'ui.utils', 'angularFileUpload'];
 
   // Add a new vertical module
   var registerModule = function(moduleName, dependencies) {

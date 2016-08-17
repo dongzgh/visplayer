@@ -1,7 +1,22 @@
 'use strict';
 
 module.exports = {
-  db: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/visplayer',
+  db: {
+		uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/visplayer',
+		options: {
+			user: '',
+			pass: ''
+		}
+	},
+	log: {
+		// Can specify one of 'combined', 'common', 'dev', 'short', 'tiny'
+		format: 'combined',
+		// Stream defaults to process.stdout
+		// Uncomment to enable logging to a log on the file system
+		options: {
+			stream: 'access.log'
+		}
+	},
   assets: {
     lib: {
       css: [
@@ -10,14 +25,14 @@ module.exports = {
       ],
       js: [
         'public/lib/angular/angular.min.js',
-        'public/lib/angular-resource/angular-resource.min.js',
-        'public/lib/angular-cookies/angular-cookies.min.js',
+        'public/lib/angular-resource/angular-resource.min.js',  
         'public/lib/angular-animate/angular-animate.min.js',
-        'public/lib/angular-touch/angular-touch.min.js',
-        'public/lib/angular-sanitize/angular-sanitize.min.js',
         'public/lib/angular-ui-router/release/angular-ui-router.min.js',
         'public/lib/angular-ui-utils/ui-utils.min.js',
         'public/libr/angular-bootstrap/ui-bootstrap-tpls.min.js',
+        'public/lib/angular-cookies/angular-cookies.min.js',        ,
+        'public/lib/angular-touch/angular-touch.min.js',
+        'public/lib/angular-sanitize/angular-sanitize.min.js',        
         'public/lib/ng-file-upload/angular-file-upload-shim.min.js',
         'public/lib/ng-file-upload/angular-file-upload.min.js',
         'public/lib/cryptojslib/rollups/aes.js',

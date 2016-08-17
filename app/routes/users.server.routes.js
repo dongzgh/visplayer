@@ -6,7 +6,7 @@
 var passport = require('passport');
 
 module.exports = function(app) {
-  // Users routes
+	// User Routes
   var users = require('../../app/controllers/users.server.controller');
 
   // Setting up the users profile api
