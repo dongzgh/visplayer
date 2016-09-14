@@ -1,2 +1,2 @@
-mongod --logpath "C:\Users\dzhao\My Projects\General\visplayer\data\log\mongod.log"
-mongod --dbpath "C:\Users\dzhao\My Projects\General\visplayer\data\db"
+mongod --logpath "C:\Users\dzhao\Projects\General\visplayer\data\log"
+mongod --dbpath "C:\Users\dzhao\Projects\General\visplayer\data\db"

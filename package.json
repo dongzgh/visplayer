@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "private": false,
   "author": "visFuture",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://zhaod@bitbucket.org/zhaod/visplayer.git"
