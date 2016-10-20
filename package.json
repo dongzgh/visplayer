@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://zhaod@bitbucket.org/zhaod/visplayer.git"
+    "url": "https://dongzbb@bitbucket.org/dongzbb/visplayer.git"
   },
   "engines": {
     "node": ">=0.10.28",
@@ -57,7 +57,6 @@
     "supertest": "~0.14.0",
     "should": "~4.1.0",
     "grunt-env": "~0.4.1",
-    "grunt-node-inspector": "~0.1.3",
     "grunt-contrib-watch": "~0.6.1",
     "grunt-contrib-jshint": "~0.10.0",
     "grunt-contrib-csslint": "^0.3.1",
