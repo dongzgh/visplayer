@@ -3,10 +3,6 @@
 // Configuring the Slides module
 angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
   function(Menus, Tools, Trees, Dialogs) {
-    // Set topbar menu items
-    Menus.addMenuItem('topbar', 'visAnalyzer', 'slides', 'dropdown');
-    Menus.addSubMenuItem('topbar', 'slides', 'Modeling', 'slides/edit');
-
     // Adding tools
     Tools.addTool('sidebar');
     Tools.addTool('files');
@@ -16,13 +12,11 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addTool('markups');
 
     // Set sidebar tool items
-    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/edit/files', null, 'List of files');
-    Tools.addToolItem('sidebar', 'Scene', 'glyphicon-camera', 'slides/edit/scene', null, 'List of scene objects');
     Tools.addToolItem('sidebar', 'Modeling', 'glyphicon-wrench', 'slides/edit/modeling', null, 'List of modeling tools');
-    Tools.addToolItem('sidebar', 'Materials', 'glyphicon-tint', 'slides/edit/materials', null, 'List of materials');
-    Tools.addToolItem('sidebar', 'Markups', 'glyphicon-tags', 'slides/edit/markups', null, 'List of markups');
-
-   // Set files tool items
+    Tools.addToolItem('sidebar', 'Scene', 'glyphicon-camera', 'slides/edit/scene', null, 'List of scene objects');
+    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/edit/files', null, 'List of files');   
+ 
+    // Set files tool items
     Tools.addToolItem('files', 'Upload Files', 'glyphicon-cloud-upload', null, 'uploadFiles', 'Upload files to server');
     Tools.addToolItem('files', 'Download Files', 'glyphicon-cloud-download', null, 'downloadFiles', 'Download files from server');
     Tools.addToolItem('files', 'Load Files', 'glyphicon-download', null, 'loadFiles', 'Load files into scene');
@@ -46,15 +40,9 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addToolItem('modeling', 'Rotate Model', 'glyphicon-repeat', null, 'rotateModel', 'Rotate model');
     Tools.addToolItem('modeling', 'Scale Model', 'glyphicon-resize-full', null, 'scaleModel', 'Scale model');
 
-    // Set marterials tool items
-
-    // Set markups tool items
-
-    // Set static tool items
-
     // Adding trees
-    Trees.addTree('files');
     Trees.addTree('scene');
+    Trees.addTree('files');    
 
     // Set file tree node items
     Trees.addTreeItem('files', 'Models', 'glyphicon-briefcase', 'models');
