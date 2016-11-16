@@ -1,0 +1,14 @@
+{
+  "_description"[string]: "vertex set data",
+  "_filename"[string]: "v",
+  "objects"[array]: [
+    {
+      "_description"[string]: "vertex data",
+      "id"[number]: vertexId,
+      "point"[array]: [
+        x[number], y[number], z[number]
+      ]
+    }
+    ...
+  ]
+}

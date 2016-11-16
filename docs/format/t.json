@@ -1,0 +1,56 @@
+{
+  "_description"[string]: "topology data",
+  "_filename"[string]: "t",
+  "objects"[array]: [
+    {
+      "_description"[string]: "body topology",
+      "id"[number]: bodyId,
+      "type"[string]: "body",
+      "shells"[array]: [
+        {
+          "_description"[string]: "shell topology",
+          "id"[number]: shellId,
+          "type"[string]: "shell",
+          "faces"[array]: [
+            {
+              "_description"[string]: "face topology",
+              "id"[number]: facedId,
+              "type"[string]: "face",
+              "loops"[array]: [
+                {
+                  "_description"[string]: "loop topology",
+                  "id"[number]: loopId,
+                  "type"[string]: "loop",
+                  "edges"[array]: [
+                    {
+                      "_description"[string]: "edge topology",
+                      "id"[number]: edgeId,
+                      "type"[string]: "edge",
+                      "uvedge"[object]: {
+                        "id"[number]: uvedgeId,
+                        "type"[string]: "uvedge"            
+                      },
+                      "startVertex"[object]: {
+                        "id"[number]: vertexId,
+                        "type"[string]: "vertex"
+                      },
+                      "endVertex"[object]: {
+                        "id"[number]: vertexId,
+                        "type"[string]: "vertex"
+                      }          
+                    }
+                    ...
+                  ]      
+                }
+                ...
+              ]
+            }
+            ...            
+          ]
+        }
+        ...
+      ]
+    }
+    ...
+  ]  
+}

@@ -37,3 +37,5 @@ npm-debug.log
 *.bak
 *.sublime-project
 *.sublime-workspace
+/plugins/inventor/*.opensdf
+/plugins/inventor/*.vspscc

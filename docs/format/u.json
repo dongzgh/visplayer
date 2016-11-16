@@ -1,0 +1,172 @@
+{
+  "_description"[string]: "uvedge set data",
+  "_filename"[string]: "e",
+  "objects"[array]: [
+    {
+      "_description"[string]: "line 2d data",
+      "id"[number]: uvedgeId,
+      "type"[string]: "line2d",
+      "start"[array]: {
+        x[number], y[number]
+      },
+      "end"[array]: [
+        x[number], y[number]
+      ],
+      "mesh"[object]: {
+        "count"[number]: meshCount,
+        "points"[array]: [
+          x1[number], y1[number],
+          ...
+        ]
+      }
+    }
+    ...
+    {
+      "_description"[string]: "circle 2d data",
+      "id"[number]: uvedgeId,
+      "type"[string]: "circle2d",
+      "center"[array]: [
+        x[number], y[number]
+      ],
+      "normal"[array]: [
+        x[number], y[number]
+      ],
+      "radius"[number]: cicleRadius,
+      "mesh"[object]: {
+        "count"[number]: meshCount,
+        "points"[array]: [
+          x1[number], y1[number],
+          ...
+        ]
+      }
+    }
+    ...
+    {
+      "_description"[string]: "arc 2d data",
+      "id"[number]: uvedgeId,
+      "type"[string]: "arc2d",
+      "center"[array]: [
+        x[number], y[number]
+      ],
+       "normal"[array]: [
+        x[number], y[number]
+      ],
+       "reference"[array]: [
+        x[number], y[number]
+      ],
+      "radius"[number]: arcRadius,
+      "startAngle"[number]: arcStartAngle,
+      "sweepAngle"[number]: arcSweepAngle,
+      "mesh"[object]: {
+        "count"[number]: meshCount,
+        "points"[array]: [
+          x1[number], y1[number],
+          ...
+        ]
+      }
+    }
+    ...
+    {
+      "_description"[string]: "ellipse 2d data",
+      "id"[number]: uvedgeId,
+      "type"[string]: "ellipse2d",
+      "center"[array]: [
+        x[number], y[number]
+      ],
+      "normal"[array]: [
+        x[number], y[number]
+      ],
+      "major"[array]: [
+        x[number], y[number]
+      ],
+      "majorRadius"[number]: ellipseMajorRadius,
+      "minorRadius"[number]: ellipseMinorRadius,
+      "mesh"[object]: {
+        "count"[number]: meshCount,
+        "points"[array]: [
+          x1[number], y1[number],
+          ...
+        ]
+      }
+    }
+    ...
+    {
+      "_description"[string]: "elliptical arc 2d data",
+      "id"[number]: uvedgeId,
+      "type"[string]: "ellipticalArc2d",
+      "center"[array]: [
+        x[number], y[number]
+      ],
+      "normal"[array]: [
+        x[number], y[number]
+      ],
+      "major"[array]: [
+        x[number], y[number]
+      ],
+      "majorRadius"[number]: ellipticalArcMajorRadius,
+      "minorRadius"[number]: ellipticalArcMinorRadius,
+      "startAngle"[number]: ellipticalArcStartAngle,
+      "sweepAngle"[number]: ellipticalArcSweepAngle,
+      "mesh"[object]: {
+        "count"[number]: meshCount,
+        "points"[array]: [
+          x1[number], y1[number],
+          ...
+        ]
+      }
+    }
+    ...
+    {
+      "_description"[string]: "bspline 2d data",
+      "id"[number]: uvedgeId,
+      "type"[string]: "bspline2d",
+      "order"[number]: bsplineOrder,
+      "rational"[bool]: bsplineRational,
+      "periodic"[bool]: bsplinePeriodic,
+      "closed"[bool]: bsplineClosed,
+      "poles"[object]: {
+        "count"[number]: polesCount,
+        "points"[array]: [
+          x1[number], y1[number],
+          ...
+        ],
+        "weights"[array]: {
+          w1[number],...
+        }
+      },
+      "knots"[object]: {
+        "count"[number]: knotsCount,
+        "values"[array]: [
+          k1[number],...
+        ]
+      }
+      "mesh"[object]: {
+        "count"[number]: meshCount,
+        "points"[array]: [
+          x1[number], y1[number],
+          ...
+        ]
+      }
+    }
+    ...
+    {
+      "_description"[string]: "polyline 2d data",
+      "id"[number]: uvedgeId,
+      "type"[string]: "polyline2d",
+      "poles"[object]: {
+        "count"[number]: polesCount,
+        "points"[array]: [
+          x1[number], y1[number],
+          ...
+        ]
+      },
+      "mesh"[object]: {
+        "count"[number]: meshCount,
+        "points"[array]: [
+          x1[number], y1[number],
+          ...
+        ]
+      }
+    }
+  ]  
+}
