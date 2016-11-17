@@ -3,12 +3,12 @@
   "_filename"[string]: "v",
   "objects"[array]: [
     {
-      "_description"[string]: "vertex data",
+      "_description"[string]: "point data",
       "id"[number]: vertexId,
       "point"[array]: [
         x[number], y[number], z[number]
       ]
-    }
+    },
     ...
   ]
 }

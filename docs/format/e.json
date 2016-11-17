@@ -1,16 +1,16 @@
 {
-  "_description"[string]: "uvedge set data",
+  "_description"[string]: "edge set data",
   "_filename"[string]: "e",
   "objects"[array]: [
     {
-      "_description"[string]: "line 2d data",
-      "id"[number]: uvedgeId,
-      "type"[string]: "line2d",
+      "_description"[string]: "line 3d data",
+      "id"[number]: edgeId,
+      "type"[string]: "line3d",
       "start"[array]: {
-        x[number], y[number]
+        x[number], y[number], z[number]
       },
       "end"[array]: [
-        x[number], y[number]
+        x[number], y[number], z[number]
       ],
       "meshes"[array]: [
         {
@@ -18,7 +18,7 @@
           "nodes"[object]: {
             "count"[number]: nodeCount,
             "points"[array]: [
-              x1[number], y1[number],
+              x1[number], y1[number], z1[number],
               ...
             ]
           }
@@ -28,14 +28,14 @@
     },
     ...
     {
-      "_description"[string]: "circle 2d data",
-      "id"[number]: uvedgeId,
-      "type"[string]: "circle2d",
+      "_description"[string]: "circle 3d data",
+      "id"[number]: edgeId,
+      "type"[string]: "circle3d",
       "origin"[array]: [
-        x[number], y[number]
+        x[number], y[number], z[number]
       ],
       "normal"[array]: [
-        x[number], y[number]
+        x[number], y[number], z[number]
       ],
       "radius"[number]: cicleRadius,
       "meshes"[array]: [
@@ -44,7 +44,7 @@
           "nodes"[object]: {
             "count"[number]: nodeCount,
             "points"[array]: [
-              x1[number], y1[number],
+              x1[number], y1[number], z1[number],
               ...
             ]
           }
@@ -54,17 +54,17 @@
     },
     ...
     {
-      "_description"[string]: "arc 2d data",
-      "id"[number]: uvedgeId,
-      "type"[string]: "arc2d",
+      "_description"[string]: "arc 3d data",
+      "id"[number]: edgeId,
+      "type"[string]: "arc3d",
       "origin"[array]: [
-        x[number], y[number]
+        x[number], y[number], z[number]
       ],
        "normal"[array]: [
-        x[number], y[number]
+        x[number], y[number], z[number]
       ],
        "reference"[array]: [
-        x[number], y[number]
+        x[number], y[number], z[number]
       ],
       "radius"[number]: arcRadius,
       "angle"[object]: {
@@ -77,7 +77,7 @@
           "nodes"[object]: {
             "count"[number]: nodeCount,
             "points"[array]: [
-              x1[number], y1[number],
+              x1[number], y1[number], z1[number],
               ...
             ]
           }
@@ -87,17 +87,17 @@
     },
     ...
     {
-      "_description"[string]: "ellipse 2d data",
-      "id"[number]: uvedgeId,
-      "type"[string]: "ellipse2d",
+      "_description"[string]: "ellipse 3d data",
+      "id"[number]: edgeId,
+      "type"[string]: "ellipse3d",
       "origin"[array]: [
-        x[number], y[number]
+        x[number], y[number], z[number]
       ],
       "normal"[array]: [
-        x[number], y[number]
+        x[number], y[number], z[number]
       ],
       "major"[array]: [
-        x[number], y[number]
+        x[number], y[number], z[number]
       ],
       "radius"[object]: {
         "major"[number]: radiusMajor,
@@ -109,7 +109,7 @@
           "nodes"[object]: {
             "count"[number]: nodeCount,
             "points"[array]: [
-              x1[number], y1[number],
+              x1[number], y1[number], z1[number],
               ...
             ]
           }
@@ -119,21 +119,21 @@
     },
     ...
     {
-      "_description"[string]: "elliptical arc 2d data",
-      "id"[number]: uvedgeId,
-      "type"[string]: "ellipticalArc2d",
+      "_description"[string]: "elliptical arc 3d data",
+      "id"[number]: edgeId,
+      "type"[string]: "ellipticalArc3d",
       "origin"[array]: [
-        x[number], y[number]
+        x[number], y[number], z[number]
       ],
       "normal"[array]: [
-        x[number], y[number]
+        x[number], y[number], z[number]
       ],
       "major"[array]: [
-        x[number], y[number]
+        x[number], y[number], z[number]
       ],
       "radius"[object]: {
         "major"[number]: radiusMajor,
-        "minor"[number]: radiusMinor
+        "minor"[number]: radiusMinor,
       },
       "angle"[object]: {
         "start"[number]: angleStart,
@@ -145,7 +145,7 @@
           "nodes"[object]: {
             "count"[number]: nodeCount,
             "points"[array]: [
-              x1[number], y1[number],
+              x1[number], y1[number], z1[number],
               ...
             ]
           }
@@ -155,14 +155,14 @@
     },
     ...
     {
-      "_description"[string]: "bspline 2d data",
-      "id"[number]: uvedgeId,
-      "type"[string]: "bspline2d",
+      "_description"[string]: "bspline 3d data",
+      "id"[number]: edgeId,
+      "type"[string]: "bspline3d",
       "order"[number]: bsplineOrder,
       "poles"[object]: {
         "count"[number]: polesCount,
         "points"[array]: [
-          x1[number], y1[number],
+          x1[number], y1[number], z1[number],
           ...
         ],
         "weights"[array]: {
@@ -178,7 +178,7 @@
           "nodes"[object]: {
             "count"[number]: nodeCount,
             "points"[array]: [
-              x1[number], y1[number],
+              x1[number], y1[number], z1[number],
               ...
             ]
           }
@@ -188,13 +188,13 @@
     },
     ...
     {
-      "_description"[string]: "polyline 2d data",
-      "id"[number]: uvedgeId,
-      "type"[string]: "polyline2d",
+      "_description"[string]: "polyline 3d data",
+      "id"[number]: edgeId,
+      "type"[string]: "polyline3d",
       "poles"[object]: {
         "count"[number]: polesCount,
         "points"[array]: [
-          x1[number], y1[number],
+          x1[number], y1[number], z1[number],
           ...
         ]
       },
@@ -204,7 +204,7 @@
           "nodes"[object]: {
             "count"[number]: nodeCount,
             "points"[array]: [
-              x1[number], y1[number],
+              x1[number], y1[number], z1[number],
               ...
             ]
           }
