@@ -29,47 +29,50 @@
                   "id"[number]: loopId,
                   "parentId"[number]: faceId,
                   "type"[string]: "loop",
-                  "edges"[array]: [
+                  "uvedges"[array]: [
                     {
-                      "_description"[string]: "edge topology",
-                      "id"[number]: edgeId,
+                      "_description"[string]: "uvedge topology",
+                      "id"[number]: uvedgeId,
                       "parentId"[number]: loopId,
-                      "type"[string]: "edge",
+                      "type"[string]: "uvedge",
                       "geometry"[object]: {
                       	"_description"[string]: "curve data",
 									    	"id"[number]: curveId,
-									    	"type"[string]: "curve3d"
+									    	"type"[string]: "curve"
                       },
-                      "uvedge"[object]: {
-                        "id"[number]: uvedgeId,
-                        "parentId"[number]: edgeId,
-                        "type"[string]: "uvedge",
+                      "edge"[object]: {
+                      	"_description"[string]: "edge topology",
+                        "id"[number]: edgeId,
+                        "parentId"[number]: uvedgeId,
+                        "type"[string]: "edge",
                         "geometry"[object]: {
                         	"_description"[string]: "curve data",
 										    	"id"[number]: curveId,
 										    	"type"[string]: "curve"
-                        }
-                      },
-                      "startVertex"[object]: {
-                        "id"[number]: vertexId,
-                        "parentId"[number]: edgeId,
-                        "type"[string]: "vertex",
-                        "geometry"[object]: {
-                        	"_description"[string]: "point data",
-										    	"id"[number]: pointId,
-										    	"type"[string]: "point"
-                        }
-                      },
-                      "endVertex"[object]: {
-                        "id"[number]: vertexId,
-                        "parentId"[number]: edgeId,
-                        "type"[string]: "vertex",
-                        "geometry"[object]: {
-                        	"_description"[string]: "point data",
-										    	"id"[number]: pointId,
-										    	"type"[string]: "point"
-                        }
-                      }
+                        },
+                        "startVertex"[object]: {
+	                      	"_description"[string]: "vertex topology",
+	                        "id"[number]: vertexId,
+	                        "parentId"[number]: edgeId,
+	                        "type"[string]: "vertex",
+	                        "geometry"[object]: {
+	                        	"_description"[string]: "point data",
+											    	"id"[number]: pointId,
+											    	"type"[string]: "point"
+	                        }
+	                      },
+	                      "endVertex"[object]: {
+	                      	"_description"[string]: "vertex topology",
+	                        "id"[number]: vertexId,
+	                        "parentId"[number]: edgeId,
+	                        "type"[string]: "vertex",
+	                        "geometry"[object]: {
+	                        	"_description"[string]: "point data",
+											    	"id"[number]: pointId,
+											    	"type"[string]: "point"
+	                        }
+	                      }
+                      }                   
                     },
                     ...
                   ]
