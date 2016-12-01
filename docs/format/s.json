@@ -1,0 +1,431 @@
+[
+  {
+    "_description"[string]: "plane data",
+    "id"[number]: surfaceId,
+    "type"[string]: "plane",
+    "origin"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "normal"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodesCount,
+          "points"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ],
+          "normals"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ]
+        },
+        "facets"[object]: {
+          "count"[number]: facetsCount,
+          "indices"[array]: [
+            {
+              "count"[number]: indicesCount,
+              "values"[array]: [
+                i1[number], i2[number], i3[number]
+              ]
+            },
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "cylinder data",
+    "id"[number]: surfaceId,
+    "type"[string]: "cylinder",
+    "origin"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "normal"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "radius"[number]: cylinderRadius,
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodesCount,
+          "points"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ],
+          "normals"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ]
+        },
+        "facets"[object]: {
+          "count"[number]: facetsCount,
+          "indices"[array]: [
+            {
+              "count"[number]: indicesCount,
+              "values"[array]: [
+                i1[number], i2[number], i3[number]
+              ]
+            },
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "cone data",
+    "id"[number]: surfaceId,
+    "type"[string]: "cone",
+    "origin"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "normal"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "radius"[number]: coneRadius,
+    "angle"[number]: coneHalfAngle,
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodesCount,
+          "points"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ],
+          "normals"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ]
+        },
+        "facets"[object]: {
+          "count"[number]: facetsCount,
+          "indices"[array]: [
+            {
+              "count"[number]: indicesCount,
+              "values"[array]: [
+                i1[number], i2[number], i3[number]
+              ]
+            },
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "sphere data",
+    "id"[number]: surfaceId,
+    "type"[string]: "sphere",
+    "origin"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "radius"[number]: sphereRadius,
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodesCount,
+          "points"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ],
+          "normals"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ]
+        },
+        "facets"[object]: {
+          "count"[number]: facetsCount,
+          "indices"[array]: [
+            {
+              "count"[number]: indicesCount,
+              "values"[array]: [
+                i1[number], i2[number], i3[number]
+              ]
+            },
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "torus data",
+    "id"[number]: surfaceId,
+    "type"[string]: "torus",
+    "origin"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "normal"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "radius"[object]: {
+      "major"[number]: radiusMajor,
+      "minor"[number]: radiusMinor,
+    },
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodesCount,
+          "points"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ],
+          "normals"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ]
+        },
+        "facets"[object]: {
+          "count"[number]: facetsCount,
+          "indices"[array]: [
+            {
+              "count"[number]: indicesCount,
+              "values"[array]: [
+                i1[number], i2[number], i3[number]
+              ]
+            },
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ... 
+  {
+    "_description"[string]: "ellipsoid data",
+    "id"[number]: surfaceId,
+    "type"[string]: "ellipsoid",
+    "origin"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "normal"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "orientation"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "radius"[object]: {
+      "major"[number]: ellipsoidMajorRadius,
+      "minor"[number]: ellipsoidMinorRadius
+    },
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodesCount,
+          "points"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ],
+          "normals"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ]
+        },
+        "facets"[object]: {
+          "count"[number]: facetsCount,
+          "indices"[array]: [
+            {
+              "count"[number]: indicesCount,
+              "values"[array]: [
+                i1[number], i2[number], i3[number]
+              ]
+            },
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...  
+  {
+    "_description"[string]: "elliptical cylinder data",
+    "id"[number]: surfaceId,
+    "type"[string]: "ellipticalCylinder",
+    "origin"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "normal"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "orientation"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "radius"[object]: {
+      "major"[number]: ellipticalCylinderMajorRadius,
+      "minor"[number]: ellipticalCylinderMinorRadius
+    },
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodesCount,
+          "points"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ],
+          "normals"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ]
+        },
+        "facets"[object]: {
+          "count"[number]: facetsCount,
+          "indices"[array]: [
+            {
+              "count"[number]: indicesCount,
+              "values"[array]: [
+                i1[number], i2[number], i3[number]
+              ]
+            },
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "elliptical cone data",
+    "id"[number]: surfaceId,
+    "type"[string]: "ellipticalCone",
+    "origin"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "normal"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "orientation"[array]: [
+      x[number], y[number], z[number]
+    ],    
+    "radius"[object]: {
+      "major"[number]: ellipticalConeMajorRadius,
+      "minor"[number]: ellipticalConeMinorRadius
+    },
+    "angle"[number]: ellipticalConeAngle,
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodesCount,
+          "points"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ],
+          "normals"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ]
+        },
+        "facets"[object]: {
+          "count"[number]: facetsCount,
+          "indices"[array]: [
+            {
+              "count"[number]: indicesCount,
+              "values"[array]: [
+                i1[number], i2[number], i3[number]
+              ]
+            },
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...   
+  {
+    "_description"[string]: "nurbs data",
+    "id"[number]: surfaceId,
+    "type"[string]: "nurbs",
+    "degree"[object]: {
+      "u"[number]: degreeU,
+      "v"[number]: degreeV
+    },
+    "pole"[array]: {
+      "u"[number]: polesU,
+      "v"[number]: polesV,
+      "ps"[array]: [
+        x1[number], y1[number], z1[number],
+        ...
+      ],
+      "ws"[array]: [
+        w1[number],...
+      ]
+    },
+    "knot"[object]: {
+      "u"[number]: knotsU,
+      "v"[number]: knotsV,
+      "us"[array]: [
+        k1[number],...
+      ],
+      "vs"[array]: [
+        k1[number],...
+      ]
+    },
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodesCount,
+          "points"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ],
+          "normals"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ]
+        },
+        "facets"[object]: {
+          "count"[number]: facetsCount,
+          "indices"[array]: [
+            {
+              "count"[number]: indicesCount,
+              "values"[array]: [
+                i1[number], i2[number], i3[number]
+              ]
+            },
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "polygon data",
+    "id"[number]: surfaceId,
+    "type"[string]: "polygon",
+    "poles"[array]: {
+      "u"[number]: polesUCount,
+      "v"[number]: polesVCount,
+      "points"[array]: [
+        x1[number], y1[number], z1[number],
+        ...
+      ]
+    },
+  },
+  ...
+]

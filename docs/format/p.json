@@ -1,0 +1,10 @@
+[
+  {
+    "_description"[string]: "point data",
+    "id"[number]: vertexId,
+    "point"[array]: [
+      x[number], y[number], z[number]
+    ]
+  },
+  ...
+]
