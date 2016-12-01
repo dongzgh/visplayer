@@ -1,109 +1,85 @@
-{
-  "_description"[string]: "topology data",
-  "_filename"[string]: "t",
-  "objects"[array]: [
-    {
-      "_description"[string]: "body topology",
-      "id"[number]: bodyId,
-      "type"[string]: "body",
-      "shells"[array]: [
-        {
-          "_description"[string]: "shell topology",
-          "id"[number]: shellId,
-          "parentId"[number]: bodyId,
-          "type"[string]: "shell",
-          "faces"[array]: [
-            {
-              "_description"[string]: "face topology",
-              "id"[number]: facedId,
-              "parentId"[number]: shellId,
-              "type"[string]: "face",
-              "geometry"[object]: {
-              	"_description"[string]: "surface data",
-              	"id"[number]: surfaceId,
-              	"type"[string]: "surface"
-              },
-              "loops"[array]: [
-                {
-                  "_description"[string]: "loop topology",
-                  "id"[number]: loopId,
-                  "parentId"[number]: faceId,
-                  "type"[string]: "loop",
-                  "uvedges"[array]: [
-                    {
-                      "_description"[string]: "uvedge topology",
-                      "id"[number]: uvedgeId,
-                      "parentId"[number]: loopId,
-                      "type"[string]: "uvedge",
-                      "geometry"[object]: {
-                      	"_description"[string]: "curve data",
-									    	"id"[number]: curveId,
-									    	"type"[string]: "curve"
+ [
+  {
+    "_description"[string]: "body data",
+    "id"[number]: bodyId,
+    "type"[string]: "body",
+    "shells"[array]: [
+      {
+        "_description"[string]: "shell data",
+        "id"[number]: shellId,
+        "bodyId"[number]: bodyId,
+        "type"[string]: "shell",
+        "faces"[array]: [
+          {
+            "_description"[string]: "face data",
+            "id"[number]: facedId,
+            "shellId"[number]: shellId,
+            "surfacdId"[number]: surfaceId,
+            "type"[string]: "face",
+            "loops"[array]: [
+              {
+                "_description"[string]: "loop data",
+                "id"[number]: loopId,
+                "faceId"[number]: faceId,
+                "type"[string]: "loop",
+                "uvedges"[array]: [
+                  {
+                    "_description"[string]: "uvedge data",
+                    "id"[number]: uvedgeId,
+                    "loopId"[number]: loopId,
+                    "curveId"[number]: curveId,
+                    "type"[string]: "uvedge",
+                    "edge"[object]: {
+                    	"_description"[string]: "edge data",
+                      "id"[number]: edgeId,
+                      "uvedgeId"[number]: uvedgeId,
+                      "curveId"[number]: curveId,
+                      "type"[string]: "edge",
+                      "startVertex"[object]: {
+                      	"_description"[string]: "vertex data",
+                        "id"[number]: vertexId,
+                        "edgeId"[number]: edgeId,
+                        "pointId"[number]: pointId
+                        "type"[string]: "vertex"
                       },
-                      "edge"[object]: {
-                      	"_description"[string]: "edge topology",
-                        "id"[number]: edgeId,
-                        "parentId"[number]: uvedgeId,
-                        "type"[string]: "edge",
-                        "geometry"[object]: {
-                        	"_description"[string]: "curve data",
-										    	"id"[number]: curveId,
-										    	"type"[string]: "curve"
-                        },
-                        "startVertex"[object]: {
-	                      	"_description"[string]: "vertex topology",
-	                        "id"[number]: vertexId,
-	                        "parentId"[number]: edgeId,
-	                        "type"[string]: "vertex",
-	                        "geometry"[object]: {
-	                        	"_description"[string]: "point data",
-											    	"id"[number]: pointId,
-											    	"type"[string]: "point"
-	                        }
-	                      },
-	                      "endVertex"[object]: {
-	                      	"_description"[string]: "vertex topology",
-	                        "id"[number]: vertexId,
-	                        "parentId"[number]: edgeId,
-	                        "type"[string]: "vertex",
-	                        "geometry"[object]: {
-	                        	"_description"[string]: "point data",
-											    	"id"[number]: pointId,
-											    	"type"[string]: "point"
-	                        }
-	                      }
-                      }                   
-                    },
-                    ...
-                  ]
-                },
-                ...
-              ]
-            },
-            ...
-          ]
-        },
-        ...
-      ]
-    },
-    ...
-    {
-    	"_description"[string]: "surface data",
-    	"id"[number]: surfaceId,
-    	"type"[string]: "surface"
-    },
-    ...
-    {
-    	"_description"[string]: "curve data",
-    	"id"[number]: curveId,
-    	"type"[string]: "curve3d"
-    },
-    ...
-    {
-    	"_description"[string]: "point data",
-    	"id"[number]: pointId,
-    	"type"[string]: "point"
-    },
-    ...
-  ]
-}
+                      "endVertex"[object]: {
+                      	"_description"[string]: "vertex data",
+                        "id"[number]: vertexId,
+                        "edgeId"[number]: edgeId,
+                        "pointId"[number]: pointId,
+                        "type"[string]: "vertex"
+                      }
+                    }
+                  },
+                  ...
+                ]
+              },
+              ...
+            ]
+          },
+          ...
+        ]
+      },
+      ...
+    ]
+  },
+  ...
+  {
+  	"_description"[string]: "surface data",
+  	"id"[number]: surfaceId,
+  	"type"[string]: "surface"
+  },
+  ...
+  {
+  	"_description"[string]: "curve data",
+  	"id"[number]: curveId,
+  	"type"[string]: "curve3d"
+  },
+  ...
+  {
+  	"_description"[string]: "point data",
+  	"id"[number]: pointId,
+  	"type"[string]: "point"
+  },
+  ...
+]
