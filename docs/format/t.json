@@ -73,7 +73,7 @@
   {
   	"_description"[string]: "curve data",
   	"id"[number]: curveId,
-  	"type"[string]: "curve3d"
+  	"type"[string]: "curve"
   },
   ...
   {

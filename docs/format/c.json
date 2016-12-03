@@ -3,7 +3,33 @@
     "_description"[string]: "line data",
     "id"[number]: curveId,
     "type"[string]: "line",
-    "cardinal"[number]: 2or3,
+    "cardinal"[number]: 2,
+    "start"[array]: {
+      x[number], y[number]
+    },
+    "end"[array]: [
+      x[number], y[number]
+    ],
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodeCount,
+          "points"[array]: [
+            x1[number], y1[number],
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "line data",
+    "id"[number]: curveId,
+    "type"[string]: "line",
+    "cardinal"[number]: 3,
     "start"[array]: {
       x[number], y[number], z[number]
     },
@@ -26,11 +52,100 @@
   },
   ...
   {
+    "_description"[string]: "arc data",
+    "id"[number]: curveId,
+    "type"[string]: "arc",
+    "cardinal"[number]: 2,
+    "center"[array]: [
+      x[number], y[number]
+    ],
+    "radius"[number]: arcRadius,
+    "orientation"[array]: [
+      x[number], y[number]
+    ],
+    "angles"[object]: {
+      "start"[number]: angleStart,
+      "end"[number]: angleEnd
+    },
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodeCount,
+          "points"[array]: [
+            x1[number], y1[number],
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "arc data",
+    "id"[number]: curveId,
+    "type"[string]: "arc",
+    "cardinal"[number]: 3,
+    "center"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "normal"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "orientation"[array]: [
+      x[number], y[number], z[number]
+    ],
+    "radius"[number]: arcRadius,
+    "angles"[object]: {
+      "start"[number]: angleStart,
+      "end"[number]: angleEmd
+    },
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodeCount,
+          "points"[array]: [
+            x1[number], y1[number], z1[number],
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
     "_description"[string]: "circle data",
     "id"[number]: curveId,
     "type"[string]: "circle",
-    "cardinal"[number]: 2or3,
-    "origin"[array]: [
+    "cardinal"[number]: 2,
+    "center"[array]: [
+      x[number], y[number]
+    ],
+    "radius"[number]: cicleRadius,
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodeCount,
+          "points"[array]: [
+            x1[number], y1[number],
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "circle data",
+    "id"[number]: curveId,
+    "type"[string]: "circle",
+    "cardinal"[number]: 3,
+    "center"[array]: [
       x[number], y[number], z[number]
     ],
     "normal"[array]: [
@@ -53,23 +168,19 @@
   },
   ...
   {
-    "_description"[string]: "arc data",
+    "_description"[string]: "ellipse data",
     "id"[number]: curveId,
-    "type"[string]: "arc",
-    "cardinal"[number]: 2or3,
-    "origin"[array]: [
-      x[number], y[number], z[number]
+    "type"[string]: "ellipse",
+    "cardinal"[number]: 2,
+    "center"[array]: [
+      x[number], y[number]
     ],
-     "normal"[array]: [
-      x[number], y[number], z[number]
+    "orientation"[array]: [
+      x[number], y[number]
     ],
-     "reference"[array]: [
-      x[number], y[number], z[number]
-    ],
-    "radius"[number]: arcRadius,
-    "angle"[object]: {
-      "start"[number]: angleStart,
-      "sweep"[number]: angleSweep
+    "radii"[object]: {
+      "major"[number]: radiusMajor,
+      "minor"[number]: radiusMinor
     },
     "meshes"[array]: [
       {
@@ -77,7 +188,7 @@
         "nodes"[object]: {
           "count"[number]: nodeCount,
           "points"[array]: [
-            x1[number], y1[number], z1[number],
+            x1[number], y1[number],
             ...
           ]
         }
@@ -90,17 +201,17 @@
     "_description"[string]: "ellipse data",
     "id"[number]: curveId,
     "type"[string]: "ellipse",
-    "cardinal"[number]: 2or3,
-    "origin"[array]: [
+    "cardinal"[number]: 3,
+    "center"[array]: [
       x[number], y[number], z[number]
     ],
     "normal"[array]: [
       x[number], y[number], z[number]
     ],
-    "major"[array]: [
+    "orientation"[array]: [
       x[number], y[number], z[number]
     ],
-    "radius"[object]: {
+    "radii"[object]: {
       "major"[number]: radiusMajor,
       "minor"[number]: radiusMinor
     },
@@ -123,23 +234,57 @@
     "_description"[string]: "elliptical arc data",
     "id"[number]: curveId,
     "type"[string]: "ellipticalArc",
-    "cardinal"[number]: 2or3,
-    "origin"[array]: [
+    "cardinal"[number]: 2,
+    "center"[array]: [
+      x[number], y[number]
+    ],
+    "orientation"[array]: [
+      x[number], y[number]
+    ],
+    "radii"[object]: {
+      "major"[number]: radiusMajor,
+      "minor"[number]: radiusMinor,
+    },
+    "angles"[object]: {
+      "start"[number]: angleStart,
+      "end"[number]: angleEnd
+    },
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodeCount,
+          "points"[array]: [
+            x1[number], y1[number],
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "elliptical arc data",
+    "id"[number]: curveId,
+    "type"[string]: "ellipticalArc",
+    "cardinal"[number]: 3,
+    "center"[array]: [
       x[number], y[number], z[number]
     ],
     "normal"[array]: [
       x[number], y[number], z[number]
     ],
-    "major"[array]: [
+    "orientation"[array]: [
       x[number], y[number], z[number]
     ],
-    "radius"[object]: {
+    "radii"[object]: {
       "major"[number]: radiusMajor,
       "minor"[number]: radiusMinor,
     },
-    "angle"[object]: {
+    "angles"[object]: {
       "start"[number]: angleStart,
-      "sweep"[number]: angleSweep
+      "end"[number]: angleEnd
     },
     "meshes"[array]: [
       {
@@ -157,11 +302,48 @@
   },
   ...
   {
-    "_description"[string]: "bspline data",
+    "_description"[string]: "nurbs data",
     "id"[number]: curveId,
-    "type"[string]: "bspline",
-    "cardinal"[number]: 2or3,
-    "order"[number]: bsplineOrder,
+    "type"[string]: "nurbs",
+    "cardinal"[number]: 2,
+    "degree"[number]: nurbsDegree,
+    "poles"[object]: {
+      "count"[number]: polesCount,
+      "points"[array]: [
+        x1[number], y1[number],
+        ...
+      ],
+      "weights"[array]: {
+        w1[number],...
+      }
+    },
+    "knots"[object]: {
+      "count"[number]: knotsCount,
+      "values"[array]: [
+        k1[number],...
+      ]
+    },
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodeCount,
+          "points"[array]: [
+            x1[number], y1[number],
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "nurbs data",
+    "id"[number]: curveId,
+    "type"[string]: "nurbs",
+    "cardinal"[number]: 3,
+    "degree"[number]: nurbsDegree,
     "poles"[object]: {
       "count"[number]: polesCount,
       "points"[array]: [
@@ -172,9 +354,12 @@
         w1[number],...
       }
     },
-    "knots"[object]: [
-      k1[number],...
-    ]
+    "knots"[object]: {
+      "count"[number]: knotsCount,
+      "values"[array]: [
+        k1[number],...
+      ]
+    },
     "meshes"[array]: [
       {
         "tolerance"[number]: meshTolerance,
@@ -194,7 +379,34 @@
     "_description"[string]: "polyline data",
     "id"[number]: curveId,
     "type"[string]: "polyline",
-    "cardinal"[number]: 2or3,
+    "cardinal"[number]: 2,
+    "poles"[object]: {
+      "count"[number]: polesCount,
+      "points"[array]: [
+        x1[number], y1[number],
+        ...
+      ]
+    },
+    "meshes"[array]: [
+      {
+        "tolerance"[number]: meshTolerance,
+        "nodes"[object]: {
+          "count"[number]: nodeCount,
+          "points"[array]: [
+            x1[number], y1[number],
+            ...
+          ]
+        }
+      },
+      ...
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "polyline data",
+    "id"[number]: curveId,
+    "type"[string]: "polyline",
+    "cardinal"[number]: 3,
     "poles"[object]: {
       "count"[number]: polesCount,
       "points"[array]: [

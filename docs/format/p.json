@@ -2,6 +2,16 @@
   {
     "_description"[string]: "point data",
     "id"[number]: vertexId,
+    "cadinal"[number]: 2
+    "point"[array]: [
+      x[number], y[number]
+    ]
+  },
+  ...
+  {
+    "_description"[string]: "point data",
+    "id"[number]: vertexId,
+    "cadinal"[number]: 3
     "point"[array]: [
       x[number], y[number], z[number]
     ]

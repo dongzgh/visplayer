@@ -3,7 +3,7 @@
     "_description"[string]: "plane data",
     "id"[number]: surfaceId,
     "type"[string]: "plane",
-    "origin"[array]: [
+    "origin"[object]: [
       x[number], y[number], z[number]
     ],
     "normal"[array]: [
@@ -174,7 +174,7 @@
     "normal"[array]: [
       x[number], y[number], z[number]
     ],
-    "radius"[object]: {
+    "radii"[object]: {
       "major"[number]: radiusMajor,
       "minor"[number]: radiusMinor,
     },
@@ -222,7 +222,7 @@
     "orientation"[array]: [
       x[number], y[number], z[number]
     ],
-    "radius"[object]: {
+    "radii"[object]: {
       "major"[number]: ellipsoidMajorRadius,
       "minor"[number]: ellipsoidMinorRadius
     },
@@ -270,7 +270,7 @@
     "orientation"[array]: [
       x[number], y[number], z[number]
     ],
-    "radius"[object]: {
+    "radii"[object]: {
       "major"[number]: ellipticalCylinderMajorRadius,
       "minor"[number]: ellipticalCylinderMinorRadius
     },
@@ -318,7 +318,7 @@
     "orientation"[array]: [
       x[number], y[number], z[number]
     ],    
-    "radius"[object]: {
+    "radii"[object]: {
       "major"[number]: ellipticalConeMajorRadius,
       "minor"[number]: ellipticalConeMinorRadius
     },
@@ -362,24 +362,24 @@
       "u"[number]: degreeU,
       "v"[number]: degreeV
     },
-    "pole"[array]: {
-      "u"[number]: polesU,
-      "v"[number]: polesV,
-      "ps"[array]: [
+    "poles"[array]: {
+      "countU"[number]: polesCountU,
+      "countV"[number]: polesCountV,
+      "points"[array]: [
         x1[number], y1[number], z1[number],
         ...
       ],
-      "ws"[array]: [
+      "weights"[array]: [
         w1[number],...
       ]
     },
-    "knot"[object]: {
-      "u"[number]: knotsU,
-      "v"[number]: knotsV,
-      "us"[array]: [
+    "knots"[object]: {
+      "countU"[number]: knotsCountU,
+      "countV"[number]: knotsCountV,
+      "valuesU"[array]: [
         k1[number],...
       ],
-      "vs"[array]: [
+      "valuesV"[array]: [
         k1[number],...
       ]
     },
@@ -419,8 +419,8 @@
     "id"[number]: surfaceId,
     "type"[string]: "polygon",
     "poles"[array]: {
-      "u"[number]: polesUCount,
-      "v"[number]: polesVCount,
+      "countU"[number]: polesCountU,
+      "countV"[number]: polesCountV,
       "points"[array]: [
         x1[number], y1[number], z1[number],
         ...
