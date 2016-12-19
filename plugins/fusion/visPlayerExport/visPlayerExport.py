@@ -4,6 +4,17 @@
 import adsk.core, adsk.fusion, adsk.cam, traceback
 import json
 
+#def dumpInfo(objs):
+#  fi = open("c:\\Temp\\objs.txt", "w+")
+#  for i in range(len(objs)):
+#    fi.write("object id = " + str(id(objs[i])) + '\n')
+#  fi.close()
+
+surfaceIds = []
+curve2DIds = []
+curve3DIds = []
+pointIds = []
+
 # Function to get topology data
 def getTopologyData(occs):
   # Create objects.
@@ -12,13 +23,20 @@ def getTopologyData(occs):
   curves = []
   points = []
 
+  # Initialize counters.
+  idBody = -1
+  idShell = -1
+  idLoop = -1
+  idUVEdge = -1
+
   # Save data
   for occ in occs:
     for body in occ.bRepBodies:
       # prepare body data.
+      idBody += 1
       bodyData = {
         "_description":  "body data",
-        "id": id(body),
+        "id": idBody,
         "type": "body",
         "shells": []
       }
@@ -28,10 +46,11 @@ def getTopologyData(occs):
       lump = body.lumps.item(0)
       for shell in lump.shells:
         # prepare shell data.
+        idShell += 1
         shellData = {
           "_description": "shell data",
-          "id": id(shell),
-          "bodyId": id(body),
+          "id": idShell,
+          "bodyId": idBody,
           "type": "shell",
           "faces": []
         }
@@ -42,34 +61,36 @@ def getTopologyData(occs):
           # prepare face data.
           faceData = {
             "_description": "face data",
-            "id": id(face),
-            "shellId": id(shell),
-            "surfaceId": id(face.geometry),
+            "id": face.tempId,
+            "shellId": idShell,
+            "surfaceId": face.tempId, # id(face.geometry) returned not unique.
             "type": "face",
             "loops": []
           }
 
           # append data.
           shellData["faces"].append(faceData)
-          surfaceData = getSurfaceData(face.geometry)
+          surfaceData = getSurfaceData(face.geometry, face.tempId)
           surfaces.append(surfaceData)
           for loop in face.loops:
             # prepare loop data.
+            idLoop += 1
             loopData = {
               "_description": "loop data",
-              "id": id(loop),
-              "faceId": id(face),
+              "id": idLoop,
+              "faceId": face.tempId,
               "type": "loop",
               "uvedges": []
             }
             faceData["loops"].append(loopData)
             for uvedge in loop.coEdges:
               # prepare uvedge data.
+              idUVEdge += 1
               uvedgeData = {
                 "_description": "uvedge data",
-                "id": id(uvedge),
-                "loopId": id(loop),
-                "curveId": id(uvedge.geometry),
+                "id": idUVEdge,
+                "loopId": idLoop,
+                "curveId": idUVEdge,
                 "type": "uvedge"
               }
 
@@ -77,9 +98,9 @@ def getTopologyData(occs):
               edge = uvedge.edge
               edgeData = {
                 "_description": "edge data",
-                "id": id(edge),
-                "uvedgeId": id(uvedge),
-                "curveId": id(edge.geometry),
+                "id": edge.tempId,
+                "uvedgeId": idUVEdge,
+                "curveId": edge.tempId,
                 "type": "edge"
               }
 
@@ -87,9 +108,9 @@ def getTopologyData(occs):
               startVertex = edge.startVertex
               startVertexData = {
                 "_description": "vertex data",
-                "id": id(startVertex),
-                "edgeId": id(edge),
-                "pointId": id(startVertex.geometry),
+                "id": startVertex.tempId,
+                "edgeId": edge.tempId,
+                "pointId": startVertex.tempId,
                 "type": "vertex"
               }
 
@@ -97,9 +118,9 @@ def getTopologyData(occs):
               endVertex = edge.endVertex
               endVertexData = {
                 "_description": "vertex data",
-                "id": id(endVertex),
-                "edgeId": id(edge),
-                "pointId": id(endVertex.geometry),
+                "id": endVertex.tempId,
+                "edgeId": edge.tempId,
+                "pointId": endVertex.tempId,
                 "type": "vertex"
               }
 
@@ -108,20 +129,31 @@ def getTopologyData(occs):
               edgeData['endVertex'] = endVertexData
               uvedgeData['edge'] = edgeData
               loopData["uvedges"].append(uvedgeData)
-              curveData = getCurve2DData(uvedge.geometry)
-              curves.append(curveData)
-              curveData = getCurve3DData(uvedge.edge.geometry)
-              curves.append(curveData)
-              pointData = getPointData(uvedge.edge.startVertex.geometry)
-              points.append(pointData)
-              pointData = getPointData(uvedge.edge.endVertex.geometry)
-              points.append(pointData)
+              curve2DData = getCurve2DData(uvedge.geometry, idUVEdge)
+              if curve2DData != None:
+                curves.append(curve2DData)
+              curve3DData = getCurve3DData(uvedge.edge.geometry, uvedge.edge.tempId)
+              if curve3DData != None:
+                curves.append(curve3DData)
+              pointData = getPointData(uvedge.edge.startVertex.geometry, uvedge.edge.startVertex.tempId)
+              if pointData != None:
+                points.append(pointData)
+              pointData = getPointData(uvedge.edge.endVertex.geometry, uvedge.edge.endVertex.tempId)
+              if pointData != None:
+                points.append(pointData)
 
   # Return object.
   return topology, surfaces, curves, points
 
 # Function to get surface data.
-def getSurfaceData(surface):
+def getSurfaceData(surface, surfaceId):
+  # check and append ids.
+  global surfaceIds
+  if surfaceId in surfaceIds:
+    return None
+  surfaceIds.append(surfaceId)
+
+  # return based on surface type.
   if surface.surfaceType == adsk.core.SurfaceTypes.PlaneSurfaceType:
     # cast surface.
     plane = adsk.core.Plane.cast(surface)
@@ -129,7 +161,7 @@ def getSurfaceData(surface):
     # return data.
     return {
       "_description": "plane data",
-      "id": id(surface),
+      "id": surfaceId,
       "type": "plane",
       "origin": [plane.origin.x, plane.origin.y, plane.origin.z],
       "normal": [plane.normal.x, plane.normal.y, plane.normal.z],
@@ -141,7 +173,7 @@ def getSurfaceData(surface):
     # return data.
     return {
       "_description": "cylinder data",
-      "id": id(surface),
+      "id": surfaceId,
       "type": "cylinder",
       "origin": [cylinder.origin.x, cylinder.origin.y, cylinder.origin.z],
       "normal": [cylinder.axis.x, cylinder.axis.y, cylinder.axis.z],
@@ -154,7 +186,7 @@ def getSurfaceData(surface):
     # return data.
     return {
       "_description": "cone data",
-      "id": id(surface),
+      "id": surfaceId,
       "type": "cone",
       "origin": [cone.origin.x, cone.origin.y, cone.origin.z],
       "normal": [cone.axis.x, cone.axis.y, cone.axis.z],
@@ -168,7 +200,7 @@ def getSurfaceData(surface):
     # return data.
     return {
       "_description": "sphere data",
-      "id": id(surface),
+      "id": surfaceId,
       "type": "sphere",
       "origin": [sphere.origin.x, sphere.origin.y, sphere.origin.z],
       "radius": sphere.radius
@@ -180,7 +212,7 @@ def getSurfaceData(surface):
     # return data.
     return {
       "_description": "torus data",
-      "id": id(surface),
+      "id": surfaceId,
       "type": "torus",
       "origin": [torus.origin.x, torus.origin.y, torus.origin.z],
       "normal": [torus.axis.x, torus.axis.y, torus.axis.z],
@@ -196,7 +228,7 @@ def getSurfaceData(surface):
     # return data.
     return {
       "_description": "elliptical cylinder data",
-      "id": id(surface),
+      "id": surfaceId,
       "type": "ellipticalCylinder",
       "origin": [ellipticalCylinder.origin.x, ellipticalCylinder.origin.y, ellipticalCylinder.origin.z],
       "normal": [ellipticalCylinder.axis.x, ellipticalCylinder.axis.y, ellipticalCylinder.axis.z],
@@ -213,7 +245,7 @@ def getSurfaceData(surface):
     # return data.
     return {
       "_description": "elliptical cone data",
-      "id": id(surface),
+      "id": surfaceId,
       "type": "ellipticalCone",
       "origin": [ellipticalCone.origin.x, ellipticalCone.origin.y, ellipticalCone.origin.z],
       "normal": [ellipticalCone.axis.x, ellipticalCone.axis.y, ellipticalCone.axis.z],
@@ -238,7 +270,7 @@ def getSurfaceData(surface):
     # return data.
     return {
       "_description": "nurbs data",
-      "id": id(surface),
+      "id": surfaceId,
       "type": "nurbs",
       "degree": {
         "u": nurbs.degreeU,
@@ -259,7 +291,14 @@ def getSurfaceData(surface):
     }
 
 # Get curve data.
-def getCurve2DData(curve):
+def getCurve2DData(curve, curve2DId):
+  # check and append ids.
+  global curve2DIds
+  if curve2DId in curve2DIds:
+    return None
+  curve2DIds.append(curve2DId)
+
+  # return based on curve type.
   if curve.curveType == adsk.core.Curve2DTypes.Line2DCurveType:
     # cast curve.
     line = adsk.core.Line2D.cast(curve)
@@ -267,7 +306,7 @@ def getCurve2DData(curve):
     # return data.
     return {
       "_description": "line data",
-      "id": id(curve),
+      "id": curve2DId,
       "type": "line",
       "cardinal": 2,
       "start": [line.startPoint.x, line.startPoint.y],
@@ -280,7 +319,7 @@ def getCurve2DData(curve):
     # return data.
     return {
       "_description": "arc data",
-      "id": id(curve),
+      "id": curve2DId,
       "type": "arc",
       "cardinal": 2,
       "center": [arc.center.x, arc.center.y],
@@ -298,7 +337,7 @@ def getCurve2DData(curve):
     # return data.
     return {
       "_description": "circle data",
-      "id": id(curve),
+      "id": curve2DId,
       "type": "circle",
       "cardinal": 2,
       "center": [circle.center.x, circle.center.y],
@@ -311,7 +350,7 @@ def getCurve2DData(curve):
     # return data.
     return {
       "_description": "ellipse data",
-      "id": id(curve),
+      "id": curve2DId,
       "type": "ellipse",
       "cardinal": 2,
       "center": [ellipse.center.x, ellipse.center.y],
@@ -328,7 +367,7 @@ def getCurve2DData(curve):
     # return data.
     return {
       "_description": "elliptical arc data",
-      "id": id(curve),
+      "id": curve2DId,
       "type": "ellipticalArc",
       "cardinal": 2,
       "center": [ellipticalArc.center.x, ellipticalArc.center.y],
@@ -355,7 +394,7 @@ def getCurve2DData(curve):
     # return data.
     return {
       "_description": "nurbs data",
-      "id": id(curve),
+      "id": curve2DId,
       "type": "nurbs",
       "cardinal": 2,
       "degree": nurbs.degree,
@@ -371,7 +410,14 @@ def getCurve2DData(curve):
     }
 
 # Get curve data.
-def getCurve3DData(curve):
+def getCurve3DData(curve, curve3DId):
+  # check and append ids.
+  global curve3DIds
+  if curve3DId in curve3DIds:
+    return None
+  curve3DIds.append(curve3DId)
+
+  # return based on curve type.
   if curve.curveType == adsk.core.Curve3DTypes.Line3DCurveType:
     # cast curve.
     line = adsk.core.Line3D.cast(curve)
@@ -379,7 +425,7 @@ def getCurve3DData(curve):
     # return data.
     return {
       "_description": "line data",
-      "id": id(curve),
+      "id": curve3DId,
       "type": "line",
       "cardinal": 3,
       "start": [line.startPoint.x, line.startPoint.y, line.startPoint.z],
@@ -392,7 +438,7 @@ def getCurve3DData(curve):
     # return data.
     return {
       "_description": "arc data",
-      "id": id(curve),
+      "id": curve3DId,
       "type": "arc",
       "cardinal": 3,
       "center": [arc.center.x, arc.center.y, arc.center.z],
@@ -411,7 +457,7 @@ def getCurve3DData(curve):
     # return data.
     return {
       "_description": "circle data",
-      "id": id(curve),
+      "id": curve3DId,
       "type": "circle",
       "cardinal": 3,
       "center": [circle.center.x, circle.center.y, circle.center.z],
@@ -425,7 +471,7 @@ def getCurve3DData(curve):
     # return data.
     return {
       "_description": "ellipse data",
-      "id": id(curve),
+      "id": curve3DId,
       "type": "ellipse",
       "cardinal": 3,
       "center": [ellipse.center.x, ellipse.center.y, ellipse.center.z],
@@ -443,7 +489,7 @@ def getCurve3DData(curve):
     # return data.
     return {
       "_description": "elliptical arc data",
-      "id": id(curve),
+      "id": curve3DId,
       "type": "ellipticalArc",
       "cardinal": 3,
       "center": [ellipticalArc.center.x, ellipticalArc.center.y, ellipticalArc.center.z],
@@ -472,7 +518,7 @@ def getCurve3DData(curve):
     # return data.
     return {
       "_description": "nurbs data",
-      "id": id(curve),
+      "id": curve3DId,
       "type": "nurbs",
       "cardinal": 3,
       "degree": nurbs.degree,
@@ -488,11 +534,17 @@ def getCurve3DData(curve):
     }
 
 # Function to get surface data.
-def getPointData(point):
+def getPointData(point, pointId):
+  # check and append ids.
+  global pointIds
+  if pointId in pointIds:
+    return None
+  pointIds.append(pointId)
+
   # return data.
   return {
     "_descriptioin": "point data",
-    "id": id(point),
+    "id": pointId,
     "cardinal": 3,
     "point": [point.x, point.y, point.z]
   }
