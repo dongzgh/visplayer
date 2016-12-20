@@ -2,7 +2,7 @@
 #Description-
 
 import adsk.core, adsk.fusion, adsk.cam, traceback
-import json
+import json, zipfile, os, os.path
 
 #def dumpInfo(objs):
 #  fi = open("c:\\Temp\\objs.txt", "w+")
@@ -554,10 +554,10 @@ def run(context):
     ui = None
     try:
         # Open serialization file.
-        ft = open("c:\\temp\\t.vis", "w+")
-        fs = open("c:\\temp\\s.vis", "w+")
-        fc = open("c:\\temp\\c.vis", "w+")
-        fp = open("c:\\temp\\p.vis", "w+")
+        ft = open("t", "w+")
+        fs = open("s", "w+")
+        fc = open("c", "w+")
+        fp = open("p", "w+")
 
         # Get the active app.
         app = adsk.core.Application.get()
@@ -569,7 +569,10 @@ def run(context):
         design = app.activeProduct
 
         # Get the root compoment.
-        root = design.rootComponent
+        root = adsk.fusion.Component.cast(design.rootComponent)
+
+        # Get component name.
+        visName = root.name + '.vis'
 
         # Get the occurrences.
         occs = root.occurrences
@@ -592,6 +595,27 @@ def run(context):
         fs.close()
         fc.close()
         fp.close()
+
+        # create zip file.
+        if os.path.isfile(visName):
+          os.remove(visName)
+        compression = zipfile.ZIP_DEFLATED
+        vis = zipfile.ZipFile(visName, mode="w")
+        vis.write("t", compress_type=compression)
+        vis.write("s", compress_type=compression)
+        vis.write("c", compress_type=compression)
+        vis.write("p", compress_type=compression)
+        vis.close()
+
+        # move files.
+        visName1 = "c:\\temp\\" + visName
+        if os.path.isfile(visName1):
+          os.remove(visName1)
+        os.rename(visName, visName1)
+        os.remove("t")
+        os.remove("s")
+        os.remove("c")
+        os.remove("p")
 
     except:
         if ui:
