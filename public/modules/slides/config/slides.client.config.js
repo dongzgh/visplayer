@@ -8,14 +8,13 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addTool('files');
     Tools.addTool('scene');
     Tools.addTool('modeling');
-    Tools.addTool('materials');
-    Tools.addTool('markups');
 
     // Set sidebar tool items
-    Tools.addToolItem('sidebar', 'Modeling', 'glyphicon-wrench', 'slides/edit/modeling', null, 'List of modeling tools');
+    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/edit/files', null, 'List of files');    
     Tools.addToolItem('sidebar', 'Scene', 'glyphicon-camera', 'slides/edit/scene', null, 'List of scene objects');
-    Tools.addToolItem('sidebar', 'Files', 'glyphicon-file', 'slides/edit/files', null, 'List of files');   
- 
+    Tools.addToolItem('sidebar', 'Modeling', 'glyphicon-wrench', 'slides/edit/modeling', null, 'List of modeling tools');
+    
+
     // Set files tool items
     Tools.addToolItem('files', 'Upload Files', 'glyphicon-cloud-upload', null, 'uploadFiles', 'Upload files to server');
     Tools.addToolItem('files', 'Download Files', 'glyphicon-cloud-download', null, 'downloadFiles', 'Download files from server');
@@ -42,7 +41,7 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
 
     // Adding trees
     Trees.addTree('scene');
-    Trees.addTree('files');    
+    Trees.addTree('files');
 
     // Set file tree node items
     Trees.addTreeItem('files', 'Models', 'glyphicon-briefcase', 'models');
