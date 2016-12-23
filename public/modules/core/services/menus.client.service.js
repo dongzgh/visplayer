@@ -2,7 +2,6 @@
 
 //Menu service used for managing  menus
 angular.module('core').service('Menus', [
-
 	function() {
     // Define a set of default roles
     this.defaultRoles = ['*'];

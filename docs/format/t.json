@@ -65,12 +65,6 @@
   },
   ...
   {
-  	"_description"[string]: "surface data",
-  	"id"[number]: surfaceId,
-  	"type"[string]: "surface"
-  },
-  ...
-  {
   	"_description"[string]: "curve data",
   	"id"[number]: curveId,
   	"type"[string]: "curve"

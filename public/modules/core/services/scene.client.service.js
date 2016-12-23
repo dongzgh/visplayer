@@ -1,8 +1,7 @@
 'use strict';
 
 //Scene service used for managing scene
-angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '$log',
-
+angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '$log', 
   function($rootScope, $window, $document, $log) {
     //---------------------------------------------------
     //  Initialization
@@ -97,8 +96,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Initialize scene
     this.initialize = function() {
       // Check webgl
-      if (!$window.Detector.webgl)
+      if (!$window.Detector.webgl) {
         $window.Detector.addGetWebGLMessage();
+        return;
+      }
 
       // Create camera
       createCamera();
@@ -617,7 +618,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     function createLights() {
       eyeLight = new $window.THREE.DirectionalLight(0xffffff, 0.5);
       eyeLight.name = 'EYE LIGHT';
-      eyeLight.position.set(BOX_SIZE, BOX_SIZE, BOX_SIZE);
+      eyeLight.position.set(BOX_SIZE * 2, BOX_SIZE, BOX_SIZE * 2);
       activeScene.add(eyeLight);
     }
 

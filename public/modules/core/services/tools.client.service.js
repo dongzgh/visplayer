@@ -2,7 +2,6 @@
 
 //Tool service used for managing  tools
 angular.module('core').service('Tools', ['$log',
-
   function($log) {
     // Define a set of default roles
     this.defaultRoles = ['*'];

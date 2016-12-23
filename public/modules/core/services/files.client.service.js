@@ -1,7 +1,7 @@
 'use strict';
 
-//Files service used to communicate Files REST endpoints
-angular.module('core').service('Files', ['$resource', '$http', '$window', '$log', '$upload', 'Authentication',
+// Files service used to communicate Files REST endpoints
+angular.module('core').service('Files', ['$resource', '$http', '$window', '$log', '$upload', 'Authentication', 
   function($resource, $http, $window, $log, $upload, Authentication) {
     var authentication = Authentication;
 

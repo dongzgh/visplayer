@@ -8,35 +8,6 @@
     ],
     "normal"[array]: [
       x[number], y[number], z[number]
-    ],
-    "meshes"[array]: [
-      {
-        "tolerance"[number]: meshTolerance,
-        "nodes"[object]: {
-          "count"[number]: nodesCount,
-          "points"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ],
-          "normals"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ]
-        },
-        "facets"[object]: {
-          "count"[number]: facetsCount,
-          "indices"[array]: [
-            {
-              "count"[number]: indicesCount,
-              "values"[array]: [
-                i1[number], i2[number], i3[number]
-              ]
-            },
-            ...
-          ]
-        }
-      },
-      ...
     ]
   },
   ...
@@ -50,36 +21,7 @@
     "normal"[array]: [
       x[number], y[number], z[number]
     ],
-    "radius"[number]: cylinderRadius,
-    "meshes"[array]: [
-      {
-        "tolerance"[number]: meshTolerance,
-        "nodes"[object]: {
-          "count"[number]: nodesCount,
-          "points"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ],
-          "normals"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ]
-        },
-        "facets"[object]: {
-          "count"[number]: facetsCount,
-          "indices"[array]: [
-            {
-              "count"[number]: indicesCount,
-              "values"[array]: [
-                i1[number], i2[number], i3[number]
-              ]
-            },
-            ...
-          ]
-        }
-      },
-      ...
-    ]
+    "radius"[number]: cylinderRadius
   },
   ...
   {
@@ -93,36 +35,7 @@
       x[number], y[number], z[number]
     ],
     "radius"[number]: coneRadius,
-    "angle"[number]: coneHalfAngle,
-    "meshes"[array]: [
-      {
-        "tolerance"[number]: meshTolerance,
-        "nodes"[object]: {
-          "count"[number]: nodesCount,
-          "points"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ],
-          "normals"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ]
-        },
-        "facets"[object]: {
-          "count"[number]: facetsCount,
-          "indices"[array]: [
-            {
-              "count"[number]: indicesCount,
-              "values"[array]: [
-                i1[number], i2[number], i3[number]
-              ]
-            },
-            ...
-          ]
-        }
-      },
-      ...
-    ]
+    "angle"[number]: coneHalfAngle
   },
   ...
   {
@@ -132,36 +45,7 @@
     "origin"[array]: [
       x[number], y[number], z[number]
     ],
-    "radius"[number]: sphereRadius,
-    "meshes"[array]: [
-      {
-        "tolerance"[number]: meshTolerance,
-        "nodes"[object]: {
-          "count"[number]: nodesCount,
-          "points"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ],
-          "normals"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ]
-        },
-        "facets"[object]: {
-          "count"[number]: facetsCount,
-          "indices"[array]: [
-            {
-              "count"[number]: indicesCount,
-              "values"[array]: [
-                i1[number], i2[number], i3[number]
-              ]
-            },
-            ...
-          ]
-        }
-      },
-      ...
-    ]
+    "radius"[number]: sphereRadius
   },
   ...
   {
@@ -177,36 +61,7 @@
     "radii"[object]: {
       "major"[number]: radiusMajor,
       "minor"[number]: radiusMinor,
-    },
-    "meshes"[array]: [
-      {
-        "tolerance"[number]: meshTolerance,
-        "nodes"[object]: {
-          "count"[number]: nodesCount,
-          "points"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ],
-          "normals"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ]
-        },
-        "facets"[object]: {
-          "count"[number]: facetsCount,
-          "indices"[array]: [
-            {
-              "count"[number]: indicesCount,
-              "values"[array]: [
-                i1[number], i2[number], i3[number]
-              ]
-            },
-            ...
-          ]
-        }
-      },
-      ...
-    ]
+    }
   },
   ... 
   {
@@ -225,36 +80,7 @@
     "radii"[object]: {
       "major"[number]: ellipsoidMajorRadius,
       "minor"[number]: ellipsoidMinorRadius
-    },
-    "meshes"[array]: [
-      {
-        "tolerance"[number]: meshTolerance,
-        "nodes"[object]: {
-          "count"[number]: nodesCount,
-          "points"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ],
-          "normals"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ]
-        },
-        "facets"[object]: {
-          "count"[number]: facetsCount,
-          "indices"[array]: [
-            {
-              "count"[number]: indicesCount,
-              "values"[array]: [
-                i1[number], i2[number], i3[number]
-              ]
-            },
-            ...
-          ]
-        }
-      },
-      ...
-    ]
+    }
   },
   ...  
   {
@@ -273,36 +99,7 @@
     "radii"[object]: {
       "major"[number]: ellipticalCylinderMajorRadius,
       "minor"[number]: ellipticalCylinderMinorRadius
-    },
-    "meshes"[array]: [
-      {
-        "tolerance"[number]: meshTolerance,
-        "nodes"[object]: {
-          "count"[number]: nodesCount,
-          "points"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ],
-          "normals"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ]
-        },
-        "facets"[object]: {
-          "count"[number]: facetsCount,
-          "indices"[array]: [
-            {
-              "count"[number]: indicesCount,
-              "values"[array]: [
-                i1[number], i2[number], i3[number]
-              ]
-            },
-            ...
-          ]
-        }
-      },
-      ...
-    ]
+    }
   },
   ...
   {
@@ -322,36 +119,7 @@
       "major"[number]: ellipticalConeMajorRadius,
       "minor"[number]: ellipticalConeMinorRadius
     },
-    "angle"[number]: ellipticalConeAngle,
-    "meshes"[array]: [
-      {
-        "tolerance"[number]: meshTolerance,
-        "nodes"[object]: {
-          "count"[number]: nodesCount,
-          "points"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ],
-          "normals"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ]
-        },
-        "facets"[object]: {
-          "count"[number]: facetsCount,
-          "indices"[array]: [
-            {
-              "count"[number]: indicesCount,
-              "values"[array]: [
-                i1[number], i2[number], i3[number]
-              ]
-            },
-            ...
-          ]
-        }
-      },
-      ...
-    ]
+    "angle"[number]: ellipticalConeAngle
   },
   ...   
   {
@@ -382,36 +150,7 @@
       "valuesV"[array]: [
         k1[number],...
       ]
-    },
-    "meshes"[array]: [
-      {
-        "tolerance"[number]: meshTolerance,
-        "nodes"[object]: {
-          "count"[number]: nodesCount,
-          "points"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ],
-          "normals"[array]: [
-            x1[number], y1[number], z1[number],
-            ...
-          ]
-        },
-        "facets"[object]: {
-          "count"[number]: facetsCount,
-          "indices"[array]: [
-            {
-              "count"[number]: indicesCount,
-              "values"[array]: [
-                i1[number], i2[number], i3[number]
-              ]
-            },
-            ...
-          ]
-        }
-      },
-      ...
-    ]
+    }
   },
   ...
   {

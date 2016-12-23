@@ -14,6 +14,7 @@ surfaceIds = []
 curve2DIds = []
 curve3DIds = []
 pointIds = []
+surfaceMeshIds = []
 
 # Function to get topology data
 def getTopologyData(occs):
@@ -22,6 +23,7 @@ def getTopologyData(occs):
   surfaces = []
   curves = []
   points = []
+  meshes = []
 
   # Initialize counters.
   idBody = -1
@@ -72,6 +74,9 @@ def getTopologyData(occs):
           shellData["faces"].append(faceData)
           surfaceData = getSurfaceData(face.geometry, face.tempId)
           surfaces.append(surfaceData)
+          mesh = face.meshManager.displayMeshes.bestMesh
+          meshData = getSurfaceMeshData(mesh, face.tempId)
+          meshes.append(meshData)
           for loop in face.loops:
             # prepare loop data.
             idLoop += 1
@@ -129,10 +134,10 @@ def getTopologyData(occs):
               edgeData['endVertex'] = endVertexData
               uvedgeData['edge'] = edgeData
               loopData["uvedges"].append(uvedgeData)
-              curve2DData = getCurve2DData(uvedge.geometry, idUVEdge)
+              curve2DData = getCurveData(uvedge.geometry, 2, idUVEdge)
               if curve2DData != None:
                 curves.append(curve2DData)
-              curve3DData = getCurve3DData(uvedge.edge.geometry, uvedge.edge.tempId)
+              curve3DData = getCurveData(uvedge.edge.geometry, 3, uvedge.edge.tempId)
               if curve3DData != None:
                 curves.append(curve3DData)
               pointData = getPointData(uvedge.edge.startVertex.geometry, uvedge.edge.startVertex.tempId)
@@ -143,7 +148,7 @@ def getTopologyData(occs):
                 points.append(pointData)
 
   # Return object.
-  return topology, surfaces, curves, points
+  return topology, surfaces, curves, points, meshes
 
 # Function to get surface data.
 def getSurfaceData(surface, surfaceId):
@@ -290,7 +295,14 @@ def getSurfaceData(surface, surfaceId):
       }
     }
 
-# Get curve data.
+# Function to get curve data.
+def getCurveData(curve, cardinal, curveId):
+  if cardinal == 2:
+    return getCurve2DData(curve, curveId)
+  elif cardinal == 3:
+    return getCurve3DData(curve, curveId)
+
+# Function to get curve 2D data.
 def getCurve2DData(curve, curve2DId):
   # check and append ids.
   global curve2DIds
@@ -409,7 +421,7 @@ def getCurve2DData(curve, curve2DId):
       }
     }
 
-# Get curve data.
+# Function to get curve 3D data.
 def getCurve3DData(curve, curve3DId):
   # check and append ids.
   global curve3DIds
@@ -533,7 +545,7 @@ def getCurve3DData(curve, curve3DId):
       }
     }
 
-# Function to get surface data.
+# Function to get point data.
 def getPointData(point, pointId):
   # check and append ids.
   global pointIds
@@ -549,6 +561,30 @@ def getPointData(point, pointId):
     "point": [point.x, point.y, point.z]
   }
 
+# Function to get surface mesh data.
+def getSurfaceMeshData(mesh, meshId):
+  # check and append ids.
+  global meshIds
+  if meshId in surfaceMeshIds:
+    return None
+  surfaceMeshIds.append(meshId)
+
+  # return data.
+  return {
+    "_descriptioin": "mesh data",
+    "id": meshId,
+    "type": "surfaceMesh",
+    "nodes": {
+      "count": mesh.nodeCount,
+      "points": mesh.nodeCoordinatesAsDouble,
+      "normals": mesh.normalVectorsAsDouble
+    },
+    "facets": {
+      "count": mesh.triangleCount,
+      "indices": mesh.nodeIndices
+    }
+  }
+
 # Main entry point
 def run(context):
     ui = None
@@ -558,6 +594,7 @@ def run(context):
         fs = open("s", "w+")
         fc = open("c", "w+")
         fp = open("p", "w+")
+        fm = open("m", "w+")
 
         # Get the active app.
         app = adsk.core.Application.get()
@@ -578,7 +615,7 @@ def run(context):
         occs = root.occurrences
 
         # Get topology data.
-        [topology, surfaces, curves, points] = getTopologyData(occs)
+        [topology, surfaces, curves, points, meshes] = getTopologyData(occs)
 
         # Write json data.
         output = json.dumps(topology, indent=2, separators=(',',': '), sort_keys=True)
@@ -589,12 +626,15 @@ def run(context):
         fc.write(output)
         output = json.dumps(points, indent=2, separators=(',',': '), sort_keys=True)
         fp.write(output)
+        output = json.dumps(meshes, indent=2, separators=(',',': '), sort_keys=True)
+        fm.write(output)
 
         # Close serialization file.
         ft.close()
         fs.close()
         fc.close()
         fp.close()
+        fm.close()
 
         # create zip file.
         if os.path.isfile(visName):
@@ -605,6 +645,7 @@ def run(context):
         vis.write("s", compress_type=compression)
         vis.write("c", compress_type=compression)
         vis.write("p", compress_type=compression)
+        vis.write("m", compress_type=compression)
         vis.close()
 
         # move files.
@@ -616,6 +657,7 @@ def run(context):
         os.remove("s")
         os.remove("c")
         os.remove("p")
+        os.remove("m")
 
     except:
         if ui:

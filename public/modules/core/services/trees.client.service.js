@@ -2,7 +2,6 @@
 
 //Tree service used for managing  trees
 angular.module('core').service('Trees', ['$log',
-
   function($log) {
     // Define a set of default roles
     this.defaultRoles = ['*'];

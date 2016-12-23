@@ -21,8 +21,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.fileTools = Tools.getTool('files');
   $scope.sceneTools = Tools.getTool('scene');
   $scope.modelingTools = Tools.getTool('modeling');
-  $scope.materialTools = Tools.getTool('materials');
-  $scope.markupTools = Tools.getTool('markups');
 
   // Find a list of file tree items
   Trees.emptyTree('files');
@@ -66,15 +64,15 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     if (action !== null && angular.isDefined($scope[action])) $scope[action]();
   };
 
-  // Select all subtree items
-  $scope.checkAllItems = function(tree, item) {
+  // Select tree item.
+  $scope.checkItem = function(tree, item) {
     item.checked = !item.checked;
     Trees.checkAllSubTreeItems(tree, item.link, item.checked);
   };
 
 
-  // Disable all files
-  $scope.isCheckEnabled = function(item) {
+  // Disable tree item check.
+  $scope.isCheckDisabled = function(item) {
     if (item.items.length === 0) {
       item.checked = false;
       return true;
@@ -217,7 +215,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.remove = function(slide) {
     if (slide) {
       slide.$remove();
-
       for (var i in $scope.slides) {
         if ($scope.slides[i] === slide) {
           $scope.slides.splice(i, 1);
@@ -233,7 +230,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Update existing Slide
   $scope.update = function() {
     var slide = $scope.slide;
-
     slide.$update(function() {
       $location.path('slides/' + slide._id);
     }, function(errorres) {

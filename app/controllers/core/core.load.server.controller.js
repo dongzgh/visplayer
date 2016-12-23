@@ -45,37 +45,39 @@ exports.loadVis = function(res, filepath, level) {
       console.log(err);
     } else {
       // Unzip file
-      var inp = fs.createReadStream(filepath);
-      var out = unzip.Extract({
+      var input = fs.createReadStream(filepath);
+      var output = unzip.Extract({
         path: systmp
       }).on('close', function() {
         // Read data from systmp
-        var fdata, edata, udata, vdata, tdata, gd;
-        if (typeof level === 'undefined' || level === 'display') {
-          fdata = JSON.parse(fs.readFileSync(systmp + '/f'));
-          edata = JSON.parse(fs.readFileSync(systmp + '/e'));
+        var tdata, sdata, cdata, pdata, mdata, gd
+        if (typeof level === 'undefined' || level === 'display') {          
+          cdata = JSON.parse(fs.readFileSync(systmp + '/c'));
+          pdata = JSON.parse(fs.readFileSync(systmp + '/p'));
+          mdata = JSON.parse(fs.readFileSync(systmp + '/m'));
 
           // Construct gd (geometry descriptor)
           gd = {
             name: objname,
-            faces: fdata,
-            edges: edata
+            curves: cdata,
+            points: pdata,
+            meshes: mdata            
           };
         } else if (level === 'full') {
-          fdata = JSON.parse(fs.readFileSync(systmp + '/f'));
-          edata = JSON.parse(fs.readFileSync(systmp + '/e'));
-          udata = JSON.parse(fs.readFileSync(systmp + '/u'));
-          vdata = JSON.parse(fs.readFileSync(systmp + '/v'));
           tdata = JSON.parse(fs.readFileSync(systmp + '/t'));
+          sdata = JSON.parse(fs.readFileSync(systmp + '/s'));
+          cdata = JSON.parse(fs.readFileSync(systmp + '/c'));
+          pdata = JSON.parse(fs.readFileSync(systmp + '/p'));
+          mdata = JSON.parse(fs.readFileSync(systmp + '/m'));
 
           // Construct gd (geometry descriptor)
           gd = {
             name: objname,
-            faces: fdata,
-            edges: edata,
-            uses: udata,
-            vertices: vdata,
-            topology: tdata
+            topology: tdata,
+            surfaces: sdata,
+            curves: cdata,
+            points: pdata,
+            meshes: mdata
           };
         }
         fs.close(fd);
@@ -86,7 +88,7 @@ exports.loadVis = function(res, filepath, level) {
         res.set('ContentLength', msg.length);
         res.send(msg).status(200).end();
       });
-      inp.pipe(out);
+      input.pipe(output);
     }
   });
 };
