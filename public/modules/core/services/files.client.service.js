@@ -156,7 +156,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         req.addEventListener('error', cberror, false);
 
         // Send request
-        req.open('get', 'files/' + filename + '?level=display', true);
+        req.open('get', 'files/' + filename, true);
         req.send();
       });
     };

@@ -609,7 +609,7 @@ def run(context):
         root = adsk.fusion.Component.cast(design.rootComponent)
 
         # Get component name.
-        visName = root.name + '.vis'
+        visName = root.name.replace(' ', '') + '.vis'
 
         # Get the occurrences.
         occs = root.occurrences

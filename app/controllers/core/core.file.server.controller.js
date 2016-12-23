@@ -95,12 +95,6 @@ exports.load = function(req, res) {
     return;
   }
 
-  // Get level
-  var level = req.query.level;
-  if (typeof level === 'undefined') {
-    level = 'display';
-  }
-
   // Get ext
   var ext = path.extname(filename);
   var handle;
@@ -111,7 +105,7 @@ exports.load = function(req, res) {
   // Load data
   if (handle) {
     var filepath = 'users/' + username + '/' + filename;
-    handle(res, filepath, level);
+    handle(res, filepath);
   }
 };
 

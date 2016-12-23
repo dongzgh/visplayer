@@ -33,7 +33,7 @@ exports.encryptData = function(userId, data) {
 /**
  * Load a model file
  */
-exports.loadVis = function(res, filepath, level) {
+exports.loadVis = function(res, filepath) {
   // Get file information
   var filename = path.basename(filepath);
   var objname = filename.split('.')[0];
@@ -50,36 +50,23 @@ exports.loadVis = function(res, filepath, level) {
         path: systmp
       }).on('close', function() {
         // Read data from systmp
-        var tdata, sdata, cdata, pdata, mdata, gd
-        if (typeof level === 'undefined' || level === 'display') {          
-          cdata = JSON.parse(fs.readFileSync(systmp + '/c'));
-          pdata = JSON.parse(fs.readFileSync(systmp + '/p'));
-          mdata = JSON.parse(fs.readFileSync(systmp + '/m'));
+        var tdata = JSON.parse(fs.readFileSync(systmp + '/t'));
+        var sdata = JSON.parse(fs.readFileSync(systmp + '/s'));
+        var cdata = JSON.parse(fs.readFileSync(systmp + '/c'));
+        var pdata = JSON.parse(fs.readFileSync(systmp + '/p'));
+        var mdata = JSON.parse(fs.readFileSync(systmp + '/m'));
 
-          // Construct gd (geometry descriptor)
-          gd = {
-            name: objname,
-            curves: cdata,
-            points: pdata,
-            meshes: mdata            
-          };
-        } else if (level === 'full') {
-          tdata = JSON.parse(fs.readFileSync(systmp + '/t'));
-          sdata = JSON.parse(fs.readFileSync(systmp + '/s'));
-          cdata = JSON.parse(fs.readFileSync(systmp + '/c'));
-          pdata = JSON.parse(fs.readFileSync(systmp + '/p'));
-          mdata = JSON.parse(fs.readFileSync(systmp + '/m'));
-
-          // Construct gd (geometry descriptor)
-          gd = {
-            name: objname,
-            topology: tdata,
-            surfaces: sdata,
-            curves: cdata,
-            points: pdata,
-            meshes: mdata
-          };
-        }
+        // Construct gd (geometry descriptor)
+        var gd = {
+          name: objname,
+          topology: tdata,
+          surfaces: sdata,
+          curves: cdata,
+          points: pdata,
+          meshes: mdata
+        };
+        
+        // Close file.
         fs.close(fd);
 
         // Send data
