@@ -67,13 +67,15 @@
   {
   	"_description"[string]: "curve data",
   	"id"[number]: curveId,
-  	"type"[string]: "curve"
+  	"type"[string]: "curve",
+    "cardinal": 3
   },
   ...
   {
   	"_description"[string]: "point data",
   	"id"[number]: pointId,
-  	"type"[string]: "point"
+  	"type"[string]: "point",
+    "cadinal"[number]: 3
   },
   ...
 ]
