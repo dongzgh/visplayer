@@ -161,34 +161,35 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       model.add(faces);
       var edges = new $window.THREE.Object3D();
       model.add(edges);
-      var geometry;
 
       // Create faces
-      for (i = 0; i < gd.faces.length; i++) {
+      for (i = 0; i < gd.meshes.length; i++) {
         // Create geometry
-        geometry = new $window.THREE.Geometry();
-        var fd = gd.faces[i].tessellation.facets[0];
-        for (j = 0; j < fd.vertexCount; j++) {
+        let geometry = new $window.THREE.Geometry();
+        let fd = gd.meshes[i];
+        for (j = 0; j < fd.nodes.count; j++) {
           geometry.vertices.push(
             new $window.THREE.Vector3(
-              fd.vertexCoordinates[j * 3],
-              fd.vertexCoordinates[j * 3 + 1],
-              fd.vertexCoordinates[j * 3 + 2]
+              fd.nodes.points[j * 3],
+              fd.nodes.points[j * 3 + 1],
+              fd.nodes.points[j * 3 + 2]
             ));
         }
-        for (j = 0; j < fd.facetCount; j++) {
-          geometry.faces.push(
-            new $window.THREE.Face3(
-              fd.vertexIndices[j * 3] - 1,
-              fd.vertexIndices[j * 3 + 1] - 1,
-              fd.vertexIndices[j * 3 + 2] - 1
-            ));
+        for (j = 0; j < fd.facets.count; j++) {
+          let a = fd.facets.indices[j * 3];
+          let b = fd.facets.indices[j * 3 + 1];
+          let c = fd.facets.indices[j * 3 + 2];
+          let facet = new $window.THREE.Face3(a, b, c);
+          facet.vertexNormals = [
+            new $window.THREE.Vector3(fd.nodes.normals[a * 3], fd.nodes.normals[a * 3 + 1], fd.nodes.normals[a * 3 + 2]),
+            new $window.THREE.Vector3(fd.nodes.normals[b * 3], fd.nodes.normals[b * 3 + 1], fd.nodes.normals[b * 3 + 2]),
+            new $window.THREE.Vector3(fd.nodes.normals[c * 3], fd.nodes.normals[c * 3 + 1], fd.nodes.normals[c * 3 + 2])];
+          geometry.faces.push(facet);
         }
 
         // Evaluate geometry addtional gd
-        geometry.key = gd.faces[i].id;
+        geometry.key = gd.meshes[i].id;
         geometry.computeFaceNormals();
-        geometry.computeVertexNormals();
         geometry.computeBoundingBox();
         model.box.union(geometry.boundingBox);
 
@@ -199,32 +200,33 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         // Add to parent
         faces.add(face);
       }
+      
+      // // Create gd.edges
+      // for (i = 0; i < gd.edges.length; i++) {
+      //   // Create geometry
+      //   geometry = new $window.THREE.Geometry();
+      //   var ed = gd.edges[i].tessellation;
+      //   for (j = 0; j < ed.vertexCount; j++) {
+      //     geometry.vertices.push(
+      //       new $window.THREE.Vector3(
+      //         ed.points[j * 3],
+      //         ed.points[j * 3 + 1],
+      //         ed.points[j * 3 + 2]
+      //       ));
+      //   }
 
-      // Create gd.edges
-      for (i = 0; i < gd.edges.length; i++) {
-        // Create geometry
-        geometry = new $window.THREE.Geometry();
-        var ed = gd.edges[i].tessellation;
-        for (j = 0; j < ed.vertexCount; j++) {
-          geometry.vertices.push(
-            new $window.THREE.Vector3(
-              ed.points[j * 3],
-              ed.points[j * 3 + 1],
-              ed.points[j * 3 + 2]
-            ));
-        }
+      //   // Compute geometry addtional gd
+      //   geometry.key = ed.id;
+      //   geometry.computeBoundingBox();
 
-        // Compute geometry addtional gd
-        geometry.key = ed.id;
-        geometry.computeBoundingBox();
+      //   // Create line
+      //   var edge = new $window.THREE.Line(geometry, edgeDefaultMaterial.clone());
+      //   edge.type = scope.TYPE_EDGE;
 
-        // Create line
-        var edge = new $window.THREE.Line(geometry, edgeDefaultMaterial.clone());
-        edge.type = scope.TYPE_EDGE;
+      //   // Add to parent
+      //   edges.add(edge);
+      // }
 
-        // Add to parent
-        edges.add(edge);
-      }
 
       // Update model center
       model.center = new $window.THREE.Vector3();
