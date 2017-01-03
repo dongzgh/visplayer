@@ -15,6 +15,7 @@
             "id"[number]: facedId,
             "shellId"[number]: shellId,
             "surfacdId"[number]: surfaceId,
+            "meshId"[number]: meshId,
             "type"[string]: "face",
             "loops"[array]: [
               {
@@ -34,6 +35,7 @@
                       "id"[number]: edgeId,
                       "uvedgeId"[number]: uvedgeId,
                       "curveId"[number]: curveId,
+                      "meshId"[number]: meshId,
                       "type"[string]: "edge",
                       "startVertex"[object]: {
                       	"_description"[string]: "vertex data",
@@ -67,6 +69,7 @@
   {
   	"_description"[string]: "curve data",
   	"id"[number]: curveId,
+    "meshId"[number]: meshId,
   	"type"[string]: "curve",
     "cardinal": 3
   },

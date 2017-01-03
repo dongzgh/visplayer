@@ -7,7 +7,6 @@ var os = require('os');
 var path = require('path');
 var fs = require('fs');
 var unzip = require('unzip');
-var crypto = require('crypto');
 var cryptoJS = require('crypto-js');
 
 /**
@@ -57,12 +56,8 @@ exports.loadVis = function(res, filepath) {
         var pdata = JSON.parse(fs.readFileSync(systmp + '/p'));
         var mdata = JSON.parse(fs.readFileSync(systmp + '/m'));
 
-        // Generate unique id
-        var id = crypto.randomBytes(16).toString('hex');
-
         // Construct gd (geometry descriptor)
         var gd = {
-          id: id,
           name: objname,
           topology: tdata,
           surfaces: sdata,

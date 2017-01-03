@@ -66,6 +66,7 @@ def getTopologyData(occs):
             "id": face.tempId,
             "shellId": idShell,
             "surfaceId": face.tempId, # id(face.geometry) returned not unique.
+            "meshId": face.tempId,
             "type": "face",
             "loops": []
           }
