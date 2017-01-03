@@ -576,7 +576,7 @@ def getSurfaceMeshData(mesh, meshId):
     "id": meshId,
     "type": "surfaceMesh",
     "nodes": {
-      "count": mesh.nodeCount,
+      "count": len(mesh.nodeCoordinates),
       "points": mesh.nodeCoordinatesAsDouble,
       "normals": mesh.normalVectorsAsDouble
     },
