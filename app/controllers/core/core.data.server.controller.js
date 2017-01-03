@@ -7,25 +7,26 @@ var os = require('os');
 var path = require('path');
 var fs = require('fs');
 var unzip = require('unzip');
-var CryptoJS = require('crypto-js');
+var cripto = require('crypto');
+var cryptoJS = require('crypto-js');
 
 /**
  * Encryption
  */
 exports.encryptData = function(userId, data) {
-  var salt = CryptoJS.lib.WordArray.random(128 / 8);
-  var key = CryptoJS.EvpKDF(userId, salt, {
+  var salt = cryptoJS.lib.WordArray.random(128 / 8);
+  var key = cryptoJS.EvpKDF(userId, salt, {
     keySize: 128 / 32
   });
-  var iv = CryptoJS.enc.Hex.parse('101112131415161718191a1b1c1d1e1f');
-  var enc = CryptoJS.AES.encrypt(JSON.stringify(data), key, {
+  var iv = cryptoJS.enc.Hex.parse('101112131415161718191a1b1c1d1e1f');
+  var enc = cryptoJS.AES.encrypt(JSON.stringify(data), key, {
     iv: iv,
-    mode: CryptoJS.mode.CBC
+    mode: cryptoJS.mode.CBC
   });
   var raw = {
-    iv: CryptoJS.enc.Hex.stringify(iv),
-    salt: CryptoJS.enc.Hex.stringify(salt),
-    ciphertext: CryptoJS.enc.Hex.stringify(enc.ciphertext)
+    iv: cryptoJS.enc.Hex.stringify(iv),
+    salt: cryptoJS.enc.Hex.stringify(salt),
+    ciphertext: cryptoJS.enc.Hex.stringify(enc.ciphertext)
   };
   return raw;
 };
@@ -56,8 +57,12 @@ exports.loadVis = function(res, filepath) {
         var pdata = JSON.parse(fs.readFileSync(systmp + '/p'));
         var mdata = JSON.parse(fs.readFileSync(systmp + '/m'));
 
+        // Generate unique id
+        var id = crypto.randomBytes(16).toString("hex");
+
         // Construct gd (geometry descriptor)
         var gd = {
+          id: id,
           name: objname,
           topology: tdata,
           surfaces: sdata,

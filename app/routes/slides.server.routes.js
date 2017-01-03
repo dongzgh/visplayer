@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = function(app) {
-  var users = require('../../app/controllers/users.server.controller');
-  var slides = require('../../app/controllers/slides.server.controller');
+  var users = require('../controllers/users.server.controller');
+  var slides = require('../controllers/slides.server.controller');
 
   // Slides routes
   app.route('/slides')

@@ -10,5 +10,5 @@ var _ = require('lodash');
  */
 module.exports = _.extend(
   require('./core/core.file.server.controller'),
-  require('./core/core.load.server.controller')
+  require('./core/core.data.server.controller')
 );
