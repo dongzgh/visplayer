@@ -33,45 +33,45 @@ exports.encryptData = function(userId, data) {
 /**
  * Load a model file
  */
-exports.loadVis = function(res, filepath) {
+exports.loadVis = function(res, filePath) {
   // Get file information
-  var filename = path.basename(filepath);
-  var objname = filename.split('.')[0];
-  var systmp = os.tmpdir() + '/' + objname;
+  var fileName = path.basename(filePath);
+  var objectName = fileName.split('.')[0];
+  var tempPath = os.tmpdir() + '/' + objectName;
 
   // Open file
-  fs.open(filepath, 'r', function(err, fd) {
+  fs.open(filePath, 'r', function(err, file) {
     if (err) {
       console.log(err);
     } else {
       // Unzip file
-      var input = fs.createReadStream(filepath);
+      var input = fs.createReadStream(filePath);
       var output = unzip.Extract({
-        path: systmp
+        path: tempPath
       }).on('close', function() {
-        // Read data from systmp
-        var tdata = JSON.parse(fs.readFileSync(systmp + '/t'));
-        var sdata = JSON.parse(fs.readFileSync(systmp + '/s'));
-        var cdata = JSON.parse(fs.readFileSync(systmp + '/c'));
-        var pdata = JSON.parse(fs.readFileSync(systmp + '/p'));
-        var mdata = JSON.parse(fs.readFileSync(systmp + '/m'));
+        // Read data from tempPath
+        var tData = JSON.parse(fs.readFileSync(tempPath + '/t'));
+        var sData = JSON.parse(fs.readFileSync(tempPath + '/s'));
+        var cData = JSON.parse(fs.readFileSync(tempPath + '/c'));
+        var pData = JSON.parse(fs.readFileSync(tempPath + '/p'));
+        var mData = JSON.parse(fs.readFileSync(tempPath + '/m'));
 
-        // Construct gd (geometry descriptor)
-        var gd = {
-          name: objname,
-          topology: tdata,
-          surfaces: sdata,
-          curves: cdata,
-          points: pdata,
-          meshes: mdata
+        // Construct modelData (geometry descriptor)
+        var modelData = {
+          name: objectName,
+          topology: tData,
+          surfaces: sData,
+          curves: cData,
+          points: pData,
+          meshes: mData
         };
         
         // Close file.
-        fs.close(fd);
+        fs.close(file);
 
         // Send data
-        // var msg = encryptData(res.req.user.id, gd); // encrype data
-        var msg = JSON.stringify(gd);
+        // var msg = encryptData(res.req.user.id, modelData); // encrype data
+        var msg = JSON.stringify(modelData);
         res.set('ContentLength', msg.length);
         res.send(msg).status(200).end();
       });

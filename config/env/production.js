@@ -29,7 +29,7 @@ module.exports = {
         'public/lib/angular-animate/angular-animate.min.js',
         'public/lib/angular-ui-router/release/angular-ui-router.min.js',
         'public/lib/angular-ui-utils/ui-utils.min.js',
-        'public/libr/angular-bootstrap/ui-bootstrap-tpls.min.js',
+        'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
         'public/lib/angular-cookies/angular-cookies.min.js',        ,
         'public/lib/angular-touch/angular-touch.min.js',
         'public/lib/angular-sanitize/angular-sanitize.min.js',        
@@ -38,9 +38,9 @@ module.exports = {
         'public/lib/cryptojslib/rollups/aes.js',
         'public/lib/dat-gui/build/dat.gui.min.js',
         'public/lib/threejs/build/three.min.js',
-        'public/libr/threejs/build/detector.min.js',
-        'public/libr/threejs/build/controls/orbit-controls.min.js',
-        'public/libr/threejs/build/controls/transform-controls.min.js'
+        'public/lib/threejs/examples/js/Detector.js',
+        'public/lib/threejs/examples/js/controls/OrbitControls.js',
+        'public/lib/threejs/examples/js/controls/TransformControls.js'
       ]
     },
     css: 'public/dist/application.min.css',

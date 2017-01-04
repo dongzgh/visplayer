@@ -135,25 +135,25 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
 
     // Query models
-    this.queryModels = function(onsuccess) {
-      var modelnames = [];
+    this.queryModels = function(onSuccess) {
+      var modelNames = [];
       activeScene.traverse(function(object) {
-        if (object.type === scope.TYPE_MODEL) modelnames.push(object.name);
+        if (object.type === scope.TYPE_MODEL) modelNames.push(object.name);
       });
-      if (onsuccess) onsuccess(modelnames);
+      if (onSuccess) onSuccess(modelNames);
     };
 
     // Load model
-    this.loadModel = function(gd, onsuccess) {
+    this.loadModel = function(data, onSuccess) {
       // Check input data
-      if (gd === null) return;
+      if (data === null) return;
 
       // Count instances
-      var count = countModels(gd.name) + 1;
+      var count = countModels(data.name) + 1;
 
       // Create scene object
       var model = new $window.THREE.Object3D();
-      model.name = gd.name;
+      model.name = data.name;
       model.displayName = model.name + ' #' + count;
       model.type = scope.TYPE_MODEL;
       model.box = new $window.THREE.Box3();
@@ -163,70 +163,77 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       model.add(edges);
 
       // Create faces
-      for (i = 0; i < gd.meshes.length; i++) {
-        // Create geometry
-        let geometry = new $window.THREE.Geometry();
-        let fd = gd.meshes[i];
-        for (j = 0; j < fd.nodes.count; j++) {
-          geometry.vertices.push(
-            new $window.THREE.Vector3(
-              fd.nodes.points[j * 3],
-              fd.nodes.points[j * 3 + 1],
-              fd.nodes.points[j * 3 + 2]
-            ));
+      for (i = 0; i < data.meshes.length; i++) {
+        // Get mesh.
+        let mesh = data.meshes[i];        
+
+        // Save mesh        
+        if (mesh.type === 'surfaceMesh') {
+          // Create geometry
+          let geometry = new $window.THREE.Geometry();
+
+          // Save vertices.
+          for (j = 0; j < mesh.nodes.count; j++) {
+            geometry.vertices.push(
+              new $window.THREE.Vector3(
+                mesh.nodes.points[j * 3],
+                mesh.nodes.points[j * 3 + 1],
+                mesh.nodes.points[j * 3 + 2]
+              ));
+          }
+
+          // Save facets
+          for (j = 0; j < mesh.facets.count; j++) {
+            let a = mesh.facets.indices[j * 3];
+            let b = mesh.facets.indices[j * 3 + 1];
+            let c = mesh.facets.indices[j * 3 + 2];
+            let facet = new $window.THREE.Face3(a, b, c);
+            facet.vertexNormals = [
+              new $window.THREE.Vector3(mesh.nodes.normals[a * 3], mesh.nodes.normals[a * 3 + 1], mesh.nodes.normals[a * 3 + 2]),
+              new $window.THREE.Vector3(mesh.nodes.normals[b * 3], mesh.nodes.normals[b * 3 + 1], mesh.nodes.normals[b * 3 + 2]),
+              new $window.THREE.Vector3(mesh.nodes.normals[c * 3], mesh.nodes.normals[c * 3 + 1], mesh.nodes.normals[c * 3 + 2])];
+            geometry.faces.push(facet);
+          }
+
+          // Evaluate geometry addtional data
+          geometry.key = mesh.id;
+          geometry.computeFaceNormals();
+          geometry.computeBoundingBox();
+          model.box.union(geometry.boundingBox);
+
+          // Create mesh
+          var face = new $window.THREE.Mesh(geometry, faceDefaultMaterial.clone());
+          face.type = scope.TYPE_FACE;
+
+          // Add to parent
+          faces.add(face);
         }
-        for (j = 0; j < fd.facets.count; j++) {
-          let a = fd.facets.indices[j * 3];
-          let b = fd.facets.indices[j * 3 + 1];
-          let c = fd.facets.indices[j * 3 + 2];
-          let facet = new $window.THREE.Face3(a, b, c);
-          facet.vertexNormals = [
-            new $window.THREE.Vector3(fd.nodes.normals[a * 3], fd.nodes.normals[a * 3 + 1], fd.nodes.normals[a * 3 + 2]),
-            new $window.THREE.Vector3(fd.nodes.normals[b * 3], fd.nodes.normals[b * 3 + 1], fd.nodes.normals[b * 3 + 2]),
-            new $window.THREE.Vector3(fd.nodes.normals[c * 3], fd.nodes.normals[c * 3 + 1], fd.nodes.normals[c * 3 + 2])];
-          geometry.faces.push(facet);
-        }
+        else if (mesh.type === 'curveMesh' && mesh.cardinal === 3) {
+          // Create geometry
+          let geometry = new $window.THREE.Geometry();
 
-        // Evaluate geometry addtional gd
-        geometry.key = gd.meshes[i].id;
-        geometry.computeFaceNormals();
-        geometry.computeBoundingBox();
-        model.box.union(geometry.boundingBox);
+          // Save vertices.
+          for (j = 0; j < mesh.nodes.count; j++) {
+            geometry.vertices.push(
+              new $window.THREE.Vector3(
+                mesh.nodes.points[j * 3],
+                mesh.nodes.points[j * 3 + 1],
+                mesh.nodes.points[j * 3 + 2]
+              ));
+          }
 
-        // Create mesh
-        var face = new $window.THREE.Mesh(geometry, faceDefaultMaterial.clone());
-        face.type = scope.TYPE_FACE;
+          // Compute geometry addtional data
+          geometry.key = mesh.id;
+          geometry.computeBoundingBox();
 
-        // Add to parent
-        faces.add(face);
+          // Create line
+          var edge = new $window.THREE.Line(geometry, edgeDefaultMaterial.clone());
+          edge.type = scope.TYPE_EDGE;
+
+          // Add to parent
+          edges.add(edge);
+        }        
       }
-      
-      // // Create gd.edges
-      // for (i = 0; i < gd.edges.length; i++) {
-      //   // Create geometry
-      //   geometry = new $window.THREE.Geometry();
-      //   var ed = gd.edges[i].tessellation;
-      //   for (j = 0; j < ed.vertexCount; j++) {
-      //     geometry.vertices.push(
-      //       new $window.THREE.Vector3(
-      //         ed.points[j * 3],
-      //         ed.points[j * 3 + 1],
-      //         ed.points[j * 3 + 2]
-      //       ));
-      //   }
-
-      //   // Compute geometry addtional gd
-      //   geometry.key = ed.id;
-      //   geometry.computeBoundingBox();
-
-      //   // Create line
-      //   var edge = new $window.THREE.Line(geometry, edgeDefaultMaterial.clone());
-      //   edge.type = scope.TYPE_EDGE;
-
-      //   // Add to parent
-      //   edges.add(edge);
-      // }
-
 
       // Update model center
       model.center = new $window.THREE.Vector3();
@@ -245,7 +252,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       scope.fitView(p);
 
       // Post-processing
-      if (onsuccess) onsuccess(model);
+      if (onSuccess) onSuccess(model);
     };
 
     // Remove object

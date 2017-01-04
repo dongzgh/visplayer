@@ -29,12 +29,14 @@
                     "id"[number]: uvedgeId,
                     "loopId"[number]: loopId,
                     "curveId"[number]: curveId,
+                    "meshId"[number]: meshId,
                     "type"[string]: "uvedge",
                     "edge"[object]: {
                     	"_description"[string]: "edge data",
                       "id"[number]: edgeId,
                       "uvedgeId"[number]: uvedgeId,
                       "curveId"[number]: curveId,
+                      "meshId"[number]: meshId,
                       "type"[string]: "edge",
                       "startVertex"[object]: {
                       	"_description"[string]: "vertex data",
@@ -68,6 +70,7 @@
   {
   	"_description"[string]: "curve data",
   	"id"[number]: curveId,
+    "meshId"[number]: meshId,
   	"type"[string]: "curve",
     "cardinal": 3
   },

@@ -52,7 +52,7 @@ module.exports = {
         'public/lib/angular-animate/angular-animate.js',
         'public/lib/angular-ui-router/release/angular-ui-router.js',
         'public/lib/angular-ui-utils/ui-utils.js',
-        'public/libr/angular-bootstrap/ui-bootstrap-tpls.js',
+        'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-cookies/angular-cookies.js',        
         'public/lib/angular-touch/angular-touch.js',
         'public/lib/angular-sanitize/angular-sanitize.js',        
@@ -61,9 +61,9 @@ module.exports = {
         'public/lib/cryptojslib/rollups/aes.js',
         'public/lib/dat-gui/build/dat.gui.js',
         'public/lib/threejs/build/three.js',
-        'public/libr/threejs/build/detector.js',
-        'public/libr/threejs/build/controls/orbit-controls.js',
-        'public/libr/threejs/build/controls/transform-controls.js'
+        'public/lib/threejs/examples/js/Detector.js',
+        'public/lib/threejs/examples/js/controls/OrbitControls.js',
+        'public/lib/threejs/examples/js/controls/TransformControls.js'
       ]
     },
     css: [
