@@ -212,7 +212,7 @@ angular.module('core').service('Trees', ['$log',
       for (var itemIndex in this.trees[treeId].items) {
         if (this.trees[treeId].items[itemIndex].link === rootTreeItemURL) {
           var item = this.trees[treeId].items[itemIndex];
-          if (angular.isDefined(item.items) && item.items.length > 0) {
+          if (typeof item.items !== 'undefined' && item.items.length > 0) {
             for (var subitemIndex in item.items) {
               item.items[subitemIndex].checked = checked;
             }

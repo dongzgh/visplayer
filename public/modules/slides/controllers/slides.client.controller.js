@@ -61,7 +61,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Activate a tool
   $scope.activateTool = function(action) {
-    if (action !== null && angular.isDefined($scope[action])) $scope[action]();
+    if (action !== null && typeof $scope[action] !== 'undefined') $scope[action]();
   };
 
   // Select tree item.

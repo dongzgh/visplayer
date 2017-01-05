@@ -28,6 +28,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Material definitions
     var faceDefaultMaterial = new $window.THREE.MeshPhongMaterial({
       color: COL_FACE,
+      transparent: true,
+      opacity: 0.8,
       specular: SPECULAR,
       metal: true,
       shininess: 25,
@@ -70,7 +72,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var scenes = [];
     var activeScene = null;
     var eyeLight = null;
-    var orbitor = null;
+    var trackball = null;
     var raycaster = null;
     var isClickPickEnabled = false;
     var isWindowPickEnabled = false;
@@ -116,8 +118,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Create lights
       createLights();
 
-      // Create orbitor
-      orbitor = new $window.THREE.OrbitControls(activeCamera, canvas);
+      // Create trackball
+      createTrackball();
 
       // Create raycaster
       raycaster = new $window.THREE.Raycaster();
@@ -146,7 +148,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Load model
     this.loadModel = function(data, onSuccess) {
       // Check input data
-      if (data === null) return;
+      if (typeof data === 'undefined') return;
 
       // Count instances
       var count = countModels(data.name) + 1;
@@ -222,7 +224,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
               ));
           }
 
-          // Compute geometry addtional data
+          // Evaluate geometry addtional data
           geometry.key = mesh.id;
           geometry.computeBoundingBox();
 
@@ -256,14 +258,14 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
 
     // Remove object
-    this.removeObject = function(objname) {
+    this.removeObject = function(objectName) {
       // Check input data
-      if (objname === null) return;
+      if (objectName === null) return;
 
       // Remove object
       var index = 0;
       activeScene.children.forEach(function(object) {
-        if (object.displayName === objname) {
+        if (object.displayName === objectName) {
           activeScene.children.splice(index, 1);
           return;
         }
@@ -288,7 +290,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       updateSceneBox(activeScene);
 
       // Collect box points
-      var points = [];
+      let points = [];
       points.push(new $window.THREE.Vector3(activeScene.box.min.x, activeScene.box.min.y, activeScene.box.min.z));
       points.push(new $window.THREE.Vector3(activeScene.box.max.x, activeScene.box.min.y, activeScene.box.min.z));
       points.push(new $window.THREE.Vector3(activeScene.box.max.x, activeScene.box.max.y, activeScene.box.min.z));
@@ -299,36 +301,27 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       points.push(new $window.THREE.Vector3(activeScene.box.min.x, activeScene.box.max.y, activeScene.box.max.z));
 
       // Evaluate direction
-      var v = new $window.THREE.Vector3();
-      if (angular.isDefined(position))
+      let v = new $window.THREE.Vector3();
+      if (typeof position !== 'undefined')
         activeCamera.position.copy(position);
       v.copy(activeCamera.position).sub(activeScene.center).normalize();
 
       // Evaluate projection radius
-      var radius = null;
-      points.forEach(function(point) {
-        var v1 = new $window.THREE.Vector3();
-        v1.copy(point).sub(activeScene.center);
-        var l1 = v1.dot(v);
-        var v2 = new $window.THREE.Vector3();
-        v2.copy(v).multiplyScalar(l1);
-        var v3 = new $window.THREE.Vector3();
-        v3.copy(v1).sub(v2);
-        var l2 = v3.length();
-        if (radius === null || radius < l2) radius = l2;
-      });
+      let sphere = activeScene.box.getBoundingSphere();
+      let r = sphere.radius;
 
       // Evaluate distance
-      var d = radius / Math.tan(toRadian(CAMERA_ANGLE / 2.0));
+      let d = r / Math.sin(toRadian(CAMERA_ANGLE / 2.0));
       v.multiplyScalar(d);
-      var p = new $window.THREE.Vector3();
+
+      // Evalute eye
+      let p = new $window.THREE.Vector3();
       p.copy(activeScene.center).add(v);
 
       // Set camera
       activeCamera.position.copy(p);
       activeCamera.lookAt(activeScene.center);
-      orbitor.target.copy(activeScene.center);
-      orbitor.update();
+      trackball.target.copy(activeScene.center);
     };
 
     // Top view
@@ -391,9 +384,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       isClickPickEnabled = enable;
       if (isClickPickEnabled) {
         picked = [];
-        if (angular.isDefined(type))
+        if (typeof type !== 'undefined')
           pickType = type;
-        if (angular.isDefined(mode))
+        if (typeof mode !== 'undefined')
           pickMode = mode;
       } else {
         lightObject(activeScene, false);
@@ -519,10 +512,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     function onCanvasKeyDown(event) {
       event.preventDefault();
 
-      // Disable orbitor
-      if (!event.ctrlKey) return;
-      orbitor.enabled = false;
-
       // Enable selection
       isWindowPickEnabled = true;
     }
@@ -530,10 +519,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Key up
     function onCanvasKeyUp(event) {
       event.preventDefault();
-
-      // Enable orbitor
-      if (event.ctrlKey) return;
-      orbitor.enabled = true;
 
       // Disable selection
       isWindowPickEnabled = false;
@@ -573,7 +558,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Update box
       scene.box = new $window.THREE.Box3();
       scene.traverse(function(object) {
-        if (angular.isDefined(object.type) && object.type === scope.TYPE_MODEL) {
+        if (typeof object.type !== 'undefined' && object.type === scope.TYPE_MODEL) {
           scene.box.union(object.box);
         }
       });
@@ -631,6 +616,18 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeScene.add(eyeLight);
     }
 
+    // Create trackball
+    function createTrackball() {
+      trackball = new $window.THREE.TrackballControls(activeCamera);
+      trackball.rotateSpeed = 4.0;
+      trackball.zoomSpeed = 2.0;
+      trackball.panSpeed = 1.0;
+      trackball.noZoom = false;
+      trackball.noPan = false;
+      trackball.staticMoving = true;
+      trackball.dynamicDampingFactor = 0.3;
+    }
+
     // Count object instances
     function countModels(name) {
       // Check input data
@@ -651,7 +648,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      */
     // Set highlight
     function lightObject(object, enable) {
-      if (angular.isUndefined(object.material) && angular.isDefined(object.children)) {
+      if (typeof object.material !== 'undefined' && angular.isDefined(object.children)) {
         object.children.forEach(function(child) {
           lightObject(child, enable);
         });
@@ -662,7 +659,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
             object.material.savedColor.copy(object.material.emissive);
             object.material.emissive.setHex(COL_PICKED);
           } else {
-            if (angular.isDefined(object.material.savedColor) && object.material.savedColor !== null)
+            if (typeof object.material.savedColor !== 'undefined' && object.material.savedColor !== null)
               object.material.emissive.setHex(object.material.savedColor);
           }
         } else if (object.material instanceof $window.THREE.LineBasicMaterial) {
@@ -671,7 +668,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
             object.material.savedColor.copy(object.material.color);
             object.material.color.setHex(COL_PICKED);
           } else {
-            if (angular.isDefined(object.material.savedColor) && object.material.savedColor !== null)
+            if (typeof object.material.savedColor !== 'undefined' && object.material.savedColor !== null)
               object.material.color.copy(object.material.savedColor);
           }
         }
@@ -744,7 +741,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       plane1.setFromNormalAndCoplanarPoint(p1, v1);
 
       // activeScene.traverse(function(object) {
-      //   if(angular.isDefined(object.type) && object.type === pickType) {
+      //   if(typeof object.type !== 'undefined' && object.type === pickType) {
       //     object.boundingBox.isIntersectionBox();
       //   }
       // });
@@ -759,7 +756,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Mesh) {
           var candidate = intersects[i].object.parent.parent;
-          if (angular.isDefined(candidate.type) && candidate.type === scope.TYPE_MODEL)
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.TYPE_MODEL)
             return candidate;
         }
       }
@@ -777,7 +774,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Mesh) {
           var candidate = intersects[i].object;
-          if (angular.isDefined(candidate.type) && candidate.type === scope.TYPE_FACE)
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.TYPE_FACE)
             return candidate;
         }
       }
@@ -795,7 +792,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Line) {
           var candidate = intersects[i].object;
-          if (angular.isDefined(candidate.type) && candidate.type === scope.TYPE_EDGE)
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.TYPE_EDGE)
             return candidate;
         }
       }
@@ -823,9 +820,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Update
     function update() {
-      // Orbitor
-      if (orbitor !== null) orbitor.update();
-      activeCamera.target.copy(orbitor.target);
+      // Trackball
+      if (trackball !== null) trackball.update();
 
       // Transformer
       if (transformer !== null) transformer.update();

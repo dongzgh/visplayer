@@ -10,7 +10,7 @@ angular.module('core').controller('UploadFilesController', ['$rootScope', '$scop
     // Collect files
     $scope.collect = function(files) {
       // Check input data
-      if (!angular.isDefined(files) || files.length <= 0) return;
+      if (typeof files === 'undefined' || files.length <= 0) return;
 
       // Collect files
       $scope.names = [];
