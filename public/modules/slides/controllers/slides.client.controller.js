@@ -173,6 +173,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.bottomView = Scene.bottomView;
   $scope.leftView = Scene.leftView;
   $scope.rightView = Scene.rightView;
+  $scope.frontView = Scene.frontView;
+  $scope.backView = Scene.backView;
 
   // Picking callbacks
   $scope.clearView = Scene.clearView;

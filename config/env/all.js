@@ -68,7 +68,8 @@ module.exports = {
       ]
     },
     css: [
-      'public/modules/**/css/*.css'
+      'public/modules/**/css/*.css',
+      'public/modules/core/css/fonts.css'
     ],
     js: [
       'public/config.js',

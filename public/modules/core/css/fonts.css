@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?ulxvlu');
+  src:  url('../fonts/icomoon.eot?ulxvlu#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?ulxvlu') format('truetype'),
+    url('../fonts/icomoon.woff?ulxvlu') format('woff'),
+    url('../fonts/icomoon.svg?ulxvlu#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-scenes:before {
+  content: "\e90e";
+}
+.icon-shot:before {
+  content: "\e90f";
+}
+.icon-files:before {
+  content: "\e92e";
+}
+.icon-open:before {
+  content: "\e930";
+}
+.icon-load:before {
+  content: "\e960";
+}
+.icon-tools:before {
+  content: "\e997";
+}
+.icon-bin:before {
+  content: "\e9ac";
+}
+.icon-cloud-download:before {
+  content: "\e9c2";
+}
+.icon-cloud-upload:before {
+  content: "\e9c3";
+}
+

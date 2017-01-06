@@ -44,7 +44,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       opacity: 0.5,
       reflectivity: 0.5,
       envMap: (function() {
-        var path = 'modules/core/img/cube/';
+        var path = 'modules/core/images/cube/';
         var format = '.jpg';
         var urls = [
           path + 'posx' + format, path + 'negx' + format,
@@ -245,27 +245,21 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeScene.add(model);
 
       // Fit view.
-      updateSceneBox(activeScene);
-      var v = new $window.THREE.Vector3(1, 0.5, 1);
-      v.normalize();
-      var p = new $window.THREE.Vector3();
-      p.copy(activeScene.center);
-      p.add(v);
-      scope.fitView(p);
+      scope.fitView();
 
       // Post-processing
       if (onSuccess) onSuccess(model);
     };
 
     // Remove object
-    this.removeObject = function(objectName) {
+    this.removeObject = function(name) {
       // Check input data
-      if (objectName === null) return;
+      if (name === null) return;
 
       // Remove object
       var index = 0;
       activeScene.children.forEach(function(object) {
-        if (object.displayName === objectName) {
+        if (object.displayName === name) {
           activeScene.children.splice(index, 1);
           return;
         }
@@ -285,26 +279,17 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      * View
      */
     // Fit view
-    this.fitView = function(position) {
+    this.fitView = function(direction) {
       // Update scene box
       updateSceneBox(activeScene);
-
-      // Collect box points
-      let points = [];
-      points.push(new $window.THREE.Vector3(activeScene.box.min.x, activeScene.box.min.y, activeScene.box.min.z));
-      points.push(new $window.THREE.Vector3(activeScene.box.max.x, activeScene.box.min.y, activeScene.box.min.z));
-      points.push(new $window.THREE.Vector3(activeScene.box.max.x, activeScene.box.max.y, activeScene.box.min.z));
-      points.push(new $window.THREE.Vector3(activeScene.box.min.x, activeScene.box.max.y, activeScene.box.min.z));
-      points.push(new $window.THREE.Vector3(activeScene.box.min.x, activeScene.box.min.y, activeScene.box.max.z));
-      points.push(new $window.THREE.Vector3(activeScene.box.max.x, activeScene.box.min.y, activeScene.box.max.z));
-      points.push(new $window.THREE.Vector3(activeScene.box.max.x, activeScene.box.max.y, activeScene.box.max.z));
-      points.push(new $window.THREE.Vector3(activeScene.box.min.x, activeScene.box.max.y, activeScene.box.max.z));
+      if(activeScene.box.isEmpty()) return;
 
       // Evaluate direction
       let v = new $window.THREE.Vector3();
-      if (typeof position !== 'undefined')
-        activeCamera.position.copy(position);
-      v.copy(activeCamera.position).sub(activeScene.center).normalize();
+      if (typeof direction !== 'undefined')
+        v.copy(direction);
+      else
+        v.copy(activeCamera.position).sub(activeScene.center).normalize();
 
       // Evaluate projection radius
       let sphere = activeScene.box.getBoundingSphere();
@@ -318,63 +303,37 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       let p = new $window.THREE.Vector3();
       p.copy(activeScene.center).add(v);
 
-      // Set camera
+      // Set camera and trackball
       activeCamera.position.copy(p);
       activeCamera.lookAt(activeScene.center);
       trackball.target.copy(activeScene.center);
     };
 
-    // Top view
-    this.topView = function() {
-      updateSceneBox(activeScene);
-      var dz = Math.abs(activeScene.box.max.z - activeScene.box.min.z);
-      var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
-      var d = Math.max(dz, dx) / 2.0;
-      var x = activeScene.center.x;
-      var y = activeScene.box.max.y + d / Math.tan(toRadian(CAMERA_ANGLE / 2.0));
-      var z = activeScene.center.z;
-      activeCamera.position.set(x, y, z);
-      activeCamera.lookAt(activeScene.center);
-    };
-
     // Bottom view
     this.bottomView = function() {
-      updateSceneBox(activeScene);
-      var dz = Math.abs(activeScene.box.max.z - activeScene.box.min.z);
-      var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
-      var d = Math.max(dz, dx) / 2.0;
-      var x = activeScene.center.x;
-      var y = activeScene.box.min.y - d / Math.tan(toRadian(CAMERA_ANGLE / 2.0));
-      var z = activeScene.center.z;
-      activeCamera.position.set(x, y, z);
-      activeCamera.lookAt(activeScene.center);
+      scope.fitView(new $window.THREE.Vector3(0, 0, -1));
     };
 
     // Left view
     this.leftView = function() {
-      updateSceneBox(activeScene);
-      var dz = Math.abs(activeScene.box.max.z - activeScene.box.min.z);
-      var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
-      var d = Math.max(dz, dx) / 2.0;
-      var x = activeScene.box.min.x - d / Math.tan(toRadian(CAMERA_ANGLE / 2.0));
-      var y = activeScene.center.y;
-      var z = activeScene.center.z;
-      activeCamera.position.set(x, y, z);
-      activeCamera.lookAt(activeScene.center);
+      scope.fitView(new $window.THREE.Vector3(-1, 0, 0));
     };
 
     // Right view
     this.rightView = function() {
-      updateSceneBox(activeScene);
-      var dz = Math.abs(activeScene.box.max.z - activeScene.box.min.z);
-      var dx = Math.abs(activeScene.box.max.x - activeScene.box.min.x);
-      var d = Math.max(dz, dx) / 2.0;
-      var x = activeScene.box.max.x + d / Math.tan(toRadian(CAMERA_ANGLE / 2.0));
-      var y = activeScene.center.y;
-      var z = activeScene.center.z;
-      activeCamera.position.set(x, y, z);
-      activeCamera.lookAt(activeScene.center);
+      scope.fitView(new $window.THREE.Vector3(1, 0, 0));
     };
+
+    // Front view
+    this.frontView = function() {
+      scope.fitView(new $window.THREE.Vector3(0, -1, 0));
+    };
+
+    // Back view
+    this.backView = function() {
+      scope.fitView(new $window.THREE.Vector3(0, 1, 0));
+    };
+
 
     /**
      * Selection
@@ -556,16 +515,21 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       if (!(scene instanceof $window.THREE.Scene)) return;
 
       // Update box
+      let count = 0;
       scene.box = new $window.THREE.Box3();
       scene.traverse(function(object) {
         if (typeof object.type !== 'undefined' && object.type === scope.TYPE_MODEL) {
           scene.box.union(object.box);
+          count++;
         }
       });
+      if(count === 0)
+        scene.box.makeEmpty();
 
       // Update center
       scene.center = new $window.THREE.Vector3();
-      scene.center.copy(scene.box.min).add(scene.box.max).multiplyScalar(0.5);
+      if(count > 0)
+        scene.center.copy(scene.box.min).add(scene.box.max).multiplyScalar(0.5);
     }
 
     // Create renderer
@@ -589,7 +553,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     function createCamera() {
       var camera = new $window.THREE.PerspectiveCamera(CAMERA_ANGLE, $window.innerWidth / $window.innerHeight, CAMERA_NEAR, CAMERA_FAR);
       camera.name = 'VIEW #' + cameras.length + 1;
-      camera.position.set(BOX_SIZE * 2, BOX_SIZE, BOX_SIZE * 2);
+      camera.position.set(- BOX_SIZE * 2, - BOX_SIZE * 2, BOX_SIZE);
+      camera.up.copy(new $window.THREE.Vector3(0, 0, 1));
       camera.target = new $window.THREE.Vector3();
       cameras.push(camera);
       activeCamera = camera;
@@ -600,6 +565,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Grid
       var grid = new $window.THREE.GridHelper(BOX_SIZE, GAP_SIZE);
       grid.name = 'GRID';
+      grid.rotateX(Math.PI / 2.0);
       activeScene.add(grid);
 
       // Axis
@@ -800,8 +766,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Return picked
       return null;
     }
-
-
 
     /**
      * Rendering
