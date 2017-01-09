@@ -619,7 +619,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      */
     // Set highlight
     function lightObject(object, enable) {
-      if (typeof object.material !== 'undefined' && angular.isDefined(object.children)) {
+      if (typeof object.material !== 'undefined' && typeof object.children !== 'undefined') {
         object.children.forEach(function(child) {
           lightObject(child, enable);
         });
