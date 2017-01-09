@@ -310,6 +310,11 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
 
     // Bottom view
+    this.topView = function() {
+      scope.fitView(new $window.THREE.Vector3(0, 0, 1));
+    };
+
+    // Bottom view
     this.bottomView = function() {
       scope.fitView(new $window.THREE.Vector3(0, 0, -1));
     };

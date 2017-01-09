@@ -90,7 +90,7 @@ nav[role=navigation] {
   left: 0;
   height: 40px;
   margin: 0;
-  padding: 6px 7px;
+  padding: 6px 13px;
   border: none;
   border-radius: 0;
   display: inline-block;
@@ -107,7 +107,7 @@ nav[role=navigation] {
   font-size: 1.5em;
   position: absolute;
   top: 0;
-  left: 38px;
+  left: 50px;
   height: 40px;
   margin-left: 6px !important;
   padding: 6px;
@@ -261,6 +261,9 @@ nav[role=navigation] {
   float: right;
   text-transform: uppercase;
 }
+.modal-body .form-control {
+  height: 39px;
+}
 .modal-body .input-group {
   margin-bottom: 10px;
 }
@@ -272,8 +275,6 @@ nav[role=navigation] {
   margin-right: 5px;
 }
 .modal-body .input-group .btn {
-  padding-top: 7px;
-  padding-bottom: 7px;
   border: none;
 }
 .modal-body .btn-group .btn {
