@@ -286,9 +286,9 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Get file icon
   function getFileIcon(ext) {
     if (FileTypes.models.indexOf(ext) !== -1) {
-      return 'glyphicon-knight';
+      return 'icon-file-model';
     } else {
-      return 'glyphicon-file';
+      return 'icon-file-text';
     }
   }
 
@@ -316,6 +316,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    */
   // Add scene item to tree
   function addSceneItem(modelname) {
-    Trees.addSubTreeItem('scene', 'models', modelname, 'glyphicon-knight', modelname);
+    Trees.addSubTreeItem('scene', 'models', modelname, 'icon-file-model', modelname);
   }
 }]);

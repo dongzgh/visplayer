@@ -18,7 +18,7 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     // Set files tool items
     Tools.addToolItem('files', 'Upload Files', 'icon-cloud-upload', null, 'uploadFiles', 'Upload files to server');
     Tools.addToolItem('files', 'Download Files', 'icon-cloud-download', null, 'downloadFiles', 'Download files from server');
-    Tools.addToolItem('files', 'Load Files', 'icon-load-model', null, 'loadFiles', 'Load files into scene');
+    Tools.addToolItem('files', 'Load Files', 'icon-load', null, 'loadFiles', 'Load files into scene');
     Tools.addToolItem('files', 'Delete Files', 'icon-delete', null, 'deleteFiles', 'Delete files from server');
 
     // Set scene tool items

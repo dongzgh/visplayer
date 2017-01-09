@@ -6,8 +6,8 @@
 <ul data-ng-repeat="item in fileTree.items" class="list-group">
   <div>
     <span data-ng-click="isCollapsed = !isCollapsed">
-      <i data-ng-if="isCollapsed" class="icon-triangle-down"></i>
-      <i data-ng-if="!isCollapsed" class="icon-triangle-right"></i>
+      <i data-ng-if="isCollapsed" class="glyphicon glyphicon-triangle-bottom"></i>
+      <i data-ng-if="!isCollapsed" class="glyphicon glyphicon-triangle-right"></i>
     </span>
     <span class="{{item.icon}}"></span>
     <span data-ng-bind="item.title"></span>
