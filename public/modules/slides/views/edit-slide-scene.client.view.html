@@ -1,5 +1,5 @@
 <div>
-  <button data-ng-repeat="item in sceneTools.items" data-ng-if="item.shouldRender(authentication.user);" type="button" class="btn btn-default" tooltip-placement="bottom" tooltip="{{item.tooltip}}" tooltip-append-to-body="true" data-ng-click="activateTool(item.action)">
+  <button data-ng-repeat="item in sceneTools.items" data-ng-if="item.shouldRender(authentication.user);" type="button" class="btn btn-default" tooltip-placement="bottom" tooltip="{{item.tooltip}}" tooltip-append-to-body="true" data-ng-click="activateTool(item)">
     <span class="{{item.icon}}"></span>
   </button>
 </div>

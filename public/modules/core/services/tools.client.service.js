@@ -74,7 +74,7 @@ angular.module('core').service('Tools', ['$log',
     };
 
     // Add tool item object
-    this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemAction, toolItemTip, isPublic, roles, position) {
+    this.addToolItem = function(toolId, toolItemTitle, toolItemIcon, toolItemURL, toolItemToggle, toolItemAction, toolItemTip, isPublic, roles, position) {
       // Validate that the tool exists
       if (!this.validateToolExistance(toolId)) return;
 
@@ -84,6 +84,7 @@ angular.module('core').service('Tools', ['$log',
         icon: toolItemIcon,
         link: toolItemURL || toolItemAction,
         uiRoute: '/' + toolItemURL,
+        toggle: toolItemToggle,
         action: toolItemAction,
         tooltip: toolItemTip,
         isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.tools[toolId].isPublic : isPublic),

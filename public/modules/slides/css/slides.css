@@ -74,6 +74,9 @@
   box-shadow: none;
   margin-bottom: 1px;
 }
+.panel-body .btn.active {
+  background-color: #F58723;
+}
 .panel-body .btn:hover,
 .panel-body .btn:active,
 .panel-body .btn:focus,
