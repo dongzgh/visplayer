@@ -230,7 +230,7 @@ angular.module('core').service('Trees', ['$log',
       var items = [];
       for (var itemIndex in this.trees[treeId].items) {
         for (var subitemIndex in this.trees[treeId].items[itemIndex].items) {
-          if (this.trees[treeId].items[itemIndex].items[subitemIndex].checked === true) {
+          if (this.trees[treeId].items[itemIndex].items[subitemIndex].checked) {
             items.push(this.trees[treeId].items[itemIndex].items[subitemIndex]);
           }
         }

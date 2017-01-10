@@ -1,5 +1,5 @@
 <div>
-  <button data-ng-repeat="item in modelingTools.items" data-ng-if="item.shouldRender(authentication.user);" type="button" class="btn btn-default" data-ng-class="{active: item.toggle == true}" tooltip-placement="bottom" tooltip="{{item.tooltip}}" tooltip-append-to-body="true" data-ng-click="activateTool(item)">
+  <button data-ng-repeat="item in modelingTools.items" data-ng-if="item.shouldRender(authentication.user);" type="button" class="btn btn-default" data-ng-class="{active: item.toggle}" tooltip-placement="bottom" tooltip="{{item.tooltip}}" tooltip-append-to-body="true" data-ng-click="activateTool(item)">
     <span class="{{item.icon}}"></span>
   </button>
 </div>

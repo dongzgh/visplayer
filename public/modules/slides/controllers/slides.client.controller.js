@@ -61,8 +61,14 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Activate a tool
   $scope.activateTool = function(item) {
-    if (item.toggle !== null) item.toggle = !item.toggle;
-    if (item.action !== null && typeof $scope[item.action] !== 'undefined') $scope[item.action]();
+    if (item.toggle !== null) {
+      item.toggle = !item.toggle;
+      if (item.action !== null) 
+        $scope[item.action](item);
+    } else {
+      if (item.action !== null) 
+        $scope[item.action]();
+    }    
   };
 
   // Select tree item.
@@ -179,9 +185,21 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Picking callbacks
   $scope.clearView = Scene.clearView;
-  $scope.pickModel = Scene.pickModel;
-  $scope.pickFace = Scene.pickFace;
-  $scope.pickEdge = Scene.pickEdge;
+  $scope.pickModel = function(item) {
+    setScenePicking(item.toggle, Scene.GEO_TYPES.model, Scene.SEL_MODES.multiple);
+  };
+  $scope.pickFace = function(item) {
+    setScenePicking(item.toggle, Scene.GEO_TYPES.face, Scene.SEL_MODES.multiple);
+  };
+  $scope.pickEdge = function (item) {
+    setScenePicking(item.toggle, Scene.GEO_TYPES.edge, Scene.SEL_MODES.multiple);
+  };
+  $scope.pickCurve = function (item) {
+    setScenePicking(item.toggle, Scene.GEO_TYPES.curve, Scene.SEL_MODES.multiple);
+  };
+  $scope.pickPoint = function (item) {
+    setScenePicking(item.toggle, Scene.GEO_TYPES.point, Scene.SEL_MODES.multiple);
+  };
 
   // Transform model
   $scope.moveModel = Scene.moveModel;
@@ -318,5 +336,17 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Add scene item to tree
   function addSceneItem(modelname) {
     Trees.addSubTreeItem('scene', 'models', modelname, 'icon-file-model', modelname);
+  }
+
+  // Set picking mode
+  function setScenePicking(toggle, type, mode) {
+    if (toggle) {
+      Scene.numSelectors += 1;
+      Scene.selectType += type;
+    } else {
+      Scene.numSelectors -= 1;
+      Scene.selectType -= type;
+    }
+    Scene.selectMode = mode;
   }
 }]);

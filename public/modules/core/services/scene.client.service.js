@@ -6,6 +6,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     //---------------------------------------------------
     //  Initialization
     //---------------------------------------------------
+    var scope = this;
+
     // Static variables
     var BOX_SIZE = 1500;
     var GAP_SIZE = 100;
@@ -17,13 +19,17 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var COL_FACE = 0xcecece;
     var COL_EDGE = 0x333333;
     var COL_PICKED = 0xe8373e;
-
-    // Enumerations
-    this.TYPE_MODEL = 'model';
-    this.TYPE_FACE = 'face';
-    this.TYPE_EDGE = 'edge';
-    this.PICK_MULTIP = 'multiple';
-    this.PICK_SINGLE = 'single';
+    scope.GEO_TYPES = {
+      model: 1,
+      face:  1 << 1,
+      edge:  1 << 2,
+      curve: 1 << 3,
+      point: 1 << 4
+    };
+    scope.SEL_MODES =  {
+      single:   0,
+      multiple: 1
+    };
 
     // Material definitions
     var faceDefaultMaterial = new $window.THREE.MeshPhongMaterial({
@@ -62,8 +68,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       color: COL_EDGE,
     });
 
-    // Scene definitions
-    var scope = this;
+    // Scene definitions  
     var container = null;
     var renderer = null;
     var canvas = null;
@@ -74,14 +79,11 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var eyeLight = null;
     var trackball = null;
     var raycaster = null;
-    var isClickPickEnabled = false;
-    var isWindowPickEnabled = false;
-    var pickType = null;
-    var picked = [];
-    var pickMode = scope.PICK_MULTIP;
+    scope.selectType = null;
+    scope.selectMode = scope.SEL_MODES.multiple;
+    scope.numSelectors = 0;
+    var selects = [];   
     var mouse = new $window.THREE.Vector2();
-    var wins = new $window.THREE.Vector2();
-    var wine = new $window.THREE.Vector2();
     var transformer = null;
 
     // Transient variables
@@ -96,7 +98,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      * Scene
      */
     // Initialize scene
-    this.initialize = function() {
+    scope.initialize = function() {
       // Check webgl
       if (!$window.Detector.webgl) {
         $window.Detector.addGetWebGLMessage();
@@ -137,16 +139,16 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
 
     // Query models
-    this.queryModels = function(onSuccess) {
+    scope.queryModels = function(onSuccess) {
       var modelNames = [];
       activeScene.traverse(function(object) {
-        if (object.type === scope.TYPE_MODEL) modelNames.push(object.name);
+        if (object.type === scope.GEO_TYPES.model) modelNames.push(object.name);
       });
       if (onSuccess) onSuccess(modelNames);
     };
 
     // Load model
-    this.loadModel = function(data, onSuccess) {
+    scope.loadModel = function(data, onSuccess) {
       // Check input data
       if (typeof data === 'undefined') return;
 
@@ -157,7 +159,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var model = new $window.THREE.Object3D();
       model.name = data.name;
       model.displayName = model.name + ' #' + count;
-      model.type = scope.TYPE_MODEL;
+      model.type = scope.GEO_TYPES.model;
       model.box = new $window.THREE.Box3();
       var faces = new $window.THREE.Object3D();
       model.add(faces);
@@ -205,12 +207,11 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
           // Create mesh
           var face = new $window.THREE.Mesh(geometry, faceDefaultMaterial.clone());
-          face.type = scope.TYPE_FACE;
+          face.type = scope.GEO_TYPES.face;
 
           // Add to parent
           faces.add(face);
-        }
-        else if (mesh.type === 'curveMesh' && mesh.cardinal === 3) {
+        } else if (mesh.type === 'curveMesh' && mesh.cardinal === 3) {
           // Create geometry
           let geometry = new $window.THREE.Geometry();
 
@@ -230,7 +231,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
           // Create line
           var edge = new $window.THREE.Line(geometry, edgeDefaultMaterial.clone());
-          edge.type = scope.TYPE_EDGE;
+          edge.type = scope.GEO_TYPES.edge;
 
           // Add to parent
           edges.add(edge);
@@ -252,7 +253,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
 
     // Remove object
-    this.removeObject = function(name) {
+    scope.removeObject = function(name) {
       // Check input data
       if (name === null) return;
 
@@ -268,8 +269,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
 
     // Highlight object
-    this.clearView = function() {
-      isClickPickEnabled = false;
+    scope.clearView = function() {
+      scope.numSelectors = 0;
       highlightObject(activeScene, false);
       activeScene.remove(transformer);
       transformer = null;
@@ -279,7 +280,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      * View
      */
     // Fit view
-    this.fitView = function(direction) {
+    scope.fitView = function(direction) {
       // Update scene box
       updateSceneBox(activeScene);
       if(activeScene.box.isEmpty()) return;
@@ -310,133 +311,83 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
 
     // Bottom view
-    this.topView = function() {
+    scope.topView = function() {
       scope.fitView(new $window.THREE.Vector3(0, 0, 1));
     };
 
     // Bottom view
-    this.bottomView = function() {
+    scope.bottomView = function() {
       scope.fitView(new $window.THREE.Vector3(0, 0, -1));
     };
 
     // Left view
-    this.leftView = function() {
+    scope.leftView = function() {
       scope.fitView(new $window.THREE.Vector3(-1, 0, 0));
     };
 
     // Right view
-    this.rightView = function() {
+    scope.rightView = function() {
       scope.fitView(new $window.THREE.Vector3(1, 0, 0));
     };
 
     // Front view
-    this.frontView = function() {
+    scope.frontView = function() {
       scope.fitView(new $window.THREE.Vector3(0, -1, 0));
     };
 
     // Back view
-    this.backView = function() {
+    scope.backView = function() {
       scope.fitView(new $window.THREE.Vector3(0, 1, 0));
     };
 
 
     /**
-     * Selection
-     */
-    // Enalbe picking
-    this.enablePicking = function(enable, type, mode) {
-      isClickPickEnabled = enable;
-      if (isClickPickEnabled) {
-        picked = [];
-        if (typeof type !== 'undefined')
-          pickType = type;
-        if (typeof mode !== 'undefined')
-          pickMode = mode;
-      } else {
-        highlightObject(activeScene, false);
-      }
-    };
-
-    // Pick model
-    this.pickModel = function() {
-      if (isClickPickEnabled) {
-        if (pickType === scope.TYPE_MODEL)
-          isClickPickEnabled = false;
-      } else {
-        isClickPickEnabled = true;
-      }
-      scope.enablePicking(isClickPickEnabled, scope.TYPE_MODEL, scope.PICK_MULTIP);
-    };
-
-    // Pick face
-    this.pickFace = function() {
-      if (isClickPickEnabled) {
-        if (pickType === scope.TYPE_FACE)
-          isClickPickEnabled = false;
-      } else {
-        isClickPickEnabled = true;
-      }
-      scope.enablePicking(isClickPickEnabled, scope.TYPE_FACE, scope.PICK_MULTIP);
-    };
-
-    // Pick edge
-    this.pickEdge = function() {
-      if (isClickPickEnabled) {
-        if (pickType === scope.TYPE_EDGE)
-          isClickPickEnabled = false;
-      } else {
-        isClickPickEnabled = true;
-      }
-      scope.enablePicking(isClickPickEnabled, scope.TYPE_EDGE, scope.PICK_MULTIP);
-    };
-
-    /**
      * Transformation
      */
     // Move model
-    this.moveModel = function(object) {
+    scope.moveModel = function(object) {
       // Check input data
-      if (picked.length === 0) return;
-      if (angular.isUndefined(picked[0].type) || picked[0].type !== scope.TYPE_MODEL) return;
+      if (selects.length === 0) return;
+      if (angular.isUndefined(selects[0].type) || selects[0].type !== scope.GEO_TYPES.model) return;
 
       // Attach transformer
       if (transformer === null) {
         transformer = new $window.THREE.TransformControls(activeCamera, canvas);
         activeScene.add(transformer);
       }
-      transformer.attach(picked[0]);
+      transformer.attach(selects[0]);
       transformer.setMode('translate');
       transformer.addEventListener('change', render);
     };
 
     // Rotate model
-    this.rotateModel = function(object) {
+    scope.rotateModel = function(object) {
       // Check input data
-      if (picked.length === 0) return;
-      if (angular.isUndefined(picked[0].type) || picked[0].type !== scope.TYPE_MODEL) return;
+      if (selects.length === 0) return;
+      if (angular.isUndefined(selects[0].type) || selects[0].type !== scope.GEO_TYPES.model) return;
 
       // Attach transformer
       if (transformer === null) {
         transformer = new $window.THREE.TransformControls(activeCamera, canvas);
         activeScene.add(transformer);
       }
-      transformer.attach(picked[0]);
+      transformer.attach(selects[0]);
       transformer.setMode('rotate');
       transformer.addEventListener('change', render);
     };
 
     // Scale model
-    this.scaleModel = function(object) {
+    scope.scaleModel = function(object) {
       // Check input data
-      if (picked.length === 0) return;
-      if (angular.isUndefined(picked[0].type) || picked[0].type !== scope.TYPE_MODEL) return;
+      if (selects.length === 0) return;
+      if (angular.isUndefined(selects[0].type) || selects[0].type !== scope.GEO_TYPES.model) return;
 
       // Attach transformer
       if (transformer === null) {
         transformer = new $window.THREE.TransformControls(activeCamera, canvas);
         activeScene.add(transformer);
       }
-      transformer.attach(picked[0]);
+      transformer.attach(selects[0]);
       transformer.setMode('scale');
       transformer.addEventListener('change', render);
     };
@@ -454,8 +405,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Mouse down
     function onCanvasMouseDown(event) {
       event.preventDefault();
-      wins.copy(mouse);
-      if (isClickPickEnabled) clickPickObjects();
+      if(event.button !== 0) return;
+      if (scope.numSelectors > 0) pickObjects();
     }
 
     // Mouse move
@@ -468,24 +419,16 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Mouse up
     function onCanvasMouseUp(event) {
       event.preventDefault();
-      wine.copy(mouse);
-      if (isWindowPickEnabled) windowPickObjects();
     }
 
     // Key down
     function onCanvasKeyDown(event) {
       event.preventDefault();
-
-      // Enable selection
-      isWindowPickEnabled = true;
     }
 
     // Key up
     function onCanvasKeyUp(event) {
       event.preventDefault();
-
-      // Disable selection
-      isWindowPickEnabled = false;
     }
 
     //---------------------------------------------------
@@ -523,7 +466,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       let count = 0;
       scene.box = new $window.THREE.Box3();
       scene.traverse(function(object) {
-        if (typeof object.type !== 'undefined' && object.type === scope.TYPE_MODEL) {
+        if (typeof object.type !== 'undefined' && object.type === scope.GEO_TYPES.model) {
           scene.box.union(object.box);
           count++;
         }
@@ -607,7 +550,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Count object instances
       var count = 0;
       activeScene.traverse(function(object) {
-        if (object.type === scope.TYPE_MODEL) {
+        if (object.type === scope.GEO_TYPES.model) {
           if (object.name === name) count++;
         }
       });
@@ -619,7 +562,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      */
     // Set highlight
     function highlightObject(object, enable) {
-      if (typeof object.material !== 'undefined' && typeof object.children !== 'undefined') {
+      if (typeof object.material === 'undefined' && typeof object.children !== 'undefined') {
         object.children.forEach(function(child) {
           highlightObject(child, enable);
         });
@@ -647,132 +590,130 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     }
 
     // Click pick objects
-    function clickPickObjects() {
+    function pickObjects() {
       raycaster.setFromCamera(mouse, activeCamera);
-      var intersects = raycaster.intersectObjects(activeScene.children, true);
+      let intersects = raycaster.intersectObjects(activeScene.children, true);
       if (intersects.length > 0) {
-        // Check candidate type
-        var candidate = null;
-        if (pickType === null) {
-          return;
-        } else if (pickType === scope.TYPE_MODEL) {
-          candidate = getPickedModel(intersects);
-          if (candidate === null) return;
-        } else if (pickType === scope.TYPE_FACE) {
-          candidate = getPickedFace(intersects);
-          if (candidate === null) return;
-        } else if (pickType === scope.TYPE_EDGE) {
-          candidate = getPickedEdge(intersects);
-          if (candidate === null) return;
+        // Get candidates by type
+        let candidates = [];
+        if (scope.selectType === null) return;
+        if (scope.selectType & scope.GEO_TYPES.model) {
+          let candidate = getPickedModel(intersects);
+          if(candidate !== null)
+            candidates.push(candidate);
         }
+        if (scope.selectType & scope.GEO_TYPES.face) {
+          let candidate = getPickedFace(intersects);
+          if(candidate !== null)
+            candidates.push(candidate);
+        }
+        if (scope.selectType & scope.GEO_TYPES.edge) {
+          let candidate = getPickedEdge(intersects);
+          if(candidate !== null)
+            candidates.push(candidate);
+        }
+        if (scope.selectType & scope.GEO_TYPES.curve) {
+          let candidate = getPickedCurve(intersects);
+          if(candidate !== null)
+            candidates.push(candidate);
+        }
+        if (scope.selectType & scope.GEO_TYPES.point) {
+          let candidate = getPickedPoint(intersects); 
+          if(candidate !== null)
+            candidates.push(candidate);
+        }
+        if (candidates.length === 0) return;    
 
-        // Update picked
-        if (picked.length !== 0 &&
-          picked.indexOf(candidate) !== -1) {
-          var index = picked.indexOf(candidate);
-          picked.splice(index, 1);
-          highlightObject(candidate, false);
-        } else {
-          if (pickMode === scope.PICK_SINGLE) {
-            picked.forEach(function(object) {
-              highlightObject(object, false);
-            });
-            picked = [];
+        // Update selects
+        candidates.forEach(function(candidate) {
+          if (selects.length > 0 && selects.indexOf(candidate) !== -1) {
+            let index = selects.indexOf(candidate);
+            selects.splice(index, 1);
+            highlightObject(candidate, false);
+          } else {
+            if (scope.selectMode === scope.PICK_SINGLE) {
+              selects.forEach(function(object) {
+                highlightObject(object, false);
+              });
+              selects = [];
+            }
+            selects.push(candidate);
+            highlightObject(candidate, true);
           }
-          picked.push(candidate);
-          highlightObject(candidate, true);
-        }
+        });       
       }
 
       // Broadcast
-      if (picked !== null)
-        $rootScope.$broadcast('scene.picked', picked);
-    }
-
-    // Window pick objects
-    function windowPickObjects() {
-      // Get window points
-      var w1 = new $window.THREE.Vector3(wins.x, wins.y, 0);
-      w1.unproject(activeCamera);
-      var w2 = new $window.THREE.Vector3(wine.x, wins.y, 0);
-      w2.unproject(activeCamera);
-      var w3 = new $window.THREE.Vector3(wine.x, wine.y, 0);
-      w3.unproject(activeCamera);
-      var w4 = new $window.THREE.Vector3(wins.x, wine.y, 0);
-      w4.unproject(activeCamera);
-      var winc = new $window.THREE.Vector2(wins.x, wins.y);
-      winc.add(wine).multiplyScalar(0.5);
-
-      // Create plane
-      var p1 = new $window.THREE.Vector3();
-      p1.copy(w1).add(w2).multiplyScalar(0.5);
-      var v1 = new $window.THREE.Vector3(0, 1, 0);
-      v1.unproject(activeCamera);
-      var plane1 = new $window.THREE.Plane();
-      plane1.setFromNormalAndCoplanarPoint(p1, v1);
-
-      // activeScene.traverse(function(object) {
-      //   if(typeof object.type !== 'undefined' && object.type === pickType) {
-      //     object.boundingBox.isIntersectionBox();
-      //   }
-      // });
+      if (selects.length > 0)
+        $rootScope.$broadcast('scene.selects', selects);
     }
 
     // Get picked model
     function getPickedModel(intersects) {
-      // Check input data
       if (intersects.length === 0) return;
-
-      // Find candidate
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Mesh) {
-          var candidate = intersects[i].object.parent.parent;
-          if (typeof candidate.type !== 'undefined' && candidate.type === scope.TYPE_MODEL)
+          let candidate = intersects[i].object.parent.parent;
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEO_TYPES.model)
             return candidate;
         }
       }
-
-      // Return picked
       return null;
     }
 
     // Get picked face
     function getPickedFace(intersects) {
-      // Check input data
       if (intersects.length === 0) return;
-
-      // Find candidate
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Mesh) {
-          var candidate = intersects[i].object;
-          if (typeof candidate.type !== 'undefined' && candidate.type === scope.TYPE_FACE)
+          let candidate = intersects[i].object;
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEO_TYPES.face)
             return candidate;
         }
       }
-
-      // Return picked
       return null;
     }
 
     // Get picked edge
     function getPickedEdge(intersects) {
-      // Check input data
       if (intersects.length === 0) return;
-
-      // Find candidate
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Line) {
-          var candidate = intersects[i].object;
-          if (typeof candidate.type !== 'undefined' && candidate.type === scope.TYPE_EDGE)
+          let candidate = intersects[i].object;
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEO_TYPES.edge)
             return candidate;
         }
       }
-
-      // Return picked
       return null;
     }
 
-    /**
+    // Get picked curve
+    function getPickedCurve(intersects) {
+      if (intersects.length === 0) return;
+      for (i = 0; i < intersects.length; i++) {
+        if (intersects[i].object instanceof $window.THREE.Line) {
+          let candidate = intersects[i].object;
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEO_TYPES.curve)
+            return candidate;
+        }
+      }
+      return null;
+    }
+
+    // Get picked point
+    function getPickedPoint(intersects) {
+      if (intersects.length === 0) return;
+      for (i = 0; i < intersects.length; i++) {
+        if (intersects[i].object instanceof $window.THREE.Vector3) {
+          let candidate = intersects[i].object;
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEO_TYPES.point)
+            return candidate;
+        }
+      }
+      return null;
+    } 
+
+     /**
      * Rendering
      */
     // Animate
