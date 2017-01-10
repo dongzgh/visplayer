@@ -270,7 +270,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Highlight object
     this.clearView = function() {
       isClickPickEnabled = false;
-      lightObject(activeScene, false);
+      highlightObject(activeScene, false);
       activeScene.remove(transformer);
       transformer = null;
     };
@@ -353,7 +353,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         if (typeof mode !== 'undefined')
           pickMode = mode;
       } else {
-        lightObject(activeScene, false);
+        highlightObject(activeScene, false);
       }
     };
 
@@ -618,10 +618,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      * Selection
      */
     // Set highlight
-    function lightObject(object, enable) {
+    function highlightObject(object, enable) {
       if (typeof object.material !== 'undefined' && typeof object.children !== 'undefined') {
         object.children.forEach(function(child) {
-          lightObject(child, enable);
+          highlightObject(child, enable);
         });
       } else {
         if (object.material instanceof $window.THREE.MeshPhongMaterial) {
@@ -671,16 +671,16 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           picked.indexOf(candidate) !== -1) {
           var index = picked.indexOf(candidate);
           picked.splice(index, 1);
-          lightObject(candidate, false);
+          highlightObject(candidate, false);
         } else {
           if (pickMode === scope.PICK_SINGLE) {
             picked.forEach(function(object) {
-              lightObject(object, false);
+              highlightObject(object, false);
             });
             picked = [];
           }
           picked.push(candidate);
-          lightObject(candidate, true);
+          highlightObject(candidate, true);
         }
       }
 
