@@ -13,7 +13,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Initialize modal and gui instance
   $scope.modal = null;
-  $scope.gui = null;
   $scope.guiTemplate = null;
 
   // Find a list of tools
@@ -50,7 +49,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //---------------------------------------------------
   // Activate the panel
   $scope.activatePanel = function(link) {
-    if (link !== $scope.link) {
+    if (typeof $scope.link === 'undefined' || link !== $scope.link) {
       $scope.showPanel = true;
       $scope.link = link;
       $location.url(link);

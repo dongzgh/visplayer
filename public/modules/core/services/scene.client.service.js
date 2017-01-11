@@ -84,22 +84,22 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     scope.displayMode = scope.DISPLAY_MODES.shaded;
 
     // Scene definitions  
-    var container = null;
-    var renderer = null;
-    var canvas = null;
+    var container;
+    var renderer;
+    var canvas;
     var cameras = [];
-    var activeCamera = null;
+    var activeCamera;
     var scenes = [];
-    var activeScene = null;
-    var eyeLight = null;
-    var trackball = null;
-    var raycaster = null;
-    scope.selectType = null;
+    var activeScene;
+    var eyeLight;
+    var trackball;
+    var raycaster;
+    scope.selectType = 0;
     scope.selectMode = scope.SELECTION_MODES.multiple;
     scope.numSelectors = 0;
     var selects = [];   
     var mouse = new $window.THREE.Vector2();
-    var transformer = null;
+    var transformer;
 
     // Transient variables
     var i = 0;
@@ -808,10 +808,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Update
     function update() {
       // Trackball
-      if (trackball !== null) trackball.update();
+      if (typeof trackball !== 'undefined') trackball.update();
 
        // Transformer
-      if (transformer !== null) transformer.update();
+      if (typeof transformer !== 'undefined' && transformer !== null) transformer.update();
 
       // Lights
       var direction = new $window.THREE.Vector3();
