@@ -18,7 +18,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var CLR_SPECULAR = 0xffffff;
     var CLR_FACE = 0xcecece;
     var CLR_EDGE = 0x333333;
-    var CLR_PICKED = 0xe8373e;
+    var CLR_SELECTED = 0xe8373e;
 
     // Geometry types
     scope.GEOMETRY_TYPES = {
@@ -288,10 +288,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           if (typeof object.material !== 'undefined') {
             let displaySettings = getDisplaySettings();
             if(object instanceof $window.THREE.Mesh) {
-              object.material = displaySettings.meshMaterial;
+              object.material = displaySettings.meshMaterial.clone();
               object.visible = displaySettings.meshVisibility;
             } else if (object instanceof $window.THREE.Line) {
-              object.material = displaySettings.lineMaterial;
+              object.material = displaySettings.lineMaterial.clone();
               object.visible = displaySettings.lineVisibility;
             }
           }
@@ -639,6 +639,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      */
     // Set highlight
     function highlightObject(object, enable) {
+      if(!object.visible) return;
       if (typeof object.material === 'undefined' && typeof object.children !== 'undefined') {
         object.children.forEach(function(child) {
           highlightObject(child, enable);
@@ -648,18 +649,18 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           if (enable) {
             object.material.savedColor = new $window.THREE.Color();
             object.material.savedColor.copy(object.material.emissive);
-            object.material.emissive.setHex(CLR_PICKED);
+            object.material.emissive.setHex(CLR_SELECTED);
           } else {
-            if (typeof object.material.savedColor !== 'undefined' && object.material.savedColor !== null)
+            if (typeof object.material.savedColor !== 'undefined')
               object.material.emissive.setHex(object.material.savedColor);
           }
         } else if (object instanceof $window.THREE.Line) {
           if (enable) {
             object.material.savedColor = new $window.THREE.Color();
             object.material.savedColor.copy(object.material.color);
-            object.material.color.setHex(CLR_PICKED);
+            object.material.color.setHex(CLR_SELECTED);
           } else {
-            if (typeof object.material.savedColor !== 'undefined' && object.material.savedColor !== null)
+            if (typeof object.material.savedColor !== 'undefined')
               object.material.color.copy(object.material.savedColor);
           }
         }
@@ -673,7 +674,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       if (intersects.length > 0) {
         // Get candidates by type
         let candidates = [];
-        if (scope.selectType === null) return;
         if (scope.selectType & scope.GEOMETRY_TYPES.model) {
           let candidate = getPickedModel(intersects);
           if(candidate !== null)
