@@ -186,19 +186,41 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Picking callbacks
   $scope.clearView = Scene.clearView;
   $scope.pickModel = function(item) {
-    setScenePicking(item.toggle, Scene.GEO_TYPES.model, Scene.SEL_MODES.multiple);
+    setScenePicking(item.toggle, Scene.GEOMETRY_TYPES.model, Scene.SELECTION_MODES.multiple);
   };
   $scope.pickFace = function(item) {
-    setScenePicking(item.toggle, Scene.GEO_TYPES.face, Scene.SEL_MODES.multiple);
+    setScenePicking(item.toggle, Scene.GEOMETRY_TYPES.face, Scene.SELECTION_MODES.multiple);
   };
   $scope.pickEdge = function (item) {
-    setScenePicking(item.toggle, Scene.GEO_TYPES.edge, Scene.SEL_MODES.multiple);
+    setScenePicking(item.toggle, Scene.GEOMETRY_TYPES.edge, Scene.SELECTION_MODES.multiple);
   };
   $scope.pickCurve = function (item) {
-    setScenePicking(item.toggle, Scene.GEO_TYPES.curve, Scene.SEL_MODES.multiple);
+    setScenePicking(item.toggle, Scene.GEOMETRY_TYPES.curve, Scene.SELECTION_MODES.multiple);
   };
   $scope.pickPoint = function (item) {
-    setScenePicking(item.toggle, Scene.GEO_TYPES.point, Scene.SEL_MODES.multiple);
+    setScenePicking(item.toggle, Scene.GEOMETRY_TYPES.point, Scene.SELECTION_MODES.multiple);
+  };
+
+  // Display callbacks
+  $scope.displayShaded = function () {
+    Scene.displayMode = Scene.DISPLAY_MODES.shaded;
+    Scene.updateDisplays();
+  };
+  $scope.displayRendered = function () {
+    Scene.displayMode = Scene.DISPLAY_MODES.rendered;
+    Scene.updateDisplays();
+  };
+  $scope.displayAnalysis = function () {
+    Scene.displayMode = Scene.DISPLAY_MODES.analysis;
+    Scene.updateDisplays();
+  };
+  $scope.displayMesh = function () {
+    Scene.displayMode = Scene.DISPLAY_MODES.mesh;
+    Scene.updateDisplays();
+  };
+  $scope.displayWireframe = function () {
+    Scene.displayMode = Scene.DISPLAY_MODES.wireframe;
+    Scene.updateDisplays();
   };
 
   // Transform model

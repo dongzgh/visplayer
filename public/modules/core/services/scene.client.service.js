@@ -9,43 +9,50 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var scope = this;
 
     // Static variables
-    var BOX_SIZE = 1500;
-    var GAP_SIZE = 100;
+    var SIZE_BOX = 1500;
+    var SIZE_GAP = 100;
     var CAMERA_ANGLE = 45;
     var CAMERA_NEAR = 1;
-    var CAMERA_FAR = BOX_SIZE * 10;
-    var EMISSIVE = 0x000000;
-    var SPECULAR = 0xffffff;
-    var COL_FACE = 0xcecece;
-    var COL_EDGE = 0x333333;
-    var COL_PICKED = 0xe8373e;
-    scope.GEO_TYPES = {
+    var CAMERA_FAR = SIZE_BOX * 10;
+    var CLR_EMISSIVE = 0x000000;
+    var CLR_SPECULAR = 0xffffff;
+    var CLR_FACE = 0xcecece;
+    var CLR_EDGE = 0x333333;
+    var CLR_PICKED = 0xe8373e;
+
+    // Geometry types
+    scope.GEOMETRY_TYPES = {
       model: 1,
       face:  1 << 1,
       edge:  1 << 2,
       curve: 1 << 3,
       point: 1 << 4
     };
-    scope.SEL_MODES =  {
+
+    // Selection modes
+    scope.SELECTION_MODES =  {
       single:   0,
       multiple: 1
     };
 
     // Material definitions
-    var faceDefaultMaterial = new $window.THREE.MeshPhongMaterial({
-      color: COL_FACE,
+    var meshDefaultMaterial = new $window.THREE.MeshPhongMaterial({
+      color: CLR_FACE,
       transparent: true,
       opacity: 0.8,
-      specular: SPECULAR,
+      specular: CLR_SPECULAR,
       metal: true,
       shininess: 25,
-      emissive: EMISSIVE,
+      emissive: CLR_EMISSIVE,
       side: $window.THREE.DoubleSide
     });
-    var faceAnalysisMaterial = new $window.THREE.MeshNormalMaterial({
+    var meshAnalysisMaterial = new $window.THREE.MeshNormalMaterial({
       side: $window.THREE.DoubleSide
     });
-    var faceShinyGlassMaterial = new $window.THREE.MeshBasicMaterial({
+    var meshWireframeMaterial = new $window.THREE.MeshBasicMaterial({
+      wireframe: true
+    });
+    var meshShinyGlassMaterial = new $window.THREE.MeshBasicMaterial({
       transparent: true,
       opacity: 0.5,
       reflectivity: 0.5,
@@ -64,9 +71,17 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       combine: $window.THREE.MixOperation,
       side: $window.THREE.DoubleSide
     });
-    var edgeDefaultMaterial = new $window.THREE.LineBasicMaterial({
-      color: COL_EDGE,
+    var lineDefaultMaterial = new $window.THREE.LineBasicMaterial({
+      color: CLR_EDGE,
     });
+    scope.DISPLAY_MODES = {
+      shaded:     1,
+      rendered:   2,
+      analysis:   3,
+      mesh:       4,
+      wireframe:  5
+    };
+    scope.displayMode = scope.DISPLAY_MODES.shaded;
 
     // Scene definitions  
     var container = null;
@@ -80,7 +95,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var trackball = null;
     var raycaster = null;
     scope.selectType = null;
-    scope.selectMode = scope.SEL_MODES.multiple;
+    scope.selectMode = scope.SELECTION_MODES.multiple;
     scope.numSelectors = 0;
     var selects = [];   
     var mouse = new $window.THREE.Vector2();
@@ -142,7 +157,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     scope.queryModels = function(onSuccess) {
       var modelNames = [];
       activeScene.traverse(function(object) {
-        if (object.type === scope.GEO_TYPES.model) modelNames.push(object.name);
+        if (object.type === scope.GEOMETRY_TYPES.model) modelNames.push(object.name);
       });
       if (onSuccess) onSuccess(modelNames);
     };
@@ -152,6 +167,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Check input data
       if (typeof data === 'undefined') return;
 
+      // Get display settings
+      var displaySettings = getDisplaySettings();
+
       // Count instances
       var count = countModels(data.name) + 1;
 
@@ -159,7 +177,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var model = new $window.THREE.Object3D();
       model.name = data.name;
       model.displayName = model.name + ' #' + count;
-      model.type = scope.GEO_TYPES.model;
+      model.type = scope.GEOMETRY_TYPES.model;
       model.box = new $window.THREE.Box3();
       var faces = new $window.THREE.Object3D();
       model.add(faces);
@@ -206,8 +224,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           model.box.union(geometry.boundingBox);
 
           // Create mesh
-          var face = new $window.THREE.Mesh(geometry, faceDefaultMaterial.clone());
-          face.type = scope.GEO_TYPES.face;
+          var face = new $window.THREE.Mesh(geometry, displaySettings.meshMaterial.clone());
+          face.visible = displaySettings.meshVisibility;
+          face.type = scope.GEOMETRY_TYPES.face;
 
           // Add to parent
           faces.add(face);
@@ -230,8 +249,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           geometry.computeBoundingBox();
 
           // Create line
-          var edge = new $window.THREE.Line(geometry, edgeDefaultMaterial.clone());
-          edge.type = scope.GEO_TYPES.edge;
+          var edge = new $window.THREE.Line(geometry, displaySettings.lineMaterial.clone());
+          edge.visible = displaySettings.lineVisibility;
+          edge.type = scope.GEOMETRY_TYPES.edge;
 
           // Add to parent
           edges.add(edge);
@@ -252,6 +272,33 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       if (onSuccess) onSuccess(model);
     };
 
+    // Update displays
+    scope.updateDisplays = function (object) {
+      if (typeof object === 'undefined') {
+        scope.updateDisplays(activeScene);
+      } else {
+        if (typeof object.children !== 'undefined' && object.children.length > 0) {
+          object.children.forEach(function(child){
+            scope.updateDisplays(child);
+          });
+        } else {
+          if(object instanceof $window.THREE.AxisHelper || 
+            object instanceof $window.THREE.GridHelper)
+            return;
+          if (typeof object.material !== 'undefined') {
+            let displaySettings = getDisplaySettings();
+            if(object instanceof $window.THREE.Mesh) {
+              object.material = displaySettings.meshMaterial;
+              object.visible = displaySettings.meshVisibility;
+            } else if (object instanceof $window.THREE.Line) {
+              object.material = displaySettings.lineMaterial;
+              object.visible = displaySettings.lineVisibility;
+            }
+          }
+        }
+      }
+    };    
+
     // Remove object
     scope.removeObject = function(name) {
       // Check input data
@@ -270,8 +317,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Highlight object
     scope.clearView = function() {
-      scope.numSelectors = 0;
       highlightObject(activeScene, false);
+      selects = [];
       activeScene.remove(transformer);
       transformer = null;
     };
@@ -348,7 +395,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     scope.moveModel = function(object) {
       // Check input data
       if (selects.length === 0) return;
-      if (angular.isUndefined(selects[0].type) || selects[0].type !== scope.GEO_TYPES.model) return;
+      if (angular.isUndefined(selects[0].type) || selects[0].type !== scope.GEOMETRY_TYPES.model) return;
 
       // Attach transformer
       if (transformer === null) {
@@ -364,7 +411,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     scope.rotateModel = function(object) {
       // Check input data
       if (selects.length === 0) return;
-      if (angular.isUndefined(selects[0].type) || selects[0].type !== scope.GEO_TYPES.model) return;
+      if (angular.isUndefined(selects[0].type) || selects[0].type !== scope.GEOMETRY_TYPES.model) return;
 
       // Attach transformer
       if (transformer === null) {
@@ -380,7 +427,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     scope.scaleModel = function(object) {
       // Check input data
       if (selects.length === 0) return;
-      if (angular.isUndefined(selects[0].type) || selects[0].type !== scope.GEO_TYPES.model) return;
+      if (angular.isUndefined(selects[0].type) || selects[0].type !== scope.GEOMETRY_TYPES.model) return;
 
       // Attach transformer
       if (transformer === null) {
@@ -466,7 +513,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       let count = 0;
       scene.box = new $window.THREE.Box3();
       scene.traverse(function(object) {
-        if (typeof object.type !== 'undefined' && object.type === scope.GEO_TYPES.model) {
+        if (typeof object.type !== 'undefined' && object.type === scope.GEOMETRY_TYPES.model) {
           scene.box.union(object.box);
           count++;
         }
@@ -501,7 +548,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     function createCamera() {
       var camera = new $window.THREE.PerspectiveCamera(CAMERA_ANGLE, $window.innerWidth / $window.innerHeight, CAMERA_NEAR, CAMERA_FAR);
       camera.name = 'VIEW #' + cameras.length + 1;
-      camera.position.set(- BOX_SIZE * 2, - BOX_SIZE * 2, BOX_SIZE);
+      camera.position.set(- SIZE_BOX * 2, - SIZE_BOX * 2, SIZE_BOX);
       camera.up.copy(new $window.THREE.Vector3(0, 0, 1));
       camera.target = new $window.THREE.Vector3();
       cameras.push(camera);
@@ -511,13 +558,13 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Create helpers
     function createHelpers() {
       // Grid
-      var grid = new $window.THREE.GridHelper(BOX_SIZE, GAP_SIZE);
+      var grid = new $window.THREE.GridHelper(SIZE_BOX, SIZE_GAP);
       grid.name = 'GRID';
       grid.rotateX(Math.PI / 2.0);
       activeScene.add(grid);
 
       // Axis
-      var axis = new $window.THREE.AxisHelper(BOX_SIZE);
+      var axis = new $window.THREE.AxisHelper(SIZE_BOX);
       axis.name = 'AXIS';
       activeScene.add(axis);
     }
@@ -526,7 +573,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     function createLights() {
       eyeLight = new $window.THREE.DirectionalLight(0xffffff, 0.5);
       eyeLight.name = 'EYE LIGHT';
-      eyeLight.position.set(BOX_SIZE * 2, BOX_SIZE, BOX_SIZE * 2);
+      eyeLight.position.set(SIZE_BOX * 2, SIZE_BOX, SIZE_BOX * 2);
       activeScene.add(eyeLight);
     }
 
@@ -550,11 +597,41 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Count object instances
       var count = 0;
       activeScene.traverse(function(object) {
-        if (object.type === scope.GEO_TYPES.model) {
+        if (object.type === scope.GEOMETRY_TYPES.model) {
           if (object.name === name) count++;
         }
       });
       return count;
+    }
+
+    // Get materials for display mode
+    function getDisplaySettings () {
+      var meshMaterial = meshDefaultMaterial;
+      var lineMaterial = lineDefaultMaterial;
+      var meshVisibility = true;
+      var lineVisibility = true;
+      switch (scope.displayMode) {
+        case scope.DISPLAY_MODES.shaded:
+          break;
+        case scope.DISPLAY_MODES.rendered:
+          lineVisibility = false;
+          break;
+        case scope.DISPLAY_MODES.analysis:
+          meshMaterial = meshAnalysisMaterial;
+          break;
+        case scope.DISPLAY_MODES.mesh:
+          meshMaterial = meshWireframeMaterial;
+          break;
+        case scope.DISPLAY_MODES.wireframe:
+          meshVisibility = false;
+          break;
+      }
+      return {
+        meshMaterial: meshMaterial,
+        meshVisibility: meshVisibility,
+        lineMaterial: lineMaterial,
+        lineVisibility: lineVisibility
+      };
     }
 
     /**
@@ -567,20 +644,20 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           highlightObject(child, enable);
         });
       } else {
-        if (object.material instanceof $window.THREE.MeshPhongMaterial) {
+        if (object instanceof $window.THREE.Mesh) {
           if (enable) {
             object.material.savedColor = new $window.THREE.Color();
             object.material.savedColor.copy(object.material.emissive);
-            object.material.emissive.setHex(COL_PICKED);
+            object.material.emissive.setHex(CLR_PICKED);
           } else {
             if (typeof object.material.savedColor !== 'undefined' && object.material.savedColor !== null)
               object.material.emissive.setHex(object.material.savedColor);
           }
-        } else if (object.material instanceof $window.THREE.LineBasicMaterial) {
+        } else if (object instanceof $window.THREE.Line) {
           if (enable) {
             object.material.savedColor = new $window.THREE.Color();
             object.material.savedColor.copy(object.material.color);
-            object.material.color.setHex(COL_PICKED);
+            object.material.color.setHex(CLR_PICKED);
           } else {
             if (typeof object.material.savedColor !== 'undefined' && object.material.savedColor !== null)
               object.material.color.copy(object.material.savedColor);
@@ -597,27 +674,27 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         // Get candidates by type
         let candidates = [];
         if (scope.selectType === null) return;
-        if (scope.selectType & scope.GEO_TYPES.model) {
+        if (scope.selectType & scope.GEOMETRY_TYPES.model) {
           let candidate = getPickedModel(intersects);
           if(candidate !== null)
             candidates.push(candidate);
         }
-        if (scope.selectType & scope.GEO_TYPES.face) {
+        if (scope.selectType & scope.GEOMETRY_TYPES.face) {
           let candidate = getPickedFace(intersects);
           if(candidate !== null)
             candidates.push(candidate);
         }
-        if (scope.selectType & scope.GEO_TYPES.edge) {
+        if (scope.selectType & scope.GEOMETRY_TYPES.edge) {
           let candidate = getPickedEdge(intersects);
           if(candidate !== null)
             candidates.push(candidate);
         }
-        if (scope.selectType & scope.GEO_TYPES.curve) {
+        if (scope.selectType & scope.GEOMETRY_TYPES.curve) {
           let candidate = getPickedCurve(intersects);
           if(candidate !== null)
             candidates.push(candidate);
         }
-        if (scope.selectType & scope.GEO_TYPES.point) {
+        if (scope.selectType & scope.GEOMETRY_TYPES.point) {
           let candidate = getPickedPoint(intersects); 
           if(candidate !== null)
             candidates.push(candidate);
@@ -654,7 +731,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Mesh) {
           let candidate = intersects[i].object.parent.parent;
-          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEO_TYPES.model)
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEOMETRY_TYPES.model)
             return candidate;
         }
       }
@@ -667,7 +744,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Mesh) {
           let candidate = intersects[i].object;
-          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEO_TYPES.face)
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEOMETRY_TYPES.face)
             return candidate;
         }
       }
@@ -680,7 +757,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Line) {
           let candidate = intersects[i].object;
-          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEO_TYPES.edge)
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEOMETRY_TYPES.edge)
             return candidate;
         }
       }
@@ -693,7 +770,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Line) {
           let candidate = intersects[i].object;
-          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEO_TYPES.curve)
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEOMETRY_TYPES.curve)
             return candidate;
         }
       }
@@ -706,7 +783,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       for (i = 0; i < intersects.length; i++) {
         if (intersects[i].object instanceof $window.THREE.Vector3) {
           let candidate = intersects[i].object;
-          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEO_TYPES.point)
+          if (typeof candidate.type !== 'undefined' && candidate.type === scope.GEOMETRY_TYPES.point)
             return candidate;
         }
       }
@@ -733,7 +810,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Trackball
       if (trackball !== null) trackball.update();
 
-      // Transformer
+       // Transformer
       if (transformer !== null) transformer.update();
 
       // Lights
