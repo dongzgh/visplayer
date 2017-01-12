@@ -647,8 +647,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       } else {
         if (object instanceof $window.THREE.Mesh) {
           if (enable) {
-            object.material.savedColor = new $window.THREE.Color();
-            object.material.savedColor.copy(object.material.emissive);
+            if(typeof object.material.savedColor === 'undefined') {
+              object.material.savedColor = new $window.THREE.Color();
+              object.material.savedColor.copy(object.material.emissive);
+            }
             object.material.emissive.setHex(CLR_SELECTED);
           } else {
             if (typeof object.material.savedColor !== 'undefined')
@@ -656,8 +658,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           }
         } else if (object instanceof $window.THREE.Line) {
           if (enable) {
-            object.material.savedColor = new $window.THREE.Color();
-            object.material.savedColor.copy(object.material.color);
+            if(typeof object.material.savedColor === 'undefined') {
+              object.material.savedColor = new $window.THREE.Color();
+              object.material.savedColor.copy(object.material.color);
+            }            
             object.material.color.setHex(CLR_SELECTED);
           } else {
             if (typeof object.material.savedColor !== 'undefined')
@@ -674,28 +678,29 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       if (intersects.length > 0) {
         // Get candidates by type
         let candidates = [];
+        let candidate = null;
         if (scope.selectType & scope.GEOMETRY_TYPES.model) {
-          let candidate = getPickedModel(intersects);
+          candidate = getPickedModel(intersects);
           if(candidate !== null)
             candidates.push(candidate);
         }
-        if (scope.selectType & scope.GEOMETRY_TYPES.face) {
-          let candidate = getPickedFace(intersects);
+        if (candidate === null && scope.selectType & scope.GEOMETRY_TYPES.face) {
+          candidate = getPickedFace(intersects);
           if(candidate !== null)
             candidates.push(candidate);
         }
-        if (scope.selectType & scope.GEOMETRY_TYPES.edge) {
-          let candidate = getPickedEdge(intersects);
+        if (candidate === null && scope.selectType & scope.GEOMETRY_TYPES.edge) {
+          candidate = getPickedEdge(intersects);
           if(candidate !== null)
             candidates.push(candidate);
         }
-        if (scope.selectType & scope.GEOMETRY_TYPES.curve) {
-          let candidate = getPickedCurve(intersects);
+        if (candidate === null && scope.selectType & scope.GEOMETRY_TYPES.curve) {
+          candidate = getPickedCurve(intersects);
           if(candidate !== null)
             candidates.push(candidate);
         }
-        if (scope.selectType & scope.GEOMETRY_TYPES.point) {
-          let candidate = getPickedPoint(intersects); 
+        if (candidate === null && scope.selectType & scope.GEOMETRY_TYPES.point) {
+          candidate = getPickedPoint(intersects); 
           if(candidate !== null)
             candidates.push(candidate);
         }
