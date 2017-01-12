@@ -114,7 +114,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    */
   // Import files
   $scope.uploadFiles = function() {
-    $scope.modal = Dialogs.uploadFiles();
+    $scope.modal = Dialogs.upload();
   };
 
   // Download files
@@ -223,13 +223,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Transform model
-  $scope.moveModel = Scene.moveModel;
-  $scope.rotateModel = Scene.rotateModel;
-  $scope.scaleModel = Scene.scaleModel;
-
-  // Transform model
-  $scope.transformModel = function() {
-    $scope.guiTemplate = 'modules/core/views/transform-models.client.view.html';
+  $scope.transform = function() {
   };
 
   /**

@@ -16,8 +16,8 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     
 
     // Set files tool items
-    Tools.addToolItem('files', 'Upload Files', 'icon-cloud-upload', null, null, 'uploadFiles', 'Upload files to server');
-    Tools.addToolItem('files', 'Download Files', 'icon-cloud-download', null, null, 'downloadFiles', 'Download files from server');
+    Tools.addToolItem('files', 'Upload Files', 'icon-upload', null, null, 'uploadFiles', 'Upload files to server');
+    Tools.addToolItem('files', 'Download Files', 'icon-download', null, null, 'downloadFiles', 'Download files from server');
     Tools.addToolItem('files', 'Load Files', 'icon-load', null, null, 'loadFiles', 'Load files into scene');
     Tools.addToolItem('files', 'Delete Files', 'icon-delete', null, null, 'deleteFiles', 'Delete files from server');
 
@@ -44,9 +44,7 @@ angular.module('slides').run(['Menus', 'Tools', 'Trees', 'Dialogs',
     Tools.addToolItem('modeling', 'Analysis Display', 'icon-display-analysis', null, null, 'displayAnalysis', 'Display in analysis mode');
     Tools.addToolItem('modeling', 'Mesh Display', 'icon-display-mesh', null, null, 'displayMesh', 'Display in mesh mode');
     Tools.addToolItem('modeling', 'Wireframe Display', 'icon-display-wireframe', null, null, 'displayWireframe', 'Display in wireframe mode');
-    Tools.addToolItem('modeling', 'Move Model', 'icon-move-model', null, null, 'moveModel', 'Move model');
-    Tools.addToolItem('modeling', 'Rotate Model', 'icon-rotate-model', null, null, 'rotateModel', 'Rotate model');
-    Tools.addToolItem('modeling', 'Scale Model', 'icon-scale-model', null, null, null, null, 'scaleModel', 'Scale model');
+    Tools.addToolItem('modeling', 'Transform', 'icon-transform', null, null, 'transform', 'Transform');
 
     // Adding trees
     Trees.addTree('scene');
