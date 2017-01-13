@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('core').controller('UploadController', ['$rootScope', '$scope', '$log', '$modalInstance', 'Files',
-
   function($rootScope, $scope, $log, $modalInstance, Files) {
     // Initialize file name list
     $scope.files = [];

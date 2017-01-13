@@ -224,6 +224,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Transform model
   $scope.transform = function() {
+    $scope.guiTemplate = 'modules/core/views/transform.client.view.html';
   };
 
   /**
