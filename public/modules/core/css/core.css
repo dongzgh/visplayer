@@ -330,6 +330,9 @@ nav[role=navigation] {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+.gui-dialog .panel-body > div:first-child {
+   margin-bottom: 0px; 
+}
 .gui-dialog .panel-body .input-group {
   background-color: transparent;
   margin-bottom: 0;
@@ -337,15 +340,6 @@ nav[role=navigation] {
 .gui-dialog .panel-body .input-group input {
   border-radius: 0;
   height: 1.85em;
-}
-.gui-dialog .panel-body .btn {
-  padding-top: 3px;
-  padding-bottom: 3px;
-  box-shadow: 2px 2px 5px #000000;
-  margin-right: 2px;
-  background-color: #327CCB;
-  color: #FFFFFF;
-  border-right: 1px solid #FFFFFF;
 }
 .gui-dialog .panel-body .btn:focus,
 .gui-dialog .panel-body .btn:active {
