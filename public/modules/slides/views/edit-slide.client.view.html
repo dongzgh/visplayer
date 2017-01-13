@@ -9,7 +9,7 @@
   <div class="panel panel-default" data-ng-show="showPanel">
     <div data-ui-view class="panel-body"></div>
   </div>
-  <div class="gui-dialog" data-ng-show="guiTemplate !== null" data-ng-include="guiTemplate"></div>
+  <div class="gui-dialog" data-ng-show="dialogUrl !== null" data-ng-include="dialogUrl"></div>
   <div id="canvas"></div>
   <a id="download" href="#" download data-ng-show="false"></a>
 </section>

@@ -13,7 +13,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Initialize modal and gui instance
   $scope.modal = null;
-  $scope.guiTemplate = null;
+  $scope.dialogUrl = null;
 
   // Find a list of tools
   $scope.sidebarTools = Tools.getTool('sidebar');
@@ -114,7 +114,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    */
   // Import files
   $scope.uploadFiles = function() {
-    $scope.modal = Dialogs.upload();
+    if ($scope.dialogUrl === null)
+      $scope.modal = Dialogs.upload();
   };
 
   // Download files
@@ -224,7 +225,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Transform model
   $scope.transform = function() {
-    $scope.guiTemplate = 'modules/core/views/transform.client.view.html';
+    $scope.dialogUrl = Dialogs.transform();
   };
 
   /**
@@ -290,13 +291,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //  Listeners
   //---------------------------------------------------
   // Listener for upload-files.success
-  $scope.$on('upload-files.success', function(event, filename) {
+  $scope.$on('upload.success', function(event, filename) {
     addFileItem(filename);
   });
 
   // Listener for gui-dialog
-  $scope.$on('gui-dialog.close', function(event) {
-    $scope.guiTemplate = null;
+  $scope.$on('dialog.close', function(event) {
+    $scope.dialogUrl = null;
   });
 
   //---------------------------------------------------

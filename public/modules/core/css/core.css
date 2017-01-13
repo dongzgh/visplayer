@@ -331,7 +331,7 @@ nav[role=navigation] {
   padding-bottom: 10px;
 }
 .gui-dialog .panel-body > div:first-child {
-   margin-bottom: 0px; 
+   margin-bottom: 0; 
 }
 .gui-dialog .panel-body .input-group {
   background-color: transparent;

@@ -27,7 +27,7 @@ angular.module('core').controller('UploadController', ['$rootScope', '$scope', '
     $scope.upload = function() {
       // Define success callback
       function onsuccess(config) {
-        $rootScope.$broadcast('upload-files.success', config.file.name);
+        $rootScope.$broadcast('upload.success', config.file.name);
       }
 
       // Define final callback
