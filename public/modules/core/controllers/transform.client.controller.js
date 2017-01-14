@@ -5,6 +5,9 @@ angular.module('core').controller('TransformController', ['$rootScope', '$scope'
     // State variables
     $scope.enablePicking = true;
 
+    //---------------------------------------------------
+    //  Callbacks
+    //---------------------------------------------------
   	// OnOK
   	$scope.onOK = function() {
   		$rootScope.$broadcast('dialog.close');
@@ -14,5 +17,14 @@ angular.module('core').controller('TransformController', ['$rootScope', '$scope'
   	$scope.onCancel = function() {
   		$rootScope.$broadcast('dialog.close');
   	};
+
+    //---------------------------------------------------
+    //  Listeners
+    //---------------------------------------------------
+    $scope.$on('scene.selected', function(event, selects) {
+      selects.forEach(function(selected){
+        console.log(selected);
+      });
+  });
   }
 ]);

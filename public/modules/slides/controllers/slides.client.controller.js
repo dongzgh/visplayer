@@ -62,12 +62,12 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.activateTool = function(item) {
     if (item.toggle !== null) {
       item.toggle = !item.toggle;
-      if (item.action !== null) 
+      if (item.action !== null)
         $scope[item.action](item);
     } else {
-      if (item.action !== null) 
+      if (item.action !== null)
         $scope[item.action]();
-    }    
+    }
   };
 
   // Select tree item.
@@ -186,19 +186,19 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Picking callbacks
   $scope.clearView = Scene.clearView;
   $scope.pickModel = function(item) {
-    setScenePicking(item.toggle, Scene.GEOMETRY_TYPES.model, Scene.SELECTION_MODES.multiple);
+    setSelectionContext(item.toggle, Scene.GEOMETRY_TYPES.model, Scene.SELECTION_MODES.multiple);
   };
   $scope.pickFace = function(item) {
-    setScenePicking(item.toggle, Scene.GEOMETRY_TYPES.face, Scene.SELECTION_MODES.multiple);
+    setSelectionContext(item.toggle, Scene.GEOMETRY_TYPES.face, Scene.SELECTION_MODES.multiple);
   };
   $scope.pickEdge = function (item) {
-    setScenePicking(item.toggle, Scene.GEOMETRY_TYPES.edge, Scene.SELECTION_MODES.multiple);
+    setSelectionContext(item.toggle, Scene.GEOMETRY_TYPES.edge, Scene.SELECTION_MODES.multiple);
   };
   $scope.pickCurve = function (item) {
-    setScenePicking(item.toggle, Scene.GEOMETRY_TYPES.curve, Scene.SELECTION_MODES.multiple);
+    setSelectionContext(item.toggle, Scene.GEOMETRY_TYPES.curve, Scene.SELECTION_MODES.multiple);
   };
   $scope.pickPoint = function (item) {
-    setScenePicking(item.toggle, Scene.GEOMETRY_TYPES.point, Scene.SELECTION_MODES.multiple);
+    setSelectionContext(item.toggle, Scene.GEOMETRY_TYPES.point, Scene.SELECTION_MODES.multiple);
   };
 
   // Display callbacks
@@ -225,6 +225,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Transform model
   $scope.transform = function() {
+    clearSelectionContex();
     $scope.dialogUrl = Dialogs.transform();
   };
 
@@ -355,8 +356,8 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
     Trees.addSubTreeItem('scene', 'models', modelname, 'icon-file-model', modelname);
   }
 
-  // Set picking mode
-  function setScenePicking(toggle, type, mode) {
+  // Set scene selection context
+  function setSelectionContext(toggle, type, mode) {
     if (toggle) {
       Scene.numSelectors += 1;
       Scene.selectType += type;
@@ -365,5 +366,15 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       Scene.selectType -= type;
     }
     Scene.selectMode = mode;
+  }
+
+  // Clear scene selection context
+  function clearSelectionContex(){
+    $scope.modelingTools.items.forEach(function(item){
+      if(item.toggle !== null)
+        item.toggle = false;
+    });
+    Scene.numSelectors = 0;
+    Scene.clearView();
   }
 }]);

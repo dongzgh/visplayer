@@ -622,7 +622,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         case scope.DISPLAY_MODES.shaded:
           break;
         case scope.DISPLAY_MODES.rendered:
-          //meshMaterial = meshShinyGlassMaterial;
           lineVisibility = false;
           break;
         case scope.DISPLAY_MODES.analysis:
@@ -716,7 +715,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
       // Broadcast
       if (selects.length > 0)
-        $rootScope.$broadcast('scene.selects', selects);
+        $rootScope.$broadcast('scene.selected', selects);
     }
 
     // Get picked model
