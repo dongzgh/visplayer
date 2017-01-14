@@ -35,13 +35,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     scope.highlightSelObject = true;
 
     // Material definitions
-    var meshDefaultMaterial = new $window.THREE.MeshPhongMaterial({
+    var meshDefaultMaterial = new $window.THREE.MeshStandardMaterial({
       color: CLR_FACE,
       transparent: true,
       opacity: 0.8,
-      specular: 0xffffff,
-      metal: true,
-      shininess: 25,
       emissive: 0x000000,
       side: $window.THREE.DoubleSide
     });
@@ -53,19 +50,12 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     });
     var meshShinyGlassMaterial = new $window.THREE.MeshBasicMaterial({
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.8,
       reflectivity: 0.5,
       envMap: (function() {
-        var path = 'modules/core/images/cube/';
-        var format = '.jpg';
-        var urls = [
-          path + 'posx' + format, path + 'negx' + format,
-          path + 'posy' + format, path + 'negy' + format,
-          path + 'posz' + format, path + 'negz' + format
-        ];
-        var reflectionCube = $window.THREE.ImageUtils.loadTextureCube(urls);
-        reflectionCube.format = $window.THREE.RGBFormat;
-        return reflectionCube;
+        return new $window.THREE.CubeTextureLoader()
+        .setPath('modules/core/images/cube/')
+        .load(['posx.jpg','negx.jpg', 'posy.jpg','negy.jpg', 'posz.jpg', 'negz.jpg']);
       })(),
       combine: $window.THREE.MixOperation,
       side: $window.THREE.DoubleSide
@@ -632,6 +622,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         case scope.DISPLAY_MODES.shaded:
           break;
         case scope.DISPLAY_MODES.rendered:
+          //meshMaterial = meshShinyGlassMaterial;
           lineVisibility = false;
           break;
         case scope.DISPLAY_MODES.analysis:
