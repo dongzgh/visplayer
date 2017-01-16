@@ -317,7 +317,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Remove object
     scope.removeObject = function(name) {
       // Check input data
-      if (name === null) return;
+      if (name === undefined) return;
 
       // Remove object
       var index = 0;
@@ -414,7 +414,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      */
     // Create transformer
     scope.createTransformer = function(mode) {
-      if(transformer === undefined || transformer === null) {
+      if(transformer === undefined) {
         transformer = new $window.THREE.TransformControls(activeCamera, canvas);
         activeScene.add(transformer);
       }
@@ -424,9 +424,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Attach transformer
     scope.attachTransformer = function(object) {
-      if(transformer !== undefined && transformer !== null) {
+      if(transformer !== undefined)
         transformer.attach(object);
-      }
     };
 
     // Delete transformer
@@ -588,7 +587,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Count object instances
     function countModels(name) {
       // Check input data
-      if (name === null) return 0;
+      if (name === undefined) return 0;
 
       // Count object instances
       var count = 0;
@@ -788,7 +787,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       if (trackball !== undefined) trackball.update();
 
        // Transformer
-      if (transformer !== undefined && transformer !== null) transformer.update();
+      if (transformer !== undefined) transformer.update();
 
       // Lights
       var direction = new $window.THREE.Vector3();

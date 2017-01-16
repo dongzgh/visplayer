@@ -62,12 +62,12 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Activate a tool
   $scope.activateTool = function(item) {
     if($scope.lock) return;
-    if (item.toggle !== null) {
+    if (item.toggle !== undefined) {
       item.toggle = !item.toggle;
-      if (item.action !== null)
+      if (item.action !== undefined)
         $scope[item.action](item);
     } else {
-      if (item.action !== null)
+      if (item.action !== undefined)
         $scope[item.action]();
     }
   };
@@ -372,7 +372,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Clear scene selection context
   function clearSelectionContex(){
     $scope.modelingTools.items.forEach(function(item){
-      if(item.toggle !== null)
+      if(item.toggle !== undefined)
         item.toggle = false;
     });
     Scene.clearView();
