@@ -32,7 +32,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       single:   0,
       multiple: 1
     };
-    scope.displaySelection = true;
+    scope.selectType = 0;
+    scope.selectMode = scope.SELECTION_MODES.multiple;
+    scope.selectNotify = true;
 
     // Material definitions
     var meshDefaultMaterial = new $window.THREE.MeshStandardMaterial({
@@ -83,9 +85,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var eyeLight;
     var trackball;
     var raycaster;
-    scope.selectType = 0;
-    scope.selectMode = scope.SELECTION_MODES.multiple;
-    scope.numSelectors = 0;
     var selects = [];
     var mouse = new $window.THREE.Vector2();
     var transformer;
@@ -322,13 +321,18 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       });
     };
 
-    // Highlight object
+    // Clear selected objects
     scope.clearView = function() {
       setSelected(activeScene, false);
       selects = [];
       scope.updateDisplays();
-      activeScene.remove(transformer);
-      transformer = null;
+    };
+
+    // Clear selection
+    scope.clearSelection = function() {
+      scope.selectType = 0;
+      scope.selectMode = scope.SELECTION_MODES.multiple;
+      scope.selectNotify = true;
     };
 
     /**
@@ -406,7 +410,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     //     activeScene.add(transformer);
     //   }
     //   scope.transformer.setMode('translate');
-    //   scope.transformer.visible = false;        
+    //   scope.transformer.visible = false;
     //   scope.transformer.addEventListener('change', render);
     // };
 
@@ -478,7 +482,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     function onCanvasMouseDown(event) {
       event.preventDefault();
       if (event.button !== 0) return;
-      if (scope.numSelectors > 0) pickObjects();
+      if (scope.selectType > 0) pickObjects();
     }
 
     // Mouse move
@@ -710,17 +714,17 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
         // Update selects
         candidates.forEach(function(candidate) {
+          if (scope.selectMode === scope.SELECTION_MODES.single) {
+            selects.forEach(function(object) {
+              setSelected(object, false);
+            });
+            selects = [];
+          }
           if (selects.length > 0 && selects.indexOf(candidate) !== -1) {
             let index = selects.indexOf(candidate);
             selects.splice(index, 1);
             setSelected(candidate, false);
           } else {
-            if (scope.selectMode === scope.PICK_SINGLE) {
-              selects.forEach(function(object) {
-                setSelected(object, false);
-              });
-              selects = [];
-            }
             setSelected(candidate, true);
             selects.push(candidate);
           }
@@ -728,7 +732,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       }
 
       // Update displays
-      if(scope.displaySelection)
+      if(scope.selectNotify)
         scope.updateDisplays();
 
       // Broadcast

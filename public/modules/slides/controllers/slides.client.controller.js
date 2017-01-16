@@ -14,6 +14,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Initialize modal and gui instance
   $scope.modal = null;
   $scope.dialogUrl = null;
+  $scope.lock = false;
 
   // Find a list of tools
   $scope.sidebarTools = Tools.getTool('sidebar');
@@ -60,6 +61,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Activate a tool
   $scope.activateTool = function(item) {
+    if($scope.lock) return;
     if (item.toggle !== null) {
       item.toggle = !item.toggle;
       if (item.action !== null)
@@ -227,6 +229,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   $scope.transform = function() {
     clearSelectionContex();
     $scope.dialogUrl = Dialogs.transform();
+    $scope.lock = true;
   };
 
   /**
@@ -299,6 +302,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Listener for gui-dialog
   $scope.$on('dialog.close', function(event) {
     $scope.dialogUrl = null;
+    $scope.lock = false;
   });
 
   //---------------------------------------------------
@@ -358,13 +362,10 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Set scene selection context
   function setSelectionContext(toggle, type, mode) {
-    if (toggle) {
-      Scene.numSelectors += 1;
+    if (toggle)
       Scene.selectType += type;
-    } else {
-      Scene.numSelectors -= 1;
+    else
       Scene.selectType -= type;
-    }
     Scene.selectMode = mode;
   }
 
@@ -374,7 +375,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       if(item.toggle !== null)
         item.toggle = false;
     });
-    Scene.numSelectors = 0;
     Scene.clearView();
   }
 }]);

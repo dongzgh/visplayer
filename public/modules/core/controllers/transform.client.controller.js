@@ -6,21 +6,24 @@ angular.module('core').controller('TransformController', ['$rootScope', '$scope'
     $scope.enablePicking = true;
 
     // Enable selection
-    Scene.numSelectors = 1;
     Scene.selectType = Scene.GEOMETRY_TYPES.model;
     Scene.selectMode = Scene.SELECTION_MODES.single;
-    Scene.displaySelection = false; // to be reset after dialog closed
+    Scene.selectNotify = false; // to be reset after dialog closed
 
     //---------------------------------------------------
     //  Callbacks
     //---------------------------------------------------
   	// OnOK
   	$scope.onOK = function() {
+      Scene.clearView();
+      Scene.clearSelection();
   		$rootScope.$broadcast('dialog.close');
   	};
 
   	// OnCancel
   	$scope.onCancel = function() {
+      Scene.clearView();
+      Scene.clearSelection();
   		$rootScope.$broadcast('dialog.close');
   	};
 
