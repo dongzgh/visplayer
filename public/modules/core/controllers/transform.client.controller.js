@@ -8,15 +8,22 @@ angular.module('core').controller('TransformController', ['$rootScope', '$scope'
     // Enable selection
     Scene.selectType = Scene.GEOMETRY_TYPES.model;
     Scene.selectMode = Scene.SELECTION_MODES.single;
-    Scene.selectNotify = false; // to be reset after dialog closed
+    Scene.selectNotify = false;
+    $scope.mode = 'translate';
 
     //---------------------------------------------------
     //  Callbacks
     //---------------------------------------------------
+    // Updaet mode
+    $scope.updateMode = function() {
+      Scene.createTransformer($scope.mode);
+    };
+
   	// OnOK
   	$scope.onOK = function() {
       Scene.clearView();
       Scene.clearSelection();
+      Scene.deleteTransformer();
   		$rootScope.$broadcast('dialog.close');
   	};
 
@@ -24,6 +31,7 @@ angular.module('core').controller('TransformController', ['$rootScope', '$scope'
   	$scope.onCancel = function() {
       Scene.clearView();
       Scene.clearSelection();
+      Scene.deleteTransformer();
   		$rootScope.$broadcast('dialog.close');
   	};
 
@@ -32,7 +40,8 @@ angular.module('core').controller('TransformController', ['$rootScope', '$scope'
     //---------------------------------------------------
     $scope.$on('scene.selected', function(event, selects) {
       selects.forEach(function(selected){
-        console.log(selected);
+        Scene.createTransformer($scope.mode);
+        Scene.attachTransformer(selected);
       });
   });
   }

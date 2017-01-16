@@ -254,6 +254,15 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       model.center = new $window.THREE.Vector3();
       model.center.copy(model.box.min).add(model.box.max).multiplyScalar(0.5);
 
+      // Update matrix.
+      model.children.forEach(function(set){
+        set.children.forEach(function(entity){
+          let geometry = entity.geometry;
+          geometry.translate(-model.center.x, -model.center.y, -model.center.z);
+        });
+      });
+      model.position.copy(model.center);
+      
       // Add to scene
       activeScene.add(model);
 
@@ -404,68 +413,26 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      * Transformation
      */
     // Create transformer
-    // scope.createTransformer = function() {
-    //   if(typeof scope.transformer === 'undefined' || scope.transformer === null) {
-    //     scope.transformer = new $window.THREE.TransformControls(activeCamera, canvas);
-    //     activeScene.add(transformer);
-    //   }
-    //   scope.transformer.setMode('translate');
-    //   scope.transformer.visible = false;
-    //   scope.transformer.addEventListener('change', render);
-    // };
-
-    // // Attach transformer
-    // scope.attachTransformer = function(object) {
-    //   if(typeof scope.transformer !== 'undefined' && scope.transformer !== null)
-    //     scope.transformer.attach(object);
-    // };
-
-    // Move model
-    scope.moveModel = function(object) {
-      // Check input data
-      if (selects.length === 0) return;
-      if (angular.isUndefined(selects[0].type) || selects[0].type !== scope.GEOMETRY_TYPES.model) return;
-
-      // Attach transformer
-      if (transformer === null) {
+    scope.createTransformer = function(mode) {
+      if(typeof transformer === 'undefined' || transformer === null) {
         transformer = new $window.THREE.TransformControls(activeCamera, canvas);
         activeScene.add(transformer);
       }
-      transformer.attach(selects[0]);
-      transformer.setMode('translate');
+      transformer.setMode(mode);
       transformer.addEventListener('change', render);
     };
 
-    // Rotate model
-    scope.rotateModel = function(object) {
-      // Check input data
-      if (selects.length === 0) return;
-      if (angular.isUndefined(selects[0].type) || selects[0].type !== scope.GEOMETRY_TYPES.model) return;
-
-      // Attach transformer
-      if (transformer === null) {
-        transformer = new $window.THREE.TransformControls(activeCamera, canvas);
-        activeScene.add(transformer);
+    // Attach transformer
+    scope.attachTransformer = function(object) {
+      if(typeof transformer !== 'undefined' && transformer !== null) {
+        transformer.attach(object);
       }
-      transformer.attach(selects[0]);
-      transformer.setMode('rotate');
-      transformer.addEventListener('change', render);
     };
 
-    // Scale model
-    scope.scaleModel = function(object) {
-      // Check input data
-      if (selects.length === 0) return;
-      if (angular.isUndefined(selects[0].type) || selects[0].type !== scope.GEOMETRY_TYPES.model) return;
-
-      // Attach transformer
-      if (transformer === null) {
-        transformer = new $window.THREE.TransformControls(activeCamera, canvas);
-        activeScene.add(transformer);
-      }
-      transformer.attach(selects[0]);
-      transformer.setMode('scale');
-      transformer.addEventListener('change', render);
+    // Delete transformer
+    scope.deleteTransformer = function () {
+      activeScene.remove(transformer);
+      transformer = null;
     };
 
     //---------------------------------------------------
