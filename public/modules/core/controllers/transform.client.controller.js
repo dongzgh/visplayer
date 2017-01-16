@@ -1,9 +1,15 @@
 'use strict';
 
-angular.module('core').controller('TransformController', ['$rootScope', '$scope', '$log',
-  function($rootScope, $scope, $log) {
+angular.module('core').controller('TransformController', ['$rootScope', '$scope', '$log', 'Scene',
+  function($rootScope, $scope, $log, Scene) {
     // State variables
     $scope.enablePicking = true;
+
+    // Enable selection
+    Scene.numSelectors = 1;
+    Scene.selectType = Scene.GEOMETRY_TYPES.model;
+    Scene.selectMode = Scene.SELECTION_MODES.single;
+    Scene.displaySelection = false; // to be reset after dialog closed
 
     //---------------------------------------------------
     //  Callbacks

@@ -32,7 +32,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       single:   0,
       multiple: 1
     };
-    scope.highlightSelObject = true;
+    scope.displaySelection = true;
 
     // Material definitions
     var meshDefaultMaterial = new $window.THREE.MeshStandardMaterial({
@@ -399,6 +399,23 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     /**
      * Transformation
      */
+    // Create transformer
+    // scope.createTransformer = function() {
+    //   if(typeof scope.transformer === 'undefined' || scope.transformer === null) {
+    //     scope.transformer = new $window.THREE.TransformControls(activeCamera, canvas);
+    //     activeScene.add(transformer);
+    //   }
+    //   scope.transformer.setMode('translate');
+    //   scope.transformer.visible = false;        
+    //   scope.transformer.addEventListener('change', render);
+    // };
+
+    // // Attach transformer
+    // scope.attachTransformer = function(object) {
+    //   if(typeof scope.transformer !== 'undefined' && scope.transformer !== null)
+    //     scope.transformer.attach(object);
+    // };
+
     // Move model
     scope.moveModel = function(object) {
       // Check input data
@@ -711,7 +728,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       }
 
       // Update displays
-      scope.updateDisplays();
+      if(scope.displaySelection)
+        scope.updateDisplays();
 
       // Broadcast
       if (selects.length > 0)
