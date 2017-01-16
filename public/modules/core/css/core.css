@@ -355,6 +355,9 @@ nav[role=navigation] {
 .gui-dialog .panel-body .btn-group {
   margin-top: 5px;
 }
+.gui-dialog .panel-body .btn-toolbar .btn-group {
+  border: 1px #9D9D9D solid;
+}
 .gui-dialog .panel-footer {
   background-color: transparent;
   border-radius: 0;

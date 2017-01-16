@@ -21,7 +21,14 @@ angular.module('core').controller('TransformController', ['$rootScope', '$window
       Scene.createTransformer($scope.mode);
     };
 
-  	// OnOK
+    // On undo
+    $scope.onUndo = function () {
+      if(stack.length > 0) {
+        selected.copy(stack.pop(), false);
+      }
+    };
+
+  	// On OK
   	$scope.onOK = function() {
       Scene.clearView();
       Scene.clearSelection();
@@ -29,7 +36,7 @@ angular.module('core').controller('TransformController', ['$rootScope', '$window
   		$rootScope.$broadcast('dialog.close');
   	};
 
-  	// OnCancel
+  	// On Cancel
   	$scope.onCancel = function() {
       Scene.clearView();
       Scene.clearSelection();
@@ -44,6 +51,11 @@ angular.module('core').controller('TransformController', ['$rootScope', '$window
     //---------------------------------------------------
     //  Listeners
     //---------------------------------------------------
+    $scope.$on('scene.transformer.update', function (event){
+      event.preventDefault();
+      console.log('catched moouse up');
+    });
+
     $scope.$on('scene.selected', function(event, selects) {
       selects.forEach(function(object){
         Scene.createTransformer($scope.mode, object);

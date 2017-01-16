@@ -408,7 +408,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       scope.fitView(new $window.THREE.Vector3(0, 1, 0));
     };
 
-
     /**
      * Transformation
      */
@@ -420,15 +419,21 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       }
       transformer.setMode(mode);
       transformer.addEventListener('change', render);
+      transformer.addEventListener('mouseUp', function(event){
+        if($window.event.type === 'mouseup')
+          $rootScope.$broadcast('scene.transformer.update');
+      });
       if(object !== undefined)
         transformer.attach(object);
     };
 
     // Delete transformer
     scope.deleteTransformer = function () {
-      transformer.detach();
-      activeScene.remove(transformer);
-      transformer = undefined;
+      if(transformer !== undefined) {
+        transformer.detach();
+        activeScene.remove(transformer);
+        transformer = undefined;
+      }
     };
 
     //---------------------------------------------------
