@@ -413,23 +413,20 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      * Transformation
      */
     // Create transformer
-    scope.createTransformer = function(mode) {
+    scope.createTransformer = function(mode, object) {
       if(transformer === undefined) {
         transformer = new $window.THREE.TransformControls(activeCamera, canvas);
         activeScene.add(transformer);
       }
       transformer.setMode(mode);
       transformer.addEventListener('change', render);
-    };
-
-    // Attach transformer
-    scope.attachTransformer = function(object) {
-      if(transformer !== undefined)
+      if(object !== undefined)
         transformer.attach(object);
     };
 
     // Delete transformer
     scope.deleteTransformer = function () {
+      transformer.detach();
       activeScene.remove(transformer);
       transformer = undefined;
     };

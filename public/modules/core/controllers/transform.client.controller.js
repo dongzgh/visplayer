@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('core').controller('TransformController', ['$rootScope', '$scope', '$log', 'Scene',
-  function($rootScope, $scope, $log, Scene) {
+angular.module('core').controller('TransformController', ['$rootScope', '$window', '$scope', '$log', 'Scene',
+  function($rootScope, $window, $scope, $log, Scene) {
     // State variables
     $scope.enablePicking = true;
 
@@ -10,6 +10,7 @@ angular.module('core').controller('TransformController', ['$rootScope', '$scope'
     Scene.selectMode = Scene.SELECTION_MODES.single;
     Scene.selectNotify = false;
     $scope.mode = 'translate';
+    var selected;
     var stack = [];
 
     //---------------------------------------------------
@@ -33,6 +34,10 @@ angular.module('core').controller('TransformController', ['$rootScope', '$scope'
       Scene.clearView();
       Scene.clearSelection();
       Scene.deleteTransformer();
+      if(stack.length > 0) {
+        selected.copy(stack[0], false);
+        stack = [];
+      }
   		$rootScope.$broadcast('dialog.close');
   	};
 
@@ -40,9 +45,10 @@ angular.module('core').controller('TransformController', ['$rootScope', '$scope'
     //  Listeners
     //---------------------------------------------------
     $scope.$on('scene.selected', function(event, selects) {
-      selects.forEach(function(selected){
-        Scene.createTransformer($scope.mode);
-        Scene.attachTransformer(selected);
+      selects.forEach(function(object){
+        Scene.createTransformer($scope.mode, object);
+        selected = object;
+        stack.push(object.clone());
       });
   });
   }
