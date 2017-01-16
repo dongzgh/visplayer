@@ -35,7 +35,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     // Define upload method
     this.upload = function(files, onprogress, onsuccess, onerror, onfinal) {
       // Check input data
-      if (typeof files === 'undefined' || files.length <= 0) return;
+      if (files === undefined || files.length <= 0) return;
 
       // Upload each file
       var passed = [];
@@ -91,7 +91,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     // Define download method
     this.download = function(fileNames, onsuccess, onerror) {
       // Check input data
-      if (typeof fileNames === 'undefined' || fileNames.length <= 0) return;
+      if (fileNames === undefined || fileNames.length <= 0) return;
 
       // Download each file
       fileNames.forEach(function(fileName) {
@@ -121,7 +121,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     // Deinfe load method
     this.load = function(fileNames, onprogress, onsuccess, onerror) {
       // Check input data
-      if (typeof fileNames === 'undefined' || fileNames.length <= 0) return;
+      if (fileNames === undefined || fileNames.length <= 0) return;
 
       // Load each file
       fileNames.forEach(function(fileName) {
@@ -164,7 +164,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     // Define delete method
     this.delete = function(fileNames, onsuccess, onerror) {
       // Check input data
-      if (typeof fileNames === 'undefined' || fileNames.length <= 0) return;
+      if (fileNames === undefined || fileNames.length <= 0) return;
 
       // Delete each file
       fileNames.forEach(function(fileName) {

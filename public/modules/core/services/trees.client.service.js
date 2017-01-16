@@ -110,8 +110,8 @@ angular.module('core').service('Trees', ['$log',
         title: treeItemTitle,
         icon: treeItemIcon,
         link: treeItemURL,
-        isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.trees[treeId].isPublic : isPublic),
-        roles: ((roles === null || typeof roles === 'undefined') ? this.trees[treeId].roles : roles),
+        isPublic: ((isPublic === null || isPublic === undefined) ? this.trees[treeId].isPublic : isPublic),
+        roles: ((roles === null || roles === undefined) ? this.trees[treeId].roles : roles),
         items: [],
         checked: false,
         shouldRender: shouldRender
@@ -173,8 +173,8 @@ angular.module('core').service('Trees', ['$log',
             title: treeItemTitle,
             icon: treeItemIcon,
             link: treeItemURL,
-            isPublic: ((isPublic === null || typeof isPublic === 'undefined') ? this.trees[treeId].items[itemIndex].isPublic : isPublic),
-            roles: ((roles === null || typeof roles === 'undefined') ? this.trees[treeId].items[itemIndex].roles : roles),
+            isPublic: ((isPublic === null || isPublic === undefined) ? this.trees[treeId].items[itemIndex].isPublic : isPublic),
+            roles: ((roles === null || roles === undefined) ? this.trees[treeId].items[itemIndex].roles : roles),
             checked: false,
             shouldRender: shouldRender
           });
@@ -212,7 +212,7 @@ angular.module('core').service('Trees', ['$log',
       for (var itemIndex in this.trees[treeId].items) {
         if (this.trees[treeId].items[itemIndex].link === rootTreeItemURL) {
           var item = this.trees[treeId].items[itemIndex];
-          if (typeof item.items !== 'undefined' && item.items.length > 0) {
+          if (item.items !== undefined && item.items.length > 0) {
             for (var subitemIndex in item.items) {
               item.items[subitemIndex].checked = checked;
             }

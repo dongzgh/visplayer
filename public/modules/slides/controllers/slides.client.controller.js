@@ -8,12 +8,12 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //  Initialization
   //---------------------------------------------------
   // Initialize panel params
-  $scope.link = null;
+  $scope.link = undefined;
   $scope.showPanel = false;
 
   // Initialize modal and gui instance
-  $scope.modal = null;
-  $scope.dialogUrl = null;
+  $scope.modal = undefined;
+  $scope.dialogUrl = undefined;
   $scope.lock = false;
 
   // Find a list of tools
@@ -50,7 +50,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //---------------------------------------------------
   // Activate the panel
   $scope.activatePanel = function(link) {
-    if (typeof $scope.link === 'undefined' || link !== $scope.link) {
+    if ($scope.link === undefined || link !== $scope.link) {
       $scope.showPanel = true;
       $scope.link = link;
       $location.url(link);
@@ -301,7 +301,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
 
   // Listener for gui-dialog
   $scope.$on('dialog.close', function(event) {
-    $scope.dialogUrl = null;
+    $scope.dialogUrl = undefined;
     $scope.lock = false;
   });
 

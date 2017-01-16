@@ -10,6 +10,7 @@ angular.module('core').controller('TransformController', ['$rootScope', '$scope'
     Scene.selectMode = Scene.SELECTION_MODES.single;
     Scene.selectNotify = false;
     $scope.mode = 'translate';
+    var stack = [];
 
     //---------------------------------------------------
     //  Callbacks
