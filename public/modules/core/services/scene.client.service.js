@@ -413,17 +413,17 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      */
     // Create transformer
     scope.createTransformer = function(mode, object) {
-      if(transformer !== undefined) return;
+      if(transformer !== undefined) return false;
       transformer = new $window.THREE.TransformControls(activeCamera, canvas);
       transformer.setMode(mode);
       transformer.addEventListener('change', render);
       transformer.addEventListener('mouseUp', function(event){
-        if($window.event.type === 'mouseup')
-          $rootScope.$broadcast('scene.transformer.update');
+        $rootScope.$broadcast('scene.transformer.update');
       });
       activeScene.add(transformer);
       if(object !== undefined)
         transformer.attach(object);
+      return true;
     };
 
     // Switch transformer

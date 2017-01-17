@@ -116,7 +116,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    */
   // Import files
   $scope.uploadFiles = function() {
-    if ($scope.dialogUrl === null)
+    if ($scope.dialogUrl === undefined)
       $scope.modal = Dialogs.upload();
   };
 
@@ -296,11 +296,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //---------------------------------------------------
   // Listener for upload-files.success
   $scope.$on('upload.success', function(event, filename) {
+    event.preventDefault();
     addFileItem(filename);
   });
 
   // Listener for gui-dialog
   $scope.$on('dialog.close', function(event) {
+    event.preventDefault();
     $scope.dialogUrl = undefined;
     $scope.lock = false;
   });

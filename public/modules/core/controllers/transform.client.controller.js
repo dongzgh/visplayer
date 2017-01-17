@@ -23,8 +23,16 @@ angular.module('core').controller('TransformController', ['$rootScope', '$window
 
     // On undo
     $scope.onUndo = function () {
-      if(stack.length > 0) {
-        selected.copy(stack.pop(), false);
+      if(stack.length === 1) {
+        let object = stack[0];
+        selected.copy(object, false);
+      }      
+      else if(stack.length > 1) {
+        let object = stack.pop();
+        if(selected.matrix.equals(object.matrix))
+          $scope.onUndo();
+        else
+          selected.copy(object, false);
       }
     };
 
@@ -53,15 +61,15 @@ angular.module('core').controller('TransformController', ['$rootScope', '$window
     //---------------------------------------------------
     $scope.$on('scene.transformer.update', function (event){
       event.preventDefault();
-      console.log('catched moouse up');
+      stack.push(selected.clone());
     });
 
     $scope.$on('scene.selected', function(event, selects) {
-      selects.forEach(function(object){
-        Scene.createTransformer($scope.mode, object);
-        selected = object;
-        stack.push(object.clone());
-      });
-  });
+      event.preventDefault();
+      if(Scene.createTransformer($scope.mode, selects[0])) {
+        selected = selects[0];
+        stack.push(selects[0].clone());
+      }
+    });
   }
 ]);
