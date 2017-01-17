@@ -5,29 +5,29 @@
   <div class="panel-body">
     <div class="btn-toolbar">
       <div class="btn-group">
-        <button type="button" class="btn btn-default active">
+        <button type="button" class="btn btn-default active" tooltip-placement="bottom" tooltip="{{language.dialogTransform.pickModel}}" tooltip-append-to-body="true">
           <span class="icon-pick-model"></span>
         </button>
       </div>
       <div class="btn-group">
-        <label class="btn btn-default" data-ng-model="mode" btn-radio="'translate'" data-ng-change="updateMode()">
+        <label class="btn btn-default" data-ng-model="mode" btn-radio="'translate'" data-ng-change="updateMode()" tooltip-placement="bottom" tooltip="{{language.dialogTransform.modeTranslate}}" tooltip-append-to-body="true">
           <span class="icon-move"></span>
         </label>
-        <label class="btn btn-default" data-ng-model="mode" btn-radio="'rotate'" data-ng-change="updateMode()">
+        <label class="btn btn-default" data-ng-model="mode" btn-radio="'rotate'" data-ng-change="updateMode()" tooltip-placement="bottom" tooltip="{{language.dialogTransform.modeRotate}}" tooltip-append-to-body="true">
           <span class="icon-rotate"></span>
         </label>
       </div>
       <div class="btn-group">
-        <button type="button" class="btn btn-default" data-ng-click="onUndo()">
+        <button type="button" class="btn btn-default" data-ng-click="onUndo()" tooltip-placement="bottom" tooltip="{{language.dialogTransform.undo}}" tooltip-append-to-body="true">
           <span class="icon-undo"></span>
         </button>
       </div>
     </div>    
-    <div class="btn-group btn-okcancel">
-      <button type="button" class="btn btn-default" data-ng-click="onOK()">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default" data-ng-click="onOK()" tooltip-placement="bottom" tooltip="{{language.dialogTransform.ok}}" tooltip-append-to-body="true">
         <span class="icon-ok"></span>
       </button>
-      <button type="button" class="btn btn-default" data-ng-click="onCancel()">
+      <button type="button" class="btn btn-default" data-ng-click="onCancel()" tooltip-placement="bottom" tooltip="{{language.dialogTransform.cancel}}" tooltip-append-to-body="true">
         <span class="icon-cancel"></span>
       </button>
     </div>

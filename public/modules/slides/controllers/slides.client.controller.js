@@ -177,16 +177,16 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    * Modeling callbacks
    */
   // View callbacks
-  $scope.fitView = Scene.fitView;
-  $scope.topView = Scene.topView;
-  $scope.bottomView = Scene.bottomView;
-  $scope.leftView = Scene.leftView;
-  $scope.rightView = Scene.rightView;
-  $scope.frontView = Scene.frontView;
-  $scope.backView = Scene.backView;
+  $scope.viewFit = Scene.viewFit;
+  $scope.viewTop = Scene.viewTop;
+  $scope.viewBottom = Scene.viewBottom;
+  $scope.viewLeft = Scene.viewLeft;
+  $scope.viewRight = Scene.viewRight;
+  $scope.viewFront = Scene.viewFront;
+  $scope.viewBack = Scene.viewBack;
 
   // Picking callbacks
-  $scope.clearView = Scene.clearView;
+  $scope.viewClear = Scene.viewClear;
   $scope.pickModel = function(item) {
     setSelectionContext(item.toggle, Scene.GEOMETRY_TYPES.model, Scene.SELECTION_MODES.multiple);
   };
@@ -377,6 +377,6 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
       if(item.toggle !== undefined)
         item.toggle = false;
     });
-    Scene.clearView();
+    Scene.viewClear();
   }
 }]);

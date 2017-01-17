@@ -267,7 +267,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeScene.add(model);
 
       // Fit view.
-      scope.fitView();
+      scope.viewFit();
 
       // Post-processing
       if (onSuccess) onSuccess(model);
@@ -331,7 +331,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
 
     // Clear selected objects
-    scope.clearView = function() {
+    scope.viewClear = function() {
       setSelected(activeScene, false);
       selects = [];
       scope.updateDisplays();
@@ -348,7 +348,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      * View
      */
     // Fit view
-    scope.fitView = function(direction) {
+    scope.viewFit = function(direction) {
       // Update scene box
       updateSceneBox(activeScene);
       if (activeScene.box.isEmpty()) return;
@@ -379,33 +379,33 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
 
     // Bottom view
-    scope.topView = function() {
-      scope.fitView(new $window.THREE.Vector3(0, 0, 1));
+    scope.viewTop = function() {
+      scope.viewFit(new $window.THREE.Vector3(0, 0, 1));
     };
 
     // Bottom view
-    scope.bottomView = function() {
-      scope.fitView(new $window.THREE.Vector3(0, 0, -1));
+    scope.viewBottom = function() {
+      scope.viewFit(new $window.THREE.Vector3(0, 0, -1));
     };
 
     // Left view
-    scope.leftView = function() {
-      scope.fitView(new $window.THREE.Vector3(-1, 0, 0));
+    scope.viewLeft = function() {
+      scope.viewFit(new $window.THREE.Vector3(-1, 0, 0));
     };
 
     // Right view
-    scope.rightView = function() {
-      scope.fitView(new $window.THREE.Vector3(1, 0, 0));
+    scope.viewRight = function() {
+      scope.viewFit(new $window.THREE.Vector3(1, 0, 0));
     };
 
     // Front view
-    scope.frontView = function() {
-      scope.fitView(new $window.THREE.Vector3(0, -1, 0));
+    scope.viewFront = function() {
+      scope.viewFit(new $window.THREE.Vector3(0, -1, 0));
     };
 
     // Back view
-    scope.backView = function() {
-      scope.fitView(new $window.THREE.Vector3(0, 1, 0));
+    scope.viewBack = function() {
+      scope.viewFit(new $window.THREE.Vector3(0, 1, 0));
     };
 
     /**

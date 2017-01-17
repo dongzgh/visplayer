@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('core').controller('TransformController', ['$rootScope', '$window', '$scope', '$log', 'Scene',
-  function($rootScope, $window, $scope, $log, Scene) {
+angular.module('core').controller('TransformController', ['$window', '$scope', '$log', 'Scene', 'Languages',
+  function($window, $scope, $log, Scene, Languages) {
     // State variables
     $scope.enablePicking = true;
+    $scope.language = Languages.localization();
 
     // Enable selection
     Scene.selectType = Scene.GEOMETRY_TYPES.model;
@@ -38,7 +39,7 @@ angular.module('core').controller('TransformController', ['$rootScope', '$window
 
   	// On OK
   	$scope.onOK = function() {
-      Scene.clearView();
+      Scene.viewClear();
       Scene.clearSelection();
       Scene.deleteTransformer();
   		$rootScope.$broadcast('dialog.close');
@@ -46,7 +47,7 @@ angular.module('core').controller('TransformController', ['$rootScope', '$window
 
   	// On Cancel
   	$scope.onCancel = function() {
-      Scene.clearView();
+      Scene.viewClear();
       Scene.clearSelection();
       Scene.deleteTransformer();
       if(stack.length > 0) {
