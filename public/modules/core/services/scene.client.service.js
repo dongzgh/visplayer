@@ -168,8 +168,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       model.type = scope.GEOMETRY_TYPES.model;
       model.box = new $window.THREE.Box3();
       var faces = new $window.THREE.Object3D();
+      faces.name = 'faces';
       model.add(faces);
       var edges = new $window.THREE.Object3D();
+      edges.name = 'edges';
       model.add(edges);
 
       // Create faces
