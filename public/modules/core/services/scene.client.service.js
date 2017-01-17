@@ -34,7 +34,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     };
     scope.selectType = 0;
     scope.selectMode = scope.SELECTION_MODES.multiple;
-    scope.selectNotify = true;
+    scope.displaySelect = true;
 
     // Material definitions
     var meshDefaultMaterial = new $window.THREE.MeshStandardMaterial({
@@ -262,7 +262,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         });
       });
       model.position.copy(model.center);
-      
+
       // Add to scene
       activeScene.add(model);
 
@@ -341,7 +341,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     scope.clearSelection = function() {
       scope.selectType = 0;
       scope.selectMode = scope.SELECTION_MODES.multiple;
-      scope.selectNotify = true;
+      scope.displaySelect = true;
     };
 
     /**
@@ -413,18 +413,23 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      */
     // Create transformer
     scope.createTransformer = function(mode, object) {
-      if(transformer === undefined) {
-        transformer = new $window.THREE.TransformControls(activeCamera, canvas);
-        activeScene.add(transformer);
-      }
+      if(transformer !== undefined) return;
+      transformer = new $window.THREE.TransformControls(activeCamera, canvas);
       transformer.setMode(mode);
       transformer.addEventListener('change', render);
       transformer.addEventListener('mouseUp', function(event){
         if($window.event.type === 'mouseup')
           $rootScope.$broadcast('scene.transformer.update');
       });
+      activeScene.add(transformer);
       if(object !== undefined)
         transformer.attach(object);
+    };
+
+    // Switch transformer
+    scope.switchTransformer = function (mode) {
+      if(transformer === undefined) return;
+      transformer.setMode(mode);
     };
 
     // Delete transformer
@@ -450,7 +455,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     function onCanvasMouseDown(event) {
       event.preventDefault();
       if (event.button !== 0) return;
-      if (scope.selectType > 0) pickObjects();
+      if (scope.selectType > 0) selectObjects();
     }
 
     // Mouse move
@@ -646,7 +651,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     }
 
     // Click pick objects
-    function pickObjects() {
+    function selectObjects() {
       raycaster.setFromCamera(mouse, activeCamera);
       let intersects = raycaster.intersectObjects(activeScene.children, true);
       if (intersects.length > 0) {
@@ -700,7 +705,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       }
 
       // Update displays
-      if(scope.selectNotify)
+      if(scope.displaySelect)
         scope.updateDisplays();
 
       // Broadcast

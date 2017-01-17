@@ -8,7 +8,7 @@ angular.module('core').controller('TransformController', ['$rootScope', '$window
     // Enable selection
     Scene.selectType = Scene.GEOMETRY_TYPES.model;
     Scene.selectMode = Scene.SELECTION_MODES.single;
-    Scene.selectNotify = false;
+    Scene.displaySelect = false;
     $scope.mode = 'translate';
     var selected;
     var stack = [];
@@ -18,7 +18,7 @@ angular.module('core').controller('TransformController', ['$rootScope', '$window
     //---------------------------------------------------
     // Updaet mode
     $scope.updateMode = function() {
-      Scene.createTransformer($scope.mode);
+      Scene.switchTransformer($scope.mode);
     };
 
     // On undo
