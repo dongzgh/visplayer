@@ -383,31 +383,37 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Bottom view
     scope.viewTop = function() {
       scope.viewFit(new $window.THREE.Vector3(0, 0, 1));
+      activeCamera.up.copy(new $window.THREE.Vector3(0, 1, 0));
     };
 
     // Bottom view
     scope.viewBottom = function() {
       scope.viewFit(new $window.THREE.Vector3(0, 0, -1));
+      activeCamera.up.copy(new $window.THREE.Vector3(0, -1, 0));
     };
 
     // Left view
     scope.viewLeft = function() {
       scope.viewFit(new $window.THREE.Vector3(-1, 0, 0));
+      activeCamera.up.copy(new $window.THREE.Vector3(0, 0, 1));
     };
 
     // Right view
     scope.viewRight = function() {
       scope.viewFit(new $window.THREE.Vector3(1, 0, 0));
+      activeCamera.up.copy(new $window.THREE.Vector3(0, 0, 1));
     };
 
     // Front view
     scope.viewFront = function() {
       scope.viewFit(new $window.THREE.Vector3(0, -1, 0));
+      activeCamera.up.copy(new $window.THREE.Vector3(0, 0, 1));
     };
 
     // Back view
     scope.viewBack = function() {
       scope.viewFit(new $window.THREE.Vector3(0, 1, 0));
+      activeCamera.up.copy(new $window.THREE.Vector3(0, 0, 1));
     };
 
     /**
