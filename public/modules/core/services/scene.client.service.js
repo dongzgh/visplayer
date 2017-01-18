@@ -275,6 +275,22 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       if (onSuccess) onSuccess(model);
     };
 
+    // Remove object
+    scope.removeObject = function(name) {
+      // Check input data
+      if (name === undefined) return;
+
+      // Remove object
+      var index = 0;
+      activeScene.children.forEach(function(object) {
+        if (object.displayName === name) {
+          activeScene.children.splice(index, 1);
+          return;
+        }
+        index++;
+      });
+    };
+
     // Update displays
     scope.updateDisplays = function (object) {
       if (object === undefined) {
@@ -314,22 +330,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           });
         }
       }
-    };
-
-    // Remove object
-    scope.removeObject = function(name) {
-      // Check input data
-      if (name === undefined) return;
-
-      // Remove object
-      var index = 0;
-      activeScene.children.forEach(function(object) {
-        if (object.displayName === name) {
-          activeScene.children.splice(index, 1);
-          return;
-        }
-        index++;
-      });
     };
 
     // Clear selected objects
@@ -511,14 +511,16 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Evaluate scene center
     function updateSceneBox(scene) {
       // Check input data
-      if (!(scene instanceof $window.THREE.Scene)) return;
+      if(!(scene instanceof $window.THREE.Scene)) return;
 
       // Update box
       let count = 0;
       scene.box = new $window.THREE.Box3();
       scene.traverse(function(object) {
         if (object.type !== undefined && object.type === scope.GEOMETRY_TYPES.model) {
-          scene.box.union(object.box);
+          let box = new $window.THREE.Box3();
+          box.setFromObject(object);
+          scene.box.union(box);
           count++;
         }
       });
@@ -775,7 +777,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       }
     }
 
-     /**
+    /**
      * Rendering
      */
     // Animate
