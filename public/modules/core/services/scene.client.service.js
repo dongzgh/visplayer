@@ -567,6 +567,14 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeCamera = camera;
     }
 
+    // function createCamera() {
+    //   var camera = new $window.THREE.OrthographicCamera(- $window.innerWidth / 2, $window.innerWidth / 2, $window.innerHeight / 2, - $window.innerHeight / 2, 1, 15000);
+    //   camera.position.set(- SIZE_BOX * 2, - SIZE_BOX * 2, SIZE_BOX);
+    //   camera.target = new $window.THREE.Vector3();
+    //   cameras.push(camera);
+    //   activeCamera = camera;
+    // }
+
     // Create helpers
     function createHelpers() {
       // Grid
@@ -579,6 +587,21 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       var axis = new $window.THREE.AxisHelper(SIZE_BOX);
       axis.name = 'AXIS';
       activeScene.add(axis);
+
+      // // ACS
+      // let v1 = new $window.THREE.Vector3(-0.89, -0.89, 0.5);
+      // v1.unproject(activeCamera);
+      // v1.z = 0;
+      // v1.add(activeCamera.position);
+      // let vx = new $window.THREE.Vector3(1, 0, 0);
+      // let vy = new $window.THREE.Vector3(0, 1, 0);
+      // let vz = new $window.THREE.Vector3(0, 0, 1);
+      // let arrow1 = new $window.THREE.ArrowHelper(vx, v1, 50);
+      // let arrow2 = new $window.THREE.ArrowHelper(vy, v1, 50);
+      // let arrow3 = new $window.THREE.ArrowHelper(vz, v1, 50);
+      // activeScene.add(arrow1);
+      // activeScene.add(arrow2);
+      // activeScene.add(arrow3);
     }
 
     // Create lights
