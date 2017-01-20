@@ -375,8 +375,15 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       p.copy(activeScene.center).add(v);
 
       // Set camera and trackball
-      activeCamera.position.copy(p);
+      activeCamera.position.copy(p); 
+      let lz = activeScene.box.max.z - activeScene.box.min.z;
+      let lx = lz / $window.innerHeight * $window.innerWidth;
+      activeCamera.top = lz / 2;
+      activeCamera.bottom = - lz / 2;
+      activeCamera.left = - lx / 2;
+      activeCamera.right = lx / 2;
       activeCamera.lookAt(activeScene.center);
+      activeCamera.updateProjectionMatrix();
       trackball.target.copy(activeScene.center);
     };
 
@@ -557,23 +564,24 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     }
 
     // Create camera
-    function createCamera() {
-      var camera = new $window.THREE.PerspectiveCamera(CAMERA_ANGLE, $window.innerWidth / $window.innerHeight, CAMERA_NEAR, CAMERA_FAR);
-      camera.name = 'VIEW #' + cameras.length + 1;
-      camera.position.set(- SIZE_BOX * 2, - SIZE_BOX * 2, SIZE_BOX);
-      camera.up.copy(new $window.THREE.Vector3(0, 0, 1));
-      camera.target = new $window.THREE.Vector3();
-      cameras.push(camera);
-      activeCamera = camera;
-    }
-
     // function createCamera() {
-    //   var camera = new $window.THREE.OrthographicCamera(- $window.innerWidth / 2, $window.innerWidth / 2, $window.innerHeight / 2, - $window.innerHeight / 2, 1, 15000);
+    //   var camera = new $window.THREE.PerspectiveCamera(CAMERA_ANGLE, $window.innerWidth / $window.innerHeight, CAMERA_NEAR, CAMERA_FAR);
+    //   camera.name = 'VIEW #' + cameras.length + 1;
     //   camera.position.set(- SIZE_BOX * 2, - SIZE_BOX * 2, SIZE_BOX);
+    //   camera.up.copy(new $window.THREE.Vector3(0, 0, 1));
     //   camera.target = new $window.THREE.Vector3();
     //   cameras.push(camera);
     //   activeCamera = camera;
     // }
+
+    function createCamera() {
+      var camera = new $window.THREE.OrthographicCamera(- $window.innerWidth / 2, $window.innerWidth / 2, $window.innerHeight / 2, - $window.innerHeight / 2, -15000, 15000);
+      camera.position.set(SIZE_BOX * 2, - SIZE_BOX * 2, SIZE_BOX);
+      camera.up = new $window.THREE.Vector3(0, 0, 1);
+      camera.target = new $window.THREE.Vector3();
+      cameras.push(camera);
+      activeCamera = camera;
+    }
 
     // Create helpers
     function createHelpers() {
@@ -614,7 +622,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Create trackball
     function createTrackball() {
-      trackball = new $window.THREE.TrackballControls(activeCamera);
+      //trackball = new $window.THREE.TrackballControls(activeCamera);
+      trackball = new $window.THREE.OrthographicTrackballControls(activeCamera);
       trackball.rotateSpeed = 4.0;
       trackball.zoomSpeed = 2.0;
       trackball.panSpeed = 1.0;

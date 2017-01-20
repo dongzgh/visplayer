@@ -64,6 +64,7 @@ module.exports = {
         'public/lib/threejs/examples/js/Detector.js',
         'public/lib/threejs/examples/js/controls/OrbitControls.js',
         'public/lib/threejs/examples/js/controls/TrackballControls.js',
+        'public/lib/threejs/examples/js/controls/OrthographicTrackballControls.js',
         'public/lib/threejs/examples/js/controls/TransformControls.js'
       ]
     },
