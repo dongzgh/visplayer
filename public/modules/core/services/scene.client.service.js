@@ -588,29 +588,19 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         let vx = new $window.THREE.Vector3(1, 0, 0);
         let vy = new $window.THREE.Vector3(0, 1, 0);
         let vz = new $window.THREE.Vector3(0, 0, 1);
-        let arrow1 = new $window.THREE.ArrowHelper(vx, o, 25, 0xff0000, 10, 5);
-        let arrow2 = new $window.THREE.ArrowHelper(vy, o, 25, 0x00ff00, 10, 5);
-        let arrow3 = new $window.THREE.ArrowHelper(vz, o, 25, 0x0000ff, 10, 5);
+        let arrow1 = new $window.THREE.ArrowHelper(vx, o, 0.25, 0xff0000, 0.1, 0.02);
+        let arrow2 = new $window.THREE.ArrowHelper(vy, o, 0.25, 0x00ff00, 0.1, 0.02);
+        let arrow3 = new $window.THREE.ArrowHelper(vz, o, 0.25, 0x0000ff, 0.1, 0.02);
         acs.add(arrow1);
         acs.add(arrow2);
         acs.add(arrow3);
         activeScene.add(acs);
-        updateACS();
+        acs.update = function() {
+          let p = new $window.THREE.Vector3(-0.75, -0.75, 0);
+          p.unproject(activeCamera);
+          acs.position.copy(p);
+        };
       }           
-    }
-
-    // Update acs.
-    function updateACS() {
-      let v1 = activeCamera.target.clone().sub(activeCamera.position).normalize();
-      let v2 = activeCamera.up.clone().normalize();
-      let v3 = new $window.THREE.Vector3();
-      v3.crossVectors(v2, v1).normalize();
-      v2.crossVectors(v1, v3).normalize();
-      v3.multiplyScalar($window.innerWidth / 2.0 * 0.75);
-      v2.multiplyScalar($window.innerHeight / 2.0 * -0.75);
-      let p = activeCamera.position.clone().add(v1.multiplyScalar(1000));
-      p.add(v3).add(v2);
-      acs.position.copy(p);
     }
 
     // Create lights
@@ -832,14 +822,14 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Update
     function update() {
+      // Arrows
+      if(acs !== undefined) acs.update();
+
       // Trackball
       if (trackball !== undefined) trackball.update();
 
        // Transformer
       if (transformer !== undefined) transformer.update();
-
-      // Arrows
-      updateACS();
 
       // Lights
       var direction = new $window.THREE.Vector3();
