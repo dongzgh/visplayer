@@ -9,10 +9,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var scope = this;
 
     // Static variables
-    var SIZE_BOX = 1500;
+    var SIZE_BOX = 2000;
     var SIZE_GAP = 100;
     var CAMERA_ANGLE = 45;
-    var CAMERA_NEAR = 1;
+    var CAMERA_NEAR = 0.1;
     var CAMERA_FAR = SIZE_BOX * 10;
     var CLR_FACE = 0xcecece;
     var CLR_EDGE = 0x333333;
@@ -77,18 +77,20 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Scene definitions
     var container;
     var renderer;
-    var canvas;
+    var canvas3d;
+    var canvas2d;
+    var context;
     var cameras = [];
     var activeCamera;
-    var acs;
     var scenes = [];
     var activeScene;
     var eyeLight;
+    var acs;
     var trackball;
     var raycaster;
     var selects = [];
     var mouse = new $window.THREE.Vector2();
-    var transformer;   
+    var transformer;
 
     // Transient variables
     var i = 0;
@@ -109,11 +111,11 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         return;
       }
 
-      // Create camera
-      createCamera();
-
       // Create render
       createRenderer();
+
+      // Create camera
+      createCamera();      
 
       // Create scene
       createScene();
@@ -132,11 +134,14 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
       // Add listeners
       $window.addEventListener('resize', onWindowResize, false);
-      canvas.addEventListener('mousedown', onCanvasMouseDown, false);
-      canvas.addEventListener('mousemove', onCanvasMouseMove, false);
-      canvas.addEventListener('mouseup', onCanvasMouseUp, false);
       $document[0].addEventListener('keydown', onCanvasKeyDown, false);
       $document[0].addEventListener('keyup', onCanvasKeyUp, false);
+      canvas3d.addEventListener('mousedown', onCanvasMouseDown, false);
+      canvas3d.addEventListener('mousemove', onCanvasMouseMove, false);
+      canvas3d.addEventListener('mouseup', onCanvasMouseUp, false);
+      canvas2d.addEventListener('mousedown', onCanvasMouseDown, false);
+      canvas2d.addEventListener('mousemove', onCanvasMouseMove, false);
+      canvas2d.addEventListener('mouseup', onCanvasMouseUp, false);
 
       // Animate
       animate();
@@ -144,7 +149,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Query models
     scope.queryModels = function(onSuccess) {
-      var modelNames = [];
+      let modelNames = [];
       activeScene.traverse(function(object) {
         if (object.type === scope.GEOMETRY_TYPES.model) modelNames.push(object.name);
       });
@@ -157,10 +162,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       if (data === undefined) return;
 
       // Get display settings
-      var displaySettings = getDisplaySettings();
+      let displaySettings = getDisplaySettings();
 
       // Count instances
-      var count = countModels(data.name) + 1;
+      let count = countModels(data.name) + 1;
 
       // Create scene object
       var model = new $window.THREE.Object3D();
@@ -168,10 +173,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       model.displayName = model.name + ' #' + count;
       model.type = scope.GEOMETRY_TYPES.model;
       model.box = new $window.THREE.Box3();
-      var faces = new $window.THREE.Object3D();
+      let faces = new $window.THREE.Object3D();
       faces.name = 'faces';
       model.add(faces);
-      var edges = new $window.THREE.Object3D();
+      let edges = new $window.THREE.Object3D();
       edges.name = 'edges';
       model.add(edges);
 
@@ -215,7 +220,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           model.box.union(geometry.boundingBox);
 
           // Create mesh
-          var face = new $window.THREE.Mesh(geometry, displaySettings.meshMaterial.clone());
+          let face = new $window.THREE.Mesh(geometry, displaySettings.meshMaterial.clone());
           face.savedMaterial = face.material;
           face.visible = displaySettings.meshVisibility;
           face.type = scope.GEOMETRY_TYPES.face;
@@ -242,7 +247,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           geometry.computeBoundingBox();
 
           // Create line
-          var edge = new $window.THREE.Line(geometry, displaySettings.lineMaterial.clone());
+          let edge = new $window.THREE.Line(geometry, displaySettings.lineMaterial.clone());
           edge.savedMaterial = edge.material;
           edge.visible = displaySettings.lineVisibility;
           edge.type = scope.GEOMETRY_TYPES.edge;
@@ -282,7 +287,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       if (name === undefined) return;
 
       // Remove object
-      var index = 0;
+      let index = 0;
       activeScene.children.forEach(function(object) {
         if (object.displayName === name) {
           activeScene.children.splice(index, 1);
@@ -423,7 +428,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Create transformer
     scope.createTransformer = function(mode, object) {
       if(transformer !== undefined) return false;
-      transformer = new $window.THREE.TransformControls(activeCamera, canvas);
+      transformer = new $window.THREE.TransformControls(activeCamera, canvas3d);
       transformer.setMode(mode);
       transformer.addEventListener('change', render);
       transformer.addEventListener('mouseUp', function(event){
@@ -510,7 +515,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      */
     // Create scene
     function createScene() {
-      var scene = new $window.THREE.Scene();
+      let scene = new $window.THREE.Scene();
       scenes.push(scene);
       activeScene = scene;
     }
@@ -542,7 +547,19 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Create renderer
     function createRenderer() {
-      container = $document[0].getElementById('canvas');
+      container = $document[0].getElementById('canvases');
+      
+      // 2d canvas
+      canvas2d = $document[0].createElement('canvas');
+      canvas2d.id = 'canvas2d';
+      canvas2d.width = $window.innerWidth;
+      canvas2d.height = $window.innerHeight;
+      canvas2d.style.width = $window.innerWidth.toString() + 'px';
+      canvas2d.style.height = $window.innerHeight.toString() + 'px';
+      container.appendChild(canvas2d);
+      context = canvas2d.getContext('2d');
+
+      // 3d canvas
       renderer = $window.WebGLRenderingContext ?
         new $window.THREE.WebGLRenderer({
           alpha: true,
@@ -550,16 +567,17 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           preserveDrawingBuffer: true
         }) :
         new $window.THREE.CanvasRenderer();
+      canvas3d = renderer.domElement;
+      canvas3d.id = 'canvas3d';
       renderer.setSize($window.innerWidth, $window.innerHeight);
       renderer.setPixelRatio($window.devicePixelRatio);
       renderer.autoClear = true;
-      canvas = renderer.domElement;
-      container.appendChild(canvas);
+      container.appendChild(canvas3d);
     }
 
     // Create camera
     function createCamera() {
-      var camera = new $window.THREE.PerspectiveCamera(CAMERA_ANGLE, $window.innerWidth / $window.innerHeight, CAMERA_NEAR, CAMERA_FAR);
+      let camera = new $window.THREE.PerspectiveCamera(CAMERA_ANGLE, $window.innerWidth / $window.innerHeight, CAMERA_NEAR, CAMERA_FAR);
       camera.name = 'VIEW #' + cameras.length + 1;
       camera.position.set(- SIZE_BOX * 2, - SIZE_BOX * 2, SIZE_BOX);
       camera.up.copy(new $window.THREE.Vector3(0, 0, 1));
@@ -571,36 +589,31 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Create helpers
     function createHelpers() {
       // Grid
-      var grid = new $window.THREE.GridHelper(SIZE_BOX, SIZE_GAP);
+      let grid = new $window.THREE.GridHelper(SIZE_BOX, SIZE_GAP);
       grid.name = 'GRID';
       grid.rotateX(Math.PI / 2.0);
       activeScene.add(grid);
 
       // Axis
-      var axis = new $window.THREE.AxisHelper(SIZE_BOX);
+      let axis = new $window.THREE.AxisHelper(SIZE_BOX);
       axis.name = 'AXIS';
       activeScene.add(axis);
 
       // ACS
-      if(acs === undefined) {
-        acs = new $window.THREE.Object3D();
-        let o = new $window.THREE.Vector3();
-        let vx = new $window.THREE.Vector3(1, 0, 0);
-        let vy = new $window.THREE.Vector3(0, 1, 0);
-        let vz = new $window.THREE.Vector3(0, 0, 1);
-        let arrow1 = new $window.THREE.ArrowHelper(vx, o, 0.25, 0xff0000, 0.1, 0.02);
-        let arrow2 = new $window.THREE.ArrowHelper(vy, o, 0.25, 0x00ff00, 0.1, 0.02);
-        let arrow3 = new $window.THREE.ArrowHelper(vz, o, 0.25, 0x0000ff, 0.1, 0.02);
-        acs.add(arrow1);
-        acs.add(arrow2);
-        acs.add(arrow3);
-        activeScene.add(acs);
-        acs.update = function() {
-          let p = new $window.THREE.Vector3(-0.75, -0.75, 0);
-          p.unproject(activeCamera);
-          acs.position.copy(p);
-        };
-      }           
+      acs = new $window.THREE.AcsHelper(activeCamera, 100, $window.innerHeight - 100);
+    }
+
+    function drawAcs () {
+      if(acs === undefined) return;
+      context.beginPath();
+      context.moveTo(acs.origin.x, acs.origin.y);
+      context.lineTo(acs.xAxis.x, acs.xAxis.y);
+      context.stroke();
+    }
+
+    function updateContext() {
+      context.clearRect(0, 0, $window.innerWidth, $window.innerHeight);
+      drawAcs();
     }
 
     // Create lights
@@ -629,7 +642,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       if (name === undefined) return 0;
 
       // Count object instances
-      var count = 0;
+      let count = 0;
       activeScene.traverse(function(object) {
         if (object.type === scope.GEOMETRY_TYPES.model) {
           if (object.name === name) count++;
@@ -640,10 +653,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Get materials for display mode
     function getDisplaySettings () {
-      var meshMaterial = meshDefaultMaterial;
-      var lineMaterial = lineDefaultMaterial;
-      var meshVisibility = true;
-      var lineVisibility = true;
+      let meshMaterial = meshDefaultMaterial;
+      let lineMaterial = lineDefaultMaterial;
+      let meshVisibility = true;
+      let lineVisibility = true;
       switch (scope.displayMode) {
         case scope.DISPLAY_MODES.shaded:
           break;
@@ -822,8 +835,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Update
     function update() {
-      // Arrows
-      if(acs !== undefined) acs.update();
+      // Acs
+      if (acs !== undefined) updateContext();
 
       // Trackball
       if (trackball !== undefined) trackball.update();
@@ -832,7 +845,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       if (transformer !== undefined) transformer.update();
 
       // Lights
-      var direction = new $window.THREE.Vector3();
+      let direction = new $window.THREE.Vector3();
       direction.copy(activeCamera.position).sub(activeCamera.target).normalize();
       eyeLight.position.copy(direction);
     }
@@ -842,26 +855,26 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     //---------------------------------------------------
     // Create a point
     function createPoint(x, y, z) {
-      var geometry = new $window.THREE.SphereGeometry(0.1, 32, 32);
-      var material = new $window.THREE.MeshBasicMaterial({
+      let geometry = new $window.THREE.SphereGeometry(0.1, 32, 32);
+      let material = new $window.THREE.MeshBasicMaterial({
         color: 0xffff00
       });
-      var sphere = new $window.THREE.Mesh(geometry, material);
+      let sphere = new $window.THREE.Mesh(geometry, material);
       sphere.position.set(x, y, z);
       activeScene.add(sphere);
     }
 
     // Create a box
     function createBox(model) {
-      var dx = model.box.max.x - model.box.min.x;
-      var dy = model.box.max.y - model.box.min.y;
-      var dz = model.box.max.z - model.box.min.z;
-      var geometry = new $window.THREE.BoxGeometry(dx, dy, dz);
-      var material = new $window.THREE.MeshBasicMaterial({
+      let dx = model.box.max.x - model.box.min.x;
+      let dy = model.box.max.y - model.box.min.y;
+      let dz = model.box.max.z - model.box.min.z;
+      let geometry = new $window.THREE.BoxGeometry(dx, dy, dz);
+      let material = new $window.THREE.MeshBasicMaterial({
         color: 0x00ff00,
         wireframe: true
       });
-      var cube = new $window.THREE.Mesh(geometry, material);
+      let cube = new $window.THREE.Mesh(geometry, material);
       cube.position.copy(model.center);
       activeScene.add(cube);
     }
