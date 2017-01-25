@@ -310,6 +310,8 @@ nav[role=navigation] {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.5);
   color: #FFFFFF;
+  width: 250px;
+  right: 0;
 }
 .gui-dialog .panel-heading {
   background-color: transparent;
@@ -323,11 +325,11 @@ nav[role=navigation] {
   background-color: #E8373E;
 }
 .gui-dialog .panel-heading span:last-child {
-  padding-top: 5px;
-  float: right;
+  float: left;
+  margin-top: -6px;
 }
 .gui-dialog .panel-body {
-  padding-top: 10px;
+  padding-top: 20px;
   padding-bottom: 10px;
 }
 .gui-dialog .panel-body > div:first-child {
@@ -356,10 +358,14 @@ nav[role=navigation] {
   margin-top: 5px;
 }
 .gui-dialog .panel-body .btn-toolbar .btn-group {
-  border: 1px #9D9D9D solid;
+  border-bottom: 1px #9D9D9D solid;
 }
 .gui-dialog .panel-footer {
   background-color: transparent;
   border-radius: 0;
   border-top-color: #9D9D9D;
+}
+.gui-dialog #ok, 
+.gui-dialog #cancel {
+  border: 1px solid #E8373E;
 }
