@@ -86,7 +86,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var activeScene;
     var eyeLight;
     var acs;
-    var trackball;
+    var controller;
+    var controllerType = 2; // 1 - trackball; 2 - orbitor
     var raycaster;
     var selects = [];
     var mouse = new $window.THREE.Vector2();
@@ -126,8 +127,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // Create lights
       createLights();
 
-      // Create trackball
-      createTrackball();
+      // Create controller
+      createController();
 
       // Create raycaster
       raycaster = new $window.THREE.Raycaster();
@@ -139,9 +140,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       canvas3d.addEventListener('mousedown', onCanvasMouseDown, false);
       canvas3d.addEventListener('mousemove', onCanvasMouseMove, false);
       canvas3d.addEventListener('mouseup', onCanvasMouseUp, false);
-      canvas2d.addEventListener('mousedown', onCanvasMouseDown, false);
-      canvas2d.addEventListener('mousemove', onCanvasMouseMove, false);
-      canvas2d.addEventListener('mouseup', onCanvasMouseUp, false);
 
       // Animate
       animate();
@@ -322,10 +320,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
           }
 
           // Update specific displays
-          if(object.visible) {
+          if (object.visible) {
             // Display selected
-            if(object.selected) {
-              if(object.material.color !== undefined)
+            if (object.selected) {
+              if (object.material.color !== undefined)
                 object.material.color.setHex(CLR_SELECTED);
             }
           }
@@ -380,10 +378,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       let p = new $window.THREE.Vector3();
       p.copy(activeScene.center).add(v);
 
-      // Set camera and trackball
+      // Set camera and controller
       activeCamera.position.copy(p);
       activeCamera.lookAt(activeScene.center);
-      trackball.target.copy(activeScene.center);
+      controller.target.copy(activeScene.center);
     };
 
     // Bottom view
@@ -427,7 +425,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
      */
     // Create transformer
     scope.createTransformer = function(mode, object) {
-      if(transformer !== undefined) return false;
+      if (transformer !== undefined) return false;
       transformer = new $window.THREE.TransformControls(activeCamera, canvas3d);
       transformer.setMode(mode);
       transformer.addEventListener('change', render);
@@ -435,20 +433,20 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         $rootScope.$broadcast('scene.transformer.update');
       });
       activeScene.add(transformer);
-      if(object !== undefined)
+      if (object !== undefined)
         transformer.attach(object);
       return true;
     };
 
     // Switch transformer
     scope.switchTransformer = function (mode) {
-      if(transformer === undefined) return;
+      if (transformer === undefined) return;
       transformer.setMode(mode);
     };
 
     // Delete transformer
     scope.deleteTransformer = function () {
-      if(transformer !== undefined) {
+      if (transformer !== undefined) {
         transformer.detach();
         activeScene.remove(transformer);
         transformer = undefined;
@@ -523,7 +521,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Evaluate scene center
     function updateSceneBox(scene) {
       // Check input data
-      if(!(scene instanceof $window.THREE.Scene)) return;
+      if (!(scene instanceof $window.THREE.Scene)) return;
 
       // Update box
       let count = 0;
@@ -558,6 +556,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       canvas2d.style.height = $window.innerHeight.toString() + 'px';
       container.appendChild(canvas2d);
       context = canvas2d.getContext('2d');
+      context.paint = paint;
 
       // 3d canvas
       renderer = $window.WebGLRenderingContext ?
@@ -603,8 +602,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       acs = new $window.THREE.ACSHelper(activeCamera, 150, $window.innerHeight - 50, 50);
     }
 
-    function drawACS () {
-      if(acs === undefined) return;
+    function paintACS () {
+      if (acs === undefined) return;
       context.beginPath();
       context.moveTo(acs.origin.x, acs.origin.y);
       context.lineTo(acs.axisX.x, acs.axisX.y);
@@ -622,9 +621,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       context.stroke();
     }
 
-    function updateContext() {
+    function paint() {
       context.clearRect(0, 0, $window.innerWidth, $window.innerHeight);
-      drawACS();
+      paintACS();
     }
 
     // Create lights
@@ -635,16 +634,26 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeScene.add(eyeLight);
     }
 
-    // Create trackball
-    function createTrackball() {
-      trackball = new $window.THREE.TrackballControls(activeCamera);
-      trackball.rotateSpeed = 4.0;
-      trackball.zoomSpeed = 2.0;
-      trackball.panSpeed = 1.0;
-      trackball.noZoom = false;
-      trackball.noPan = false;
-      trackball.staticMoving = true;
-      trackball.dynamicDampingFactor = 0.3;
+    // Create controller
+    function createController() {
+      // Create controller
+      if (controller === undefined) {
+        if (controllerType === 1) {
+          let trackball = new $window.THREE.TrackballControls(activeCamera);
+          trackball.rotateSpeed = 4.0;
+          trackball.zoomSpeed = 2.0;
+          trackball.panSpeed = 1.0;
+          trackball.noZoom = false;
+          trackball.noPan = false;
+          trackball.staticMoving = true;
+          trackball.dynamicDampingFactor = 0.3;
+          controller = trackball;
+        }
+        else if (controllerType === 2) {
+          let orbitor = new $window.THREE.OrbitControls(activeCamera, canvas3d);
+          controller = orbitor;
+        }
+      }
     }
 
     // Count object instances
@@ -761,7 +770,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       }
 
       // Update displays
-      if(scope.displaySelect)
+      if (scope.displaySelect)
         scope.updateDisplays();
 
       // Broadcast
@@ -842,7 +851,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Render
     function render() {
       renderer.render(activeScene, activeCamera);
-      updateContext();
+      context.paint();
     }
 
     // Update
@@ -850,8 +859,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       // ACS
       if (acs !== undefined) acs.update();
 
-      // Trackball
-      if (trackball !== undefined) trackball.update();
+      // Controller
+      if (controller !== undefined) controller.update();
 
        // Transformer
       if (transformer !== undefined) transformer.update();
