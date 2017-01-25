@@ -358,14 +358,13 @@ nav[role=navigation] {
   margin-top: 5px;
 }
 .gui-dialog .panel-body .btn-toolbar .btn-group {
-  border-bottom: 1px #9D9D9D solid;
+  border: 1px #F58723 solid;
 }
 .gui-dialog .panel-footer {
   background-color: transparent;
   border-radius: 0;
   border-top-color: #9D9D9D;
 }
-.gui-dialog #ok, 
-.gui-dialog #cancel {
-  border: 1px solid #E8373E;
+.gui-dialog .btn-okcancel-group .btn {
+  border: 1px solid #F58723;
 }
