@@ -42,7 +42,7 @@ module.exports = {
         'public/lib/threejs/examples/js/controls/OrbitControls.js',
         'public/lib/threejs/examples/js/controls/TrackballControls.js',
         'public/lib/threejs/examples/js/controls/TransformControls.js',
-        'public/libx/threejs/AcsHelper.js'
+        'public/libx/threejs/ACSHelper.js'
       ]
     },
     css: 'public/dist/application.min.css',

@@ -600,20 +600,31 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeScene.add(axis);
 
       // ACS
-      acs = new $window.THREE.AcsHelper(activeCamera, 100, $window.innerHeight - 100);
+      acs = new $window.THREE.ACSHelper(activeCamera, 150, $window.innerHeight - 50, 50);
     }
 
-    function drawAcs () {
+    function drawACS () {
       if(acs === undefined) return;
       context.beginPath();
       context.moveTo(acs.origin.x, acs.origin.y);
-      context.lineTo(acs.xAxis.x, acs.xAxis.y);
+      context.lineTo(acs.axisX.x, acs.axisX.y);
+      context.strokeStyle = '#ff0000';
+      context.stroke();
+      context.beginPath();
+      context.moveTo(acs.origin.x, acs.origin.y);
+      context.lineTo(acs.axisY.x, acs.axisY.y);
+      context.strokeStyle = '#00ff00';
+      context.stroke();
+      context.beginPath();
+      context.moveTo(acs.origin.x, acs.origin.y);
+      context.lineTo(acs.axisZ.x, acs.axisZ.y);
+      context.strokeStyle = '#0000ff';
       context.stroke();
     }
 
     function updateContext() {
       context.clearRect(0, 0, $window.innerWidth, $window.innerHeight);
-      drawAcs();
+      drawACS();
     }
 
     // Create lights
@@ -831,12 +842,13 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Render
     function render() {
       renderer.render(activeScene, activeCamera);
+      updateContext();
     }
 
     // Update
     function update() {
-      // Acs
-      if (acs !== undefined) updateContext();
+      // ACS
+      if (acs !== undefined) acs.update();
 
       // Trackball
       if (trackball !== undefined) trackball.update();
