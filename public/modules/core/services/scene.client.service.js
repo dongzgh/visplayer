@@ -303,10 +303,19 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
         // Default to update scene displays
         scope.updateDisplays(activeScene);
       } else {
-        // Ignore helpers
-        if (object instanceof $window.THREE.AxisHelper ||
-          object instanceof $window.THREE.GridHelper)
+         // Ignore helpers
+        if (!(object.constructor.name === 'Scene' ||
+          object.constructor.name === 'Mesh' ||
+          object.constructor.name === 'Line' ||
+          object.constructor.name === 'Object3D'))
           return;
+
+        // Update children displays
+        if (object.children !== undefined && object.children.length > 0) {
+          object.children.forEach(function(child){
+            scope.updateDisplays(child);
+          });
+        }
 
         // Update displays based on display settings
         if (object.material !== undefined) {
@@ -329,12 +338,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
                 object.material.color.setHex(CLR_SELECTED);
             }
           }
-        }
-        if (object.children !== undefined && object.children.length > 0) {
-          object.children.forEach(function(child){
-            scope.updateDisplays(child);
-          });
-        }
+        }        
       }
     };
 
