@@ -116,7 +116,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       createRenderer();
 
       // Create camera
-      createCamera();      
+      createCamera();
 
       // Create scene
       createScene();
@@ -546,7 +546,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Create renderer
     function createRenderer() {
       container = $document[0].getElementById('canvases');
-      
+
       // 2d canvas
       canvas2d = $document[0].createElement('canvas');
       canvas2d.id = 'canvas2d';
@@ -556,7 +556,13 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       canvas2d.style.height = $window.innerHeight.toString() + 'px';
       container.appendChild(canvas2d);
       context = canvas2d.getContext('2d');
-      context.paint = paint;
+      context.children = [];
+      context.paint = function () {
+        context.clearRect(0, 0, $window.innerWidth, $window.innerHeight);
+        context.children.forEach(function (child){
+          child.paint();
+        });
+      };
 
       // 3d canvas
       renderer = $window.WebGLRenderingContext ?
@@ -599,31 +605,60 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeScene.add(axis);
 
       // ACS
-      acs = new $window.THREE.ACSHelper(activeCamera, 150, $window.innerHeight - 50, 50);
+      acs = new $window.THREE.ACSHelper(context, activeCamera, 150, $window.innerHeight - 50, 50);
     }
 
-    function paintACS () {
-      if (acs === undefined) return;
-      context.beginPath();
-      context.moveTo(acs.origin.x, acs.origin.y);
-      context.lineTo(acs.axisX.x, acs.axisX.y);
-      context.strokeStyle = '#ff0000';
-      context.stroke();
-      context.beginPath();
-      context.moveTo(acs.origin.x, acs.origin.y);
-      context.lineTo(acs.axisY.x, acs.axisY.y);
-      context.strokeStyle = '#00ff00';
-      context.stroke();
-      context.beginPath();
-      context.moveTo(acs.origin.x, acs.origin.y);
-      context.lineTo(acs.axisZ.x, acs.axisZ.y);
-      context.strokeStyle = '#0000ff';
-      context.stroke();
-    }
+    function createTextSprite(text, parameters)
+    {
+      // Set parameters
+      if (parameters === undefined) parameters = {};
+      let fontFace = parameters.hasOwnProperty('fontFace') ? parameters.fontFace : 'Arial';
+      let fontSize = parameters.hasOwnProperty('fontSize') ? parameters.fontSize : 28;
+      let borderThickness = parameters.hasOwnProperty('borderThickness') ? parameters.borderThickness : 2;
+      let borderColor = parameters.hasOwnProperty('borderColor') ? parameters.borderColor : {r:0, g:0, b:0, a:1.0};
+      let backgroundColor = parameters.hasOwnProperty('backgroundColor') ? parameters.backgroundColor : {r:255, g:255, b:255, a:1.0};
 
-    function paint() {
-      context.clearRect(0, 0, $window.innerWidth, $window.innerHeight);
-      paintACS();
+      // Create canvas and context
+      let canvas = $document[0].createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 128;
+      let context = canvas.getContext('2d');
+      context.font = 'Bold ' + fontSize + 'px ' + fontFace;
+      let metrics = context.measureText(text);
+      let textWidth = metrics.width;
+
+      // Paint text border
+      context.fillStyle   = 'rgba(' + backgroundColor.r + ',' + backgroundColor.g + ',' + backgroundColor.b + ',' + backgroundColor.a + ')';
+      context.strokeStyle = 'rgba(' + borderColor.r + ',' + borderColor.g + ',' + borderColor.b + ',' + borderColor.a + ')';
+      context.lineWidth = borderThickness;
+      function createTextBorder (x, y, w, h, r) {
+        context.beginPath();
+        context.moveTo(x+r, y);
+        context.lineTo(x+w-r, y);
+        context.quadraticCurveTo(x+w, y, x+w, y+r);
+        context.lineTo(x+w, y+h-r);
+        context.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+        context.lineTo(x+r, y+h);
+        context.quadraticCurveTo(x, y+h, x, y+h-r);
+        context.lineTo(x, y+r);
+        context.quadraticCurveTo(x, y, x+r, y);
+        context.closePath();
+        context.fill();
+        context.stroke();
+      }
+      createTextBorder(borderThickness / 2, borderThickness / 2, textWidth + borderThickness, fontSize * 1.4 + borderThickness, 6);
+
+      // Paint text
+      context.fillStyle = 'rgba(0, 0, 0, 1.0)';
+      context.fillText(text, borderThickness, fontSize + borderThickness);
+
+      // Create sprite
+      let texture = new $window.THREE.Texture(canvas);
+      texture.needsUpdate = true;
+      let spriteMaterial = new $window.THREE.SpriteMaterial({map: texture});
+      let sprite = new $window.THREE.Sprite(spriteMaterial);
+      sprite.scale.set(100, 50, 1.0);
+      return sprite;
     }
 
     // Create lights

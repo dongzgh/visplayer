@@ -2,9 +2,13 @@
  * Running this will allow you to create Acs control.
  */
 
-THREE.ACSHelper = function ( _camera, _x, _y, _scale ) {
+THREE.ACSHelper = function ( _context, _camera, _x, _y, _scale ) {
 
 	var scope = this;	
+
+	var context = _context;
+
+	context.children.push(scope);
 
 	var camera = _camera;
 
@@ -40,6 +44,8 @@ THREE.ACSHelper = function ( _camera, _x, _y, _scale ) {
 	//
 
 	this.update = update;
+	
+	this.paint = paint;
 
 	//
 	// private methods
@@ -129,6 +135,39 @@ THREE.ACSHelper = function ( _camera, _x, _y, _scale ) {
 
 		scope.axisZ.add(vz);
 
+	}
+
+	function paint() {
+
+    context.beginPath();
+
+    context.moveTo(scope.origin.x, scope.origin.y);
+
+    context.lineTo(scope.axisX.x, scope.axisX.y);
+
+    context.strokeStyle = '#ff0000';
+
+    context.stroke();
+
+    context.beginPath();
+
+    context.moveTo(scope.origin.x, scope.origin.y);
+
+    context.lineTo(scope.axisY.x, scope.axisY.y);
+
+    context.strokeStyle = '#00ff00';
+
+    context.stroke();
+
+    context.beginPath();
+
+    context.moveTo(scope.origin.x, scope.origin.y);
+
+    context.lineTo(scope.axisZ.x, scope.axisZ.y);
+
+    context.strokeStyle = '#0000ff';
+
+    context.stroke();
 	}
 
 	function update() {
