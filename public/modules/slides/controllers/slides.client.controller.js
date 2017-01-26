@@ -60,12 +60,13 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Activate a tool
-  $scope.activateTool = function(item) {
-    if($scope.lock) return;
+  $scope.activateTool = function(item) {  
     if (item.toggle !== undefined) {
-      item.toggle = !item.toggle;
-      if (item.action !== undefined)
-        $scope[item.action](item);
+      if (!$scope.lock) {
+        item.toggle = !item.toggle;
+        if (item.action !== undefined)
+          $scope[item.action](item);
+      }
     } else {
       if (item.action !== undefined)
         $scope[item.action]();

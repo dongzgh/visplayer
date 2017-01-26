@@ -73,24 +73,16 @@
   outline-style: none;
   box-shadow: none;
 }
-.panel-body .btn.active {
-  background-color: #F58723;
-}
+.panel-body .btn.active,
 .panel-body .btn:hover,
 .panel-body .btn:active,
-.panel-body .btn:focus,
 .panel-body .btn:active:focus {
+  color: #FFFFFF;
   background-color: #F58723;
 }
 .panel-body .btn span {
   color: #FFFFFF;
   text-shadow: none;
-}
-.panel-body .btn:hover span,
-.panel-body .btn:active span,
-.panel-body .btn:focus span,
-.panel-body .btn:active:focus span {
-  color: #000000;
 }
 .list-group {
   box-shadow: none
