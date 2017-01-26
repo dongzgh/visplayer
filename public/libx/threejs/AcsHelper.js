@@ -2,13 +2,9 @@
  * Running this will allow you to create Acs control.
  */
 
-THREE.ACSHelper = function ( _context, _camera, _x, _y, _scale ) {
+THREE.ACSHelper = function ( _camera, _x, _y, _scale ) {
 
 	var scope = this;	
-
-	var context = _context;
-
-	context.children.push(scope);
 
 	var camera = _camera;
 
@@ -37,6 +33,8 @@ THREE.ACSHelper = function ( _context, _camera, _x, _y, _scale ) {
 		axisZ: 	new THREE.Vector3()
 	};
 
+	scope.parent = null;
+
 	update();
 
 	//
@@ -44,7 +42,7 @@ THREE.ACSHelper = function ( _context, _camera, _x, _y, _scale ) {
 	//
 
 	this.update = update;
-	
+
 	this.paint = paint;
 
 	//
@@ -137,7 +135,7 @@ THREE.ACSHelper = function ( _context, _camera, _x, _y, _scale ) {
 
 	}
 
-	function paint() {
+	function paint( context ) {
 
     context.beginPath();
 
@@ -179,5 +177,5 @@ THREE.ACSHelper = function ( _context, _camera, _x, _y, _scale ) {
 
 };
 
-THREE.ACSHelper.prototype = Object.create( THREE.EventDispatcher.prototype );
+THREE.ACSHelper.prototype = Object.create( THREE.Object3D.prototype );
 THREE.ACSHelper.prototype.constructor = THREE.ACSHelper;

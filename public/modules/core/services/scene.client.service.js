@@ -84,6 +84,8 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     var activeCamera;
     var scenes = [];
     var activeScene;
+    var papers = [];
+    var activePaper;
     var eyeLight;
     var acs;
     var controller;
@@ -516,6 +518,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       let scene = new $window.THREE.Scene();
       scenes.push(scene);
       activeScene = scene;
+
+      let paper = new $window.THREE.Scene();
+      papers.push(paper);
+      activePaper = paper;
     }
 
     // Evaluate scene center
@@ -556,11 +562,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       canvas2d.style.height = $window.innerHeight.toString() + 'px';
       container.appendChild(canvas2d);
       context = canvas2d.getContext('2d');
-      context.children = [];
-      context.paint = function () {
+      context.paint = function (paper) {
         context.clearRect(0, 0, $window.innerWidth, $window.innerHeight);
-        context.children.forEach(function (child){
-          child.paint();
+        paper.children.forEach(function(child){
+          child.paint(context);
         });
       };
 
@@ -605,7 +610,9 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeScene.add(axis);
 
       // ACS
-      acs = new $window.THREE.ACSHelper(context, activeCamera, 150, $window.innerHeight - 50, 50);
+      acs = new $window.THREE.ACSHelper(activeCamera, 150, $window.innerHeight - 50, 50);
+      acs.name = 'ACS';
+      activePaper.add(acs);
     }
 
     function createTextSprite(text, parameters)
@@ -886,7 +893,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     // Render
     function render() {
       renderer.render(activeScene, activeCamera);
-      context.paint();
+      context.paint(activePaper);
     }
 
     // Update
