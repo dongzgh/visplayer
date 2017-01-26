@@ -553,22 +553,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     function createRenderer() {
       container = $document[0].getElementById('canvases');
 
-      // 2d canvas
-      canvas2d = $document[0].createElement('canvas');
-      canvas2d.id = 'canvas2d';
-      canvas2d.width = $window.innerWidth;
-      canvas2d.height = $window.innerHeight;
-      canvas2d.style.width = $window.innerWidth.toString() + 'px';
-      canvas2d.style.height = $window.innerHeight.toString() + 'px';
-      container.appendChild(canvas2d);
-      context = canvas2d.getContext('2d');
-      context.paint = function (paper) {
-        context.clearRect(0, 0, $window.innerWidth, $window.innerHeight);
-        paper.children.forEach(function(child){
-          child.paint(context);
-        });
-      };
-
       // 3d canvas
       renderer = $window.WebGLRenderingContext ?
         new $window.THREE.WebGLRenderer({
@@ -583,6 +567,23 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       renderer.setPixelRatio($window.devicePixelRatio);
       renderer.autoClear = true;
       container.appendChild(canvas3d);
+
+      // 2d canvas
+      canvas2d = $document[0].createElement('canvas');
+      canvas2d.id = 'canvas2d';
+      canvas2d.width = $window.innerWidth;
+      canvas2d.height = $window.innerHeight;
+      canvas2d.style.width = $window.innerWidth.toString() + 'px';
+      canvas2d.style.height = $window.innerHeight.toString() + 'px';
+      canvas2d.style.pointerEvents = 'none';
+      container.appendChild(canvas2d);
+      context = canvas2d.getContext('2d');
+      context.paint = function (paper) {
+        context.clearRect(0, 0, $window.innerWidth, $window.innerHeight);
+        paper.children.forEach(function(child){
+          child.paint(context);
+        });
+      };
     }
 
     // Create camera
