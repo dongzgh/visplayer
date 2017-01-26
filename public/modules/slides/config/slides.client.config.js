@@ -33,6 +33,7 @@ angular.module('slides').run(['$rootScope', 'Menus', 'Tools', 'Trees', 'Dialogs'
     Tools.addToolItem('scene', 'delete', 'icon-delete', undefined, undefined, 'removeObjects', language.scene.delete);
 
     // Set modeling tool items
+    Tools.addToolItem('modeling', 'createBox', 'icon-box', undefined, undefined, 'createBox', language.modeling.createBox);
     Tools.addToolItem('modeling', 'viewFit', 'icon-view-fit', undefined, undefined, 'viewFit', language.modeling.viewFit);
     Tools.addToolItem('modeling', 'viewTop', 'icon-view-top', undefined, undefined, 'viewTop', language.modeling.viewTop);
     Tools.addToolItem('modeling', 'viewBottom', 'icon-view-bottom', undefined, undefined, 'viewBottom', language.modeling.viewBottom);

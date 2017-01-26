@@ -459,6 +459,15 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       }
     };
 
+    /**
+     * Debug
+     */
+    // Create a box
+    scope.createBox = function () {
+      let box = createBox(300, 300, 300, 0xff0000);
+      activeScene.add(box);
+    };
+
     //---------------------------------------------------
     //  Listeners
     //------------------------------------------------
@@ -922,29 +931,26 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
     //  Debugging
     //---------------------------------------------------
     // Create a point
-    function createPoint(x, y, z) {
+    function createPoint(x, y, z, color) {
       let geometry = new $window.THREE.SphereGeometry(0.1, 32, 32);
       let material = new $window.THREE.MeshBasicMaterial({
-        color: 0xffff00
+        color: color !== undefined ? color : 0xffffff
       });
-      let sphere = new $window.THREE.Mesh(geometry, material);
-      sphere.position.set(x, y, z);
-      activeScene.add(sphere);
+      let point = new $window.THREE.Mesh(geometry, material);
+      return point;
     }
 
     // Create a box
-    function createBox(model) {
-      let dx = model.box.max.x - model.box.min.x;
-      let dy = model.box.max.y - model.box.min.y;
-      let dz = model.box.max.z - model.box.min.z;
+    function createBox(dx, dy, dz, color) {
       let geometry = new $window.THREE.BoxGeometry(dx, dy, dz);
       let material = new $window.THREE.MeshBasicMaterial({
-        color: 0x00ff00,
+        color: color !== undefined ? color : 0xffffff,
         wireframe: true
       });
-      let cube = new $window.THREE.Mesh(geometry, material);
-      cube.position.copy(model.center);
-      activeScene.add(cube);
+      let box = new $window.THREE.Mesh(geometry, material);
+      var timestamp = new Date().getUTCMilliseconds();
+      box.name = 'BOX ' + timestamp;
+      return box;
     }
   }
 ]);
