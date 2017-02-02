@@ -169,6 +169,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
       // Create scene object
       var model = new $window.THREE.Object3D();
+      model.data = data;
       model.name = data.name;
       model.displayName = model.name + ' #' + count;
       model.type = scope.GEOMETRY_TYPES.model;

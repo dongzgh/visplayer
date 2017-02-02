@@ -39,6 +39,7 @@ angular.module('core').controller('TransformController', ['$rootScope', '$window
 
   	// On OK
   	$scope.onOK = function() {
+      selected.data.matrixWorld = selected.matrixWorld;
       Scene.viewClear();
       Scene.clearSelection();
       Scene.deleteTransformer();
