@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?anzvjf');
-  src:  url('../fonts/icomoon.eot?anzvjf#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?anzvjf') format('truetype'),
-    url('../fonts/icomoon.woff?anzvjf') format('woff'),
-    url('../fonts/icomoon.svg?anzvjf#icomoon') format('svg');
+  src:  url('../fonts/icomoon.eot?2jlugj');
+  src:  url('../fonts/icomoon.eot?2jlugj#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?2jlugj') format('truetype'),
+    url('../fonts/icomoon.woff?2jlugj') format('woff'),
+    url('../fonts/icomoon.svg?2jlugj#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +16,7 @@
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
-  font-size: x-large;
+	font-size: x-large;
   text-transform: none;
   line-height: 1;
 
@@ -138,5 +138,8 @@
 }
 .icon-undo:before {
   content: "\e967";
+}
+.icon-serialize:before {
+  content: "\e962";
 }
 

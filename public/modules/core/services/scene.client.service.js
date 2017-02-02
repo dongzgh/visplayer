@@ -468,6 +468,10 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeScene.add(box);
     };
 
+    // Serialize
+    scope.serialize = function () {
+    };
+
     //---------------------------------------------------
     //  Listeners
     //------------------------------------------------

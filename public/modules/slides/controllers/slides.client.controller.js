@@ -179,6 +179,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
    */
   // Debug callbacks
   $scope.createBox = Scene.createBox;
+  $scope.serialize = Scene.serialize;
   
   // View callbacks
   $scope.viewFit = Scene.viewFit;
