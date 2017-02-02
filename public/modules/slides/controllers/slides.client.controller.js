@@ -1,7 +1,7 @@
 'use strict';
 
 // Slides controller
-angular.module('slides').controller('SlidesController', ['$scope', '$stateParams', '$location', '$window', '$document', '$log', '$controller', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'Dialogs', 'FileTypes', 'Slides', function($scope, $stateParams, $location, $window, $document, $log, $controller, $upload, Authentication, Scene, Files, Tools, Trees, Dialogs, FileTypes, Slides) {
+angular.module('slides').controller('SlidesController', ['$rootScope', '$scope', '$stateParams', '$location', '$window', '$document', '$log', '$controller', '$upload', 'Authentication', 'Scene', 'Files', 'Tools', 'Trees', 'Dialogs', 'FileTypes', 'Slides', function($rootScope, $scope, $stateParams, $location, $window, $document, $log, $controller, $upload, Authentication, Scene, Files, Tools, Trees, Dialogs, FileTypes, Slides) {
   $scope.authentication = Authentication;
 
   //---------------------------------------------------
@@ -60,7 +60,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   };
 
   // Activate a tool
-  $scope.activateTool = function(item) {  
+  $scope.activateTool = function(item) {
     if (item.toggle !== undefined) {
       if (!$scope.lock) {
         item.toggle = !item.toggle;
@@ -180,7 +180,7 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   // Debug callbacks
   $scope.createBox = Scene.createBox;
   $scope.serialize = Scene.serialize;
-  
+
   // View callbacks
   $scope.viewFit = Scene.viewFit;
   $scope.viewTop = Scene.viewTop;
@@ -299,6 +299,11 @@ angular.module('slides').controller('SlidesController', ['$scope', '$stateParams
   //---------------------------------------------------
   //  Listeners
   //---------------------------------------------------
+  // Listener for mode change
+  $scope.$on('mode.change', function(event) {
+    $scope.showPanel = false;
+  });
+
   // Listener for upload-files.success
   $scope.$on('upload.success', function(event, filename) {
     event.preventDefault();

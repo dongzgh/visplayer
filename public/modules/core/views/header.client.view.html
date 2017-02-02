@@ -7,7 +7,7 @@
   </div>
   <nav role="navigation">
     <ul class="nav navbar-nav" data-ng-if="menu.shouldRender(authentication.user);">
-      <li data-ng-repeat="item in menu.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ng-switch="item.menuItemType" ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}" data-ng-class="{active: ($uiRoute)}" dropdown="item.menuItemType === 'dropdown'">
+      <li data-ng-repeat="item in menu.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);" ng-switch="item.menuItemType" ui-route="{{item.uiRoute}}" class="{{item.menuItemClass}}" data-ng-class="{active: ($uiRoute)}" dropdown="item.menuItemType === 'dropdown'" data-ng-click="changeMode(item)">
         <a href="/#!/" data-ng-switch-when="dropdown" class="dropdown-toggle">
           <span data-ng-bind="item.title"></span>
           <b class="caret"></b>

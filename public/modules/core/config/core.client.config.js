@@ -2,7 +2,12 @@
 
 // Configuring file type constants
 angular.module('core').constant('FileTypes', {
-  'models': ['vis', 'json'],
-  'images': ['png', 'jpg', 'gif'],
-  'texts': ['txt', 'js', 'md']
+  'models': ['vis']
 });
+
+angular.module('core').run(['Menus',
+  function(Menus) {
+  	// Set topbar menu items
+    Menus.addMenuItem('topbar', 'vis3D', 'slides/edit');
+  }
+]);
