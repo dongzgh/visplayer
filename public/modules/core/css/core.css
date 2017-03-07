@@ -311,7 +311,7 @@ nav[role=navigation] {
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.5);
   color: #FFFFFF;
-  width: 250px;
+  width: 210px;
   right: 0;
 }
 .gui-dialog .panel-heading {
@@ -339,6 +339,7 @@ nav[role=navigation] {
 .gui-dialog .panel-body .input-group {
   background-color: transparent;
   margin-bottom: 0;
+  border: 1px #FFFFFF solid;
 }
 .gui-dialog .panel-body .input-group input {
   border-radius: 0;
@@ -346,11 +347,7 @@ nav[role=navigation] {
 }
 .gui-dialog .panel-body .btn:focus,
 .gui-dialog .panel-body .btn:active {
-  background-color: #327CCB;
-}
-.gui-dialog .panel-body .btn:focus span,
-.gui-dialog .panel-body .btn:active span {
-  color: #FFFFFF;
+  background-color: #F58723;
 }
 .gui-dialog .panel-body .btn.active {
   background-color: #F58723;
@@ -358,14 +355,35 @@ nav[role=navigation] {
 .gui-dialog .panel-body .btn-group {
   margin-top: 5px;
 }
-.gui-dialog .panel-body .btn-toolbar .btn-group {
-  border: 1px #F58723 solid;
+.gui-dialog .panel-body .btn-group .btn {
+  padding: 5px;
+}
+.gui-dialog .panel-body .well {
+  padding: 10px 0 5px !important;
+}
+.gui-dialog .panel-body .well .input-group .input-group-addon {
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+}
+.gui-dialog .panel-body .well .input-group .input {
+  background: transparent;
+  border: none;
+}
+.gui-dialog .panel-body .btn-group.btn-okcancel-group .btn {
+  width: 50px;
+  margin-right: 5px;
+  background: #FFFFFF;
+  color: #333333;
+}
+.gui-dialog .panel-body .btn-group.btn-okcancel-group .btn:hover,
+.gui-dialog .panel-body .btn-group.btn-okcancel-group .btn:focus,
+.gui-dialog .panel-body .btn-group.btn-okcancel-group .btn:active {
+  background: #F58723;
+  color: #FFFFFF;
 }
 .gui-dialog .panel-footer {
   background-color: transparent;
   border-radius: 0;
   border-top-color: #9D9D9D;
-}
-.gui-dialog .btn-okcancel-group .btn {
-  border: 1px solid #F58723;
 }

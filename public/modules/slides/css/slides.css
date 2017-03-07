@@ -77,11 +77,10 @@
 .panel-body .btn:hover,
 .panel-body .btn:active,
 .panel-body .btn:active:focus {
-  color: #FFFFFF;
+  /* color: #FFFFFF; */
   background-color: #F58723;
 }
 .panel-body .btn span {
-  color: #FFFFFF;
   text-shadow: none;
 }
 .list-group {

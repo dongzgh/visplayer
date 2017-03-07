@@ -1,0 +1,39 @@
+<div class="panel panel-default" data-ng-controller="TranslateController">
+  <div class="panel-heading">
+    <span class="icon-translate"></span>
+  </div>
+  <div class="panel-body">
+    <div class="btn-toolbar">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default active" tooltip-placement="bottom" tooltip="{{language.dialogTranslate.pickModel}}" tooltip-append-to-body="true">
+          <span class="icon-pick-model"></span>
+        </button>
+      </div>      
+    </div>
+    <div class="well">
+      <div class="input-group">
+        <span class="input-group-addon" id="input-x">X</span>
+        <input type="text" class="form-control" placeholder="X value" aria-describedby="X">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon" id="input-y">Y</span>
+        <input type="text" class="form-control" placeholder="Y value" aria-describedby="Y">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon" id="input-z">Z</span>
+        <input type="text" class="form-control" placeholder="Z value" aria-describedby="Z">
+      </div>
+    </div>
+    <div class="btn-group btn-okcancel-group">
+      <button type="button" class="btn btn-default" data-ng-click="onOK()" tooltip-placement="bottom" tooltip="{{language.dialogTransform.ok}}" tooltip-append-to-body="true">
+        <span>OK</span>
+      </button>
+      <button type="button" class="btn btn-default" data-ng-click="onCancel()" tooltip-placement="bottom" tooltip="{{language.dialogTransform.cancel}}" tooltip-append-to-body="true">
+        <span>CANCEL</span>
+      </button>
+    </div>
+  </div>
+  <div class="panel-footer">
+    READY
+  </div>
+</div>

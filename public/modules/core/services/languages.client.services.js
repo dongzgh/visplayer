@@ -45,13 +45,13 @@ angular.module('core').service('Languages', [
               displayAnalysis: 'Analysis display',
               displayMesh: 'Mesh display',
               displayWireframe: 'Wireframe display',
-              transform: 'Transform model'
+              translate: 'Translate model'
             },
-            dialogTransform: {
+            dialogTranslate: {
               pickModel: 'Pick a model',
-              modeTranslate: 'Translate',
-              modeRotate: 'Rotate',
-              undo: 'Undo',
+              x: 'x value',
+              y: 'y value',
+              z: 'z value',
               ok: 'OK',
               cancel: 'Cancel'
             }

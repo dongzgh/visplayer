@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core').controller('TransformController', ['$rootScope', '$window', '$scope', '$log', 'Scene', 'Languages',
+angular.module('core').controller('TranslateController', ['$rootScope', '$window', '$scope', '$log', 'Scene', 'Languages',
   function($rootScope, $window, $scope, $log, Scene, Languages) {
     // State variables
     $scope.enablePicking = true;

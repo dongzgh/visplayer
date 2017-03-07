@@ -13,8 +13,8 @@ angular.module('core').service('Dialogs', ['$window', '$modal',
     };
 
     // Transform dialog
-    this.transform = function() {
-      return 'modules/core/views/transform.client.view.html';
+    this.translate = function() {
+      return 'modules/core/views/translate.client.view.html';
     };
   }
 ]);

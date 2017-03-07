@@ -231,9 +231,9 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
   };
 
   // Transform model
-  $scope.transform = function() {
+  $scope.translate = function() {
     clearSelectionContex();
-    $scope.dialogUrl = Dialogs.transform();
+    $scope.dialogUrl = Dialogs.translate();
     $scope.lock = true;
   };
 

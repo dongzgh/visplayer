@@ -53,7 +53,7 @@ angular.module('slides').run(['$rootScope', 'Menus', 'Tools', 'Trees', 'Dialogs'
     Tools.addToolItem('modeling', 'displayAnalysis', 'icon-display-analysis', undefined, undefined, 'displayAnalysis', language.modeling.displayAnalysis);
     Tools.addToolItem('modeling', 'displayMesh', 'icon-display-mesh', undefined, undefined, 'displayMesh', language.modeling.displayMesh);
     Tools.addToolItem('modeling', 'displayWireframe', 'icon-display-wireframe', undefined, undefined, 'displayWireframe', language.modeling.displayWireframe);
-    Tools.addToolItem('modeling', 'transform', 'icon-transform', undefined, undefined, 'transform', language.modeling.transform);
+    Tools.addToolItem('modeling', 'translate', 'icon-translate', undefined, undefined, 'translate', language.modeling.translate);
 
     // Adding trees
     Trees.addTree('scene');
