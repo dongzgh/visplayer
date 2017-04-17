@@ -11,17 +11,15 @@ angular.module('core').controller('TranslateController', ['$rootScope', '$window
     Scene.selectMode = Scene.SELECTION_MODES.single;
     Scene.displaySelect = false;
     $scope.mode = 'translate';
+    $scope.x = 0.0;
+    $scope.y = 0.0;
+    $scope.z = 0.0;
     var selected;
     var stack = [];
 
     //---------------------------------------------------
     //  Callbacks
     //---------------------------------------------------
-    // Updaet mode
-    $scope.updateMode = function() {
-      Scene.switchTransformer($scope.mode);
-    };
-
     // On undo
     $scope.onUndo = function () {
       if(stack.length === 1) {
@@ -39,11 +37,20 @@ angular.module('core').controller('TranslateController', ['$rootScope', '$window
 
   	// On OK
   	$scope.onOK = function() {
+      $scope.onApply();
       selected.data.matrixWorld = selected.matrixWorld;
       Scene.viewClear();
       Scene.clearSelection();
       Scene.deleteTransformer();
   		$rootScope.$broadcast('dialog.close');
+  	};
+
+    // On Apply.
+    $scope.onApply = function() {
+      if(selected === undefined) return;
+      selected.translateX($scope.x);
+      selected.translateY($scope.y);
+      selected.translateZ($scope.z);
   	};
 
   	// On Cancel

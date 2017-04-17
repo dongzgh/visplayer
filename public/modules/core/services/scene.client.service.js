@@ -137,8 +137,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
       // Add listeners
       $window.addEventListener('resize', onWindowResize, false);
-      $document[0].addEventListener('keydown', onCanvasKeyDown, false);
-      $document[0].addEventListener('keyup', onCanvasKeyUp, false);
       canvas3d.addEventListener('mousedown', onCanvasMouseDown, false);
       canvas3d.addEventListener('mousemove', onCanvasMouseMove, false);
       canvas3d.addEventListener('mouseup', onCanvasMouseUp, false);
@@ -499,16 +497,6 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
 
     // Mouse up
     function onCanvasMouseUp(event) {
-      event.preventDefault();
-    }
-
-    // Key down
-    function onCanvasKeyDown(event) {
-      event.preventDefault();
-    }
-
-    // Key up
-    function onCanvasKeyUp(event) {
       event.preventDefault();
     }
 
