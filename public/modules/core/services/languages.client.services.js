@@ -27,6 +27,8 @@ angular.module('core').service('Languages', [
               delete: 'Delete objects from scene'
             },
             modeling: {
+              createBox: 'Create Box',
+              serialize: 'Serialize',
               viewFit: 'Fit view',
               viewTop: 'Top view',
               viewBottom: 'Bottom view',

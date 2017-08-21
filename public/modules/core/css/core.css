@@ -279,7 +279,6 @@ nav[role=navigation] {
   border: none;
 }
 .modal-body .btn-group .btn {
-  margin-right: 5px;
   background-image: none;
 }
 .modal-body .btn-group .btn:hover {
