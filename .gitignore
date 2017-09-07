@@ -34,6 +34,7 @@ plugins/forming/automation/uia_capscr/uia_capscr/*.user
 plugins/forming/automation/uia_capscr/uia_capscr/x64/
 public/lib/
 npm-debug.log
+~*.*
 *.bak
 *.sublime-project
 *.sublime-workspace
