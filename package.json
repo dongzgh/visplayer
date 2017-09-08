@@ -1,13 +1,13 @@
 {
   "name": "visplayer",
-  "description": "A playground for online computing visualization.",
+  "description": "A playground for online geometry computing and visualization.",
   "version": "0.0.1",
   "private": false,
-  "author": "visFuture",
+  "author": "visplayer",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://dongzbb@bitbucket.org/dongzbb/visplayer.git"
+    "url": "https://visplayer.visualstudio.com/_git/visplayer"
   },
   "engines": {
     "node": ">=0.10.28",

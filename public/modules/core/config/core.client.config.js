@@ -2,7 +2,7 @@
 
 // Configuring file type constants
 angular.module('core').constant('FileTypes', {
-  'models': ['vis']
+  'models': ['vis', 'ply', 'obj']
 });
 
 angular.module('core').run(['Menus',
