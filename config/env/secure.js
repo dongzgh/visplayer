@@ -4,7 +4,6 @@ module.exports = {
   port: 8443,
 	db: {
 		uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://localhost/visplayer',
-
 		options: {
 			user: '',
 			pass: ''
