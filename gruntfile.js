@@ -163,13 +163,21 @@ module.exports = function(grunt) {
 	// Making grunt default to force in order not to break the project.
 	grunt.option('force', true);
 
-	// A Task for loading the configuration object
+	// A task for loading the configuration object
 	grunt.task.registerTask('loadConfig', 'Task that loads the config into a grunt option.', function() {
 		var init = require('./config/init')();
 		var config = require('./config/config');
 
 		grunt.config.set('applicationJavaScriptFiles', config.assets.js);
 		grunt.config.set('applicationCSSFiles', config.assets.css);
+	});
+
+	// A task for uglify ES6 javascript files
+	grunt.task.registerTask('uglifyes', 'Uglify ES6 javascript files.', function(){
+		var uglifyes = require('uglify-es');
+		var code = fs.readFileSync('public/dist/application.js', 'utf8');
+		code = uglifyes.minify(code).code;
+		fs.writeFileSync('public/dist/application.min.js', code);
 	});
 
 	// Default task(s).
@@ -185,7 +193,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('lint', ['jshint', 'csslint']);
 
 	// Build task(s).
-	grunt.registerTask('build', ['lint', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin']);
+	grunt.registerTask('build', ['lint', 'loadConfig', 'ngAnnotate', 'uglifyes', 'cssmin']);
 
 	// Test task.
 	grunt.registerTask('test', ['copy:localConfig', 'test:server', 'test:client']);

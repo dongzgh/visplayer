@@ -5,10 +5,9 @@ angular.module('core').service('Languages', [
   function() {
     this.code = 'eng';
     this.localization = function (language) {
-      let code = 'eng';
       if(language !== undefined)
-        code = language;
-      switch (code) {
+        this.code = language;
+      switch (this.code) {
         case 'eng':
           return {
             sidebar: {
