@@ -2,8 +2,7 @@
 
 module.exports = {
   db: {
-    //uri: 'mongodb://localhost/visplayer-dev',
-    uri: process.env.MONGODB_URI,
+    uri: 'mongodb://localhost/visplayer-dev',
 		options: {
 			user: '',
 			pass: ''
