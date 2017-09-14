@@ -6,6 +6,9 @@ module.exports = {
     description: 'A playground for online computing visualization.',
     keywords: 'geometry, data, visualization, computing'
   },
+  db: {
+    promise: global.Promise
+  },
   port: process.env.PORT || 3000,
   templateEngine: 'swig',
 	// The secret should be set to a non-guessable string that
@@ -66,7 +69,7 @@ module.exports = {
         'public/lib/threejs/examples/js/controls/TrackballControls.js',
         'public/lib/threejs/examples/js/controls/OrthographicTrackballControls.js',
         'public/lib/threejs/examples/js/controls/TransformControls.js',
-        'public/libx/threejs/ACSHelper.js'
+        'public/libx/threejs/AcsHelper.js'
       ]
     },
     css: [

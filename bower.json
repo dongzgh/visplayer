@@ -3,20 +3,19 @@
   "version": "0.0.1",
   "description": "A playground for online computing visualization.",
   "dependencies": {
-    "bootstrap": "~3",
-    "angular": "~1.2",
-    "angular-resource": "~1.2",
-    "angular-animate": "~1.2",
-    "angular-mocks": "~1.2",    
-	"angular-bootstrap": "~0.12.0",
-    "angular-ui-utils": "~0.1.1",
+    "angular": "~1.5.11",
+    "angular-animate": "~1.5.11",
+    "angular-bootstrap": "2.0.0",
+    "angular-cookies": "~1.5.11",
+    "angular-resource": "~1.5.11",
+    "angular-sanitize": "~1.5.11",
+    "angular-touch": "~1.5.11",
     "angular-ui-router": "~0.2.11",
-    "angular-cookies": "~1.2",
-    "angular-touch": "~1.2",
-    "angular-sanitize": "~1.2",
-    "ng-file-upload": "~3.1.1",
-    "threejs": "*",
+    "angular-ui-utils": "~0.1.1",
+    "bootstrap": "~3",
     "cryptojslib": "~3.1.2",
-    "dat-gui": "~0.5.1"
+    "dat-gui": "~0.5.1",
+    "ng-file-upload": "~3.1.1",
+    "threejs": "*"
   }
 }

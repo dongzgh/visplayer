@@ -2,7 +2,7 @@
  * Running this will allow you to create Acs control.
  */
 
-THREE.ACSHelper = function ( _camera, _x, _y, _scale ) {
+THREE.AcsHelper = function ( _camera, _x, _y, _scale ) {
 
 	var scope = this;	
 
@@ -177,5 +177,5 @@ THREE.ACSHelper = function ( _camera, _x, _y, _scale ) {
 
 };
 
-THREE.ACSHelper.prototype = Object.create( THREE.Object3D.prototype );
-THREE.ACSHelper.prototype.constructor = THREE.ACSHelper;
+THREE.AcsHelper.prototype = Object.create( THREE.Object3D.prototype );
+THREE.AcsHelper.prototype.constructor = THREE.AcsHelper;

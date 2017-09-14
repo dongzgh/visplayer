@@ -4,8 +4,7 @@ module.exports = {
   db: {
     uri: 'mongodb://localhost/visplayer-dev',
 		options: {
-			user: '',
-			pass: ''
+			useMongoClient: true
 		}
 	},
 	log: {

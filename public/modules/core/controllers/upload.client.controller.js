@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('core').controller('UploadController', ['$rootScope', '$scope', '$log', '$modalInstance', 'Files',
-  function($rootScope, $scope, $log, $modalInstance, Files) {
+angular.module('core').controller('UploadController', ['$rootScope', '$scope', '$log', '$uibModalInstance', 'Files',
+  function($rootScope, $scope, $log, $uibModalInstance, Files) {
     // Initialize file name list
     $scope.files = [];
     $scope.names = [];
@@ -33,9 +33,9 @@ angular.module('core').controller('UploadController', ['$rootScope', '$scope', '
       // Define final callback
       function onfinal(passed, failed) {
         if (passed.length === $scope.files.length) {
-          $modalInstance.dismiss('success');
+          $uibModalInstance.dismiss('success');
         } else {
-          $modalInstance.dismiss('failed');
+          $uibModalInstance.dismiss('failed');
         }
       }
 

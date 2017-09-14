@@ -617,7 +617,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeScene.add(axis);
 
       // ACS
-      acs = new $window.THREE.ACSHelper(activeCamera, 150, $window.innerHeight - 50, 50);
+      acs = new $window.THREE.AcsHelper(activeCamera, 150, $window.innerHeight - 50, 50);
       acs.name = 'ACS';
       activePaper.add(acs);
     }

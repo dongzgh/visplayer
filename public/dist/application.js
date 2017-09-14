@@ -213,8 +213,8 @@ angular.module('core').controller('TranslateController', ['$rootScope', '$window
 
 'use strict';
 
-angular.module('core').controller('UploadController', ['$rootScope', '$scope', '$log', '$modalInstance', 'Files',
-  function($rootScope, $scope, $log, $modalInstance, Files) {
+angular.module('core').controller('UploadController', ['$rootScope', '$scope', '$log', '$uibModalInstance', 'Files',
+  function($rootScope, $scope, $log, $uibModalInstance, Files) {
     // Initialize file name list
     $scope.files = [];
     $scope.names = [];
@@ -246,9 +246,9 @@ angular.module('core').controller('UploadController', ['$rootScope', '$scope', '
       // Define final callback
       function onfinal(passed, failed) {
         if (passed.length === $scope.files.length) {
-          $modalInstance.dismiss('success');
+          $uibModalInstance.dismiss('success');
         } else {
-          $modalInstance.dismiss('failed');
+          $uibModalInstance.dismiss('failed');
         }
       }
 
@@ -261,11 +261,11 @@ angular.module('core').controller('UploadController', ['$rootScope', '$scope', '
 'use strict';
 
 //Files service used to communicate Files REST endpoints
-angular.module('core').service('Dialogs', ['$window', '$modal', 
-  function($window, $modal) {
+angular.module('core').service('Dialogs', ['$window', '$uibModal', 
+  function($window, $uibModal) {
     // Upload modal dialog
     this.upload = function() {
-      return $modal.open({
+      return $uibModal.open({
         templateUrl: 'modules/core/views/upload.client.view.html',
         controller: 'UploadController',
         size: 'sm'
@@ -1320,7 +1320,7 @@ angular.module('core').service('Scene', ['$rootScope', '$window', '$document', '
       activeScene.add(axis);
 
       // ACS
-      acs = new $window.THREE.ACSHelper(activeCamera, 150, $window.innerHeight - 50, 50);
+      acs = new $window.THREE.AcsHelper(activeCamera, 150, $window.innerHeight - 50, 50);
       acs.name = 'ACS';
       activePaper.add(acs);
     }
