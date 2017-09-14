@@ -1,3 +1,2 @@
-CHCP 437
-mongod --logpath "G:\Dong\My Projects\visplayer@visualstudio.com\visplayer\data\log"
-mongod --dbpath "G:\Dong\My Projects\visplayer@visualstudio.com\visplayer\data\db"
+mongod --logpath "G:\Dong\My Projects\visplayer_test\data\log\access.log"
+mongod --dbpath "G:\Dong\My Projects\visplayer_test\data\db"
