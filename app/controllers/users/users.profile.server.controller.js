@@ -4,18 +4,14 @@
  * Module dependencies.
  */
 var _ = require('lodash'),
-  errorHandler = require('../errors.server.controller.js'),
-  mongoose = require('mongoose'),
-  passport = require('passport'),
-  User = mongoose.model('User');
+  errorHandler = require('../errors.server.controller.js');
 
 /**
  * Update user details
  */
 exports.update = function(req, res) {
   // Init Variables
-  var user = req.user;
-  var message = null;
+  let user = req.user;
 
   // For security measurement we remove the roles from the req.body object
   delete req.body.roles;
@@ -31,11 +27,13 @@ exports.update = function(req, res) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
         });
-      } else {
+      } 
+      else {
         req.login(user, function(err) {
           if (err) {
             res.status(400).send(err);
-          } else {
+          } 
+          else {
             res.json(user);
           }
         });

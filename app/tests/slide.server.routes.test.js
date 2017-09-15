@@ -1,7 +1,6 @@
 'use strict';
 
-var should = require('should'),
-  request = require('supertest'),
+var request = require('supertest'),
   app = require('../../server'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
@@ -51,10 +50,12 @@ describe('Slide CRUD tests', function() {
       .expect(200)
       .end(function(signinErr, signinRes) {
         // Handle signin error
-        if (signinErr) done(signinErr);
+        if (signinErr) {
+          done(signinErr);
+        }
 
         // Get the userId
-        var userId = user.id;
+        let userId = user.id;
 
         // Save a new Slide
         agent.post('/slides')
@@ -62,16 +63,20 @@ describe('Slide CRUD tests', function() {
           .expect(200)
           .end(function(slideSaveErr, slideSaveRes) {
             // Handle Slide save error
-            if (slideSaveErr) done(slideSaveErr);
+            if (slideSaveErr) {
+              done(slideSaveErr);
+            }
 
             // Get a list of Slides
             agent.get('/slides')
               .end(function(slidesGetErr, slidesGetRes) {
                 // Handle Slide save error
-                if (slidesGetErr) done(slidesGetErr);
+                if (slidesGetErr) {
+                  done(slidesGetErr);
+                }
 
                 // Get Slides list
-                var slides = slidesGetRes.body;
+                let slides = slidesGetRes.body;
 
                 // Set assertions
                 (slides[0].user._id).should.equal(userId);
@@ -103,10 +108,9 @@ describe('Slide CRUD tests', function() {
       .expect(200)
       .end(function(signinErr, signinRes) {
         // Handle signin error
-        if (signinErr) done(signinErr);
-
-        // Get the userId
-        var userId = user.id;
+        if (signinErr) {
+          done(signinErr);
+        }
 
         // Save a new Slide
         agent.post('/slides')
@@ -128,10 +132,9 @@ describe('Slide CRUD tests', function() {
       .expect(200)
       .end(function(signinErr, signinRes) {
         // Handle signin error
-        if (signinErr) done(signinErr);
-
-        // Get the userId
-        var userId = user.id;
+        if (signinErr) {
+          done(signinErr);
+        }
 
         // Save a new Slide
         agent.post('/slides')
@@ -139,7 +142,9 @@ describe('Slide CRUD tests', function() {
           .expect(200)
           .end(function(slideSaveErr, slideSaveRes) {
             // Handle Slide save error
-            if (slideSaveErr) done(slideSaveErr);
+            if (slideSaveErr) {
+              done(slideSaveErr);
+            }
 
             // Update Slide name
             slide.name = 'WHY YOU GOTTA BE SO MEAN?';
@@ -150,7 +155,9 @@ describe('Slide CRUD tests', function() {
               .expect(200)
               .end(function(slideUpdateErr, slideUpdateRes) {
                 // Handle Slide update error
-                if (slideUpdateErr) done(slideUpdateErr);
+                if (slideUpdateErr) {
+                  done(slideUpdateErr);
+                }
 
                 // Set assertions
                 (slideUpdateRes.body._id).should.equal(slideSaveRes.body._id);
@@ -165,7 +172,7 @@ describe('Slide CRUD tests', function() {
 
   it('should be able to get a list of Slides if not signed in', function(done) {
     // Create new Slide model instance
-    var slideObj = new Slide(slide);
+    let slideObj = new Slide(slide);
 
     // Save the Slide
     slideObj.save(function() {
@@ -185,7 +192,7 @@ describe('Slide CRUD tests', function() {
 
   it('should be able to get a single Slide if not signed in', function(done) {
     // Create new Slide model instance
-    var slideObj = new Slide(slide);
+    let slideObj = new Slide(slide);
 
     // Save the Slide
     slideObj.save(function() {
@@ -206,10 +213,9 @@ describe('Slide CRUD tests', function() {
       .expect(200)
       .end(function(signinErr, signinRes) {
         // Handle signin error
-        if (signinErr) done(signinErr);
-
-        // Get the userId
-        var userId = user.id;
+        if (signinErr) {
+          done(signinErr);
+        }
 
         // Save a new Slide
         agent.post('/slides')
@@ -217,7 +223,9 @@ describe('Slide CRUD tests', function() {
           .expect(200)
           .end(function(slideSaveErr, slideSaveRes) {
             // Handle Slide save error
-            if (slideSaveErr) done(slideSaveErr);
+            if (slideSaveErr) {
+              done(slideSaveErr);
+            }
 
             // Delete existing Slide
             agent.delete('/slides/' + slideSaveRes.body._id)
@@ -225,7 +233,9 @@ describe('Slide CRUD tests', function() {
               .expect(200)
               .end(function(slideDeleteErr, slideDeleteRes) {
                 // Handle Slide error error
-                if (slideDeleteErr) done(slideDeleteErr);
+                if (slideDeleteErr) {
+                  done(slideDeleteErr);
+                }
 
                 // Set assertions
                 (slideDeleteRes.body._id).should.equal(slideSaveRes.body._id);
@@ -242,7 +252,7 @@ describe('Slide CRUD tests', function() {
     slide.user = user;
 
     // Create new Slide model instance
-    var slideObj = new Slide(slide);
+    let slideObj = new Slide(slide);
 
     // Save the Slide
     slideObj.save(function() {

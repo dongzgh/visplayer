@@ -3,10 +3,8 @@
 /**
  * Module dependencies.
  */
-var _ = require('lodash'),
-  errorHandler = require('../errors.server.controller'),
+var errorHandler = require('../errors.server.controller'),
   mongoose = require('mongoose'),
-  passport = require('passport'),
   User = mongoose.model('User'),
   config = require('../../../config/config'),
   nodemailer = require('nodemailer'),
@@ -23,7 +21,7 @@ exports.forgot = function(req, res, next) {
     // Generate random token
     function(done) {
       crypto.randomBytes(20, function(err, buffer) {
-        var token = buffer.toString('hex');
+        let token = buffer.toString('hex');
         done(err, token);
       });
     },
@@ -37,11 +35,13 @@ exports.forgot = function(req, res, next) {
             return res.status(400).send({
               message: 'No account with that username has been found'
             });
-          } else if (user.provider !== 'local') {
+          } 
+          else if (user.provider !== 'local') {
             return res.status(400).send({
               message: 'It seems like you signed up using your ' + user.provider + ' account'
             });
-          } else {
+          } 
+          else {
             user.resetPasswordToken = token;
             user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
@@ -67,7 +67,7 @@ exports.forgot = function(req, res, next) {
     },
     // If valid email, send reset email using service
     function(emailHTML, user, done) {
-      var mailOptions = {
+      let mailOptions = {
         to: user.email,
         from: config.mailer.from,
         subject: 'Password Reset',
@@ -78,7 +78,8 @@ exports.forgot = function(req, res, next) {
           res.send({
             message: 'An email has been sent to ' + user.email + ' with further instructions.'
           });
-				} else {
+        }
+        else {
 					return res.status(400).send({
 						message: 'Failure sending email'
 					});
@@ -88,7 +89,9 @@ exports.forgot = function(req, res, next) {
       });
     }
   ], function(err) {
-    if (err) return next(err);
+    if (err) {
+      return next(err);
+    }
   });
 };
 
@@ -115,7 +118,7 @@ exports.validateResetToken = function(req, res) {
  */
 exports.reset = function(req, res, next) {
   // Init Variables
-  var passwordDetails = req.body;
+  let passwordDetails = req.body;
 
   async.waterfall([
 
@@ -137,11 +140,13 @@ exports.reset = function(req, res, next) {
                 return res.status(400).send({
                   message: errorHandler.getErrorMessage(err)
                 });
-              } else {
+              } 
+              else {
                 req.login(user, function(err) {
                   if (err) {
                     res.status(400).send(err);
-                  } else {
+                  } 
+                  else {
                     // Return authenticated user
                     res.json(user);
 
@@ -172,7 +177,7 @@ exports.reset = function(req, res, next) {
     },
     // If valid email, send reset email using service
     function(emailHTML, user, done) {
-      var mailOptions = {
+      let mailOptions = {
         to: user.email,
         from: config.mailer.from,
         subject: 'Your password has been changed',
@@ -184,7 +189,9 @@ exports.reset = function(req, res, next) {
       });
     }
   ], function(err) {
-    if (err) return next(err);
+    if (err) {
+      return next(err);
+    }
   });
 };
 
@@ -193,7 +200,7 @@ exports.reset = function(req, res, next) {
  */
 exports.changePassword = function(req, res) {
   // Init Variables
-  var passwordDetails = req.body;
+  let passwordDetails = req.body;
 
   if (req.user) {
     if (passwordDetails.newPassword) {
@@ -208,11 +215,13 @@ exports.changePassword = function(req, res) {
                   return res.status(400).send({
                     message: errorHandler.getErrorMessage(err)
                   });
-                } else {
+                } 
+                else {
                   req.login(user, function(err) {
                     if (err) {
                       res.status(400).send(err);
-                    } else {
+                    } 
+                    else {
                       res.send({
                         message: 'Password changed successfully'
                       });

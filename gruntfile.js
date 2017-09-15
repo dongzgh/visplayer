@@ -4,7 +4,7 @@ var fs = require('fs');
 
 module.exports = function(grunt) {
 	// Unified Watch Object
-	var watchFiles = {
+	let watchFiles = {
 		serverViews: ['app/views/**/*.*'],
 		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js', '!app/tests/'],
 		clientViews: ['public/modules/**/views/**/*.html'],
@@ -165,17 +165,16 @@ module.exports = function(grunt) {
 
 	// A task for loading the configuration object
 	grunt.task.registerTask('loadConfig', 'Task that loads the config into a grunt option.', function() {
-		var init = require('./config/init')();
-		var config = require('./config/config');
-
+		require('./config/init')();
+		let config = require('./config/config');
 		grunt.config.set('applicationJavaScriptFiles', config.assets.js);
 		grunt.config.set('applicationCSSFiles', config.assets.css);
 	});
 
 	// A task for uglify ES6 javascript files
 	grunt.task.registerTask('uglifyes', 'Uglify ES6 javascript files.', function(){
-		var uglifyes = require('uglify-es');
-		var code = fs.readFileSync('public/dist/application.js', 'utf8');
+		let uglifyes = require('uglify-es');
+		let code = fs.readFileSync('public/dist/application.js', 'utf8');
 		code = uglifyes.minify(code).code;
 		fs.writeFileSync('public/dist/application.min.js', code);
 	});

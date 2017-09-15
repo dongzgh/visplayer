@@ -9,8 +9,9 @@ angular.module('slides').run(['$rootScope', 'Menus', 'Tools', 'Trees', 'Dialogs'
     // Set language for now here
     Languages.code = 'eng';
     $rootScope.language = Languages.localization();
-    if($rootScope.language === undefined)
-        $rootScope.language = Languages.localization('eng');
+    if($rootScope.language === undefined) {
+      $rootScope.language = Languages.localization('eng');
+    }
     var language = $rootScope.language;
 
     // Adding tools

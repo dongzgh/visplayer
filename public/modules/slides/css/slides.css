@@ -1,27 +1,27 @@
 .btn-group-vertical {
-  position: absolute;
   height: 100%;
+  position: absolute;
   z-index: 2;
 }
 .sidebar.btn-group-vertical {
-  left: 0;
   background-color: #000000;
+  left: 0;
 }
 .staticbar.btn-group-vertical {
+  background-color: transparent;
   right: 5px;
   width: 36px;
-  background-color: transparent;
 }
 .btn-group-vertical > .btn:first-child {
   margin-top: 42px;
 }
 .btn-group-vertical .btn {
-  padding: 8px 0;
-  color: #9D9D9D;
   background-color: transparent;
   background-image: none;
   border: none;
+  color: #9D9D9D;
   outline-style: none;
+  padding: 8px 0;
 }
 .btn-group-vertical .btn:hover,
 .btn-group-vertical .btn:active,
@@ -49,29 +49,29 @@
   color: #000000;
 }
 .panel {
-  position: absolute;
-  margin-top: 0;
-  margin-left: 50px;
-  margin-bottom: 0;
-  padding-top: 40px;
-  width: 300px;
-  height: 100% !important;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.5);
   border: none;
+  height: 100% !important;
+  margin-bottom: 0;
+  margin-left: 50px;
+  margin-top: 0;
   overflow: auto;
+  padding-top: 40px;
+  position: absolute;
+  width: 300px;
   z-index: 2;
 }
 .panel-body > div:first-child {
    margin-bottom: 10px; 
 }
 .panel-body .btn {
-  color: #FFFFFF;
   background-color: transparent;
   background-image: none;
   border: none;
-  outline-style: none;
   box-shadow: none;
+  color: #FFFFFF;
+  outline-style: none;
 }
 .panel-body .btn.active,
 .panel-body .btn:hover,
@@ -87,20 +87,20 @@
   box-shadow: none
 }
 .list-group > div {
-  padding-top: 2px;
+  color: #FFFFFF;
+  font-size: 0.9em;
   padding-bottom: 2px;
   padding-left: 10px;
-  font-size: 0.9em;
-  color: #FFFFFF;
+  padding-top: 2px;
   text-transform: uppercase;
 }
 .list-group > div:first-child {
   background-color: #333333;
 }
-.list-group > div.collapse {
+.list-group > .collapse {
   background-color: transparent;
 }
-.list-group > div span i.glyphicon {
+.list-group > div span .glyphicon {
   font-size: 10px;
   top: -1px;
 }
@@ -108,23 +108,23 @@
   padding-left: 5px;
 }
 .list-group > div .checkbox-inline {
+  float: right;
+  margin-bottom: 5px;
   margin-left: 10px;
   margin-right: 5px;
-  margin-bottom: 5px;
   padding: 0;
-  float: right;
 }
 .list-group-item {
-  border: none;
-  border-radius: 0 !important;
-  padding: 0;
   background-color: transparent;
+  border: none;
+  border-radius: 0 !important;  
+  padding: 0;
 }
 .list-group-item > div {
-  padding: 5px 10px 5px 20px;
   border: none;
-  border-radius: 0;
+  border-radius: 0;  
   color: #ffffff;
+  padding: 5px 10px 5px 20px;
 }
 .list-group-item > div:hover {
   background-color: #327CCB
@@ -133,10 +133,10 @@
   padding-left: 5px
 }
 .list-group-item > div a {
-  float: right;
-  margin-left: 5px;
   color: #9D9D9D;
   cursor: pointer;
+  float: right;
+  margin-left: 5px;
 }
 .list-group-item > div a:hover,
 .list-group-item > div a:active,

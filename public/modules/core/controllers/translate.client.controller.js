@@ -22,16 +22,19 @@ angular.module('core').controller('TranslateController', ['$rootScope', '$window
     //---------------------------------------------------
     // On undo
     $scope.onUndo = function () {
+      var object;
       if(stack.length === 1) {
-        let object = stack[0];
+        object = stack[0];
         selected.copy(object, false);
       }      
       else if(stack.length > 1) {
-        let object = stack.pop();
-        if(selected.matrix.equals(object.matrix))
+        object = stack.pop();
+        if(selected.matrix.equals(object.matrix)) {
           $scope.onUndo();
-        else
+        }          
+        else {
           selected.copy(object, false);
+        }          
       }
     };
 
@@ -47,7 +50,9 @@ angular.module('core').controller('TranslateController', ['$rootScope', '$window
 
     // On Apply.
     $scope.onApply = function() {
-      if(selected === undefined) return;
+      if(selected === undefined) {
+        return;
+      }
       selected.translateX($scope.x);
       selected.translateY($scope.y);
       selected.translateZ($scope.z);

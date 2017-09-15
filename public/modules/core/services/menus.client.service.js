@@ -12,15 +12,17 @@ angular.module('core').service('Menus', [
     // A private function for rendering decision
     var shouldRender = function(user) {
       if (user) {
-        if (!!~this.roles.indexOf('*')) {
+        if (this.roles.indexOf('*') !== -1) {
           return true;
         } else {
-          for (var userRoleIndex in user.roles) {
-            for (var roleIndex in this.roles) {
-              if (this.roles[roleIndex] === user.roles[userRoleIndex]) {
-                return true;
+          for (let userRoleIndex in user.roles) {
+            if(user.roles[userRoleIndex]) {
+              for (let roleIndex in this.roles) {
+                if (this.roles[roleIndex] && this.roles[roleIndex] === user.roles[userRoleIndex]) {
+                  return true;
+                }
               }
-            }
+            }            
           }
         }
       } else {
@@ -106,19 +108,21 @@ angular.module('core').service('Menus', [
 			this.validateMenuExistance(menuId);
 
       // Search for menu item
-      for (var itemIndex in this.menus[menuId].items) {
-        if (this.menus[menuId].items[itemIndex].link === rootMenuItemURL) {
-          // Push new submenu item
-          this.menus[menuId].items[itemIndex].items.push({
-            title: menuItemTitle,
-            link: menuItemURL,
-            uiRoute: menuItemUIRoute || ('/' + menuItemURL),
-            isPublic: ((isPublic === null || isPublic === undefined) ? this.menus[menuId].items[itemIndex].isPublic : isPublic),
-            roles: ((roles === null || roles === undefined) ? this.menus[menuId].items[itemIndex].roles : roles),
-            position: position || 0,
-            shouldRender: shouldRender
-          });
-        }
+      for (let itemIndex in this.menus[menuId].items) {
+        if(this.menus[menuId].items[itemIndex]) {
+          if (this.menus[menuId].items[itemIndex].link === rootMenuItemURL) {
+            // Push new submenu item
+            this.menus[menuId].items[itemIndex].items.push({
+              title: menuItemTitle,
+              link: menuItemURL,
+              uiRoute: menuItemUIRoute || ('/' + menuItemURL),
+              isPublic: ((isPublic === null || isPublic === undefined) ? this.menus[menuId].items[itemIndex].isPublic : isPublic),
+              roles: ((roles === null || roles === undefined) ? this.menus[menuId].items[itemIndex].roles : roles),
+              position: position || 0,
+              shouldRender: shouldRender
+            });
+          }
+        }        
       }
 
       // Return the menu object
@@ -131,10 +135,12 @@ angular.module('core').service('Menus', [
 			this.validateMenuExistance(menuId);
 
 			// Search for menu item to remove
-			for (var itemIndex in this.menus[menuId].items) {
-				if (this.menus[menuId].items[itemIndex].link === menuItemURL) {
-					this.menus[menuId].items.splice(itemIndex, 1);
-				}
+			for (let itemIndex in this.menus[menuId].items) {
+        if(this.menus[menuId].items[itemIndex]) {
+          if (this.menus[menuId].items[itemIndex].link === menuItemURL) {
+            this.menus[menuId].items.splice(itemIndex, 1);
+          }
+        }				
 			}
 
 			// Return the menu object
@@ -147,12 +153,14 @@ angular.module('core').service('Menus', [
 			this.validateMenuExistance(menuId);
 
       // Search for menu item to remove
-      for (var itemIndex in this.menus[menuId].items) {
-        for (var subitemIndex in this.menus[menuId].items[itemIndex].items) {
-          if (this.menus[menuId].items[itemIndex].items[subitemIndex].link === submenuItemURL) {
-            this.menus[menuId].items[itemIndex].items.splice(subitemIndex, 1);
+      for (let itemIndex in this.menus[menuId].items) {
+        if(this.menus[menuId].items[itemIndex]) {
+          for (let subitemIndex in this.menus[menuId].items[itemIndex].items) {
+            if (this.menus[menuId].items[itemIndex].items[subitemIndex].link === submenuItemURL) {
+              this.menus[menuId].items[itemIndex].items.splice(subitemIndex, 1);
+            }
           }
-        }
+        }        
       }
 
       // Return the menu object

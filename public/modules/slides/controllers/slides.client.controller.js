@@ -64,12 +64,14 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
     if (item.toggle !== undefined) {
       if (!$scope.lock) {
         item.toggle = !item.toggle;
-        if (item.action !== undefined)
+        if (item.action !== undefined) {
           $scope[item.action](item);
+        }
       }
     } else {
-      if (item.action !== undefined)
+      if (item.action !== undefined) {
         $scope[item.action]();
+      }
     }
   };
 
@@ -85,7 +87,8 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
     if (item.items.length === 0) {
       item.checked = false;
       return true;
-    } else {
+    } 
+    else {
       return false;
     }
   };
@@ -117,8 +120,9 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
    */
   // Import files
   $scope.uploadFiles = function() {
-    if ($scope.dialogUrl === undefined)
+    if ($scope.dialogUrl === undefined) {
       $scope.modal = Dialogs.upload();
+    }
   };
 
   // Download files
@@ -263,11 +267,12 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
     if (slide) {
       slide.$remove();
       for (var i in $scope.slides) {
-        if ($scope.slides[i] === slide) {
+        if ($scope.slides[i] && $scope.slides[i] === slide) {
           $scope.slides.splice(i, 1);
         }
       }
-    } else {
+    } 
+    else {
       $scope.slide.$remove(function() {
         $location.path('slides');
       });
@@ -340,7 +345,8 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
   function getFileIcon(ext) {
     if (FileTypes.models.indexOf(ext) !== -1) {
       return 'icon-file-model';
-    } else {
+    } 
+    else {
       return 'icon-file-text';
     }
   }
@@ -351,7 +357,8 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
     var icon = getFileIcon(ext);
     if (FileTypes.models.indexOf(ext) !== -1) {
       Trees.addSubTreeItem('files', 'models', filename, icon, filename);
-    } else {
+    } 
+    else {
       Trees.addSubTreeItem('files', 'others', filename, icon, filename);
     }
   }
@@ -374,18 +381,21 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
 
   // Set scene selection context
   function setSelectionContext(toggle, type, mode) {
-    if (toggle)
+    if (toggle) {
       Scene.selectType += type;
-    else
+    }
+    else {
       Scene.selectType -= type;
+    }
     Scene.selectMode = mode;
   }
 
   // Clear scene selection context
   function clearSelectionContex(){
     $scope.modelingTools.items.forEach(function(item){
-      if(item.toggle !== undefined)
+      if(item.toggle !== undefined) {
         item.toggle = false;
+      }
     });
     Scene.viewClear();
   }

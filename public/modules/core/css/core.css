@@ -9,9 +9,9 @@ body {
   height: 100%;
 }
 section {
-  height: 100%;
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100%;
 }
 section .row {
   margin-left: 0;
@@ -25,10 +25,10 @@ label {
   font-weight: normal;
 }
 input[type="file"] {
-  width: 38px !important;
   height: 34px !important;
-  margin-top: -27px !important;
   margin-left: -10px !important;
+  margin-top: -27px !important;
+  width: 38px !important;
 }
 input {
   border-radius: 0 !important;
@@ -48,9 +48,9 @@ input {
   background-color: #FFFFFF;
 }
 .tooltip-inner {
-  font-family: 'Ubuntu Condensed', sans-serif;
-  color: #333333;
   background-color: #FFFFFF;
+  color: #333333;
+  font-family: 'Ubuntu Condensed', sans-serif;
 }
 .undecorated-link:hover {
   text-decoration: none;
@@ -73,27 +73,27 @@ nav[role=navigation] {
   float: left;
 }
 .navbar {
-  min-height: 32px !important;
-  margin-bottom: 0;
   background-color: #333333;
   background-image: none;
   border: none;
   box-shadow: 2px 2px 5px #000000;
+  margin-bottom: 0;
+  min-height: 32px !important;
 }
 .navbar > .container {
-  width: 100%;
   padding: 0;
+  width: 100%;
 }
-.navbar-toggle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 40px;
-  margin: 0;
-  padding: 6px 13px;
+.navbar-toggle {  
   border: none;
   border-radius: 0;
   display: inline-block;
+  height: 40px;
+  left: 0;
+  margin: 0;
+  padding: 6px 13px;
+  position: absolute;
+  top: 0;
 }
 .navbar-inverse .navbar-toggle,
 .navbar-inverse .navbar-toggle:hover,
@@ -103,22 +103,22 @@ nav[role=navigation] {
 }
 .navbar-brand {
   font-family: 'Exo', sans-serif;
-  font-weight: bold;
   font-size: 1.5em;
-  position: absolute;
-  top: 0;
-  left: 50px;
+  font-weight: bold;
   height: 40px;
+  left: 50px;
+  line-height: 1.5em;
   margin-left: 6px !important;
   padding: 6px;
-  line-height: 1.5em;
+  position: absolute;
+  top: 0;
 }
 .navbar-inverse .navbar-brand,
 .navbar-inverse .navbar-brand:hover,
 .navbar-inverse .navbar-brand:active,
 .navbar-inverse .navbar-brand:focus {
-  color: #E8373E;
   background-color: #333333;
+  color: #E8373E;
   text-shadow: 1px 1px 1px #000000;
 }
 .navbar-nav {
@@ -134,30 +134,30 @@ nav[role=navigation] {
   display: inline;
 }
 .navbar-nav a {
+  color: #ffffff !important;
   font-family: 'Ubuntu Condensed', sans-serif;
   font-size: 14px;
-  text-transform: uppercase;
-  padding-top: 10px !important;
   padding-bottom: 10px !important;
-  color: #ffffff !important;
+  padding-top: 10px !important;
+  text-transform: uppercase;
 }
 .navbar-nav a:hover,
 .navbar-nav a:active,
 .navbar-nav a:focus {
-  color: #ffffff !important;
   background-color: #F58723 !important;
   background-image: none !important;
+  color: #ffffff !important;
 }
 .navbar-right {
   position: absolute;
-  top: 0;
   right: 0;
   text-align: right;
+  top: 0;
 }
 .divider-vertical {
+  background-color: transparent !important;
   height: 40px;
   width: 2px;
-  background-color: transparent !important;
 }
 .dropdown-toggle {
   float: left;
@@ -165,101 +165,101 @@ nav[role=navigation] {
 .navbar-nav .dropdown-toggle:hover,
 .navbar-nav .dropdown-toggle:active,
 .navbar-nav .dropdown-toggle:focus {  
-  color: #ffffff !important;
   background-color: #F58723 !important;
   background-image: none !important;  
+  color: #ffffff !important;
 }
 .navbar-nav .dropdown-toggle span {
   font-family: 'Ubuntu Condensed', sans-serif;
   font-size: 14px;
-  text-transform: uppercase;
-  padding-top: 10px;
   padding-bottom: 10px;
+  padding-top: 10px;
+  text-transform: uppercase;
 }
 .navbar-right .dropdown-toggle {
   float: right;
 }
 .dropdown-menu {
   border-radius: 0;
-  padding-top: 0;
-  padding-bottom: 0;
   margin-top: 5px !important;
+  padding-bottom: 0;
+  padding-top: 0;
 }
 .dropdown-menu li {
   background-color: #ffffff;
+  float: none;
   margin-left: 0 !important;
   width: 100%;
-  float: none;
 }
 .dropdown-menu .divider {
-  height: 1.1px;
-  margin-top: 0;
-  margin-bottom: 0;
   background-color: #000000 !important;
+  height: 1.1px;
+  margin-bottom: 0;
+  margin-top: 0;
 }
 .dropdown-menu a {
-  font-family: 'Ubuntu Condensed', sans-serif;
-  font-size: 14px;
-  padding-top: 2px !important;
-  padding-bottom: 2px !important;
   background-color: #ffffff !important;
   color: #333333 !important;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  font-size: 14px;
+  padding-bottom: 2px !important;
+  padding-top: 2px !important;
   text-transform: uppercase;
 }
 .dropdown-menu a:hover,
 .dropdown-menu a:active,
 .dropdown-menu a:focus {
-  color: #ffffff !important;
   background-color: #333333 !important;
   background-image: none !important;
+  color: #ffffff !important;
 }
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
 .dropdown-menu > .active > a:active,
 .dropdown-menu > .active > a:focus {
-  color: #ffffff !important;
   background-color: #333333 !important;
   background-image: none !important;
+  color: #ffffff !important;
 }
 .content {
-  margin-top: 0;
   height: 100%;
+  margin-top: 0;
 }
 .content .container {
+  height: 100%;
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
 }
 .modal-dialog {
   text-align: right;
 }
 @media (min-width: 400px) {
   .modal-dialog {
-    margin-top: 200px !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    margin-top: 200px !important;
     width: 300px !important;
   }
 }
 .modal-content {
-  border-radius: 0;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0;
   color: #FFFFFF;
 }
 .modal-header {
-  margin-bottom: 5px;
   border-bottom-color: #9D9D9D;
+  margin-bottom: 5px;
   text-align: left;
 }
 .modal-header span:first-child {
-  padding: 5px;
   background-color: #E8373E;
+  padding: 5px;
 }
 .modal-header span:last-child {
-  padding-top: 5px;
   float: right;
+  padding-top: 5px;
   text-transform: uppercase;
 }
 .modal-body .form-control {
@@ -268,9 +268,9 @@ nav[role=navigation] {
 .modal-body .input-group {
   margin-bottom: 10px;
 }
-.modal-body .input-group input {
-  border-radius: 0;
+.modal-body .input-group input {  
   border: none;
+  border-radius: 0;
 }
 .modal-body .input-group input[type=checkbox] {
   margin-right: 5px;
@@ -282,9 +282,9 @@ nav[role=navigation] {
   background-image: none;
 }
 .modal-body .btn-group .btn:hover {
+  background-color: #E8373E;
   color: #FFFFFF;
   text-shadow: none;
-  background-color: #E8373E;
 }
 .modal-footer {
   border-radius: 0;
@@ -305,32 +305,32 @@ nav[role=navigation] {
   z-index: 3;
 }
 .gui-dialog .panel {
-  height: auto !important;
-  border-radius: 0;
   background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0;
   color: #FFFFFF;
-  width: 210px;
+  height: auto !important;
   right: 0;
+  width: 210px;
 }
 .gui-dialog .panel-heading {
   background-color: transparent;
   background-image: none;
-  color: #FFFFFF;
   border-radius: 0;
+  color: #FFFFFF;
   text-transform: uppercase;
 }
 .gui-dialog .panel-heading span:first-child {
-  padding: 5px 7px 5px 5px;
   background-color: #E8373E;
+  padding: 5px 7px 5px 5px;
 }
 .gui-dialog .panel-heading span:last-child {
   float: left;
   margin-top: -6px;
 }
 .gui-dialog .panel-body {
-  padding-top: 20px;
   padding-bottom: 10px;
+  padding-top: 20px;
 }
 .gui-dialog .panel-body > div:first-child {
    margin-bottom: 0; 
@@ -340,8 +340,8 @@ nav[role=navigation] {
   margin-bottom: 0;
 }
 .gui-dialog .panel-body .input-group input {
-  height: 1.85em;
   border: none;
+  height: 1.85em;
 }
 .gui-dialog .panel-body .btn:focus,
 .gui-dialog .panel-body .btn:active {
@@ -359,7 +359,7 @@ nav[role=navigation] {
 .gui-dialog .panel-body .well {
   padding: 10px 0 5px !important;
 }
-.gui-dialog .panel-body .well .input-group .input-group-addon {
+.gui-dialog .panel-body .well .input-group .input-group-addon {  
   border: none;
   border-radius: 0;
   color: #000000;
@@ -369,10 +369,10 @@ nav[role=navigation] {
   border: none;
 }
 .gui-dialog .panel-body .btn-group.btn-okcancel-group .btn {
-  width: 50px;
-  margin-right: 5px;
   background: #FFFFFF;
   color: #333333;
+  margin-right: 5px;
+  width: 50px;
 }
 .gui-dialog .panel-body .btn-group.btn-okcancel-group .btn:hover,
 .gui-dialog .panel-body .btn-group.btn-okcancel-group .btn:focus,

@@ -9,7 +9,9 @@ angular.module('core').controller('UploadController', ['$rootScope', '$scope', '
     // Collect files
     $scope.collect = function(files) {
       // Check input data
-      if (files === undefined || files.length <= 0) return;
+      if (files === undefined || files.length <= 0) {
+        return;
+      }
 
       // Collect files
       $scope.names = [];
@@ -39,8 +41,9 @@ angular.module('core').controller('UploadController', ['$rootScope', '$scope', '
         }
       }
 
-      if ($scope.files.length > 0)
+      if ($scope.files.length > 0) {
         Files.upload($scope.files, null, onsuccess, null, onfinal);
+      }        
     };
   }
 ]);

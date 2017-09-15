@@ -4,7 +4,6 @@
  * Module dependencies.
  */
 var fs = require('fs'),
-  http = require('http'),
   https = require('https'),
   express = require('express'),
   morgan = require('morgan'),
@@ -16,7 +15,7 @@ var fs = require('fs'),
   cookieParser = require('cookie-parser'),
   helmet = require('helmet'),
   passport = require('passport'),
-  mongoStore = require('connect-mongo')({
+  MongoStore = require('connect-mongo')({
     session: session
   }),
   flash = require('connect-flash'),
@@ -103,7 +102,7 @@ module.exports = function(db) {
     saveUninitialized: true,
     resave: true,
     secret: config.sessionSecret,
-    store: new mongoStore({
+    store: new MongoStore({
       url: config.db.uri,
       collection: config.sessionCollection
 		}),
@@ -126,7 +125,9 @@ module.exports = function(db) {
   // Assume 'not found' in the error msgs is a 404. this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
   app.use(function(err, req, res, next) {
     // If the error object doesn't exists
-    if (!err) return next();
+    if (!err) {
+      return next();
+    }
 
     // Log it
     console.error(err.stack);

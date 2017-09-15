@@ -4,7 +4,6 @@
  * Module dependencies.
  */
 
-var morgan = require('morgan');
 var config = require('./config');
 var fs = require('fs');
 
@@ -18,7 +17,7 @@ module.exports = {
 	},
 
 	getLogOptions: function() {
-		var options = {};
+		let options = {};
 
 		try {
 			if ('stream' in config.log.options) {

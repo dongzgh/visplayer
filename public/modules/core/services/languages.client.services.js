@@ -5,8 +5,9 @@ angular.module('core').service('Languages', [
   function() {
     this.code = 'eng';
     this.localization = function (language) {
-      if(language !== undefined)
+      if(language !== undefined) {
         this.code = language;
+      }
       switch (this.code) {
         case 'eng':
           return {

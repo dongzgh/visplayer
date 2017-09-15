@@ -29,7 +29,7 @@ module.exports = {
         'public/lib/angular-ui-router/release/angular-ui-router.min.js',
         'public/lib/angular-ui-utils/ui-utils.min.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
-        'public/lib/angular-cookies/angular-cookies.min.js',        ,
+        'public/lib/angular-cookies/angular-cookies.min.js',
         'public/lib/angular-touch/angular-touch.min.js',
         'public/lib/angular-sanitize/angular-sanitize.min.js',        
         'public/lib/ng-file-upload/angular-file-upload-shim.min.js',

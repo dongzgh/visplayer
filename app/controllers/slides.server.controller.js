@@ -12,7 +12,7 @@ var mongoose = require('mongoose'),
  * Create a Slide
  */
 exports.create = function(req, res) {
-  var slide = new Slide(req.body);
+  let slide = new Slide(req.body);
   slide.user = req.user;
 
   slide.save(function(err) {
@@ -20,7 +20,8 @@ exports.create = function(req, res) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
-    } else {
+    } 
+    else {
       res.jsonp(slide);
     }
   });
@@ -37,7 +38,7 @@ exports.read = function(req, res) {
  * Update a Slide
  */
 exports.update = function(req, res) {
-  var slide = req.slide;
+  let slide = req.slide;
 
   slide = _.extend(slide, req.body);
 
@@ -46,7 +47,8 @@ exports.update = function(req, res) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
-    } else {
+    } 
+    else {
       res.jsonp(slide);
     }
   });
@@ -56,14 +58,15 @@ exports.update = function(req, res) {
  * Delete an Slide
  */
 exports.delete = function(req, res) {
-  var slide = req.slide;
+  let slide = req.slide;
 
   slide.remove(function(err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
-    } else {
+    } 
+    else {
       res.jsonp(slide);
     }
   });
@@ -78,7 +81,8 @@ exports.list = function(req, res) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
-    } else {
+    } 
+    else {
       res.jsonp(slides);
     }
   });
@@ -89,8 +93,12 @@ exports.list = function(req, res) {
  */
 exports.slideByID = function(req, res, next, id) {
   Slide.findById(id).populate('user', 'displayName').exec(function(err, slide) {
-    if (err) return next(err);
-    if (!slide) return next(new Error('Failed to load Slide ' + id));
+    if (err) {
+      return next(err);
+    }
+    if (!slide) {
+      return next(new Error('Failed to load Slide ' + id));
+    }
     req.slide = slide;
     next();
   });
