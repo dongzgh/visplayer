@@ -41,3 +41,4 @@ npm-debug.log
 /plugins/inventor/*.opensdf
 /plugins/inventor/*.vspscc
 /docs/format
+/access.log
