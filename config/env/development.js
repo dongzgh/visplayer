@@ -3,19 +3,19 @@
 module.exports = {
   db: {
     uri: 'mongodb://localhost/visplayer-dev',
-		options: {
-			useMongoClient: true
-		}
-	},
-	log: {
-		// Can specify one of 'combined', 'common', 'dev', 'short', 'tiny'
-		format: 'dev',
-		// Stream defaults to process.stdout
-		// Uncomment to enable logging to a log on the file system
-		options: {
-			//stream: 'access.log'
-		}
-	},
+    options: {
+      useMongoClient: true
+    }
+  },
+  log: {
+    // Can specify one of 'combined', 'common', 'dev', 'short', 'tiny'
+    format: 'dev',
+    // Stream defaults to process.stdout
+    // Uncomment to enable logging to a log on the file system
+    options: {
+      //stream: 'access.log'
+    }
+  },
   app: {
     title: 'visplayer - Development Environment'
   },

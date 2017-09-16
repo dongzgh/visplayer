@@ -21,10 +21,10 @@ angular.module('slides').run(['$rootScope', 'Menus', 'Tools', 'Trees', 'Dialogs'
     Tools.addTool('modeling');
 
     // Set sidebar tool items
-    Tools.addToolItem('sidebar', 'files', 'icon-files', 'slides/edit/files', undefined, undefined, language.sidebar.files);    
+    Tools.addToolItem('sidebar', 'files', 'icon-files', 'slides/edit/files', undefined, undefined, language.sidebar.files);
     Tools.addToolItem('sidebar', 'scene', 'icon-scenes', 'slides/edit/scene', undefined, undefined, language.sidebar.scene);
     Tools.addToolItem('sidebar', 'modeling', 'icon-tools', 'slides/edit/modeling', undefined, undefined, language.sidebar.modeling);
-    
+
 
     // Set files tool items
     Tools.addToolItem('files', 'upload', 'icon-upload', undefined, undefined, 'uploadFiles', language.files.upload);
@@ -40,7 +40,7 @@ angular.module('slides').run(['$rootScope', 'Menus', 'Tools', 'Trees', 'Dialogs'
     if(processEnv === 'debug') {
       Tools.addToolItem('modeling', 'createBox', 'icon-box', undefined, undefined, 'createBox', language.modeling.createBox);
       Tools.addToolItem('modeling', 'serialize', 'icon-serialize', undefined, undefined, 'serialize', language.modeling.serialize);
-    }    
+    }
     Tools.addToolItem('modeling', 'viewFit', 'icon-view-fit', undefined, undefined, 'viewFit', language.modeling.viewFit);
     Tools.addToolItem('modeling', 'viewTop', 'icon-view-top', undefined, undefined, 'viewTop', language.modeling.viewTop);
     Tools.addToolItem('modeling', 'viewBottom', 'icon-view-bottom', undefined, undefined, 'viewBottom', language.modeling.viewBottom);

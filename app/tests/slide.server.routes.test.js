@@ -50,7 +50,7 @@ describe('Slide CRUD tests', function() {
       .expect(200)
       .end(function(signinErr, signinRes) {
         // Handle signin error
-        if (signinErr) {
+        if(signinErr) {
           done(signinErr);
         }
 
@@ -63,7 +63,7 @@ describe('Slide CRUD tests', function() {
           .expect(200)
           .end(function(slideSaveErr, slideSaveRes) {
             // Handle Slide save error
-            if (slideSaveErr) {
+            if(slideSaveErr) {
               done(slideSaveErr);
             }
 
@@ -71,7 +71,7 @@ describe('Slide CRUD tests', function() {
             agent.get('/slides')
               .end(function(slidesGetErr, slidesGetRes) {
                 // Handle Slide save error
-                if (slidesGetErr) {
+                if(slidesGetErr) {
                   done(slidesGetErr);
                 }
 
@@ -108,7 +108,7 @@ describe('Slide CRUD tests', function() {
       .expect(200)
       .end(function(signinErr, signinRes) {
         // Handle signin error
-        if (signinErr) {
+        if(signinErr) {
           done(signinErr);
         }
 
@@ -132,7 +132,7 @@ describe('Slide CRUD tests', function() {
       .expect(200)
       .end(function(signinErr, signinRes) {
         // Handle signin error
-        if (signinErr) {
+        if(signinErr) {
           done(signinErr);
         }
 
@@ -142,7 +142,7 @@ describe('Slide CRUD tests', function() {
           .expect(200)
           .end(function(slideSaveErr, slideSaveRes) {
             // Handle Slide save error
-            if (slideSaveErr) {
+            if(slideSaveErr) {
               done(slideSaveErr);
             }
 
@@ -155,7 +155,7 @@ describe('Slide CRUD tests', function() {
               .expect(200)
               .end(function(slideUpdateErr, slideUpdateRes) {
                 // Handle Slide update error
-                if (slideUpdateErr) {
+                if(slideUpdateErr) {
                   done(slideUpdateErr);
                 }
 
@@ -213,7 +213,7 @@ describe('Slide CRUD tests', function() {
       .expect(200)
       .end(function(signinErr, signinRes) {
         // Handle signin error
-        if (signinErr) {
+        if(signinErr) {
           done(signinErr);
         }
 
@@ -223,7 +223,7 @@ describe('Slide CRUD tests', function() {
           .expect(200)
           .end(function(slideSaveErr, slideSaveRes) {
             // Handle Slide save error
-            if (slideSaveErr) {
+            if(slideSaveErr) {
               done(slideSaveErr);
             }
 
@@ -233,7 +233,7 @@ describe('Slide CRUD tests', function() {
               .expect(200)
               .end(function(slideDeleteErr, slideDeleteRes) {
                 // Handle Slide error error
-                if (slideDeleteErr) {
+                if(slideDeleteErr) {
                   done(slideDeleteErr);
                 }
 

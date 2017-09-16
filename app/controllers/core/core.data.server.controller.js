@@ -41,7 +41,7 @@ exports.loadVis = function(res, filePath) {
 
   // Open file
   fs.open(filePath, 'r', function(err, file) {
-    if (err) {
+    if(err) {
       console.log(err);
     } else {
       // Unzip file
@@ -65,7 +65,7 @@ exports.loadVis = function(res, filePath) {
           points: pData,
           meshes: mData
         };
-        
+
         // Close file.
         fs.close(file);
 

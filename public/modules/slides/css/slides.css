@@ -12,7 +12,7 @@
   right: 5px;
   width: 36px;
 }
-.btn-group-vertical > .btn:first-child {
+.btn-group-vertical>.btn:first-child {
   margin-top: 42px;
 }
 .btn-group-vertical .btn {
@@ -62,8 +62,8 @@
   width: 300px;
   z-index: 2;
 }
-.panel-body > div:first-child {
-   margin-bottom: 10px; 
+.panel-body>div:first-child {
+  margin-bottom: 10px;
 }
 .panel-body .btn {
   background-color: transparent;
@@ -86,7 +86,7 @@
 .list-group {
   box-shadow: none
 }
-.list-group > div {
+.list-group>div {
   color: #FFFFFF;
   font-size: 0.9em;
   padding-bottom: 2px;
@@ -94,20 +94,20 @@
   padding-top: 2px;
   text-transform: uppercase;
 }
-.list-group > div:first-child {
+.list-group>div:first-child {
   background-color: #333333;
 }
-.list-group > .collapse {
+.list-group>.collapse {
   background-color: transparent;
 }
-.list-group > div span .glyphicon {
+.list-group>div span .glyphicon {
   font-size: 10px;
   top: -1px;
 }
-.list-group > div span:not(:first-child) {
+.list-group>div span:not(:first-child) {
   padding-left: 5px;
 }
-.list-group > div .checkbox-inline {
+.list-group>div .checkbox-inline {
   float: right;
   margin-bottom: 5px;
   margin-left: 10px;
@@ -117,30 +117,30 @@
 .list-group-item {
   background-color: transparent;
   border: none;
-  border-radius: 0 !important;  
+  border-radius: 0 !important;
   padding: 0;
 }
-.list-group-item > div {
+.list-group-item>div {
   border: none;
-  border-radius: 0;  
+  border-radius: 0;
   color: #ffffff;
   padding: 5px 10px 5px 20px;
 }
-.list-group-item > div:hover {
+.list-group-item>div:hover {
   background-color: #327CCB
 }
-.list-group-item > div span:last-child {
+.list-group-item>div span:last-child {
   padding-left: 5px
 }
-.list-group-item > div a {
+.list-group-item>div a {
   color: #9D9D9D;
   cursor: pointer;
   float: right;
   margin-left: 5px;
 }
-.list-group-item > div a:hover,
-.list-group-item > div a:active,
-.list-group-item > div a:focus {
+.list-group-item>div a:hover,
+.list-group-item>div a:active,
+.list-group-item>div a:focus {
   color: #ffffff
 }
 canvas {

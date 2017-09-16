@@ -8,7 +8,7 @@ angular.module('users').config(['$httpProvider',
       function($q, $location, Authentication) {
         return {
           responseError: function(rejection) {
-            switch (rejection.status) {
+            switch(rejection.status) {
               case 401:
                 // Deauthenticate the global user
                 Authentication.user = null;

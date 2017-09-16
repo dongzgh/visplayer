@@ -5,13 +5,13 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
     $scope.user = Authentication.user;
 
     // If user is not signed in then redirect back home
-    if (!$scope.user) {
+    if(!$scope.user) {
       $location.path('/');
     }
 
     // Check if there are additional accounts
     $scope.hasConnectedAdditionalSocialAccounts = function(provider) {
-      for (let i in $scope.user.additionalProvidersData) {
+      for(let i in $scope.user.additionalProvidersData) {
         if($scope.user.additionalProvidersData[i]) {
           return true;
         }
@@ -43,7 +43,7 @@ angular.module('users').controller('SettingsController', ['$scope', '$http', '$l
 
     // Update a user profile
     $scope.updateUserProfile = function(isValid) {
-      if (isValid) {
+      if(isValid) {
         $scope.success = $scope.error = null;
         var user = new Users($scope.user);
 

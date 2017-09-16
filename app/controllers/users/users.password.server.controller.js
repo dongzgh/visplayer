@@ -27,21 +27,19 @@ exports.forgot = function(req, res, next) {
     },
     // Lookup user by username
     function(token, done) {
-      if (req.body.username) {
+      if(req.body.username) {
         User.findOne({
           username: req.body.username
         }, '-salt -password', function(err, user) {
-          if (!user) {
+          if(!user) {
             return res.status(400).send({
               message: 'No account with that username has been found'
             });
-          } 
-          else if (user.provider !== 'local') {
+          } else if(user.provider !== 'local') {
             return res.status(400).send({
               message: 'It seems like you signed up using your ' + user.provider + ' account'
             });
-          } 
-          else {
+          } else {
             user.resetPasswordToken = token;
             user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
@@ -74,22 +72,21 @@ exports.forgot = function(req, res, next) {
         html: emailHTML
       };
       smtpTransport.sendMail(mailOptions, function(err) {
-        if (!err) {
+        if(!err) {
           res.send({
             message: 'An email has been sent to ' + user.email + ' with further instructions.'
           });
-        }
-        else {
-					return res.status(400).send({
-						message: 'Failure sending email'
-					});
+        } else {
+          return res.status(400).send({
+            message: 'Failure sending email'
+          });
         }
 
         done(err);
       });
     }
   ], function(err) {
-    if (err) {
+    if(err) {
       return next(err);
     }
   });
@@ -105,7 +102,7 @@ exports.validateResetToken = function(req, res) {
       $gt: Date.now()
     }
   }, function(err, user) {
-    if (!user) {
+    if(!user) {
       return res.redirect('/#!/password/reset/invalid');
     }
 
@@ -129,24 +126,22 @@ exports.reset = function(req, res, next) {
           $gt: Date.now()
         }
       }, function(err, user) {
-        if (!err && user) {
-          if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
+        if(!err && user) {
+          if(passwordDetails.newPassword === passwordDetails.verifyPassword) {
             user.password = passwordDetails.newPassword;
             user.resetPasswordToken = undefined;
             user.resetPasswordExpires = undefined;
 
             user.save(function(err) {
-              if (err) {
+              if(err) {
                 return res.status(400).send({
                   message: errorHandler.getErrorMessage(err)
                 });
-              } 
-              else {
+              } else {
                 req.login(user, function(err) {
-                  if (err) {
+                  if(err) {
                     res.status(400).send(err);
-                  } 
-                  else {
+                  } else {
                     // Return authenticated user
                     res.json(user);
 
@@ -189,7 +184,7 @@ exports.reset = function(req, res, next) {
       });
     }
   ], function(err) {
-    if (err) {
+    if(err) {
       return next(err);
     }
   });
@@ -202,26 +197,24 @@ exports.changePassword = function(req, res) {
   // Init Variables
   let passwordDetails = req.body;
 
-  if (req.user) {
-    if (passwordDetails.newPassword) {
+  if(req.user) {
+    if(passwordDetails.newPassword) {
       User.findById(req.user.id, function(err, user) {
-        if (!err && user) {
-          if (user.authenticate(passwordDetails.currentPassword)) {
-            if (passwordDetails.newPassword === passwordDetails.verifyPassword) {
+        if(!err && user) {
+          if(user.authenticate(passwordDetails.currentPassword)) {
+            if(passwordDetails.newPassword === passwordDetails.verifyPassword) {
               user.password = passwordDetails.newPassword;
 
               user.save(function(err) {
-                if (err) {
+                if(err) {
                   return res.status(400).send({
                     message: errorHandler.getErrorMessage(err)
                   });
-                } 
-                else {
+                } else {
                   req.login(user, function(err) {
-                    if (err) {
+                    if(err) {
                       res.status(400).send(err);
-                    } 
-                    else {
+                    } else {
                       res.send({
                         message: 'Password changed successfully'
                       });

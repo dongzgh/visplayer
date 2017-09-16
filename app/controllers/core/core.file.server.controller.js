@@ -31,7 +31,7 @@ exports.upload = function(req, res) {
   busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
     var dir = 'users/' + req.user.username;
     mkdirp(dir, function(err) {
-      if (err) {
+      if(err) {
         console.log(err);
       } else {
         var destname = path.join(dir, path.basename(filename));
@@ -50,18 +50,18 @@ exports.upload = function(req, res) {
  */
 exports.list = function(req, res) {
   // Check input data
-  if (typeof req.user === 'undefined') {
+  if(typeof req.user === 'undefined') {
     return;
   }
   var username = req.user.username;
-  if (typeof username === 'undefined') {
+  if(typeof username === 'undefined') {
     return;
   }
 
   // List files
   var dir = 'users/' + username;
   fs.readdir(dir, function(err, files) {
-    if (err) {
+    if(err) {
       console.log(err);
     } else {
       res.send(files);
@@ -75,14 +75,14 @@ exports.list = function(req, res) {
 exports.retrieve = function(req, res) {
   // Get level
   var mode = req.query.mode;
-  if (typeof mode === 'undefined') {
+  if(typeof mode === 'undefined') {
     mode = 'load';
   }
 
   // Retrieve file or data
-  if (mode === 'load') {
+  if(mode === 'load') {
     exports.load(req, res);
-  } else if (mode === 'download') {
+  } else if(mode === 'download') {
     exports.download(req, res);
   }
 };
@@ -91,19 +91,19 @@ exports.load = function(req, res) {
   // Check input data
   var username = req.user.username;
   var filename = req.params.filename;
-  if (typeof username === 'undefined' || typeof filename === 'undefined') {
+  if(typeof username === 'undefined' || typeof filename === 'undefined') {
     return;
   }
 
   // Get ext
   var ext = path.extname(filename);
   var handle;
-  if (ext === '.vis') {
+  if(ext === '.vis') {
     handle = exports.loadVis;
   }
 
   // Load data
-  if (handle) {
+  if(handle) {
     var filepath = 'users/' + username + '/' + filename;
     handle(res, filepath);
   }
@@ -113,14 +113,14 @@ exports.download = function(req, res) {
   // Check input data
   var username = req.user.username;
   var filename = req.params.filename;
-  if (typeof username === 'undefined' || typeof filename === 'undefined') {
+  if(typeof username === 'undefined' || typeof filename === 'undefined') {
     return;
   }
 
   // Download file
   var filepath = __dirname + '/../../../' + 'users/' + username + '/' + filename;
   res.download(filepath, filename, function(err) {
-    if (err) {
+    if(err) {
       console.log(err);
     } else {
       res.status(200).end();
@@ -135,14 +135,14 @@ exports.delete = function(req, res) {
   // Check input data
   var username = req.user.username;
   var filename = req.params.filename;
-  if (typeof username === 'undefined' || typeof filename === 'undefined') {
+  if(typeof username === 'undefined' || typeof filename === 'undefined') {
     return;
   }
 
   // Delete file
   var filepath = 'users/' + username + '/' + filename;
   fs.unlink(filepath, function(err) {
-    if (err) {
+    if(err) {
       console.log(err);
     } else {
       res.status(200).end();

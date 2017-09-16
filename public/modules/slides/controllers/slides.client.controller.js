@@ -26,7 +26,7 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
   Trees.emptyTree('files');
   $scope.fileTree = Trees.getTree('files');
   Files.list(function(filenames) {
-    if (filenames && filenames.length > 0) {
+    if(filenames && filenames.length > 0) {
       filenames.forEach(function(filename) {
         addFileItem(filename.toLowerCase());
       });
@@ -50,7 +50,7 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
   //---------------------------------------------------
   // Activate the panel
   $scope.activatePanel = function(link) {
-    if ($scope.link === undefined || link !== $scope.link) {
+    if($scope.link === undefined || link !== $scope.link) {
       $scope.showPanel = true;
       $scope.link = link;
       $location.url(link);
@@ -61,15 +61,15 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
 
   // Activate a tool
   $scope.activateTool = function(item) {
-    if (item.toggle !== undefined) {
-      if (!$scope.lock) {
+    if(item.toggle !== undefined) {
+      if(!$scope.lock) {
         item.toggle = !item.toggle;
-        if (item.action !== undefined) {
+        if(item.action !== undefined) {
           $scope[item.action](item);
         }
       }
     } else {
-      if (item.action !== undefined) {
+      if(item.action !== undefined) {
         $scope[item.action]();
       }
     }
@@ -84,11 +84,10 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
 
   // Disable tree item check.
   $scope.isCheckDisabled = function(item) {
-    if (item.items.length === 0) {
+    if(item.items.length === 0) {
       item.checked = false;
       return true;
-    } 
-    else {
+    } else {
       return false;
     }
   };
@@ -120,7 +119,7 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
    */
   // Import files
   $scope.uploadFiles = function() {
-    if ($scope.dialogUrl === undefined) {
+    if($scope.dialogUrl === undefined) {
       $scope.modal = Dialogs.upload();
     }
   };
@@ -202,34 +201,34 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
   $scope.pickFace = function(item) {
     setSelectionContext(item.toggle, Scene.GEOMETRY_TYPES.face, Scene.SELECTION_MODES.multiple);
   };
-  $scope.pickEdge = function (item) {
+  $scope.pickEdge = function(item) {
     setSelectionContext(item.toggle, Scene.GEOMETRY_TYPES.edge, Scene.SELECTION_MODES.multiple);
   };
-  $scope.pickCurve = function (item) {
+  $scope.pickCurve = function(item) {
     setSelectionContext(item.toggle, Scene.GEOMETRY_TYPES.curve, Scene.SELECTION_MODES.multiple);
   };
-  $scope.pickPoint = function (item) {
+  $scope.pickPoint = function(item) {
     setSelectionContext(item.toggle, Scene.GEOMETRY_TYPES.point, Scene.SELECTION_MODES.multiple);
   };
 
   // Display callbacks
-  $scope.displayShaded = function () {
+  $scope.displayShaded = function() {
     Scene.displayMode = Scene.DISPLAY_MODES.shaded;
     Scene.updateDisplays();
   };
-  $scope.displayRendered = function () {
+  $scope.displayRendered = function() {
     Scene.displayMode = Scene.DISPLAY_MODES.rendered;
     Scene.updateDisplays();
   };
-  $scope.displayAnalysis = function () {
+  $scope.displayAnalysis = function() {
     Scene.displayMode = Scene.DISPLAY_MODES.analysis;
     Scene.updateDisplays();
   };
-  $scope.displayMesh = function () {
+  $scope.displayMesh = function() {
     Scene.displayMode = Scene.DISPLAY_MODES.mesh;
     Scene.updateDisplays();
   };
-  $scope.displayWireframe = function () {
+  $scope.displayWireframe = function() {
     Scene.displayMode = Scene.DISPLAY_MODES.wireframe;
     Scene.updateDisplays();
   };
@@ -264,15 +263,14 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
 
   // Remove existing Slide
   $scope.remove = function(slide) {
-    if (slide) {
+    if(slide) {
       slide.$remove();
-      for (var i in $scope.slides) {
-        if ($scope.slides[i] && $scope.slides[i] === slide) {
+      for(var i in $scope.slides) {
+        if($scope.slides[i] && $scope.slides[i] === slide) {
           $scope.slides.splice(i, 1);
         }
       }
-    } 
-    else {
+    } else {
       $scope.slide.$remove(function() {
         $location.path('slides');
       });
@@ -343,10 +341,9 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
    */
   // Get file icon
   function getFileIcon(ext) {
-    if (FileTypes.models.indexOf(ext) !== -1) {
+    if(FileTypes.models.indexOf(ext) !== -1) {
       return 'icon-file-model';
-    } 
-    else {
+    } else {
       return 'icon-file-text';
     }
   }
@@ -355,10 +352,9 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
   function addFileItem(filename) {
     var ext = filename.split('.').reverse()[0];
     var icon = getFileIcon(ext);
-    if (FileTypes.models.indexOf(ext) !== -1) {
+    if(FileTypes.models.indexOf(ext) !== -1) {
       Trees.addSubTreeItem('files', 'models', filename, icon, filename);
-    } 
-    else {
+    } else {
       Trees.addSubTreeItem('files', 'others', filename, icon, filename);
     }
   }
@@ -381,18 +377,17 @@ angular.module('slides').controller('SlidesController', ['$rootScope', '$scope',
 
   // Set scene selection context
   function setSelectionContext(toggle, type, mode) {
-    if (toggle) {
+    if(toggle) {
       Scene.selectType += type;
-    }
-    else {
+    } else {
       Scene.selectType -= type;
     }
     Scene.selectMode = mode;
   }
 
   // Clear scene selection context
-  function clearSelectionContex(){
-    $scope.modelingTools.items.forEach(function(item){
+  function clearSelectionContex() {
+    $scope.modelingTools.items.forEach(function(item) {
       if(item.toggle !== undefined) {
         item.toggle = false;
       }

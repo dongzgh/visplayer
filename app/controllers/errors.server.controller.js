@@ -10,7 +10,7 @@ var getUniqueErrorMessage = function(err) {
     let fieldName = err.err.substring(err.err.lastIndexOf('.$') + 2, err.err.lastIndexOf('_1'));
     output = fieldName.charAt(0).toUpperCase() + fieldName.slice(1) + ' already exists';
 
-  } catch (ex) {
+  } catch(ex) {
     output = 'Unique field already exists';
   }
 
@@ -23,8 +23,8 @@ var getUniqueErrorMessage = function(err) {
 exports.getErrorMessage = function(err) {
   let message = '';
 
-  if (err.code) {
-    switch (err.code) {
+  if(err.code) {
+    switch(err.code) {
       case 11000:
       case 11001:
         message = getUniqueErrorMessage(err);
@@ -33,8 +33,8 @@ exports.getErrorMessage = function(err) {
         message = 'Something went wrong';
     }
   } else {
-    for (let errName in err.errors) {
-      if (err.errors[errName] && err.errors[errName].message) {
+    for(let errName in err.errors) {
+      if(err.errors[errName] && err.errors[errName].message) {
         message = err.errors[errName].message;
       }
     }

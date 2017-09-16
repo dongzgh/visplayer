@@ -35,9 +35,8 @@
   <link href="/modules/core/images/brand/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
   <!--Application CSS Files-->
-	{% for cssFile in cssFiles %}
-		<link rel="stylesheet" href="{{cssFile}}">
-	{% endfor %}
+  {% for cssFile in cssFiles %}
+  <link rel="stylesheet" href="{{cssFile}}"> {% endfor %}
   <link href='https://fonts.googleapis.com/css?family=Ubuntu+Condensed|Exo:400,900' rel='stylesheet' type='text/css'>
 
   <!-- HTML5 Shim -->
@@ -56,20 +55,23 @@
 
   <!--Embedding The User Object-->
   <script type="text/javascript">
-  var user = {{ user | json | safe }};
+    var user = {
+      {
+        user | json | safe
+      }
+    };
+
   </script>
 
   <!--Application JavaScript Files-->
   {% for jsFile in jsFiles %}
-		<script type="text/javascript" src="{{jsFile}}"></script>
-	{% endfor %}
-
-	{% if process.env.NODE_ENV === 'development' %}
+  <script type="text/javascript" src="{{jsFile}}"></script>
+  {% endfor %} {% if process.env.NODE_ENV === 'development' %}
   <!--Livereload script rendered -->
   <script type="text/javascript" src="http://{{request.hostname}}:35729/livereload.js"></script>
   {% endif %}
 
-	<!--[if lt IE 9]>
+  <!--[if lt IE 9]>
 	<section class="browsehappy jumbotron hide">
 		<h1>Hello there!</h1>
 		<p>You are using an old browser which we unfortunately do not support.</p>

@@ -1,7 +1,7 @@
 'use strict';
 
 //Files service used to communicate Files REST endpoints
-angular.module('core').service('Dialogs', ['$window', '$uibModal', 
+angular.module('core').service('Dialogs', ['$window', '$uibModal',
   function($window, $uibModal) {
     // Upload modal dialog
     this.upload = function() {

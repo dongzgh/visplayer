@@ -16,12 +16,11 @@ exports.create = function(req, res) {
   slide.user = req.user;
 
   slide.save(function(err) {
-    if (err) {
+    if(err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
-    } 
-    else {
+    } else {
       res.jsonp(slide);
     }
   });
@@ -43,12 +42,11 @@ exports.update = function(req, res) {
   slide = _.extend(slide, req.body);
 
   slide.save(function(err) {
-    if (err) {
+    if(err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
-    } 
-    else {
+    } else {
       res.jsonp(slide);
     }
   });
@@ -61,12 +59,11 @@ exports.delete = function(req, res) {
   let slide = req.slide;
 
   slide.remove(function(err) {
-    if (err) {
+    if(err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
-    } 
-    else {
+    } else {
       res.jsonp(slide);
     }
   });
@@ -77,12 +74,11 @@ exports.delete = function(req, res) {
  */
 exports.list = function(req, res) {
   Slide.find().sort('-created').populate('user', 'displayName').exec(function(err, slides) {
-    if (err) {
+    if(err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
-    } 
-    else {
+    } else {
       res.jsonp(slides);
     }
   });
@@ -93,10 +89,10 @@ exports.list = function(req, res) {
  */
 exports.slideByID = function(req, res, next, id) {
   Slide.findById(id).populate('user', 'displayName').exec(function(err, slide) {
-    if (err) {
+    if(err) {
       return next(err);
     }
-    if (!slide) {
+    if(!slide) {
       return next(new Error('Failed to load Slide ' + id));
     }
     req.slide = slide;
@@ -108,7 +104,7 @@ exports.slideByID = function(req, res, next, id) {
  * Slide authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-  if (req.slide.user.id !== req.user.id) {
+  if(req.slide.user.id !== req.user.id) {
     return res.status(403).send('User is not authorized');
   }
   next();

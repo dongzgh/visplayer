@@ -24,21 +24,19 @@ exports.signup = function(req, res) {
 
   // Then save the user
   user.save(function(err) {
-    if (err) {
+    if(err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
-    } 
-    else {
+    } else {
       // Remove sensitive data before login
       user.password = undefined;
       user.salt = undefined;
 
       req.login(user, function(err) {
-        if (err) {
+        if(err) {
           res.status(400).send(err);
-        } 
-        else {
+        } else {
           res.json(user);
         }
       });
@@ -51,19 +49,17 @@ exports.signup = function(req, res) {
  */
 exports.signin = function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
-    if (err || !user) {
+    if(err || !user) {
       res.status(400).send(info);
-    } 
-    else {
+    } else {
       // Remove sensitive data before login
       user.password = undefined;
       user.salt = undefined;
 
       req.login(user, function(err) {
-        if (err) {
+        if(err) {
           res.status(400).send(err);
-        } 
-        else {
+        } else {
           res.json(user);
         }
       });
@@ -85,11 +81,11 @@ exports.signout = function(req, res) {
 exports.oauthCallback = function(strategy) {
   return function(req, res, next) {
     passport.authenticate(strategy, function(err, user, redirectURL) {
-      if (err || !user) {
+      if(err || !user) {
         return res.redirect('/#!/signin');
       }
       req.login(user, function(err) {
-        if (err) {
+        if(err) {
           return res.redirect('/#!/signin');
         }
         return res.redirect(redirectURL || '/');
@@ -102,7 +98,7 @@ exports.oauthCallback = function(strategy) {
  * Helper function to save or update a OAuth user profile
  */
 exports.saveOAuthUserProfile = function(req, providerUserProfile, done) {
-  if (!req.user) {
+  if(!req.user) {
     // Define a search query fields
     let searchMainProviderIdentifierField = 'providerData.' + providerUserProfile.providerIdentifierField;
     let searchAdditionalProviderIdentifierField = 'additionalProvidersData.' + providerUserProfile.provider + '.' + providerUserProfile.providerIdentifierField;
@@ -122,11 +118,10 @@ exports.saveOAuthUserProfile = function(req, providerUserProfile, done) {
     };
 
     User.findOne(searchQuery, function(err, user) {
-      if (err) {
+      if(err) {
         return done(err);
-      } 
-      else {
-        if (!user) {
+      } else {
+        if(!user) {
           let possibleUsername = providerUserProfile.username || ((providerUserProfile.email) ? providerUserProfile.email.split('@')[0] : '');
 
           User.findUniqueUsername(possibleUsername, null, function(availableUsername) {
@@ -145,8 +140,7 @@ exports.saveOAuthUserProfile = function(req, providerUserProfile, done) {
               return done(err, user);
             });
           });
-        } 
-        else {
+        } else {
           return done(err, user);
         }
       }
@@ -156,9 +150,9 @@ exports.saveOAuthUserProfile = function(req, providerUserProfile, done) {
     let user = req.user;
 
     // Check if user exists, is not signed in using this provider, and doesn't have that provider data already configured
-    if (user.provider !== providerUserProfile.provider && (!user.additionalProvidersData || !user.additionalProvidersData[providerUserProfile.provider])) {
+    if(user.provider !== providerUserProfile.provider && (!user.additionalProvidersData || !user.additionalProvidersData[providerUserProfile.provider])) {
       // Add the provider data to the additional provider data field
-      if (!user.additionalProvidersData) {
+      if(!user.additionalProvidersData) {
         user.additionalProvidersData = {};
       }
       user.additionalProvidersData[providerUserProfile.provider] = providerUserProfile.providerData;
@@ -183,9 +177,9 @@ exports.removeOAuthProvider = function(req, res, next) {
   let user = req.user;
   let provider = req.param('provider');
 
-  if (user && provider) {
+  if(user && provider) {
     // Delete the additional provider
-    if (user.additionalProvidersData[provider]) {
+    if(user.additionalProvidersData[provider]) {
       delete user.additionalProvidersData[provider];
 
       // Then tell mongoose that we've updated the additionalProvidersData field
@@ -193,17 +187,15 @@ exports.removeOAuthProvider = function(req, res, next) {
     }
 
     user.save(function(err) {
-      if (err) {
+      if(err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
         });
-      } 
-      else {
+      } else {
         req.login(user, function(err) {
-          if (err) {
+          if(err) {
             res.status(400).send(err);
-          } 
-          else {
+          } else {
             res.json(user);
           }
         });

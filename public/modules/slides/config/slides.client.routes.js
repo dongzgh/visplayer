@@ -20,6 +20,6 @@ angular.module('slides').config(['$stateProvider',
     state('editSlide.Modeling', {
       url: '/modeling',
       templateUrl: 'modules/slides/views/edit-slide-modeling.client.view.html'
-    });    
+    });
   }
 ]);

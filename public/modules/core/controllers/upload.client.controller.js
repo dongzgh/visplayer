@@ -9,7 +9,7 @@ angular.module('core').controller('UploadController', ['$rootScope', '$scope', '
     // Collect files
     $scope.collect = function(files) {
       // Check input data
-      if (files === undefined || files.length <= 0) {
+      if(files === undefined || files.length <= 0) {
         return;
       }
 
@@ -34,16 +34,16 @@ angular.module('core').controller('UploadController', ['$rootScope', '$scope', '
 
       // Define final callback
       function onfinal(passed, failed) {
-        if (passed.length === $scope.files.length) {
+        if(passed.length === $scope.files.length) {
           $uibModalInstance.dismiss('success');
         } else {
           $uibModalInstance.dismiss('failed');
         }
       }
 
-      if ($scope.files.length > 0) {
+      if($scope.files.length > 0) {
         Files.upload($scope.files, null, onsuccess, null, onfinal);
-      }        
+      }
     };
   }
 ]);

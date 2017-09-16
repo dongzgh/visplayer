@@ -12,24 +12,26 @@ var fs = require('fs');
  */
 module.exports = {
 
-	getLogFormat: function() {
-		return config.log.format;
-	},
+  getLogFormat: function() {
+    return config.log.format;
+  },
 
-	getLogOptions: function() {
-		let options = {};
+  getLogOptions: function() {
+    let options = {};
 
-		try {
-			if ('stream' in config.log.options) {
-				options = {
-					stream: fs.createWriteStream(process.cwd() + '/' + config.log.options.stream, {flags: 'a'})
-				};
-			}
-		} catch (e) {
-			options = {};
-		}
+    try {
+      if('stream' in config.log.options) {
+        options = {
+          stream: fs.createWriteStream(process.cwd() + '/' + config.log.options.stream, {
+            flags: 'a'
+          })
+        };
+      }
+    } catch(e) {
+      options = {};
+    }
 
-		return options;
-	}
+    return options;
+  }
 
 };

@@ -1,7 +1,7 @@
 'use strict';
 
 // Files service used to communicate Files REST endpoints
-angular.module('core').service('Files', ['$resource', '$http', '$window', '$log', '$upload', 'Authentication', 
+angular.module('core').service('Files', ['$resource', '$http', '$window', '$log', '$upload', 'Authentication',
   function($resource, $http, $window, $log, $upload, Authentication) {
     // Define file resouce binding
     var rc = $resource('files/:fileName', {
@@ -33,7 +33,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     // Define upload method
     this.upload = function(files, onprogress, onsuccess, onerror, onfinal) {
       // Check input data
-      if (files === undefined || files.length <= 0) {
+      if(files === undefined || files.length <= 0) {
         return;
       }
 
@@ -45,7 +45,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         function cbprogress(update) {
           let progress = (update.loaded / update.total * 100).toFixed();
           $log.log('progress: ' + progress + '% ' + update.config.file.name);
-          if (onprogress) {
+          if(onprogress) {
             onprogress(progress);
           }
         }
@@ -54,7 +54,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         function cbsuccess(data, status, getHeaders, config) {
           passed.push(config.file.name);
           $log.info('%s is uploaded successfully.', config.file.name);
-          if (onsuccess) {
+          if(onsuccess) {
             onsuccess(config);
           }
           cbfinal();
@@ -64,7 +64,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         function cberror(data, status, getHeaders, config) {
           failed.push(config.file.name);
           $log.error('Failed to upload %s.', config.file.name);
-          if (onerror) {
+          if(onerror) {
             onerror(config);
           }
           cbfinal();
@@ -72,7 +72,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
 
         // Define final callback
         function cbfinal() {
-          if (index === files.length - 1 && onfinal) {
+          if(index === files.length - 1 && onfinal) {
             onfinal(passed, failed);
           }
         }
@@ -89,7 +89,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     this.list = function(onsuccess) {
       // Define success callback
       function cbsuccess(data) {
-        if (onsuccess) {
+        if(onsuccess) {
           onsuccess(data);
         }
       }
@@ -101,7 +101,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     // Define download method
     this.download = function(fileNames, onsuccess, onerror) {
       // Check input data
-      if (fileNames === undefined || fileNames.length <= 0) {
+      if(fileNames === undefined || fileNames.length <= 0) {
         return;
       }
 
@@ -109,14 +109,14 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
       fileNames.forEach(function(fileName) {
         // Define success callback
         function cbsuccess(data, status) {
-          if (data && onsuccess) {
+          if(data && onsuccess) {
             onsuccess(data, fileName);
           }
         }
 
         // Define error callback
         function cberror(data, status) {
-          if (onerror) {
+          if(onerror) {
             onerror(status);
           }
         }
@@ -137,7 +137,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     // Deinfe load method
     this.load = function(fileNames, onprogress, onsuccess, onerror) {
       // Check input data
-      if (fileNames === undefined || fileNames.length <= 0) {
+      if(fileNames === undefined || fileNames.length <= 0) {
         return;
       }
 
@@ -148,7 +148,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
           let total = req.getResponseHeader('ContentLength');
           let progress = (evt.loaded / total * 100).toFixed();
           $log.log('progress: ' + progress + '% ' + fileName);
-          if (onprogress) {
+          if(onprogress) {
             onprogress(progress);
           }
         }
@@ -157,7 +157,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         function cbsuccess(evt) {
           // // Decrypt encrypted data
           $log.info('%s is loaded successfully.', fileName);
-          if (onsuccess) {
+          if(onsuccess) {
             onsuccess(req.response);
           }
         }
@@ -165,7 +165,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         // Define error callback
         function cberror(evt) {
           $log.error('Failed to load %s.', fileNames);
-          if (onerror) {
+          if(onerror) {
             onerror(evt);
           }
         }
@@ -187,7 +187,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
     // Define delete method
     this.delete = function(fileNames, onsuccess, onerror) {
       // Check input data
-      if (fileNames === undefined || fileNames.length <= 0) {
+      if(fileNames === undefined || fileNames.length <= 0) {
         return;
       }
 
@@ -196,7 +196,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         // Define success callback
         function cbsuccess(data, getHeader) {
           $log.info('%s is deleted successfully.', fileName);
-          if (onsuccess) {
+          if(onsuccess) {
             onsuccess(fileName);
           }
         }
@@ -204,7 +204,7 @@ angular.module('core').service('Files', ['$resource', '$http', '$window', '$log'
         // Define error callback
         function cberror(data) {
           $log.error('Failed to delete %s!', fileName);
-          if (onerror) {
+          if(onerror) {
             onerror(fileName);
           }
         }

@@ -7,10 +7,10 @@ var fs = require('fs'),
   https = require('https'),
   express = require('express'),
   morgan = require('morgan'),
-	logger = require('./logger'),
+  logger = require('./logger'),
   bodyParser = require('body-parser'),
   session = require('express-session'),
-	compression = require('compression'),
+  compression = require('compression'),
   methodOverride = require('method-override'),
   cookieParser = require('cookie-parser'),
   helmet = require('helmet'),
@@ -47,13 +47,13 @@ module.exports = function(db) {
   });
 
   // Should be placed before express.static
-	app.use(compression({
-		// only compress files for the following content types
+  app.use(compression({
+    // only compress files for the following content types
     filter: function(req, res) {
-      return (/json|text|javascript|css/).test(res.getHeader('Content-Type'));
+      return(/json|text|javascript|css/).test(res.getHeader('Content-Type'));
     },
-		// zlib option for compression level
-		level: 3
+    // zlib option for compression level
+    level: 3
   }));
 
   // Showing stack errors
@@ -66,14 +66,14 @@ module.exports = function(db) {
   app.set('view engine', 'server.view.html');
   app.set('views', './app/views');
 
-	// Enable logger (morgan)
-	app.use(morgan(logger.getLogFormat(), logger.getLogOptions()));
+  // Enable logger (morgan)
+  app.use(morgan(logger.getLogFormat(), logger.getLogOptions()));
 
   // Environment dependent middleware
-  if (process.env.NODE_ENV === 'development') {
+  if(process.env.NODE_ENV === 'development') {
     // Disable views cache
     app.set('view cache', false);
-  } else if (process.env.NODE_ENV === 'production') {
+  } else if(process.env.NODE_ENV === 'production') {
     app.locals.cache = 'memory';
   }
 
@@ -84,15 +84,15 @@ module.exports = function(db) {
   app.use(bodyParser.json());
   app.use(methodOverride());
 
-	// Use helmet to secure Express headers
-	app.use(helmet.xframe());
-	app.use(helmet.xssFilter());
-	app.use(helmet.nosniff());
-	app.use(helmet.ienoopen());
-	app.disable('x-powered-by');
+  // Use helmet to secure Express headers
+  app.use(helmet.xframe());
+  app.use(helmet.xssFilter());
+  app.use(helmet.nosniff());
+  app.use(helmet.ienoopen());
+  app.disable('x-powered-by');
 
-	// Setting the app router and static folder
-	app.use(express.static(path.resolve('./public')));
+  // Setting the app router and static folder
+  app.use(express.static(path.resolve('./public')));
 
   // CookieParser should be above session
   app.use(cookieParser());
@@ -105,9 +105,9 @@ module.exports = function(db) {
     store: new MongoStore({
       url: config.db.uri,
       collection: config.sessionCollection
-		}),
-		cookie: config.sessionCookie,
-		name: config.sessionName
+    }),
+    cookie: config.sessionCookie,
+    name: config.sessionName
   }));
 
   // use passport session
@@ -125,7 +125,7 @@ module.exports = function(db) {
   // Assume 'not found' in the error msgs is a 404. this is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
   app.use(function(err, req, res, next) {
     // If the error object doesn't exists
-    if (!err) {
+    if(!err) {
       return next();
     }
 
@@ -146,7 +146,7 @@ module.exports = function(db) {
     });
   });
 
-  if (process.env.NODE_ENV === 'secure') {
+  if(process.env.NODE_ENV === 'secure') {
     // Load SSL key and certificate
     var privateKey = fs.readFileSync('./config/sslcerts/key.pem', 'utf8');
     var certificate = fs.readFileSync('./config/sslcerts/cert.pem', 'utf8');

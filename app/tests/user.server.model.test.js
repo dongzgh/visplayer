@@ -52,13 +52,13 @@ describe('User Model Unit Tests:', function() {
     });
 
     it('should fail to save an existing user again', function(done) {
-			user.save(function() {
-				user2.save(function(err) {
-        should.exist(err);
-        done();
+      user.save(function() {
+        user2.save(function(err) {
+          should.exist(err);
+          done();
+        });
       });
     });
-		});
 
     it('should be able to show an error when try to save without first name', function(done) {
       user.firstName = '';
@@ -70,6 +70,6 @@ describe('User Model Unit Tests:', function() {
   });
 
   after(function(done) {
-		User.remove().exec(done);
+    User.remove().exec(done);
   });
 });

@@ -1,166 +1,156 @@
-[
-  {
-    "_description"[string]: "plane data",
-    "id"[number]: surfaceId,
-    "type"[string]: "plane",
-    "origin"[object]: [
+[{
+    "_description" [string]: "plane data",
+    "id" [number]: surfaceId,
+    "type" [string]: "plane",
+    "origin" [object]: [
       x[number], y[number], z[number]
     ],
-    "normal"[array]: [
+    "normal" [array]: [
       x[number], y[number], z[number]
     ]
   },
-  ...
-  {
-    "_description"[string]: "cylinder data",
-    "id"[number]: surfaceId,
-    "type"[string]: "cylinder",
-    "origin"[array]: [
+  ...{
+    "_description" [string]: "cylinder data",
+    "id" [number]: surfaceId,
+    "type" [string]: "cylinder",
+    "origin" [array]: [
       x[number], y[number], z[number]
     ],
-    "normal"[array]: [
+    "normal" [array]: [
       x[number], y[number], z[number]
     ],
-    "radius"[number]: cylinderRadius
+    "radius" [number]: cylinderRadius
   },
-  ...
-  {
-    "_description"[string]: "cone data",
-    "id"[number]: surfaceId,
-    "type"[string]: "cone",
-    "origin"[array]: [
+  ...{
+    "_description" [string]: "cone data",
+    "id" [number]: surfaceId,
+    "type" [string]: "cone",
+    "origin" [array]: [
       x[number], y[number], z[number]
     ],
-    "normal"[array]: [
+    "normal" [array]: [
       x[number], y[number], z[number]
     ],
-    "radius"[number]: coneRadius,
-    "angle"[number]: coneHalfAngle
+    "radius" [number]: coneRadius,
+    "angle" [number]: coneHalfAngle
   },
-  ...
-  {
-    "_description"[string]: "sphere data",
-    "id"[number]: surfaceId,
-    "type"[string]: "sphere",
-    "origin"[array]: [
+  ...{
+    "_description" [string]: "sphere data",
+    "id" [number]: surfaceId,
+    "type" [string]: "sphere",
+    "origin" [array]: [
       x[number], y[number], z[number]
     ],
-    "radius"[number]: sphereRadius
+    "radius" [number]: sphereRadius
   },
-  ...
-  {
-    "_description"[string]: "torus data",
-    "id"[number]: surfaceId,
-    "type"[string]: "torus",
-    "origin"[array]: [
+  ...{
+    "_description" [string]: "torus data",
+    "id" [number]: surfaceId,
+    "type" [string]: "torus",
+    "origin" [array]: [
       x[number], y[number], z[number]
     ],
-    "normal"[array]: [
+    "normal" [array]: [
       x[number], y[number], z[number]
     ],
-    "radii"[object]: {
-      "major"[number]: radiusMajor,
-      "minor"[number]: radiusMinor,
+    "radii" [object]: {
+      "major" [number]: radiusMajor,
+      "minor" [number]: radiusMinor,
     }
   },
-  ... 
-  {
-    "_description"[string]: "ellipsoid data",
-    "id"[number]: surfaceId,
-    "type"[string]: "ellipsoid",
-    "origin"[array]: [
+  ...{
+    "_description" [string]: "ellipsoid data",
+    "id" [number]: surfaceId,
+    "type" [string]: "ellipsoid",
+    "origin" [array]: [
       x[number], y[number], z[number]
     ],
-    "normal"[array]: [
+    "normal" [array]: [
       x[number], y[number], z[number]
     ],
-    "orientation"[array]: [
+    "orientation" [array]: [
       x[number], y[number], z[number]
     ],
-    "radii"[object]: {
-      "major"[number]: ellipsoidMajorRadius,
-      "minor"[number]: ellipsoidMinorRadius
+    "radii" [object]: {
+      "major" [number]: ellipsoidMajorRadius,
+      "minor" [number]: ellipsoidMinorRadius
     }
   },
-  ...  
-  {
-    "_description"[string]: "elliptical cylinder data",
-    "id"[number]: surfaceId,
-    "type"[string]: "ellipticalCylinder",
-    "origin"[array]: [
+  ...{
+    "_description" [string]: "elliptical cylinder data",
+    "id" [number]: surfaceId,
+    "type" [string]: "ellipticalCylinder",
+    "origin" [array]: [
       x[number], y[number], z[number]
     ],
-    "normal"[array]: [
+    "normal" [array]: [
       x[number], y[number], z[number]
     ],
-    "orientation"[array]: [
+    "orientation" [array]: [
       x[number], y[number], z[number]
     ],
-    "radii"[object]: {
-      "major"[number]: ellipticalCylinderMajorRadius,
-      "minor"[number]: ellipticalCylinderMinorRadius
+    "radii" [object]: {
+      "major" [number]: ellipticalCylinderMajorRadius,
+      "minor" [number]: ellipticalCylinderMinorRadius
     }
   },
-  ...
-  {
-    "_description"[string]: "elliptical cone data",
-    "id"[number]: surfaceId,
-    "type"[string]: "ellipticalCone",
-    "origin"[array]: [
+  ...{
+    "_description" [string]: "elliptical cone data",
+    "id" [number]: surfaceId,
+    "type" [string]: "ellipticalCone",
+    "origin" [array]: [
       x[number], y[number], z[number]
     ],
-    "normal"[array]: [
+    "normal" [array]: [
       x[number], y[number], z[number]
     ],
-    "orientation"[array]: [
+    "orientation" [array]: [
       x[number], y[number], z[number]
-    ],    
-    "radii"[object]: {
-      "major"[number]: ellipticalConeMajorRadius,
-      "minor"[number]: ellipticalConeMinorRadius
+    ],
+    "radii" [object]: {
+      "major" [number]: ellipticalConeMajorRadius,
+      "minor" [number]: ellipticalConeMinorRadius
     },
-    "angle"[number]: ellipticalConeAngle
+    "angle" [number]: ellipticalConeAngle
   },
-  ...   
-  {
-    "_description"[string]: "nurbs data",
-    "id"[number]: surfaceId,
-    "type"[string]: "nurbs",
-    "degree"[object]: {
-      "u"[number]: degreeU,
-      "v"[number]: degreeV
+  ...{
+    "_description" [string]: "nurbs data",
+    "id" [number]: surfaceId,
+    "type" [string]: "nurbs",
+    "degree" [object]: {
+      "u" [number]: degreeU,
+      "v" [number]: degreeV
     },
-    "poles"[array]: {
-      "countU"[number]: polesCountU,
-      "countV"[number]: polesCountV,
-      "points"[array]: [
+    "poles" [array]: {
+      "countU" [number]: polesCountU,
+      "countV" [number]: polesCountV,
+      "points" [array]: [
         x1[number], y1[number], z1[number],
         ...
       ],
-      "weights"[array]: [
-        w1[number],...
+      "weights" [array]: [
+        w1[number], ...
       ]
     },
-    "knots"[object]: {
-      "countU"[number]: knotsCountU,
-      "countV"[number]: knotsCountV,
-      "valuesU"[array]: [
-        k1[number],...
+    "knots" [object]: {
+      "countU" [number]: knotsCountU,
+      "countV" [number]: knotsCountV,
+      "valuesU" [array]: [
+        k1[number], ...
       ],
-      "valuesV"[array]: [
-        k1[number],...
+      "valuesV" [array]: [
+        k1[number], ...
       ]
     }
   },
-  ...
-  {
-    "_description"[string]: "polygon data",
-    "id"[number]: surfaceId,
-    "type"[string]: "polygon",
-    "poles"[array]: {
-      "countU"[number]: polesCountU,
-      "countV"[number]: polesCountV,
-      "points"[array]: [
+  ...{
+    "_description" [string]: "polygon data",
+    "id" [number]: surfaceId,
+    "type" [string]: "polygon",
+    "poles" [array]: {
+      "countU" [number]: polesCountU,
+      "countV" [number]: polesCountV,
+      "points" [array]: [
         x1[number], y1[number], z1[number],
         ...
       ]

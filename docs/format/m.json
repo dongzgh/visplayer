@@ -1,57 +1,54 @@
-[
-	{
-		"_description"[string]: "mesh data",
-		"id"[number]: meshId,
-		"type"[string]: "surfaceMesh",
-		"tolerance"[number]: meshTolerance,
-		"nodes"[object]: {
-			"count"[number]: nodeCount,
-			"points"[array]: [
-				x1[number], y1[number], z1[number],
-				...
-			],
-			"normals"[array]: [
-				x1[number], y1[number], z1[number],
+[{
+    "_description" [string]: "mesh data",
+    "id" [number]: meshId,
+    "type" [string]: "surfaceMesh",
+    "tolerance" [number]: meshTolerance,
+    "nodes" [object]: {
+      "count" [number]: nodeCount,
+      "points" [array]: [
+        x1[number], y1[number], z1[number],
         ...
-			]
-		},
-		"facets"[object]: {
-      "count"[number]: facetsCount,
-      "indices"[array]: [
-      	i1[number], i2[number], i3[number],
-      	...
+      ],
+      "normals" [array]: [
+        x1[number], y1[number], z1[number],
+        ...
+      ]
+    },
+    "facets" [object]: {
+      "count" [number]: facetsCount,
+      "indices" [array]: [
+        i1[number], i2[number], i3[number],
+        ...
       ]
     }
-	},
-	...
-	{
-		"_description"[string]: "mesh data",
-		"id"[number]: meshId,
-		"type"[string]: "curveMesh",
-		"cardinal"[number]: 2,
-		"tolerance"[number]: meshTolerance,
-		"nodes"[object]: {
-			"count"[number]: nodeCount,
-			"points"[array]: [
-				x1[number], y1[number],
-				...
-			]
-		}
-	},
-	...
-	{
-		"_description"[string]: "mesh data",
-		"id"[number]: meshId,
-		"type"[string]: "curveMesh",
-		"cardinal"[number]: 3,
-		"tolerance"[number]: meshTolerance,
-		"nodes"[object]: {
-			"count"[number]: nodeCount,
-			"points"[array]: [
-				x1[number], y1[number], z1[number],
-				...
-			]
-		}
-	},
-	...
+  },
+  ...{
+    "_description" [string]: "mesh data",
+    "id" [number]: meshId,
+    "type" [string]: "curveMesh",
+    "cardinal" [number]: 2,
+    "tolerance" [number]: meshTolerance,
+    "nodes" [object]: {
+      "count" [number]: nodeCount,
+      "points" [array]: [
+        x1[number], y1[number],
+        ...
+      ]
+    }
+  },
+  ...{
+    "_description" [string]: "mesh data",
+    "id" [number]: meshId,
+    "type" [string]: "curveMesh",
+    "cardinal" [number]: 3,
+    "tolerance" [number]: meshTolerance,
+    "nodes" [object]: {
+      "count" [number]: nodeCount,
+      "points" [array]: [
+        x1[number], y1[number], z1[number],
+        ...
+      ]
+    }
+  },
+  ...
 ]

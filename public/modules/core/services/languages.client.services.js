@@ -4,17 +4,17 @@
 angular.module('core').service('Languages', [
   function() {
     this.code = 'eng';
-    this.localization = function (language) {
+    this.localization = function(language) {
       if(language !== undefined) {
         this.code = language;
       }
-      switch (this.code) {
+      switch(this.code) {
         case 'eng':
           return {
             sidebar: {
               files: 'List of files',
               scene: 'List of scene objects',
-              modeling: 'List of modeling tools' 
+              modeling: 'List of modeling tools'
             },
             files: {
               upload: 'Upload files to server',

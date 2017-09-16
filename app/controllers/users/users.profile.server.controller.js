@@ -16,24 +16,22 @@ exports.update = function(req, res) {
   // For security measurement we remove the roles from the req.body object
   delete req.body.roles;
 
-  if (user) {
+  if(user) {
     // Merge existing user
     user = _.extend(user, req.body);
     user.updated = Date.now();
     user.displayName = user.firstName + ' ' + user.lastName;
 
     user.save(function(err) {
-      if (err) {
+      if(err) {
         return res.status(400).send({
           message: errorHandler.getErrorMessage(err)
         });
-      } 
-      else {
+      } else {
         req.login(user, function(err) {
-          if (err) {
+          if(err) {
             res.status(400).send(err);
-          } 
-          else {
+          } else {
             res.json(user);
           }
         });

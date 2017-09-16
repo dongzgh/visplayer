@@ -11,11 +11,11 @@ var _ = require('lodash'),
  * User middleware
  */
 exports.userByID = function(req, res, next, id) {
-	User.findById(id).exec(function(err, user) {
-    if (err) {
+  User.findById(id).exec(function(err, user) {
+    if(err) {
       return next(err);
     }
-    if (!user) {
+    if(!user) {
       return next(new Error('Failed to load User ' + id));
     }
     req.profile = user;
@@ -27,7 +27,7 @@ exports.userByID = function(req, res, next, id) {
  * Require login routing middleware
  */
 exports.requiresLogin = function(req, res, next) {
-  if (!req.isAuthenticated()) {
+  if(!req.isAuthenticated()) {
     return res.status(401).send({
       message: 'User is not logged in'
     });
@@ -44,10 +44,9 @@ exports.hasAuthorization = function(roles) {
 
   return function(req, res, next) {
     _this.requiresLogin(req, res, function() {
-      if (_.intersection(req.user.roles, roles).length) {
+      if(_.intersection(req.user.roles, roles).length) {
         return next();
-      } 
-      else {
+      } else {
         return res.status(403).send({
           message: 'User is not authorized'
         });

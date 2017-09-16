@@ -7,7 +7,7 @@ angular.module('core').constant('FileTypes', {
 
 angular.module('core').run(['Menus',
   function(Menus) {
-  	// Set topbar menu items
+    // Set topbar menu items
     Menus.addMenuItem('topbar', 'vis3D', 'slides/edit');
   }
 ]);

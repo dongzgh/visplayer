@@ -21,32 +21,30 @@ angular.module('core').controller('TranslateController', ['$rootScope', '$window
     //  Callbacks
     //---------------------------------------------------
     // On undo
-    $scope.onUndo = function () {
+    $scope.onUndo = function() {
       var object;
       if(stack.length === 1) {
         object = stack[0];
         selected.copy(object, false);
-      }      
-      else if(stack.length > 1) {
+      } else if(stack.length > 1) {
         object = stack.pop();
         if(selected.matrix.equals(object.matrix)) {
           $scope.onUndo();
-        }          
-        else {
+        } else {
           selected.copy(object, false);
-        }          
+        }
       }
     };
 
-  	// On OK
-  	$scope.onOK = function() {
+    // On OK
+    $scope.onOK = function() {
       $scope.onApply();
       selected.data.matrixWorld = selected.matrixWorld;
       Scene.viewClear();
       Scene.clearSelection();
       Scene.deleteTransformer();
-  		$rootScope.$broadcast('dialog.close');
-  	};
+      $rootScope.$broadcast('dialog.close');
+    };
 
     // On Apply.
     $scope.onApply = function() {
@@ -56,10 +54,10 @@ angular.module('core').controller('TranslateController', ['$rootScope', '$window
       selected.translateX($scope.x);
       selected.translateY($scope.y);
       selected.translateZ($scope.z);
-  	};
+    };
 
-  	// On Cancel
-  	$scope.onCancel = function() {
+    // On Cancel
+    $scope.onCancel = function() {
       Scene.viewClear();
       Scene.clearSelection();
       Scene.deleteTransformer();
@@ -67,13 +65,13 @@ angular.module('core').controller('TranslateController', ['$rootScope', '$window
         selected.copy(stack[0], false);
         stack = [];
       }
-  		$rootScope.$broadcast('dialog.close');
-  	};
+      $rootScope.$broadcast('dialog.close');
+    };
 
     //---------------------------------------------------
     //  Listeners
     //---------------------------------------------------
-    $scope.$on('scene.transformer.update', function (event){
+    $scope.$on('scene.transformer.update', function(event) {
       event.preventDefault();
       stack.push(selected.clone());
     });

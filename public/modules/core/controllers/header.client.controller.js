@@ -12,7 +12,7 @@ angular.module('core').controller('HeaderController', ['$rootScope', '$scope', '
     };
 
     // Activete working mode.
-    $scope.changeMode = function (item) {
+    $scope.changeMode = function(item) {
       $rootScope.mode = item.title;
       $rootScope.$broadcast('mode.change');
     };

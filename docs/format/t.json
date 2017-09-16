@@ -1,85 +1,77 @@
- [
-  {
-    "_description"[string]: "body data",
-    "id"[number]: bodyId,
-    "type"[string]: "body",
-    "shells"[array]: [
-      {
-        "_description"[string]: "shell data",
-        "id"[number]: shellId,
-        "bodyId"[number]: bodyId,
-        "type"[string]: "shell",
-        "faces"[array]: [
-          {
-            "_description"[string]: "face data",
-            "id"[number]: facedId,
-            "shellId"[number]: shellId,
-            "surfacdId"[number]: surfaceId,
-            "meshId"[number]: meshId,
-            "type"[string]: "face",
-            "loops"[array]: [
-              {
-                "_description"[string]: "loop data",
-                "id"[number]: loopId,
-                "faceId"[number]: faceId,
-                "type"[string]: "loop",
-                "uvedges"[array]: [
-                  {
-                    "_description"[string]: "uvedge data",
-                    "id"[number]: uvedgeId,
-                    "loopId"[number]: loopId,
-                    "curveId"[number]: curveId,
-                    "meshId"[number]: meshId,
-                    "type"[string]: "uvedge",
-                    "edge"[object]: {
-                    	"_description"[string]: "edge data",
-                      "id"[number]: edgeId,
-                      "uvedgeId"[number]: uvedgeId,
-                      "curveId"[number]: curveId,
-                      "meshId"[number]: meshId,
-                      "type"[string]: "edge",
-                      "startVertex"[object]: {
-                      	"_description"[string]: "vertex data",
-                        "id"[number]: vertexId,
-                        "edgeId"[number]: edgeId,
-                        "pointId"[number]: pointId
-                        "type"[string]: "vertex"
-                      },
-                      "endVertex"[object]: {
-                      	"_description"[string]: "vertex data",
-                        "id"[number]: vertexId,
-                        "edgeId"[number]: edgeId,
-                        "pointId"[number]: pointId,
-                        "type"[string]: "vertex"
-                      }
-                    }
-                  },
-                  ...
-                ]
-              },
-              ...
-            ]
-          },
-          ...
-        ]
-      },
-      ...
-    ]
-  },
-  ...
-  {
-  	"_description"[string]: "curve data",
-  	"id"[number]: curveId,
-    "meshId"[number]: meshId,
-  	"type"[string]: "curve",
-    "cardinal": 3
-  },
-  ...
-  {
-  	"_description"[string]: "point data",
-  	"id"[number]: pointId,
-  	"type"[string]: "point",
-    "cadinal"[number]: 3
-  },
-  ...
-]
+ [{
+     "_description" [string]: "body data",
+     "id" [number]: bodyId,
+     "type" [string]: "body",
+     "shells" [array]: [{
+         "_description" [string]: "shell data",
+         "id" [number]: shellId,
+         "bodyId" [number]: bodyId,
+         "type" [string]: "shell",
+         "faces" [array]: [{
+             "_description" [string]: "face data",
+             "id" [number]: facedId,
+             "shellId" [number]: shellId,
+             "surfacdId" [number]: surfaceId,
+             "meshId" [number]: meshId,
+             "type" [string]: "face",
+             "loops" [array]: [{
+                 "_description" [string]: "loop data",
+                 "id" [number]: loopId,
+                 "faceId" [number]: faceId,
+                 "type" [string]: "loop",
+                 "uvedges" [array]: [{
+                     "_description" [string]: "uvedge data",
+                     "id" [number]: uvedgeId,
+                     "loopId" [number]: loopId,
+                     "curveId" [number]: curveId,
+                     "meshId" [number]: meshId,
+                     "type" [string]: "uvedge",
+                     "edge" [object]: {
+                       "_description" [string]: "edge data",
+                       "id" [number]: edgeId,
+                       "uvedgeId" [number]: uvedgeId,
+                       "curveId" [number]: curveId,
+                       "meshId" [number]: meshId,
+                       "type" [string]: "edge",
+                       "startVertex" [object]: {
+                         "_description" [string]: "vertex data",
+                         "id" [number]: vertexId,
+                         "edgeId" [number]: edgeId,
+                         "pointId" [number]: pointId "type" [string]: "vertex"
+                       },
+                       "endVertex" [object]: {
+                         "_description" [string]: "vertex data",
+                         "id" [number]: vertexId,
+                         "edgeId" [number]: edgeId,
+                         "pointId" [number]: pointId,
+                         "type" [string]: "vertex"
+                       }
+                     }
+                   },
+                   ...
+                 ]
+               },
+               ...
+             ]
+           },
+           ...
+         ]
+       },
+       ...
+     ]
+   },
+   ...{
+     "_description" [string]: "curve data",
+     "id" [number]: curveId,
+     "meshId" [number]: meshId,
+     "type" [string]: "curve",
+     "cardinal": 3
+   },
+   ...{
+     "_description" [string]: "point data",
+     "id" [number]: pointId,
+     "type" [string]: "point",
+     "cadinal" [number]: 3
+   },
+   ...
+ ]
