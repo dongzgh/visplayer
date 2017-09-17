@@ -1,4 +1,4 @@
-### 2017-09-14
+### 2017-09-15
 #### development:
 * updated npm packages
 * updated bower packages
@@ -11,7 +11,7 @@
 * devDependencies in package.json are only installed when `NODE_ENV=development`
 * TextFX plugin of notepad++ can be used to sort lines
 
-### 2017-09-15
+### 2017-09-16
 #### development:
 * revised jshint option file .jshintrc
 * fixes issues with jshint
@@ -30,3 +30,7 @@
 * once local change is committed, changes have to be pushed to 1) and 2) at the same time
 * adding heroku app domain by entering: `www.visplayer.com`
 
+### 2017-09-17
+#### develpment
+* drafted staged requirements
+* drafted development plan
