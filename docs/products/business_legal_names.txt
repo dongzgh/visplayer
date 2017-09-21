@@ -1,0 +1,12 @@
+Some words for your reference:
+technology:
+         geometry, free form, mesh, NURBS, subdivision, triangle, quadrilateral, Bezier, spline, deformation, morphing, reconstruction, processing, visualization, graphics, computing, science, technology, printing, scanning, 3d, dimension, development, structure, design,
+engineering, create, manufacture, make, tool, modifier, view, matrix, vector, scalar, digit, graph, dream, fantasy, fountain, sprint, sprite, zealous, fan, voxel, pixel, discrete, crystal, sense, eyes, degree, system
+fruits:
+	lemon, lime, orange, citrus, mongo, apple, pear, melon, kiwi, peach, grape, grapefruit
+animal:
+	cat, dog, leopard, rabbit
+
+Some names for your reference:
+combination: fruit name + technology suffix
+lime dream, lime fantasy, lime digital, discrete lime, lime view, lime vue, lime graph, lime crystal, lime sense, lime eyes
