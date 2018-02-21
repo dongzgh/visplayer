@@ -1,0 +1,60 @@
+{
+  // The plugin looks for a .jsbeautifyrc file in the same directory as the
+  // source file you're prettifying (or any directory above if it doesn't exist,
+  // or in your home folder if everything else fails) and uses those options
+  // along the default ones.
+
+  // Details: https://github.com/victorporof/Sublime-HTMLPrettify#using-your-own-jsbeautifyrc-options
+  // Documentation: https://github.com/einars/js-beautify/
+
+  "eol": "\n", // Character to use as line terminators
+  "end_with_newline": true, // Ensure newline at end of file
+  "indent_char": " ", // Indentation character
+  "indent_size": 2, // Indentation size
+  "indent_with_tabs": false, // Indent with tabs, overrides `indent_size` and `indent_char`
+  "preserve_newlines": true, // Preserve line-breaks
+
+  "html": {
+    "allowed_file_extensions": ["htm", "html", "xhtml", "shtml", "xml", "svg", "dust"],
+    "brace_style": "collapse", // "collapse", "expand", "end-expand", "none", "collapse,preserve-inline", "expand,preserve-inline", "end-expand,preserve-inline", or "none,preserve-inline"
+    "content_unformatted": ["pre"], // List of tags who's content should not be reformatted
+    "extra_liners": ["head", "body", "/html"], // List of tags that should have an extra newline before them
+    "indent_body_inner_html": true, // Indent elements within html <body> element
+    "indent_handlebars": true, // Format and indent {{#foo}} and {{/foo}} 
+    "indent_head_inner_html": true, // Indent elements within html <head> element
+    "indent_inner_html": false, // Indent <head> and <body> sections
+    "indent_scripts": "normal", // "keep", "separate", or "normal"
+    "max_preserve_newlines": 10, // Number of line-breaks to be preserved in one chunk
+    "unformatted": ["a", "abbr", "area", "audio", "b", "bdi", "bdo", "br", "button", "canvas", "cite", "code", "data", "datalist", "del", "dfn", "em", "embed", "i", "iframe", "img", "input", "ins", "kbd", "keygen", "label", "map", "mark", "math", "meter", "noscript", "object", "output", "progress", "q", "ruby", "s", "samp", "select", "small", "span", "strong", "sub", "sup", "svg", "template", "textarea", "time", "u", "var", "video", "wbr", "text", "acronym", "address", "big", "dt", "ins", "strike", "tt"], // List of tags that should not be reformatted 
+    "void_elements": ["area", "base", "br", "col", "embed", "hr", "img", "input", "keygen", "link", "menuitem", "meta", "param", "source", "track", "wbr", "!doctype", "?xml", "?php", "basefont", "isindex"], // HTLM void elements - aka self-closing tags
+    "wrap_attributes_indent_size": 2, // Indent wrapped attributes to after N characters. Defaults to 'indent_size'
+    "wrap_attributes": "auto", // Wrap attributes to new lines. "auto", "force", "force-aligned" or "force-expand-multiline" 
+    "wrap_line_length": 0 // Wrap lines at next opportunity after N characters. (Set zero to ignore wrapping)
+  },
+  "css": {
+    "allowed_file_extensions": ["css", "scss", "sass", "less"],
+    "newline_between_rules": false, // Add a newline between CSS rules
+    "selector_separator_newline": true, // Add a newline between multiple selectors
+    "space_around_combinator": false // Ensure space around selector separators (>+~). 
+  },
+  "js": {
+    "allowed_file_extensions": ["js", "json", "jshintrc", "jsbeautifyrc"],
+    "brace_style": "collapse", // "collapse", "expand", "end-expand", "none", "collapse,preserve-inline", "expand,preserve-inline", "end-expand,preserve-inline", or "none,preserve-inline" 
+    "break_chained_methods": false, // Break chained method calls across subsequent lines
+    "comma_first": false, // Put commas at the beginning of new line instead of end
+    "e4x": false, // Pass E4X xml literals through untouched
+    "end_with_newline": false, // Ensure newline at end of file    
+    "indent_level": 0, // Initial indentation level            
+    "jslint_happy": false, // Enable jslint-stricter mode. (Forces 'space_after_anon_function')
+    "keep_array_indentation": false, // Preserve array indentation
+    "keep_function_indentation": false, // Preserve function indentation
+    "max_preserve_newlines": 0, // Maximum number of line breaks to be preserved in one chunk (0 disables)      
+    "operator_position": "before-newline", // Move operators to before or after a new line, or keep as is
+    "space_after_anon_function": false, // Add a space before an anonymous function's parens, ie. function ()
+    "space_before_conditional": false, // Ensure a space before conditional statement
+    "space_in_empty_paren": false, // Leave space in empty parentheses, ie. f( )
+    "space_in_paren": false, // Add padding spaces within parentheses, ie. f( a, b )
+    "unescape_strings": false, // Decode printable characters encoded in xNN notation
+    "wrap_line_length": 0 // Wrap lines at next opportunity after N characters. (Set zero to ignore wrapping)
+  }
+}

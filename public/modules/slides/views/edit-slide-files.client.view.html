@@ -1,0 +1,27 @@
+<div>
+  <button data-ng-repeat="item in fileTools.items" data-ng-if="item.shouldRender(authentication.user);" type="button" class="btn btn-default" tooltip-placement="bottom" tooltip="{{item.tooltip}}" tooltip-append-to-body="true" data-ng-click="activateTool(item)">
+    <span class="{{item.icon}}"></span>
+  </button>
+</div>
+<ul data-ng-repeat="item in fileTree.items" class="list-group">
+  <div>
+    <span data-ng-click="isCollapsed = !isCollapsed">
+      <i data-ng-if="isCollapsed" class="glyphicon glyphicon-triangle-bottom"></i>
+      <i data-ng-if="!isCollapsed" class="glyphicon glyphicon-triangle-right"></i>
+    </span>
+    <span class="{{item.icon}}"></span>
+    <span data-ng-bind="item.title"></span>
+    <label class="checkbox-inline">
+      <input type="checkbox" data-ng-model="item.checked" data-ng-click="checkItem('files', item)" data-ng-disabled="isCheckDisabled(item)">
+    </label>
+  </div>
+  <div collapse="item.items.length > 0 && !isCollapsed">
+    <li data-ng-repeat="subItem in item.items" class="list-group-item">
+      <div>
+        <input type="checkbox" data-ng-model="subItem.checked">
+        <span class="{{subItem.icon}}"></span>
+        <span data-ng-bind="subItem.title"></span>
+      </div>
+    </li>
+  </div>
+</ul>

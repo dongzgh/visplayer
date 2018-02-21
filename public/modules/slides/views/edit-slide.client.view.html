@@ -1,0 +1,15 @@
+<section data-ng-controller="SlidesController">
+  <div class="sidebar btn-group-vertical">
+    <button data-ng-repeat="item in sidebarTools.items" data-ng-if="item.shouldRender(authentication.user);" ui-route="{{item.uiRoute}}" type="button" class="btn btn-default" data-ng-class="{active: ($uiRoute)}" tooltip-placement="right" tooltip="{{item.tooltip}}" tooltip-append-to-body="true" data-ng-click="activatePanel(item.link)">
+      <a href="/#!/{{item.link}}">
+        <span class="{{item.icon}}"></span>
+      </a>
+    </button>
+  </div>
+  <div class="panel panel-default" data-ng-show="showPanel">
+    <div data-ui-view class="panel-body"></div>
+  </div>
+  <div class="gui-dialog" data-ng-show="dialogUrl !== undefined" data-ng-include="dialogUrl"></div>
+  <div id="canvases"></div>
+  <a id="download" href="#" download data-ng-show="false"></a>
+</section>
