@@ -1,10 +1,10 @@
 # VISPLAYER
 
-visPlayer is a full-stack JavaScript open-source solution, which provides a solid foundation for building cloud based geometric modeling and processing applications.
+visplayer is a full-stack JavaScript open-source solution, which provides a solid foundation for building cloud based geometric modeling and processing applications.
 The platform is based on [MEAN.JS](https://github.com/meanjs/mean), a MEAN (MongoDB, ExpressJS, AngularJS and NodeJS) stack framework.
 
 ## Before You Begin
-Before you begin we recommend you read about the basic building blocks that assemble a visPlayer application:
+Before you begin we recommend you read about the basic building blocks that assemble a visplayer application:
 * MongoDB - Go through [MongoDB Official Website](http://mongodb.org/) and proceed to their [Official Manual](http://docs.mongodb.org/manual/), which should help you understand NoSQL and MongoDB better.
 * Express - The best way to understand express is through its [Official Website](http://expressjs.com/), which has a [Getting Started](http://expressjs.com/starter/installing.html) guide, as well as an [ExpressJS Guide](http://expressjs.com/guide/error-handling.html) guide for general express topics. You can also go through this [StackOverflow Thread](http://stackoverflow.com/questions/8144214/learning-express-for-node-js) for more resources.
 * AngularJS - Angular's [Official Website](http://angularjs.org/) is a great starting point. You can also use [Thinkster Popular Guide](http://www.thinkster.io/), and the [Egghead Videos](https://egghead.io/).
@@ -27,25 +27,25 @@ $ npm install -g bower
 $ npm install -g grunt-cli
 ```
 
-## Downloading visPlayer
-There are several ways you can get the visPlayer boilerplate:
+## Downloading visplayer
+There are several ways you can get the visplayer boilerplate:
 
 ### Cloning The GitHub Repository
-You can also use Git to directly clone the visPlayer repository:
+You can also use Git to directly clone the visplayer repository:
 ```bash
 $ git clone https://github.com/visplayer/visplayer.git visplayer
 ```
-This will clone the latest version of the visPlayer repository to a **visplayer** folder.
+This will clone the latest version of the visplayer repository to a **visplayer** folder.
 
 ### Downloading The Repository Zip File
-Another way to use the visPlayer boilerplate is to download a zip copy from the [master branch on GitHub](https://github.com/dongzgh/visplayer/archive/master.zip). You can also do this using `wget` command:
+Another way to use the visplayer boilerplate is to download a zip copy from the [master branch on GitHub](https://github.com/dongzgh/visplayer/archive/master.zip). You can also do this using `wget` command:
 ```bash
 $ wget https://github.com/dongzgh/visplayer/archive/master.zip -O visplayer.zip; unzip visplayer.zip; rm visplayer.zip
 ```
 Don't forget to rename **visplayer-master** after your project name.
 
 ## Quick Install
-Once you've downloaded the boilerplate and installed all the prerequisites, you're just a few steps away from starting to develop your visPlayer application.
+Once you've downloaded the boilerplate and installed all the prerequisites, you're just a few steps away from starting to develop your visplayer application.
 
 The first thing you should do is install the Node.js dependencies. The boilerplate comes pre-bundled with a package.json file that contains the list of modules you need to start your application. To learn more about the modules installed visit the NPM & Package.json section.
 
@@ -73,7 +73,7 @@ That's it! Your application should be running. To proceed with your development,
 If you encounter any problems, try the Troubleshooting section.
 
 ## Testing Your Application
-You can run the full test suite included with visPlayer with the test task:
+You can run the full test suite included with visplayer with the test task:
 
 ```
 $ grunt test
@@ -125,7 +125,7 @@ Windows users can follow instructions found [here](http://www.websense.com/suppo
 After you've generated the key and certificate, place them in the *config/sslcerts* folder.
 
 ## Live Example
-Browse the live visPlayer example on [http://visplayer.herokuapp.com](http://visplayer.herokuapp.com).
+Browse the live visplayer example on [http://visplayer.herokuapp.com](http://visplayer.herokuapp.com).
 
 ## License
 (The MIT License)
